@@ -68,6 +68,9 @@ def page(fn, title, body, up='', desc=''):
 </div></header>
 {body}
 <footer class="site"><div class="wrap">
+  <p class="credit"><strong>This archive is joint work of
+     <a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">Prof. Raymond Kuo</a>,
+     National Taiwan University, and Claude (Anthropic).</strong></p>
   <p><strong>Migration and population data archive, 40 countries, 2010–2022.</strong>
      Every source retrieved and verified {ACCESS}.</p>
   <p>Companion archive to a study of attitudes toward publicly funded healthcare for
@@ -139,6 +142,7 @@ body = f'''
     <div class="stat"><span class="n">{ev_bytes / 1e6:.0f} MB</span><span class="l">of mirrored evidence</span></div>
     <div class="stat"><span class="n">40</span><span class="l">countries, 13 years each</span></div>
     <div class="stat"><span class="n">{len(corr)}</span><span class="l">values corrected</span></div>
+    <div class="stat"><span class="n">156</span><span class="l">per-variable evidence pages, each with a PDF extract</span></div>
   </div>
 </div></section>
 
@@ -206,6 +210,27 @@ body = f'''
   national measures, Italy's irregular series was missing four years and mixed two methods, and
   the two input workbooks disagreed on population because they used different publishers.
   <a href="verification.html">All {len(corr)} corrections are itemised, with evidence.</a></p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Every number is a link</h2>
+  <p class="sub">On each country page, the Panel data table is fully clickable.</p>
+  <p>Click any value &mdash; or the grade pill beside it &mdash; and you land on the evidence for
+  that exact figure: the source, the query URL that produced it, what it was checked against, the
+  correction applied if there was one, and every archived file that supports it. There are
+  <strong>156 such evidence pages</strong>, one per country and variable, each with its own
+  <strong>PDF extract</strong> so the numbers exist in a fixed, citable document as well as on
+  the page.</p>
+  <p>This holds for the bulk statistical sources too. The World Bank, Eurostat, OECD and UN DESA
+  series are backed not only by their raw API payloads but by <strong>PDF and screenshot mirrors
+  of the publishers' own dataset pages</strong>, captured on the access date.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Authorship</h2>
+  <p>This archive is joint work of
+  <a href="https://raymond.cph.ntu.edu.tw/" rel="noopener"><strong>Prof. Raymond Kuo</strong></a>,
+  National Taiwan University, and <strong>Claude</strong> (Anthropic).</p>
 </div></section>
 
 <section><div class="wrap">

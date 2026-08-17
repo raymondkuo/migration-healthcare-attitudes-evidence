@@ -1,5 +1,8 @@
 # Source verification report
 
+Joint work of [Prof. Raymond Kuo](https://raymond.cph.ntu.edu.tw/), National Taiwan University,
+and Claude (Anthropic).
+
 **Scope** — the two supplied workbooks, `immigration_country_year_2010_2022.xlsx` (FILE 1) and
 `migration_population_panel_40countries_2010-2022.xlsx` (FILE 2).
 **Verified** 2026-08-17. Every source was re-retrieved on that date; nothing below relies on the

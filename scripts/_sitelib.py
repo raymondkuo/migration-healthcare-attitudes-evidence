@@ -85,6 +85,9 @@ def page(fn, title, body, up='', desc=''):
         '  <nav>' + nav + '</nav>\n</div></header>\n'
         + body +
         '\n<footer class="site"><div class="wrap">\n'
+        '  <p class="credit"><strong>This archive is joint work of '
+        '<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">Prof. Raymond Kuo</a>, '
+        'National Taiwan University, and Claude (Anthropic).</strong></p>\n'
         '  <p><strong>Migration and population data archive, 40 countries, 2010&ndash;2022.</strong> '
         'Every source retrieved and verified ' + ACCESS + '.</p>\n'
         '  <p>Companion archive to a study of attitudes toward publicly funded healthcare for '

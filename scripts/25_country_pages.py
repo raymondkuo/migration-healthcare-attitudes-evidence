@@ -23,7 +23,7 @@ for _, ci in cinfo.iterrows():
     evdir = os.path.join(EV, iso)
     evfiles = sorted(os.listdir(evdir)) if os.path.isdir(evdir) else []
 
-    # ---------------- data table
+    # ---------------- data table (every value links to its evidence page)
     extra = ['irregular_proxy_absconded_workers'] if g['irregular_proxy_absconded_workers'].notna().any() else []
     show = VARS + extra
     head = '<th class="num">Year</th>' + ''.join('<th class="num">%s</th>' % VLAB.get(v, v) for v in show)
@@ -31,7 +31,17 @@ for _, ci in cinfo.iterrows():
     for _, r in g.iterrows():
         cells = ['<td class="num">%d</td>' % int(r['year'])]
         for v in show:
-            cells.append('<td class="num">%s %s</td>' % (num(r[v]), pill(r.get(v + '_grade', ''))))
+            val = r[v]
+            if pd.isna(val):
+                cells.append('<td class="num">%s</td>' % num(val))
+                continue
+            href = '../evidence-pages/%s__%s.html#y%d' % (iso, v, int(r['year']))
+            tip = 'Evidence for %s %s %d — sources, snapshots and PDF mirrors' % (
+                cname, VLAB.get(v, v), int(r['year']))
+            cells.append(
+                '<td class="num"><a class="cell" href="%s" title="%s">%s</a>'
+                '<a class="cellg" href="%s" title="%s">%s</a></td>'
+                % (href, E(tip), num(val), href, E(tip), pill(r.get(v + '_grade', ''))))
         rows.append('<tr>' + ''.join(cells) + '</tr>')
     dtable = ('<div class="tablewrap"><table><thead><tr>' + head + '</tr></thead><tbody>'
               + ''.join(rows) + '</tbody></table></div>')
@@ -122,10 +132,13 @@ for _, ci in cinfo.iterrows():
         + E(cname) + ', 2010&ndash;2022. All sources retrieved ' + ACCESS + '.</p>\n'
         '</div></div>\n\n'
         '<section><div class="wrap">\n  <h2>Panel data</h2>\n'
-        '  <p class="sub">The final verified values. The pill after each number is its quality '
-        'grade &mdash; ' + pill('A') + ' verified against a machine-readable official source, '
-        + pill('B') + ' confirmed in the source document, ' + pill('C') + ' modelled estimate, '
-        + pill('D') + ' source unretrievable.</p>\n  ' + dtable + '\n'
+        '  <p class="sub"><strong>Every number below is a link.</strong> Click a value, or the '
+        'grade pill beside it, to open the evidence for that exact figure &mdash; the source, the '
+        'query URL, what it was checked against, and the snapshots, PDF mirrors and files held in '
+        'this archive that support it. Grades: ' + pill('A') + ' verified against a '
+        'machine-readable official source, ' + pill('B') + ' confirmed in the source document, '
+        + pill('C') + ' modelled estimate, ' + pill('D') + ' source unretrievable.</p>\n  '
+        + dtable + '\n'
         '  <p style="margin-top:12px">'
         + filelink('../evidence/countries/%s/data_from_source.csv' % iso, 'this country as CSV')
         + filelink('../evidence/countries/%s/value_check.csv' % iso, 'value-by-value check')

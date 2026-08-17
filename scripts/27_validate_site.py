@@ -11,8 +11,10 @@ errors, warns, checked = [], [], 0
 # ---------------------------------------------------------------- 1. links
 # only the generated site pages; evidence/ holds archived source HTML, not site pages
 pages = [os.path.join(SITE, f) for f in sorted(os.listdir(SITE)) if f.endswith('.html')]
-cdir = os.path.join(SITE, 'countries')
-pages += [os.path.join(cdir, f) for f in sorted(os.listdir(cdir)) if f.endswith('.html')]
+for sub in ('countries', 'evidence-pages'):
+    d = os.path.join(SITE, sub)
+    if os.path.isdir(d):
+        pages += [os.path.join(d, f) for f in sorted(os.listdir(d)) if f.endswith('.html')]
 print('site pages: %d' % len(pages))
 
 for p in pages:
@@ -60,6 +62,36 @@ ch = open(os.path.join(SITE, 'countries.html'), encoding='utf-8').read()
 for iso in isos:
     if 'countries/%s.html' % iso not in ch:
         errors.append('countries.html does not link %s' % iso)
+
+# ---- every non-null panel value must link to an existing evidence page and PDF extract
+VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
+        'irregular_proxy_overstayers', 'irregular_proxy_detections',
+        'irregular_proxy_absconded_workers']
+cells = missing_ev = missing_pdf = unlinked = 0
+for iso in isos:
+    h = open(os.path.join(SITE, 'countries', '%s.html' % iso), encoding='utf-8', errors='replace').read()
+    g = panel[panel.iso3 == iso]
+    for v in VARS:
+        if v not in g:
+            continue
+        sub = g[g[v].notna()]
+        if not len(sub):
+            continue
+        ev = os.path.join(SITE, 'evidence-pages', '%s__%s.html' % (iso, v))
+        pdf = os.path.join(SITE, 'evidence', 'extracts', iso, '%s.pdf' % v)
+        if not os.path.exists(ev):
+            errors.append('missing evidence page: %s %s' % (iso, v)); missing_ev += 1
+        if not os.path.exists(pdf):
+            errors.append('missing PDF extract: %s %s' % (iso, v)); missing_pdf += 1
+        for _, r in sub.iterrows():
+            cells += 1
+            if '../evidence-pages/%s__%s.html#y%d' % (iso, v, int(r['year'])) not in h:
+                unlinked += 1
+                if unlinked <= 5:
+                    errors.append('%s.html: %s %d value not linked to its evidence'
+                                  % (iso, v, int(r['year'])))
+print('panel cells: %d | unlinked: %d | missing evidence pages: %d | missing PDF extracts: %d'
+      % (cells, unlinked, missing_ev, missing_pdf))
 
 # ---------------------------------------------------------------- 3. evidence present
 reg = pd.read_csv(os.path.join(SITE, 'data', 'source_register.csv'))

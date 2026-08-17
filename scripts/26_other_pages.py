@@ -26,6 +26,28 @@ api_table = ('<div class="tablewrap"><table><thead><tr><th>Publisher</th><th>Dat
              '<th>Query URL used</th><th class="num">Bytes</th><th>Raw snapshot</th>'
              '</tr></thead><tbody>' + ''.join(api_rows) + '</tbody></table></div>')
 
+# ---- publisher-page mirrors for the bulk sources ----
+pubs = pd.read_csv(os.path.join(D, 'api_publisher_snapshots.csv'))
+prows = []
+for _, r in pubs.iterrows():
+    links = ''
+    if isinstance(r['pdf'], str) and r['pdf']:
+        links += filelink(r['pdf'], 'PDF mirror')
+    if isinstance(r['png'], str) and r['png']:
+        links += filelink(r['png'], 'screenshot')
+    note = str(r.get('note') or '')
+    extra = ('<br><span style="color:var(--muted);font-size:11.5px">%s</span>' % E(note[:230])) \
+        if note and note != 'nan' else ''
+    prows.append('<tr><td>%s</td><td class="wrap-any">%s%s</td>'
+                 '<td class="wrap-any"><a href="%s" rel="nofollow noopener" '
+                 'style="font-size:11.5px;word-break:break-all;color:var(--muted)">%s</a></td>'
+                 '<td>%s</td></tr>'
+                 % (E(r['publisher']), E(r['dataset']), extra, E(r['page_url']),
+                    E(str(r['page_url'])[:95]), links or '<span class="tag bad">not captured</span>'))
+pub_table = ('<div class="tablewrap"><table><thead><tr><th>Publisher</th><th>Dataset page</th>'
+             '<th>URL</th><th>Archived mirror</th></tr></thead><tbody>'
+             + ''.join(prows) + '</tbody></table></div>')
+
 nonapi = reg[reg.retrieval != 'VERIFIED_API']
 docs = nonapi.drop_duplicates(subset=['iso3', 'source_url'])
 TAG = {'DOWNLOADED': ('ok', 'archived'), 'RECOVERED': ('ok', 'recovered'),
@@ -78,6 +100,22 @@ body = (
  'URL that produced it is given so the request can be repeated.</p>\n  ' + api_table + '\n'
  '  <p style="margin-top:12px">' + filelink('data/api_snapshots.csv', 'api_snapshots.csv')
  + '</p>\n</div></section>\n\n'
+ '<section><div class="wrap">\n  <h2>Publisher pages for the bulk sources</h2>\n'
+ '  <p class="sub">A raw JSON payload is precise but not readable. So the publishers’ own dataset '
+ 'pages &mdash; the human-facing definition of each series &mdash; were also mirrored as PDF and '
+ 'screenshot on ' + ACCESS + ', giving the bulk API sources the same kind of visual evidence the '
+ 'document sources have.</p>\n  ' + pub_table + '\n'
+ '  <p style="margin-top:12px">'
+ + filelink('data/api_publisher_snapshots.csv', 'api_publisher_snapshots.csv') + '</p>\n'
+ '</div></section>\n\n'
+ '<section><div class="wrap">\n  <h2>Per-variable evidence pages</h2>\n'
+ '  <p class="sub">Beyond the source-level mirrors, every country&times;variable series has its own '
+ 'evidence page and a PDF extract listing each year’s value, its grade, what it was checked '
+ 'against and every archived file behind it. These are reached by clicking any number in a '
+ 'country’s Panel data table.</p>\n'
+ '  <p>' + filelink('data/evidence_index.csv', 'evidence_index.csv')
+ + ' &nbsp;<span class="count">156 evidence pages · 156 PDF extracts</span></p>\n'
+ '</div></section>\n\n'
  '<section><div class="wrap">\n  <h2>Document and web-page sources</h2>\n'
  '  <p class="sub">Beyond the bulk APIs, the two workbooks cite <strong>' + str(len(docs))
  + ' distinct country–source citations</strong> across ' + str(n_urls) + ' URLs. <strong>'
@@ -343,8 +381,17 @@ body = (
  'year-on-year breaks were tested independently of the source check.</li>\n'
  '   <li><strong>Correct and grade.</strong> Discrepancies traced to a demonstrable error were '
  'corrected against the live source and itemised; every value was graded.</li>\n'
+ '   <li><strong>Make it traceable.</strong> One evidence page was generated for every '
+ 'country&times;variable series &mdash; 156 in all &mdash; listing each year&rsquo;s value, its '
+ 'grade, what it was checked against, and every archived file supporting it. Each was also '
+ 'rendered to a PDF extract, so every number exists in a fixed citable document as well as on a '
+ 'web page. Every value in every country&rsquo;s Panel data table links to its own evidence.</li>\n'
  '   <li><strong>Checksum.</strong> A SHA-256 hash was recorded for every file.</li>\n'
  '  </ol>\n</div></section>\n\n'
+ '<section><div class="wrap">\n  <h2>Authorship</h2>\n'
+ '  <p>This archive is joint work of <a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">'
+ '<strong>Prof. Raymond Kuo</strong></a>, National Taiwan University, and <strong>Claude</strong> '
+ '(Anthropic).</p>\n</div></section>\n\n'
  '<section><div class="wrap">\n  <h2>Grading scheme</h2>\n'
  '  <p class="sub">Grades describe how a value was checked, not how plausible it looks.</p>\n'
  '  <div class="tablewrap"><table><thead><tr><th>Grade</th><th>Criterion</th></tr></thead><tbody>\n'
