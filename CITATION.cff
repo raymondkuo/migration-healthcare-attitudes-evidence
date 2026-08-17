@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: "Migration and population data archive, 40 countries, 2010-2022"
+message: >-
+  If you use this archive, please cite the accompanying study and state the
+  archive freeze date, 2026-08-17.
+type: dataset
+version: "2026-08-17"
+date-released: 2026-08-17
+
+authors:
+  - family-names: "葉"
+    given-names: "明叡"
+    affiliation: "Study author"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+repository-code: "https://github.com/raymondkuo/migration-healthcare-attitudes-evidence"
+license: "NOASSERTION"
+
+abstract: >-
+  Source archive and verification record for a country-year panel of population,
+  foreign-born population, foreign-national population and irregular-migration
+  indicators covering 40 countries for 2010-2022. Every value is traced to a
+  source file held in the archive: statistical-agency API responses are stored as
+  raw payloads, and web-page sources are stored as HTML, PDF mirrors and full-page
+  screenshots captured on the freeze date. Of 2,454 values re-derived from live
+  sources, 2,415 reproduced exactly; 49 values were corrected and each correction
+  is itemised with its evidence.
+
+keywords:
+  - migration
+  - foreign nationals
+  - foreign-born population
+  - irregular migration
+  - public healthcare
+  - panel data
+  - data verification
+  - replication archive

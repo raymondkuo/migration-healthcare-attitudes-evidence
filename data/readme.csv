@@ -1,0 +1,45 @@
+﻿Item,Detail
+"FINAL verified migration and population panel, 40 countries, 2010-2022",
+,
+Built,Compiled and verified 2026-08-17 from the two supplied workbooks.
+Inputs,immigration_country_year_2010_2022.xlsx  and  migration_population_panel_40countries_2010-2022.xlsx
+Base,"migration_population_panel_40countries_2010-2022.xlsx. It was chosen because it keeps the three irregular-migration measures in separate columns, carries a full audit trail, is internally consistent with that trail, and 2,415 of its values reproduced exactly from the live sources."
+,
+WHAT WAS VERIFIED,
+Values re-derived from live sources,2454
+  matched exactly,2415 (98.4%)
+  discrepancies found,39
+Sources re-queried live,"World Bank WDI (SP.POP.TOTL, SM.POP.TOTL); Eurostat migr_pop3ctb, migr_pop1ctz, migr_eipre; OECD International Migration Database (13 series); UN WPP 2024; UN DESA International Migrant Stock 2024."
+Document sources cited,89 across 27 countries
+  retrieved to country folders,87
+  not retrievable,2 (see Known_issues)
+Corrections applied,49 values across 5 countries (see Corrections_applied)
+,
+CELL GRADES,
+"A - re-derived from a machine-readable official source, exact match",1564
+"B - official statistical source, consistent",11
+"C - source document retrieved, modelled estimate not re-derivable",111
+D - cited source could not be retrieved,6
+,
+HOW TO USE THIS FOR THE HEALTHCARE-ATTITUDES STUDY,
+Main regressor,"foreign_nationals_pct_pop - the share of residents who are non-nationals. This is the population actually at issue in ""publicly funded healthcare for non-nationals"", it covers 34 of 40 countries, and every value is graded A or B."
+Second choice,"foreign_born_pct_pop - wider coverage (38 countries) but it includes naturalised citizens, who are nationals and therefore not the group the survey question is about."
+Irregular migration,"Do NOT use as a continuous cross-national regressor. Coverage is 10.6% of country-years for stocks, the methods are not comparable, and detections are a flow driven by enforcement intensity. Use at most as an ordinal salience indicator, or restrict to within-country variation."
+Reference dates,"Eurostat and OECD stocks are 1 January of the labelled year. If the survey is fielded mid-year, either lag the covariate or state the convention explicitly."
+Population denominator,population (World Bank) and population_un_wpp2024 are both supplied. Choose one and use it throughout; they differ by more than 3% for 26 country-years.
+,
+SHEETS,
+Panel_final,"The recommended panel: one row per country-year, corrected, with a quality grade on every value."
+Data_quality,"Country x variable: coverage, modal grade, sources, and whether the series can carry a trend."
+Corrections_applied,"Every value changed from the input workbooks, with the reason and the evidence."
+Known_issues,"Everything found, resolved and unresolved."
+Verification_log,All 2454 value-by-value comparisons against live sources.
+Source_register,"Every cited source, how it was retrieved, and the local file."
+Irregular_estimates_all,"Every competing irregular-migration estimate, kept side by side."
+Codebook,Variable definitions and cautions.
+,
+EVIDENCE ON DISK,
+countries/<ISO3>_<Name>/,"One folder per country: README.md, data_from_source.csv, value_check.csv, source_manifest.csv, and sources/ holding the downloaded documents and screenshots."
+data_raw/,"The bulk source downloads (World Bank, Eurostat, OECD, UN) used for verification."
+verification/,The full machine-readable verification output.
+scripts/,"Every script used, so the whole check can be re-run."

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methods — Migration Data Archive</title>
+<meta name="description" content="Verification procedure, grading scheme and guidance on how much weight each variable carries.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html">Migration &amp; Population Data Archive</a>
+  <nav><a href="index.html">Overview</a><a href="countries.html">Countries</a><a href="sources.html">Sources</a><a href="data.html">Data files</a><a href="verification.html">Verification</a><a href="methods.html" aria-current="page">Methods</a></nav>
+</div></header>
+<div class="hero"><div class="wrap">
+  <p class="eyebrow">Methods</p>
+  <h1>How this archive was built</h1>
+  <p class="lede">The procedure, the grading scheme, and the judgements a reader needs in order to decide how much weight each variable can carry.</p>
+</div></div>
+
+<section><div class="wrap">
+  <h2>Procedure</h2>
+  <ol style="max-width:78ch;line-height:1.75">
+   <li><strong>Catalogue.</strong> Every source reference was extracted from both input workbooks: 171 references, 160 distinct URLs across 51 hosts.</li>
+   <li><strong>Re-query.</strong> Each bulk statistical source was requested again and the raw response saved unaltered. Each value in the workbooks was then recomputed from that response and compared.</li>
+   <li><strong>Retrieve.</strong> Every document source was downloaded into a per-country folder. Where the first attempt was refused, a full browser header set, then an interactive browser, then an equivalent official source were tried in turn.</li>
+   <li><strong>Snapshot.</strong> Every web-page source was rendered to PDF and to a full-page screenshot. Each render was then validated by dumping the rendered DOM and checking it against a list of bot-wall and block-page markers; any page that had answered with an interstitial was re-rendered from the HTML copy archived earlier the same day, and is labelled as such.</li>
+   <li><strong>Audit.</strong> Internal consistency, derived columns, cross-file agreement and year-on-year breaks were tested independently of the source check.</li>
+   <li><strong>Correct and grade.</strong> Discrepancies traced to a demonstrable error were corrected against the live source and itemised; every value was graded.</li>
+   <li><strong>Checksum.</strong> A SHA-256 hash was recorded for every file.</li>
+  </ol>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Grading scheme</h2>
+  <p class="sub">Grades describe how a value was checked, not how plausible it looks.</p>
+  <div class="tablewrap"><table><thead><tr><th>Grade</th><th>Criterion</th></tr></thead><tbody>
+   <tr><td><span class="g gA">A</span></td><td>Recomputed from a machine-readable official source and matched exactly, or replaced during this verification with a value taken from one.</td></tr>
+   <tr><td><span class="g gB">B</span></td><td>Confirmed by reading the retrieved source document, including cases where the published components had to be summed.</td></tr>
+   <tr><td><span class="g gC">C</span></td><td>Source document retrieved and archived, but the value is a modelled or survey-based estimate that cannot be mechanically re-derived from it.</td></tr>
+   <tr><td><span class="g gD">D</span></td><td>The cited source could not be retrieved by any means, so the value rests on the original compiler’s transcription alone.</td></tr>
+  </tbody></table></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>How much weight each variable can carry</h2>
+  <div class="tablewrap"><table><thead><tr><th>Variable</th><th class="num">Country-years</th><th class="num">Countries</th><th>Verdict</th></tr></thead><tbody><tr><td>Population</td><td class="num">520 / 520</td><td class="num">40 / 40</td><td>Strong. Use freely.</td></tr><tr><td>Foreign-born</td><td class="num">395 / 520</td><td class="num">38 / 40</td><td>Strong, but includes naturalised citizens.</td></tr><tr><td>Foreign nationals</td><td class="num">383 / 520</td><td class="num">34 / 40</td><td>Strong, and conceptually the right variable for this study.</td></tr><tr><td>Irregular stock</td><td class="num">59 / 520</td><td class="num">13 / 40</td><td>Weak. Not comparable across countries.</td></tr><tr><td>Overstayers</td><td class="num">38 / 520</td><td class="num">5 / 40</td><td>Weak. Register counts; they understate the true figure.</td></tr><tr><td>Detections</td><td class="num">297 / 520</td><td class="num">25 / 40</td><td>Weakest. A flow of enforcement events, not a stock.</td></tr></tbody></table></div>
+  <div class="note"><strong>Recommendation.</strong> Use <code>foreign_nationals_pct_pop</code> as the main cross-national regressor. It is the population the survey question is actually about, it covers 34 of 40 countries, and every value is graded A or B. Use <code>foreign_born_pct_pop</code> as a robustness check, noting that it includes naturalised citizens, who <em>are</em> nationals.</div>
+  <div class="note warn"><strong>Do not use any irregular-migration variable as a continuous cross-national regressor.</strong> Stocks cover 10.6% of country-years, the estimation methods are not comparable between countries, and detections are a flow driven by enforcement intensity and by a country’s position on migration routes. If irregular migration matters to the argument, treat it as an ordinal salience indicator or exploit within-country variation only.</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Two cautions to carry into the analysis</h2>
+  <ul class="clean">
+   <li><strong>Reference dates differ.</strong> Eurostat and OECD stocks are measured at 1 January, so the row labelled year <em>Y</em> describes 31 December of <em>Y&minus;1</em>. Taiwan and Korea are year-end; Japan is 1 January. The <code>*_ref_date</code> columns carry this per value.</li>
+   <li><strong>Choose one population denominator.</strong> Both World Bank (<code>population</code>) and UN WPP 2024 (<code>population_un_wpp2024</code>) are supplied because the two input workbooks disagreed. They differ by more than 3% for 26 country-years &mdash; Israel by 4.1%. Pick one and keep it for every country.</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Limits of this archive</h2>
+  <p>The archive fixes what could be demonstrated wrong and documents what could not be fixed. It does not make the irregular-migration variables comparable across countries, because no source does. Six values rest on a source that no longer exists anywhere reachable; they are graded D and named rather than quietly dropped. Five sources block or have moved, and were replaced by equivalents that confirmed the values &mdash; the substitutions are itemised on the <a href="verification.html">Verification</a> page.</p>
+  <p>Mirrors are held for verification only. Copyright in each source document remains with its publisher, and every entry links to the original URL.</p>
+</div></section>
+
+<footer class="site"><div class="wrap">
+  <p><strong>Migration and population data archive, 40 countries, 2010&ndash;2022.</strong> Every source retrieved and verified 2026-08-17.</p>
+  <p>Companion archive to a study of attitudes toward publicly funded healthcare for non-nationals. Prepared for journal editors and peer reviewers.</p>
+  <p>All files here are mirrors held for verification. Copyright in each source document remains with its publisher; every entry links to the original URL.</p>
+</div></footer>
+</body></html>

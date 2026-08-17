@@ -1,0 +1,41 @@
+﻿severity,area,country,detail
+MEDIUM,cross-file population,ISR,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by -4.11% on average (range -4.75% to -3.76%). The two files are not interchangeable for this country.
+MEDIUM,cross-file population,BGR,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by 3.24% on average (range 0.15% to 5.85%). The two files are not interchangeable for this country.
+MEDIUM,cross-file population,FRA,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by -2.49% on average (range -2.80% to -2.44%). The two files are not interchangeable for this country.
+MEDIUM,cross-file population,TUR,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by 2.02% on average (range -0.01% to 3.70%). The two files are not interchangeable for this country.
+MEDIUM,cross-file population,USA,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by 1.56% on average (range 0.54% to 2.43%). The two files are not interchangeable for this country.
+MEDIUM,cross-file population,POL,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by 1.13% on average (range 0.14% to 4.25%). The two files are not interchangeable for this country.
+MEDIUM,cross-file population,CHN,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by 1.11% on average (range 0.92% to 1.18%). The two files are not interchangeable for this country.
+MEDIUM,cross-file population,NLD,FILE1 (UN WPP 2024) differs from FILE2 (World Bank WDI) by 1.04% on average (range 0.94% to 1.15%). The two files are not interchangeable for this country.
+MEDIUM,cross-file foreign-born,TUR,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 143.8% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,CZE,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 55.5% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,SVK,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 42.2% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,PRT,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by -18.3% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,DEU,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 14.2% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,USA,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 11.6% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,GBR,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 10.2% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,CHL,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 10.1% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,ISR,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 9.8% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,MEX,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 7.3% on average. Different concepts/sources; do not mix.
+MEDIUM,cross-file foreign-born,HRV,UN DESA migrant stock (FILE1) differs from the FILE2 foreign-born series by 5.7% on average. Different concepts/sources; do not mix.
+HIGH,concept,ALL,"FILE1 places 307 values from 11 conceptually different measures (annual enforcement detections, overstayer register counts, and modelled unauthorised-population stocks) in the single column Illegal_immigrants_number. These are not comparable across countries and must not be pooled."
+INFO,series break,HUN,"irregular_proxy_detections jumps +655% in 2015 (56,170 -> 424,055). Check for a definition or census re-basing break."
+INFO,series break,ISL,irregular_proxy_detections jumps +633% in 2019 (15 -> 110). Check for a definition or census re-basing break.
+INFO,series break,SVK,"irregular_proxy_detections jumps +583% in 2022 (1,715 -> 11,705). Check for a definition or census re-basing break."
+INFO,series break,FIN,"irregular_proxy_detections jumps +388% in 2015 (2,930 -> 14,285). Check for a definition or census re-basing break."
+INFO,series break,BGR,"irregular_proxy_detections jumps +378% in 2021 (670 -> 3,200). Check for a definition or census re-basing break."
+INFO,series break,DNK,"irregular_proxy_detections jumps +320% in 2015 (515 -> 2,165). Check for a definition or census re-basing break."
+INFO,series break,ITA,"irregular_proxy_detections jumps +304% in 2021 (22,785 -> 92,070). Check for a definition or census re-basing break."
+INFO,series break,MEX,"irregular_proxy_detections jumps +276% in 2021 (82,379 -> 309,692). Check for a definition or census re-basing break."
+INFO,series break,HRV,"irregular_proxy_detections jumps +224% in 2022 (13,540 -> 43,830). Check for a definition or census re-basing break."
+INFO,series break,BGR,"irregular_proxy_detections jumps +217% in 2022 (3,200 -> 10,135). Check for a definition or census re-basing break."
+INFO,series break,SVN,"irregular_proxy_detections jumps +213% in 2021 (4,605 -> 14,430). Check for a definition or census re-basing break."
+INFO,series break,SWE,"irregular_proxy_detections jumps +199% in 2013 (24,400 -> 72,835). Check for a definition or census re-basing break."
+INFO,series break,DEU,"irregular_proxy_detections jumps +193% in 2015 (128,290 -> 376,435). Check for a definition or census re-basing break."
+INFO,series break,AUT,"irregular_proxy_detections jumps +175% in 2022 (38,410 -> 105,545). Check for a definition or census re-basing break."
+INFO,series break,CZE,"irregular_proxy_detections jumps +164% in 2022 (11,040 -> 29,130). Check for a definition or census re-basing break."
+INFO,series break,AUT,"irregular_proxy_detections jumps +161% in 2015 (33,055 -> 86,220). Check for a definition or census re-basing break."
+INFO,series break,BGR,"irregular_proxy_detections jumps +157% in 2013 (2,050 -> 5,260). Check for a definition or census re-basing break."
+INFO,series break,LTU,"irregular_proxy_detections jumps +156% in 2021 (1,960 -> 5,025). Check for a definition or census re-basing break."
+INFO,series break,TUR,"irregular_proxy_detections jumps +150% in 2015 (58,647 -> 146,485). Check for a definition or census re-basing break."
+INFO,series break,HUN,"irregular_proxy_detections jumps +145% in 2020 (36,440 -> 89,370). Check for a definition or census re-basing break."

@@ -1,0 +1,18 @@
+﻿Variable,Definition,Caution / verification
+"country, iso3, iso2, m49_code",Country identifiers.,
+"in_wave1, in_wave2",Whether the country appears in each ISSP/ISPSS wave.,
+year,"Calendar year, 2010-2022.",
+population,"Total resident population. World Bank WDI SP.POP.TOTL, mid-year, for 39 countries; Taiwan is the MOI year-end registered population.",Verified: all 507 World Bank values matched the live API exactly.
+population_un_wpp2024,"Alternative population from UN WPP 2024, total population at 1 July, for all 40 countries including Taiwan.",Verified: all 520 values matched the live UN WPP 2024 file exactly.
+population_wb_vs_unwpp_pct,Percentage gap between the two population series.,Use to see where the choice of population denominator matters.
+foreign_born,Residents born outside the reporting country.,"Includes naturalised citizens, so it exceeds foreign_nationals almost everywhere."
+foreign_nationals,"Residents holding foreign citizenship, including stateless where reported.","Conceptually the closest available match to ""non-nationals"" using public healthcare. RECOMMENDED as the main cross-national regressor."
+irregular_stock,Estimated number of foreign nationals resident without authorisation.,WEAK. 13/40 countries. Methods not comparable across countries.
+irregular_proxy_overstayers,Administrative register count of persons remaining beyond authorised stay.,"WEAK. 5/40 countries. A register count, not a modelled stock."
+irregular_proxy_absconded_workers,Taiwan only: Ministry of Labor count of absconded / missing migrant workers (失聯移工).,A SUBSET of overstayers. Kept separate so it is never read as the same series.
+irregular_proxy_detections,Third-country nationals found to be illegally present during the year.,"A FLOW of enforcement events, NOT a stock, and not a count of persons - one person can be detected more than once."
+*_pct_pop,"Variable divided by population (proportion, not percent).",Recomputed after corrections.
+irregular_proxy_detections_per_1000_pop,"Detections per 1,000 residents.",Provided because a raw flow is not comparable to a stock share.
+*_ref_date,Reference date of the underlying measurement.,Eurostat/OECD stocks are 1 January; Taiwan and Korea are 31 December; Japan is 1 January.
+"*_source, *_url, *_note",Provenance of each value.,
+*_grade,"Data-quality grade for that cell. A = re-derived from a machine-readable official source and matched exactly, or corrected against one during this verification. B = official statistical source, value consistent with it. C = source document retrieved but the value is a modelled estimate that cannot be mechanically re-derived. D = cited source could not be retrieved.",

@@ -1,0 +1,6 @@
+# This archive accompanies a manuscript under peer review.
+# Reviewers and editors reach it by direct link; it is not intended to be
+# indexed by search engines before the study is published.
+# Remove or relax this file once the paper is out.
+User-agent: *
+Disallow: /

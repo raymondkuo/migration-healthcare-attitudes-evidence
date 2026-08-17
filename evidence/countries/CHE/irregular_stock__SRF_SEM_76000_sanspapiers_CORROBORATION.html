@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+                <meta charset="utf-8"><script type="text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam.nr-data.net"]},feature_flags:["soft_nav"]};(window.NREUM||(NREUM={})).loader_config={licenseKey:"NRJS-6f14e2fcf37c127d7b8",applicationID:"1569086410",browserID:"1589251274"};;/*! For license information please see nr-loader-rum-1.320.0.min.js.LICENSE.txt */
+(()=>{var e={8122(e,t,r){"use strict";r.d(t,{a:()=>i});var n=r(944);function i(e,t){try{if(!e||"object"!=typeof e)return(0,n.R)(3);if(!t||"object"!=typeof t)return(0,n.R)(4);const r=Object.create(Object.getPrototypeOf(t),Object.getOwnPropertyDescriptors(t)),s=0===Object.keys(r).length?e:r;for(let a in s)if(void 0!==e[a])try{if(null===e[a]){r[a]=null;continue}Array.isArray(e[a])&&Array.isArray(t[a])?r[a]=Array.from(new Set([...e[a],...t[a]])):e[a]instanceof Map||e[a]instanceof Set||e[a]instanceof Date||e[a]instanceof RegExp?r[a]=e[a]:"object"==typeof e[a]&&null!==t[a]&&"object"==typeof t[a]?r[a]=i(e[a],t[a]):r[a]=e[a]}catch(e){r[a]||(0,n.R)(1,e)}return r}catch(e){(0,n.R)(2,e)}}},2555(e,t,r){"use strict";r.d(t,{f:()=>a});var n=r(384),i=r(8122);const s={beacon:n.NT.beacon,errorBeacon:n.NT.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0};function a(e){try{return!!e.licenseKey&&!!e.errorBeacon&&!!e.applicationID}catch(e){return!1}}r.d(t,["D",0,e=>(0,i.a)(e,s)])},7699(e,t,r){"use strict";var n=r(860);const i={[n.K7.logging]:!0,[n.K7.genericEvents]:!0,[n.K7.jserrors]:!0,[n.K7.ajax]:!0};r.d(t,["It",0,1e6,"KC",0,i,"qh",0,"SESSION_ERROR"])},9324(e,t,r){"use strict";r.d(t,["xv",0,"1.320.0"])},981(e,t,r){"use strict";r.d(t,["R",0,{AJAX:"AjaxRequest",PA:"PageAction",UA:"UserAction",BP:"BrowserPerformance",WS:"WebSocket",SPV:"SecurityPolicyViolation",JSE:"JavaScriptError",LOG:"Log",PVE:"PageView",PVT:"PageViewTiming",SR:"SessionReplay",ST:"SessionTrace",BI:"BrowserInteraction"}])},6154(e,t,r){"use strict";var n=r(1863);const i="undefined"!=typeof window&&!!window.document,s="undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis.navigator instanceof WorkerNavigator),a=i?window:"undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis),o=Boolean("hidden"===a?.document?.visibilityState),c=""+a?.location,u=/iPad|iPhone|iPod/.test(a.navigator?.userAgent),d=u&&"undefined"==typeof SharedWorker,l=((()=>{const e=a.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);Array.isArray(e)&&e.length>=2&&e[1]})(),Date.now()-(0,n.t)());r.d(t,["OF",0,u,"RI",0,i,"WN",0,l,"bv",0,s,"gm",0,a,"m",0,c,"mw",0,o,"sb",0,d,"zk",0,()=>{const e=a?.performance?.getEntriesByType?.("navigation")?.[0];if(e&&e.responseStart>0&&e.responseStart<a.performance.now())return e}])},3241(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(6154);function i(e={}){try{n.gm.dispatchEvent(new CustomEvent("newrelic",{detail:e}))}catch(e){}}},1687(e,t,r){"use strict";r.d(t,{Ak:()=>o,Ze:()=>u,x3:()=>c});var n=r(3241),i=r(3606),s=r(860),a=r(2646);function o(e,t){if(!e)return;const r={staged:!1,priority:s.P3[t]||0};e.runtime.drainRegistry.get(t)||e.runtime.drainRegistry.set(t,r)}function c(e,t){if(!e)return;const r=e.runtime.drainRegistry;r&&(r.get(t)&&r.delete(t),l(e,t,!1),r.size&&d(e))}function u(e,t="feature",r=!1){if(e){if(!e.runtime.drainRegistry.get(t)||r)return l(e,t);e.runtime.drainRegistry.get(t).staged=!0,d(e)}}function d(e){if(!e)return;const t=Array.from(e.runtime.drainRegistry);t.every(([e,t])=>t.staged)&&(t.sort((e,t)=>e[1].priority-t[1].priority),t.forEach(([t])=>{e.runtime.drainRegistry.delete(t),l(e,t)}))}function l(e,t,r=!0){if(!e)return;const s=e.ee,o=i.i.handlers;if(s&&!s.aborted&&s.backlog&&o){if((0,n.W)({type:"lifecycle",name:"drain",feature:t}),r){const e=s.backlog[t],r=o[t];if(r){for(let t=0;e&&t<e.length;++t)f(e[t],r);Object.entries(r).forEach(([e,t])=>{Object.values(t||{}).forEach(t=>{t[0]?.on&&t[0].context()instanceof a.y&&!t[0].listeners(e).includes(t[1])&&t[0].on(e,t[1])})})}}s.isolatedBacklog||delete o[t],s.backlog[t]=null,s.emit("drain-"+t,[])}}function f(e,t){var r=e[1];Object.values(t[r]||{}).forEach(t=>{var r=e[0];if(t[0]===r){var n=t[1],i=e[3],s=e[2];n.apply(i,s)}})}},7836(e,t,r){"use strict";var n=r(384),i=r(8990),s=r(2646),a=r(5607);const o="nr@context:".concat(a.W),c=function e(t,r){var n={},a={},d={},l=!1;try{l=16===r.length&&u.initializedAgents?.[r]?.runtime.isolatedBacklog}catch(e){}var f={on:p,addEventListener:p,removeEventListener:function(e,t){var r=n[e];if(!r)return;for(var i=0;i<r.length;i++)r[i]===t&&r.splice(i,1)},emit:function(e,r,n,i,s){!1!==s&&(s=!0);if(c.aborted&&!i)return;t&&s&&t.emit(e,r,n);var o=g(n);m(e).forEach(e=>{e.apply(o,r)});var u=b()[a[e]];u&&u.push([f,e,r,o]);return o},get:h,listeners:m,context:g,buffer:function(e,t){const r=b();if(t=t||"feature",f.aborted)return;Object.entries(e||{}).forEach(([e,n])=>{a[n]=t,t in r||(r[t]=[])})},abort:function(){f._aborted=!0,Object.keys(f.backlog).forEach(e=>{delete f.backlog[e]})},isBuffering:function(e){return!!b()[a[e]]},debugId:r,backlog:l?{}:t&&"object"==typeof t.backlog?t.backlog:{},isolatedBacklog:l};return Object.defineProperty(f,"aborted",{get:()=>{let e=f._aborted||!1;return e||(t&&(e=t.aborted),e)}}),f;function g(e){return e&&e instanceof s.y?e:e?(0,i.I)(e,o,()=>new s.y(o)):new s.y(o)}function p(e,t){n[e]=m(e).concat(t)}function m(e){return n[e]||[]}function h(t){return d[t]=d[t]||e(f,t)}function b(){return f.backlog}}(void 0,"globalEE"),u=(0,n.Zm)();u.ee||(u.ee=c),r.d(t,["P",0,o,"ee",0,c])},2646(e,t,r){"use strict";r.d(t,{y:()=>n});class n{constructor(e){this.contextId=e}}},9908(e,t,r){"use strict";r.d(t,{d:()=>n,p:()=>i});var n=r(7836).ee.get("handle");function i(e,t,r,i,s){s?(s.buffer([e],i),s.emit(e,t,r)):(n.buffer([e],i),n.emit(e,t,r))}},3606(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(9908);s.on=a;var i=s.handlers={};function s(e,t,r,s){a(s||n.d,i,e,t,r)}function a(e,t,r,i,s){s||(s="feature"),e||(e=n.d);var a=t[s]=t[s]||{};(a[r]=a[r]||[]).push([e,i])}},3878(e,t,r){"use strict";function n(e,t){return{capture:e,passive:!1,signal:t}}function i(e,t,r=!1,i){window.addEventListener(e,t,n(r,i))}function s(e,t,r=!1,i){document.addEventListener(e,t,n(r,i))}r.d(t,{DD:()=>s,jT:()=>n,sp:()=>i})},5607(e,t,r){"use strict";const n=(0,r(9566).bz)();r.d(t,["W",0,n])},9566(e,t,r){"use strict";r.d(t,{LA:()=>a,bz:()=>s});var n=r(6154);function i(e,t){return e?15&e[t]:16*Math.random()|0}function s(){const e=n.gm?.crypto||n.gm?.msCrypto;let t,r=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(30))),"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("").map(e=>"x"===e?i(t,r++).toString(16):"y"===e?(3&i()|8).toString(16):e).join("")}function a(e){const t=n.gm?.crypto||n.gm?.msCrypto;let r,s=0;t&&t.getRandomValues&&(r=t.getRandomValues(new Uint8Array(e)));const a=[];for(var o=0;o<e;o++)a.push(i(r,s++).toString(16));return a.join("")}},2614(e,t,r){"use strict";r.d(t,["BB",0,18e5,"Wt",0,"NRBA_SESSION::","iL",0,{SAME_TAB:"same-tab",CROSS_TAB:"cross-tab"},"tS",0,{STARTED:"session-started",PAUSE:"session-pause",RESET:"session-reset",RESUME:"session-resume",UPDATE:"session-update"},"wk",0,144e5])},1863(e,t,r){"use strict";function n(){return Math.floor(performance.now())}r.d(t,{t:()=>n})},944(e,t,r){"use strict";r.d(t,{R:()=>i});var n=r(3241);function i(e,t){"function"==typeof console.debug&&(console.debug("New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(e),t),(0,n.W)({drained:null,type:"data",name:"warn",feature:"warn",data:{code:e,secondary:t}}))}},8990(e,t,r){"use strict";r.d(t,{I:()=>i});var n=Object.prototype.hasOwnProperty;function i(e,t,r){if(n.call(e,t))return e[t];var i=r();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},6389(e,t,r){"use strict";function n(e,t=500,r={}){const n=r?.leading||!1;let i;return(...r)=>{n&&void 0===i&&(e.apply(this,r),i=setTimeout(()=>{i=clearTimeout(i)},t)),n||(clearTimeout(i),i=setTimeout(()=>{e.apply(this,r)},t))}}function i(e){let t=!1;return(...r)=>{t||(t=!0,e.apply(this,r))}}r.d(t,{J:()=>i,s:()=>n})},1910(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(944);const i=new Map;function s(...e){return e.every(e=>{if(i.has(e))return i.get(e);const t="function"==typeof e?e.toString():"",r=t.includes("[native code]"),s=t.includes("nrWrapper");return r||s||(0,n.R)(64,e?.name||t),i.set(e,r),r})}},5289(e,t,r){"use strict";r.d(t,{GG:()=>a,Qr:()=>c,sB:()=>o});var n=r(3878),i=r(6389);function s(){return"undefined"==typeof document||"complete"===document.readyState}function a(e,t){if(s())return e();const r=(0,i.J)(e),a=setInterval(()=>{s()&&(clearInterval(a),r())},500);(0,n.sp)("load",r,t)}function o(e){if(s())return e();(0,n.DD)("DOMContentLoaded",e)}function c(e){if(s())return e();(0,n.sp)("popstate",e)}},384(e,t,r){"use strict";r.d(t,{Zm:()=>c,bQ:()=>d,dV:()=>u,pV:()=>l});var n=r(6154),i=r(1863),s=r(944),a=r(1910);const o={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function c(){return n.gm.NREUM||(n.gm.NREUM={}),void 0===n.gm.newrelic&&(n.gm.newrelic=n.gm.NREUM),n.gm.NREUM}function u(){let e=c();return e.o||(e.o={ST:n.gm.setTimeout,SI:n.gm.setImmediate||n.gm.setInterval,CT:n.gm.clearTimeout,XHR:n.gm.XMLHttpRequest,REQ:n.gm.Request,EV:n.gm.Event,PR:n.gm.Promise,MO:n.gm.MutationObserver,FETCH:n.gm.fetch,WS:n.gm.WebSocket},(0,a.i)(...Object.values(e.o))),e}function d(e,t){let r=c();r.initializedAgents??={},t.initializedAt={ms:(0,i.t)(),date:new Date},r.initializedAgents[e]=t,2===Object.keys(r.initializedAgents).length&&(0,s.R)(69)}function l(){return function(){let e=c();const t=e.info||{};e.info={beacon:o.beacon,errorBeacon:o.errorBeacon,...t}}(),function(){let e=c();const t=e.init||{};e.init={...t}}(),u(),function(){let e=c();const t=e.loader_config||{};e.loader_config={...t}}(),c()}r.d(t,["NT",0,o])},2843(e,t,r){"use strict";r.d(t,{G:()=>s,u:()=>i});var n=r(3878);function i(e,t=!1,r,i){(0,n.DD)("visibilitychange",function(){if(t)return void("hidden"===document.visibilityState&&e());e(document.visibilityState)},r,i)}function s(e,t,r){(0,n.sp)("pagehide",e,t,r)}},3969(e,t,r){"use strict";const n=r(860).K7.metrics;r.d(t,["TZ",0,n,"XG",0,"storeEventMetrics","xV",0,"storeSupportabilityMetrics"])},6630(e,t,r){"use strict";const n=r(860).K7.pageViewEvent;r.d(t,["T",0,n])},782(e,t,r){"use strict";const n=r(860).K7.pageViewTiming;r.d(t,["T",0,n])},4234(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(1687);class i{constructor(e,t){this.agentRef=e,this.ee=e?.ee,this.featureName=t,this.blocked=!1}deregisterDrain(){(0,n.x3)(this.agentRef,this.featureName)}}},7767(e,t,r){"use strict";var n=r(6154);r.d(t,["V",0,e=>n.RI&&!0===e?.privacy.cookies_enabled])},8362(e,t,r){"use strict";r.d(t,{d:()=>s});var n=r(9566),i=r(1741);class s extends i.W{agentIdentifier=(0,n.LA)(16)}},1741(e,t,r){"use strict";r.d(t,{W:()=>s});var n=r(944),i=r(4261);class s{#e(e,...t){if(this[e]!==s.prototype[e])return this[e](...t);(0,n.R)(35,e)}addPageAction(e,t){return this.#e(i.hG,e,t)}register(e){return this.#e(i.eY,e)}recordCustomEvent(e,t){return this.#e(i.fF,e,t)}setPageViewName(e,t){return this.#e(i.Fw,e,t)}setCustomAttribute(e,t,r){return this.#e(i.cD,e,t,r)}noticeError(e,t){return this.#e(i.o5,e,t)}setUserId(e,t=!1){return this.#e(i.Dl,e,t)}setApplicationVersion(e){return this.#e(i.nb,e)}setErrorHandler(e){return this.#e(i.bt,e)}addRelease(e,t){return this.#e(i.k6,e,t)}log(e,t){return this.#e("log",e,t)}start(){return this.#e("start")}finished(e){return this.#e(i.BL,e)}recordReplay(){return this.#e(i.CH)}pauseReplay(){return this.#e(i.Tb)}addToTrace(e){return this.#e(i.U2,e)}setCurrentRouteName(e){return this.#e(i.PA,e)}interaction(e){return this.#e(i.dT,e)}wrapLogger(e,t,r){return this.#e(i.Wb,e,t,r)}measure(e,t){return this.#e(i.V1,e,t)}consent(e){return this.#e(i.Pv,e)}}},4261(e,t,r){"use strict";r.d(t,["BL",0,"finished","CH",0,"recordReplay","Dl",0,"setUserId","Fw",0,"setPageViewName","PA",0,"setCurrentRouteName","Pv",0,"consent","Tb",0,"pauseReplay","U2",0,"addToTrace","V1",0,"measure","Wb",0,"wrapLogger","bt",0,"setErrorHandler","cD",0,"setCustomAttribute","dT",0,"interaction","eY",0,"register","fF",0,"recordCustomEvent","hG",0,"addPageAction","k6",0,"addRelease","nb",0,"setApplicationVersion","o5",0,"noticeError"])},1738(e,t,r){"use strict";r.d(t,{U:()=>l,Y:()=>d});var n=r(3241),i=r(9908),s=r(1863),a=r(944),o=r(3969),c=r(8362),u=r(860);function d(e,t,r,s){const d=s||r;!d||d[e]&&d[e]!==c.d.prototype[e]||(d[e]=function(){(0,i.p)(o.xV,["API/"+e+"/called"],void 0,u.K7.metrics,r.ee),(0,n.W)({drained:!!r.runtime?.activatedFeatures,type:"data",name:"api",feature:"api-"+e,data:{}});try{return t.apply(this,arguments)}catch(e){(0,a.R)(23,e)}})}function l(e,t,r,n,a){const o=e.info;null===r?delete o.jsAttributes[t]:o.jsAttributes[t]=r,(a||null===r)&&(0,i.p)("api-"+n,[(0,s.t)(),t,r],void 0,"session",e.ee)}},8374(e,t,r){r.nc=(()=>{try{return document?.currentScript?.nonce}catch(e){}return""})()},860(e,t,r){"use strict";const n="events",i="jserrors",s="browser/blobs",a="browser/logs",o={ajax:"ajax",genericEvents:"generic_events",jserrors:i,logging:"logging",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionReplay:"session_replay",sessionTrace:"session_trace",softNav:"soft_navigations"},c={[o.pageViewEvent]:1,[o.pageViewTiming]:2,[o.metrics]:3,[o.jserrors]:4,[o.softNav]:5,[o.ajax]:6,[o.sessionTrace]:7,[o.sessionReplay]:8,[o.logging]:9,[o.genericEvents]:10},u={[o.pageViewEvent]:"rum",[o.pageViewTiming]:n,[o.ajax]:n,[o.softNav]:n,[o.metrics]:i,[o.jserrors]:i,[o.sessionTrace]:s,[o.sessionReplay]:s,[o.logging]:a,[o.genericEvents]:"ins"};r.d(t,["$J",0,u,"K7",0,o,"P3",0,c,"XX",0,i,"Yy",0,a,"df",0,s])}};const t={};function r(n){const i=t[n];if(void 0!==i)return i.exports;const s=t[n]={exports:{}};return e[n](s,s.exports,r),s.exports}r.m=e,r.d=(e,t)=>{if(Array.isArray(t))for(var n=0;n<t.length;){var i=t[n++],s=t[n++];r.o(e,i)?0===s&&n++:0===s?Object.defineProperty(e,i,{enumerable:!0,value:t[n++]}):Object.defineProperty(e,i,{enumerable:!0,get:s})}else for(var i in t)r.o(t,i)&&!r.o(e,i)&&Object.defineProperty(e,i,{enumerable:!0,get:t[i]})},r.f={},r.e=e=>Promise.all(Object.keys(r.f).reduce((t,n)=>(r.f[n](e,t),t),[])),r.u=e=>"nr-rum-1.320.0.min.js",r.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{const e={},t="NRBA-1.320.0.PROD:";r.l=(n,i,s,a)=>{if(e[n])return void e[n].push(i);let o,c;if(void 0!==s){const e=document.getElementsByTagName("script");for(var u=0;u<e.length;u++){const r=e[u];if(r.getAttribute("src")==n||r.getAttribute("data-webpack")==t+s){o=r;break}}}if(!o){c=!0;var d={296:"sha512-i0QzOd4vVY4bWrrW0ByiRrHm314+U+ceG+LLaJdZSgzUjam1J+CWBVzJmWmeUgmqooofACwblh7+pj/+BXK1kw=="};o=document.createElement("script"),o.charset="utf-8",r.nc&&o.setAttribute("nonce",r.nc),o.setAttribute("data-webpack",t+s),o.src=n,0!==o.src.indexOf(window.location.origin+"/")&&(o.crossOrigin="anonymous"),d[a]&&(o.integrity=d[a])}e[n]=[i];const l=(t,r)=>{o.onerror=o.onload=null,clearTimeout(f);const i=e[n];if(delete e[n],o.parentNode?.removeChild(o),i?.forEach(e=>e(r)),t)return t(r)},f=setTimeout(l.bind(null,void 0,{type:"timeout",target:o}),12e4);o.onerror=l.bind(null,o.onerror),o.onload=l.bind(null,o.onload),c&&document.head.appendChild(o)}})(),r.r=e=>{Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.p="https://js-agent.newrelic.com/",(()=>{const e={374:0,840:0};r.f.j=(t,n)=>{let i=r.o(e,t)?e[t]:void 0;if(0!==i)if(i)n.push(i[2]);else{const s=new Promise((r,n)=>i=e[t]=[r,n]);n.push(i[2]=s);const a=r.p+r.u(t),o=new Error,c=n=>{if(r.o(e,t)&&(i=e[t],0!==i&&(e[t]=void 0),i)){const e=n&&("load"===n.type?"missing":n.type),r=n&&n.target&&n.target.src;o.message="Loading chunk "+t+" failed: ("+e+": "+r+")",o.name="ChunkLoadError",o.type=e,o.request=r,i[1](o)}};r.l(a,c,"chunk-"+t,t)}};const t=(t,n)=>{let[i,s,a]=n;var o,c,u=0;if(i.some(t=>0!==e[t])){for(o in s)r.o(s,o)&&(r.m[o]=s[o]);if(a)a(r)}for(t&&t(n);u<i.length;u++)c=i[u],r.o(e,c)&&e[c]&&e[c][0](),e[c]=0},n=self["webpackChunk:NRBA-1.320.0.PROD"]=self["webpackChunk:NRBA-1.320.0.PROD"]||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),(()=>{"use strict";r(8374);var e=r(8362),t=r(860);const n=Object.values(t.K7);var i=r(384),s=r(1741);var a=r(2555),o=r(981);t.K7.genericEvents,o.R.PA,o.R.UA,o.R.BP;const c={RESOURCES:"experimental.resources",REGISTER:"register"},u=(t.K7.ajax,"none"),d=e=>{if(!e||"string"!=typeof e)return!1;try{document.createDocumentFragment().querySelector(e)}catch{return!1}return!0};var l=r(2614),f=r(944),g=r(8122);const p="[data-nr-mask]",m=e=>(0,g.a)(e,(()=>{const e={feature_flags:[],experimental:{register:!1,resources:!1,iframe_bridge:!1,iframe_domains:[]},mask_selector:"*",block_selector:"[data-nr-block]",mask_input_options:{color:!1,date:!1,"datetime-local":!1,email:!1,month:!1,number:!1,range:!1,search:!1,tel:!1,text:!1,time:!1,url:!1,week:!1,textarea:!1,select:!1,password:!0}};return{ajax:{deny_list:void 0,block_internal:!0,enabled:!0,autoStart:!0,capture_payloads:u},api:{register:{get enabled(){return e.feature_flags.includes(c.REGISTER)||e.experimental.register},set enabled(t){e.experimental.register=t},duplicate_data_to_container:!1,get allow_iframe_bridge(){return e.feature_flags.includes(c.IFRAME_BRIDGE)||e.experimental.iframe_bridge},set allow_iframe_bridge(t){e.experimental.iframe_bridge=t},get iframe_domains(){return e.experimental.iframe_domains},set iframe_domains(t){Array.isArray(t)?e.experimental.iframe_domains=t:(0,f.R)(1,t)}}},browser_consent_mode:{enabled:!1},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},get feature_flags(){return e.feature_flags},set feature_flags(t){e.feature_flags=t},generic_events:{enabled:!0,autoStart:!0},harvest:{interval:30},jserrors:{enabled:!0,autoStart:!0},logging:{enabled:!0,autoStart:!0},metrics:{enabled:!0,autoStart:!0},obfuscate:void 0,page_action:{enabled:!0},page_view_event:{enabled:!0,autoStart:!0},page_view_timing:{enabled:!0,autoStart:!0},performance:{capture_marks:!1,capture_measures:!1,capture_detail:!0,resources:{get enabled(){return e.feature_flags.includes(c.RESOURCES)||e.experimental.resources},set enabled(t){e.experimental.resources=t},asset_types:[],first_party_domains:[],ignore_newrelic:!0}},privacy:{cookies_enabled:!0},proxy:{assets:void 0,beacon:void 0},session:{expiresMs:l.wk,inactiveMs:l.BB},session_replay:{autoStart:!0,enabled:!1,preload:!1,sampling_rate:10,error_sampling_rate:100,collect_fonts:!1,inline_images:!1,fix_stylesheets:!0,mask_all_inputs:!0,get mask_text_selector(){return e.mask_selector},set mask_text_selector(t){d(t)?e.mask_selector="".concat(t,",").concat(p):""===t||null===t?e.mask_selector=p:(0,f.R)(5,t)},get block_class(){return"nr-block"},get ignore_class(){return"nr-ignore"},get mask_text_class(){return"nr-mask"},get block_selector(){return e.block_selector},set block_selector(t){d(t)?e.block_selector+=",".concat(t):""!==t&&(0,f.R)(6,t)},get mask_input_options(){return e.mask_input_options},set mask_input_options(t){t&&"object"==typeof t?e.mask_input_options={...t,password:!0}:(0,f.R)(7,t)}},session_trace:{enabled:!0,autoStart:!0},soft_navigations:{enabled:!0,autoStart:!0},ssl:void 0,user_actions:{enabled:!0,elementAttributes:["id","className","tagName","type"]},web_sockets:{enabled:!1}}})());var h=r(6154),b=r(9324);let v=0;const y={buildEnv:"PROD",distMethod:"CDN",version:b.xv,originTime:h.WN},_={consented:!1},w={activatedFeatures:void 0,appMetadata:{},configured:!1,get consented(){return this.session?.state?.consent||_.consented},set consented(e){_.consented=e},customTransaction:void 0,denyList:[],disabled:!1,drainRegistry:new Map,harvester:void 0,isolatedBacklog:!1,isRecording:!1,loaderType:void 0,maxBytes:3e4,obfuscator:void 0,onerror:void 0,ptid:void 0,releaseIds:{},session:void 0,timeKeeper:void 0,registeredEntities:[],jsAttributesMetadata:{bytes:0},get harvestCount(){return++v},listeningForIframeMessages:!1};var R=r(7836),x=r(3241);const A={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0};var E=r(9908);const S="newrelic-iframe-";function k(e,t={},n,o){let{init:c,info:u,loader_config:d,runtime:l={},exposed:f=!0}=t;if(!u){const e=(0,i.pV)();c=e.init,u=e.info,d=e.loader_config}var p;e.init=m(c||{}),e.loader_config=(p=d||{},(0,g.a)(p,A)),u.jsAttributes??={},h.bv&&(u.jsAttributes.isWorker=!0),e.info=(0,a.D)(u);const b=e.init;e.runtime??=(e=>{const t=(0,g.a)(e,w),r=Object.keys(y).reduce((e,t)=>(e[t]={value:y[t],writable:!1,configurable:!0,enumerable:!0},e),{});return Object.defineProperties(t,r)})(l),b.proxy.assets&&(e=>{const t=e.startsWith("http");e+="/",r.p=t?e:"https://"+e})(b.proxy.assets),e.runtime.configured||(Object.defineProperty(e,"beacons",{get:()=>[e.info.beacon,e.info.errorBeacon,e.init.proxy.assets,e.init.proxy.beacon].filter(Boolean)}),Object.defineProperty(e.runtime,"denyList",{get:()=>[...e.init.ajax.deny_list||[],...e.init.ajax.block_internal?e.beacons:[]]}),e.runtime.ptid=e.agentIdentifier,function(e){const t=(0,i.pV)();Object.getOwnPropertyNames(s.W.prototype).forEach(r=>{const n=s.W.prototype[r];if("function"!=typeof n||"constructor"===n)return;let i=t[r];e[r]&&!1!==e.exposed&&"micro-agent"!==e.runtime?.loaderType&&(t[r]=(...t)=>{const n=e[r](...t);return i?i(...t):n})})}(e),e.runtime.loaderType=n,e.ee=R.ee.get(e.agentIdentifier),e.exposed=f,(0,x.W)({drained:!!e.runtime.activatedFeatures,type:"lifecycle",name:"initialize",feature:void 0,data:e.config}),e.init.api.register.allow_iframe_bridge&&h.gm.addEventListener("message",t=>{"string"==typeof t.data?.type&&t.data.type.startsWith(S)&&(0,E.p)("iframe-message",[t],void 0,"IFRAME",e.ee)}),e.runtime.configured=!0)}var T=r(1863),j=r(4261),P=r(1738);var O=r(1687),M=r(4234),N=r(5289),I=r(7767);function D(e){return!!(0,i.dV)().o.MO&&(0,I.V)(e)&&!0===e?.session_trace.enabled}var V=r(6389),W=r(7699);const B=new WeakSet;class K extends M.W{constructor(e,t){super(e,t),this.abortHandler=void 0,this.featAggregate=void 0,this.loadedSuccessfully=void 0,this.onAggregateImported=new Promise(e=>{this.loadedSuccessfully=e}),this.deferred=Promise.resolve(),!1===e.init[this.featureName].autoStart?this.deferred=new Promise((t,r)=>{this.ee.on("manual-start-all",(0,V.J)(()=>{(0,O.Ak)(e,this.featureName),t()}))}):(0,O.Ak)(e,t)}importAggregator(e,t,n={}){if(this.featAggregate)return;const i=async()=>{if(await this.deferred,this.#t(e),!(0,a.f)(e.info))return(0,f.R)(43),e.ee.abort(),void this.loadedSuccessfully(!1);let i;try{if((0,I.V)(e.init)){const{setupAgentSession:t}=await r.e(296).then(r.bind(r,8391));i=t(e)}}catch(e){(0,f.R)(20,e),this.ee.emit("internal-error",[e]),(0,E.p)(W.qh,[e],void 0,this.featureName,this.ee)}if(e.init.api.register.allow_iframe_bridge)try{const{setupIframeMFEMessageListener:t}=await Promise.resolve().then(function(){const e=new Error("Cannot find module '../../loaders/configure/iframe-message-handler'");throw e.code="MODULE_NOT_FOUND",e});t(e)}catch(e){(0,f.R)(23,e)}try{if(!this.#r(this.featureName,i,e.init))return(0,O.Ze)(this.agentRef,this.featureName),void this.loadedSuccessfully(!1);const{Aggregate:r}=await t();this.featAggregate=new r(e,n),e.runtime.harvester.initializedAggregates.push(this.featAggregate),this.loadedSuccessfully(!0)}catch(e){(0,f.R)(34,e),this.abortHandler?.(),(0,O.Ze)(this.agentRef,this.featureName,!0),this.loadedSuccessfully(!1),this.ee&&this.ee.abort()}};h.RI?(0,N.GG)(()=>i(),!0):i()}#r(e,r,n){if(this.blocked)return!1;switch(e){case t.K7.sessionReplay:return D(n)&&!!r;case t.K7.sessionTrace:return!!r;default:return!0}}#t(e){if(!B.has(e)&&(B.add(e),!(0,a.f)(e.info))){const t=(0,i.pV)();let r={...t.info?.jsAttributes};try{r={...r,...e.info?.jsAttributes}}catch(e){}k(e,{...t,info:{...t.info,jsAttributes:r},runtime:e.runtime},e.runtime.loaderType)}}}var C=r(6630);class U extends K{static featureName=C.T;constructor(e){var t;super(e,C.T),this.setupInspectionEvents(),t=e,(0,P.Y)(j.Fw,function(e,r){"string"==typeof e&&("/"!==e.charAt(0)&&(e="/"+e),t.runtime.customTransaction=(r||"http://custom.transaction")+e,(0,E.p)("api-"+j.Fw,[(0,T.t)()],void 0,void 0,t.ee))},t),this.importAggregator(e,()=>r.e(296).then(r.bind(r,1324)))}setupInspectionEvents(){const e=(e,t)=>{e&&(0,x.W)({timeStamp:e.timeStamp,loaded:"complete"===e.target.readyState,type:"window",name:t,data:e.target.location+""})};(0,N.sB)(t=>{e(t,"DOMContentLoaded")}),(0,N.GG)(t=>{e(t,"load")}),(0,N.Qr)(t=>{e(t,"navigate")}),this.ee.on(l.tS.UPDATE,(e,t)=>{(0,x.W)({type:"lifecycle",name:"session",data:t})})}}class L extends e.d{constructor(e){var t;(super(),h.gm)?(this.features={},(0,i.bQ)(this.agentIdentifier,this),this.desiredFeatures=new Set(e.features||[]),this.desiredFeatures.add(U),k(this,e,e.loaderType||"agent"),t=this,(0,P.Y)(j.cD,function(e,r,n=!1){if("string"==typeof e){if(["string","number","boolean"].includes(typeof r)||null===r)return(0,P.U)(t,e,r,j.cD,n);(0,f.R)(40,typeof r)}else(0,f.R)(39,typeof e)},t),function(e){(0,P.Y)(j.Dl,function(t,r=!1){if("string"!=typeof t&&null!==t)return void(0,f.R)(41,typeof t);const n=e.info.jsAttributes["enduser.id"];r&&null!=n&&n!==t?(0,E.p)("api-setUserIdAndResetSession",[t],void 0,"session",e.ee):(0,P.U)(e,"enduser.id",t,j.Dl,!0)},e)}(this),function(e){(0,P.Y)(j.nb,function(t){if("string"==typeof t||null===t)return(0,P.U)(e,"application.version",t,j.nb,!1);(0,f.R)(42,typeof t)},e)}(this),function(e){(0,P.Y)("start",function(){e.ee.emit("manual-start-all")},e)}(this),function(e){(0,P.Y)(j.Pv,function(t=!0){if("boolean"==typeof t){if((0,E.p)("api-"+j.Pv,[t],void 0,"session",e.ee),e.runtime.consented=t,t){const t=e.features.page_view_event;t.onAggregateImported.then(e=>{const r=t.featAggregate;e&&!r.sentRum&&r.sendRum()})}}else(0,f.R)(65,typeof t)},e)}(this),this.run()):(0,f.R)(21)}get config(){return{info:this.info,init:this.init,loader_config:this.loader_config,runtime:this.runtime}}get api(){return this}run(){try{const e=function(e){const t={};return n.forEach(r=>{t[r]=!!e[r]?.enabled}),t}(this.init),r=[...this.desiredFeatures];r.sort((e,r)=>t.P3[e.featureName]-t.P3[r.featureName]),r.forEach(r=>{if(!e[r.featureName]&&r.featureName!==t.K7.pageViewEvent)return;const n=function(e){switch(e){case t.K7.ajax:return[t.K7.jserrors];case t.K7.sessionTrace:return[t.K7.ajax,t.K7.pageViewEvent];case t.K7.sessionReplay:return[t.K7.sessionTrace];case t.K7.pageViewTiming:return[t.K7.pageViewEvent];default:return[]}}(r.featureName).filter(e=>!(e in this.features));n.length>0&&(0,f.R)(36,{targetFeature:r.featureName,missingDependencies:n}),this.features[r.featureName]=new r(this)})}catch(e){(0,f.R)(22,e);for(const e in this.features)this.features[e].abortHandler?.();const t=(0,i.Zm)();delete t.initializedAgents[this.agentIdentifier]?.features,delete this.sharedAggregator;return t.ee.get(this.agentIdentifier).abort(),!1}}}var F=r(2843),G=r(782);class H extends K{static featureName=G.T;constructor(e){super(e,G.T),h.RI&&((0,F.u)(()=>(0,E.p)("docHidden",[(0,T.t)()],void 0,G.T,this.ee),!0),(0,F.G)(()=>(0,E.p)("winPagehide",[(0,T.t)()],void 0,G.T,this.ee)),this.importAggregator(e,()=>r.e(296).then(r.bind(r,2117))))}}var z=r(3969);class Y extends K{static featureName=z.TZ;constructor(e){super(e,z.TZ),this.importAggregator(e,()=>r.e(296).then(r.bind(r,9623)))}}new L({features:[U,H,Y],loaderType:"lite"})})()})();</script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    <title>Schweiz - SEM schätzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000 - News - SRF</title>
+                        <link rel="preconnect" href="//app.usercentrics.eu" crossorigin="anonymous">
+                    
+                <script
+            id="usercentrics-cmp"
+            src="https://web.cmp.usercentrics.eu/ui/loader.js"
+            data-ruleset-id="v6OFae9a5-aJ32"
+            async
+        >
+        </script>
+
+            <script>
+  (function() {
+    var _sf_async_config = window._sf_async_config = (window._sf_async_config || {});
+    _sf_async_config.uid = 54628;
+        _sf_async_config.domain = "srf.ch";
+    _sf_async_config.useCanonical = true;
+    _sf_async_config.useCanonicalDomain = true;
+    _sf_async_config.flickerControl = false;
+      })();
+</script>
+          <script>
+    (function() {
+      window.tc_vars = {
+        ...window.tc_vars,
+        navigation_environment: 'prod',
+        platform_id: 'srfweb',
+        vector_id: 'web'
+      }
+    })();
+  </script>
+
+                            <link rel="preconnect" href="//jptdpz43r4.kameleoon.eu" crossorigin="anonymous">
+    <script>window.kameleoonQueue = window.kameleoonQueue || [];</script>
+            <script crossorigin type="module" src="/staticfiles/aron/assets/article-WWXvqRAA.js"></script>
+    
+            <link crossorigin rel="stylesheet" href="/staticfiles/aron/assets/teaser-meta-K319xMap.css"><link crossorigin rel="stylesheet" href="/staticfiles/aron/assets/button-BuJJyoI4.css"><link crossorigin rel="stylesheet" href="/staticfiles/aron/assets/svg-icon-DeeTZr7p.css"><link crossorigin rel="stylesheet" href="/staticfiles/aron/assets/InstagramEmbed-Br5H-blQ.css"><link crossorigin rel="stylesheet" href="/staticfiles/aron/assets/reach-bottom-BfD4E4H0.css">
+
+        <link rel="preload" href="/static-assets/fonts/variable/SRGSSRTypeVF_Text_W_Wght.woff2" as="font" type="font/woff2" crossorigin>
+
+        <meta name="i18n:date:now" content="Jetzt"><meta name="i18n:date:today" content="Heute"><meta name="i18n:date:tomorrow" content="Morgen"><meta name="i18n:date:yesterday" content="Gestern"><meta name="i18n:date:clock" content="Uhr"><meta name="i18n:status:new:ago:seconds" content="Vor #JS-PLACEHOLDER# Sekunden"><meta name="i18n:status:new:ago:minute" content="Vor einer Minute"><meta name="i18n:status:new:ago:minutes" content="Vor #JS-PLACEHOLDER# Minuten"><meta name="i18n:status:new:ago:hour" content="Vor einer Stunde"><meta name="i18n:status:new:ago:hours" content="Vor #JS-PLACEHOLDER# Stunden"><meta name="i18n:status:live:ago:seconds" content="seit #JS-PLACEHOLDER# Sekunden"><meta name="i18n:status:live:ago:minute" content="seit einer Minute"><meta name="i18n:status:live:ago:minutes" content="seit #JS-PLACEHOLDER# Minuten"><meta name="i18n:status:live:ago:hour" content="seit einer Stunde"><meta name="i18n:status:live:ago:hours" content="seit #JS-PLACEHOLDER# Stunden"><meta name="i18n:status:live:ago:day" content="seit einem Tag"><meta name="i18n:status:live:ago:days" content="seit #JS-PLACEHOLDER# Tagen"><meta name="i18n:status:live:since" content="seit #JS-PLACEHOLDER#"><meta name="i18n:status:live:in:seconds" content="in #JS-PLACEHOLDER# Sekunden"><meta name="i18n:status:live:in:minute" content="in einer Minute"><meta name="i18n:status:live:in:minutes" content="in #JS-PLACEHOLDER# Minuten"><meta name="i18n:status:live:in:hour" content="in einer Stunde"><meta name="i18n:status:live:in:hours" content="in #JS-PLACEHOLDER# Stunden"><meta name="i18n:status:live:in:day" content="in einem Tag"><meta name="i18n:status:live:in:days" content="in #JS-PLACEHOLDER# Tagen"><meta name="i18n:status:live:pre" content="ab #JS-PLACEHOLDER#"><meta name="i18n:status:read" content="Gesehen"><meta name="i18n:status:updated" content="Aktualisiert"><meta name="i18n:teaser:with:video" content="Mit Video"><meta name="i18n:teaser:with:audio" content="Mit Audio"><meta name="i18n:teaser:with:gallery" content="Mit Bildergalerie"><meta name="i18n:status:progress:heard" content="Bereits #JS-PLACEHOLDER#% gehört."><meta name="description" content="Die grösste Gruppe der Sans-Papiers kommt aus Zentral- und Südamerika. Einer von zehn Betroffenen ist minderjährig." >
+<meta name="srf:urn" content="urn:srf:article:20629420" >
+<meta name="srf:content:id" content="20629420" >
+<meta name="srf:portal:urn" content="urn:srf:portal:news" >
+<meta name="srf:portal:name" content="News" >
+<meta property="article:section" content="News">
+<link rel="canonical" href="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000" >
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@srf">
+<meta name="twitter:title" content="Schweiz - SEM schätzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000">
+<meta name="twitter:description" content="Die grösste Gruppe der Sans-Papiers kommt aus Zentral- und Südamerika. Einer von zehn Betroffenen ist minderjährig.">
+<meta name="twitter:url" content="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000"><meta name="twitter:image" content="https://www.srf.ch/static/cms/images/960w/9c5198.jpg">
+
+<meta property="og:title" content="Schweiz - SEM schätzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000">
+<meta property="og:description" content="Die grösste Gruppe der Sans-Papiers kommt aus Zentral- und Südamerika. Einer von zehn Betroffenen ist minderjährig.">
+<meta property="og:url" content="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000"><meta property="og:image" content="https://www.srf.ch/static/cms/images/branded_srf_news/9c5198.jpg">
+<meta property="og:type" content="article">
+<meta property="fb:app_id" content="520407055363160">
+<meta property="og:site_name" content="Schweizer Radio und Fernsehen (SRF)">
+
+<meta name="DC.title" content="Schweiz - SEM schätzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000">
+<link rel="manifest" href="https://www.srf.ch/manifest.webmanifest" crossorigin="use-credentials"><meta name="robots" content="max-image-preview:large">
+    <link rel="icon" href="/build/assets/srf-favicon-C_rOViKC.ico" sizes="any">
+    <link rel="icon" href="/build/assets/srf-favicon-DaOBCX1Y.svg" type="image/svg+xml">
+            <link rel="apple-touch-icon" href="/build/assets/srf-apple-touch-icon-BRxTgjQQ.png">
+        <meta property="fb:pages" content="32780166106"> <meta property="fb:pages" content="448598895276"> <meta property="fb:pages" content="176497449054784"> <meta property="fb:pages" content="104971002870361"> <meta property="fb:pages" content="48486263401"> <meta property="fb:pages" content="675323875963836"> <meta property="fb:pages" content="147936338714719"> <meta property="fb:pages" content="109104332449551"> <meta property="fb:pages" content="233410473368138"> <meta property="fb:pages" content="1160443907328917"> <meta property="fb:pages" content="109190032459007"> <meta property="fb:pages" content="106604179401411"> <meta property="fb:pages" content="289943751120613"> <meta property="fb:pages" content="126546190703867"> <meta property="fb:pages" content="162510474290970">             <meta name="apple-itunes-app" content="app-id=341578310, app-argument=/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000?nav_source=smart_app_banner, affiliate-data=pt=232283&ct=SmartBanner">
+
+
+
+<script>(window.BOOMR_mq=window.BOOMR_mq||[]).push(["addVar",{"rua.upush":"false","rua.cpush":"false","rua.upre":"false","rua.cpre":"false","rua.uprl":"false","rua.cprl":"false","rua.cprf":"false","rua.trans":"","rua.cook":"false","rua.ims":"false","rua.ufprl":"false","rua.cfprl":"false","rua.isuxp":"false","rua.texp":"norulematch","rua.ceh":"false","rua.ueh":"false","rua.ieh.st":"0"}]);</script>
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="BZPKL-66AFB-DVMB6-MFEJJ-9KHCE",function(){function e(){if(!r){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.appendChild(e),r=!0}}function t(e){r=!0;var n,t,a,i,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",i=(a.frameElement||a).style,i.width=0,i.height=0,i.border=0,i.display="none",o.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void 0;",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=14,window.BOOMR.url=n+"BZPKL-66AFB-DVMB6-MFEJJ-9KHCE";var i=document.currentScript||document.getElementsByTagName("script")[0],o=i.parentNode,r=!1,d=document.createElement("link");if(d.relList&&"function"==typeof d.relList.supports&&d.relList.supports("preload")&&"as"in d)window.BOOMR.snippetMethod="p",d.href=window.BOOMR.url,d.rel="preload",d.as="script",d.addEventListener("load",e),d.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!r)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.appendChild(d);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="aerjaywsi7r3s2ucnp7q-f-d3f7a5936-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,o={"ak.v":"41","ak.cp":"20717","ak.ai":parseInt("208789",10),"ak.ol":"0","ak.cr":26,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"3387dccb","ak.r":42843,"ak.a2":n,"ak.m":"dscr","ak.n":"ff","ak.cport":44859,"ak.gh":"210.71.227.101","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1786932223","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==u0iKbXz9YCgBMquNBacud25n5/gXp3gemAOgZGIHEW9JVPuf2dqWWahkUXaedNLleeleYCD2DX0j7PPrqXEs/j0qQHiEKf+WoCPmvj/FZH/19QPXlMuv1ZvX2H66eI1zxCv6zbjgQwW+pFKwpdmaBUtLR1QcouEmx+vX+p69HWk11pAPzhYMuvZWfxOfQiJwKdVoWOBtzJqFccmKfJSBGzb62aOoU1MDfGWoxIL6sxPLW484I0tKljaN5KfEeyhZDT18NWgTMKVnmi/ygZiPaxJrfRQGJtevg0XkxSN50ja4a2s79H2emX1zjtDHZqAOK5xQHOECh6LmCm6eJnAbGvZQ/6mcJWnxJo9BY7iWSp5IPum66sfjKBE44bxuo29uNpybudUsiNfY8jrnOPKhiBWDmXUtYYHF0ASHg6VtwLE=","ak.pv":"710","ak.dpoabenc":"","ak.tf":i};if(""!==t)o["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))o["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(o)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:o,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+
+<body
+    data-bu="srf"
+    data-representation="web"
+    data-urn="urn:srf:article:20629420"
+    data-portal-urn="urn:srf:portal:news"
+    data-phase="prod"
+>
+
+
+<noscript class="nojs-banner">
+    <p class="nojs-banner__text">
+        Einige Elemente auf SRF.ch funktionieren nur mit aktiviertem JavaScript.
+    </p>
+</noscript>
+
+
+    <a href="#skiplink__contentlink"
+       class="js-skiplink h-offscreen h-offscreen-focusable h-offscreen-focusable--top">
+        Zum Inhalt springen
+    </a>
+
+
+                <div style="display:none;"><svg xmlns="http://www.w3.org/2000/svg"><g id="srf-logo" fill="none" fill-rule="evenodd"><path fill="#AF001D" d="M0 32h48V0H0z"/><g fill="#FFFFFF"><path d="M5.891 21.108l-.282 1.811c-.047.354.118.495.423.542.683.094 2.401.211 4.07.211 3.743 0 6.472-1.223 6.472-4.705 0-2.048-.894-3.577-4-4.377l-1.741-.447c-1.176-.306-1.718-.682-1.718-1.553 0-1.223 1.13-1.458 2.211-1.458 1.46 0 2.942.117 3.53.164.612.047.776-.024.87-.541l.284-1.765c.047-.353-.119-.494-.424-.54-.683-.095-2.189-.213-4.095-.213-3.883 0-5.764 1.694-5.764 4.377 0 2.423 1.317 3.859 3.6 4.446l1.741.448c1.435.377 2.047.8 2.047 1.694 0 1.317-.894 1.553-3.06 1.553-.987 0-2.704-.141-3.292-.188-.613-.048-.777.023-.872.54M36.246 14.52v-3.2h6.165c.47 0 .612-.166.612-.636V9.037c0-.47-.141-.635-.612-.635h-8.942c-.47 0-.612.164-.612.635v13.86c0 .47.142.635.612.635h2.165c.47 0 .612-.165.612-.636v-5.459h5.6c.47 0 .612-.164.612-.635v-1.647c0-.47-.142-.635-.612-.635h-5.6zM24.092 15.72l-.236.988c-.07.282-.094.423-.094.517 0 .236.07.424.236.706l2.8 5.036c.235.4.423.565.988.565h2.565c.329 0 .73-.212.353-.8l-3.436-5.695c1.153-.73 2.448-1.765 2.448-4.047 0-2.941-1.648-4.588-5.271-4.588h-5.248c-.471 0-.612.164-.612.635v13.86c0 .47.141.635.612.635h2.165c.47 0 .612-.165.612-.636V11.201h2.235c1.412 0 2.094.519 2.094 1.836 0 1.2-.54 1.577-1.082 1.812-.682.282-.918-.024-1.13.87"/></g></g></svg></div>                
+<header class="masthead masthead--universal masthead--compact masthead--sticky  js-masthead"
+        aria-labelledby="masthead-label" data-news-landmark="masthead">
+    <div class="masthead__wrapper">
+        <div class="masthead__universal" data-referrer-track="srg_mod1=header_navigation&srg_mod2=top_navi">
+            <h2 id="masthead-label" class="h-offscreen">Header</h2>
+
+            <div class="masthead__logo">
+                                    <a href="/" class="main-logo " >
+  <span class="h-offscreen">Schweizer Radio und Fernsehen, zur Startseite</span>
+  <svg aria-hidden="true" aria-disabled="true">
+    <use xlink:href="#srf-logo" />
+  </svg>
+</a>
+                            </div>
+
+            <nav class="masthead__portals" aria-labelledby="masthead-portals-label">
+                <h3 id="masthead-portals-label" class="h-offscreen">Rubriken</h3>
+                <ul class="portalsnav">
+      <li>
+      <a class="portalsnav__link" href="/news">News</a>
+    </li>
+      <li>
+      <a class="portalsnav__link" href="/sport">Sport</a>
+    </li>
+      <li>
+      <a class="portalsnav__link" href="/meteo">Meteo</a>
+    </li>
+      <li>
+      <a class="portalsnav__link" href="/kultur">Kultur</a>
+    </li>
+      <li>
+      <a class="portalsnav__link" href="/wissen">Wissen</a>
+    </li>
+      <li>
+      <a class="portalsnav__link" href="/kids">Kids</a>
+    </li>
+  </ul>
+            </nav>
+
+            <div class="masthead__button-wrapper">
+                                    
+
+
+<a
+   href="/play/tv"        class="button  button--transparent button--align-left button--no-spacing button--icon-button button--mixed-case button--no-text-on-mobile"
+  data-referrer-track="srg_mod1=header_navigation&srg_mod2=top_navi&srg_mod3=play"
+>
+
+  <span class="h-offscreen">Zur Übersicht von Play SRF</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--videothek masthead__icon"></span>
+      </span>
+    
+        
+            <span class="button-text">Play SRF</span>
+      </span>
+ </a>
+                    
+
+
+<a
+   href="/audio"        class="button  button--transparent button--align-left button--no-spacing button--icon-button button--mixed-case button--no-text-on-mobile"
+  data-referrer-track="srg_mod1=header_navigation&srg_mod2=top_navi&srg_mod3=audio"
+>
+
+  <span class="h-offscreen">Audio-Übersicht</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--audiothek masthead__icon"></span>
+      </span>
+    
+        
+            <span class="button-text">Audio</span>
+      </span>
+ </a>
+                
+                                    <nav aria-labelledby="main-nav-label" class="js-masthead-menu">
+                        <h3 id="main-nav-label" class="h-offscreen">Hauptmenü/Suche</h3>
+                        <div class="masthead__menu-button-container">
+                            
+
+
+<a
+   href="#skiplink__footer"        class="button  button--transparent button--align-left button--no-spacing button--icon-button button--mixed-case button--no-text-on-desktop-down"
+  data-modal-id="modal-menu" aria-haspopup="false" aria-expanded="false"
+>
+
+  <span class="h-offscreen">Hauptmenü/Suche</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--searchmenu masthead__icon js-searchmenu-icon"></span>
+      </span>
+    
+        
+            <span class="button-text">Menü</span>
+      </span>
+ </a>
+                            <script>
+    // Login check icon functionality (SRF only)
+    (function() {
+        const menuIcon = document.querySelector('.js-searchmenu-icon');
+        if (!menuIcon) return;
+        
+        function toggleMenuIcon(loggedIn) {
+            const button = menuIcon.closest('button, a');
+            
+            if (loggedIn) {
+                menuIcon.classList.remove('svg-icon--searchmenu');
+                menuIcon.classList.add('svg-icon--searchmenu-loggedin');
+                
+                // Update screenReaderText for logged in state
+                if (button) {
+                    const screenReaderSpan = button.querySelector('.h-offscreen');
+                    if (screenReaderSpan) {
+                        screenReaderSpan.textContent = 'SRG-Login angemeldet';
+                    }
+                }
+            } else {
+                menuIcon.classList.remove('svg-icon--searchmenu-loggedin');
+                menuIcon.classList.add('svg-icon--searchmenu');
+                
+                // Restore original screenReaderText for logged out state
+                if (button) {
+                    const screenReaderSpan = button.querySelector('.h-offscreen');
+                    if (screenReaderSpan) {
+                        screenReaderSpan.textContent = 'Hauptmenü/Suche';
+                    }
+                }
+            }
+        }
+        
+        // Listen for SRG Login events on window (where they're actually fired)
+        window.addEventListener('srgLogin:loggedIn', function(event) {
+            toggleMenuIcon(true);
+        });
+        
+        window.addEventListener('srgLogin:loggedOut', function(event) {
+            toggleMenuIcon(false);
+        });
+        
+    })();
+</script>
+                        </div>
+                    </nav>
+                            </div>
+
+            
+        </div>
+    </div>
+</header>
+
+
+        
+            
+            
+<div
+    style="display: none;"
+    class="app-promo-banner js-app-promo-banner"
+    data-js-plugin="app-promo-banner"
+    data-storage-key="app-promo-banner-news"
+    data-app-id="ch.srf.mobile"
+>
+    <div class="app-promo-banner__icon-wrapper" role="presentation" aria-hidden="true">
+        <span class="svg-icon svg-icon--news-app svg-icon--adjust-to-container"></span>
+    </div>
+
+    <div class="app-promo-banner__text-wrapper" role="presentation" aria-hidden="true">
+        <p class="app-promo-banner__title">SRF News App</p>
+        <p class="app-promo-banner__subtitle js-app-promo-banner-subtitle-not-installed">Bei Google Play</p>
+        <p class="app-promo-banner__subtitle js-app-promo-banner-subtitle-installed">In der App öffnen</p>
+    </div>
+
+    
+    
+
+
+<a
+   href="https://play.google.com/store/apps/details?id=ch.srf.mobile"   target="_blank"      class="button  button--theme-call-to-action button--pill button--pill-small button--themed js-app-promo-banner-button-not-installed"
+  data-event-track=event_source=app-promo-banner&event_type=click&event_name=open-app-store
+>
+
+  <span class="h-offscreen">News-App bei Google Play herunterladen (Wird in einem neuen Fenster geöffnet.)</span>
+
+  <span class="button-wrapper" aria-hidden="true" role="presentation">
+    
+        
+            <span class="button-text">Laden</span>
+      </span>
+ </a>
+
+    
+    
+
+
+<a
+   href="/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000"   target="_blank"      class="button  button--theme-call-to-action button--pill button--pill-small button--themed js-app-promo-banner-button-installed"
+  data-event-track=event_source=app-promo-banner&event_type=click&event_name=open-in-app
+>
+
+  <span class="h-offscreen">Diese Seite in der News-App öffnen</span>
+
+  <span class="button-wrapper" aria-hidden="true" role="presentation">
+    
+        
+            <span class="button-text">Öffnen</span>
+      </span>
+ </a>
+
+        
+
+
+<button
+          class="button app-promo-banner__close-button button--transparent button--align-left button--no-spacing button--icon-only js-app-promo-banner-close-button"
+  
+>
+
+  <span class="h-offscreen">Diesen Banner schliessen</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon app-promo-banner__custom-sized-button-icon">
+        <span class="svg-icon svg-icon--close svg-icon--adjust-to-container"></span>
+      </span>
+    
+        
+      </span>
+ </button>
+</div>
+    
+    
+        
+    <main class="articlepage">
+        <article class="articlepage__article js-article" itemscope itemtype="https://schema.org/Article">
+                                <nav class="articlepage__breadcrumbs"
+         data-news-landmark="breadcrumbs-top"
+         aria-label="Breadcrumbs">
+                <ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    <li class="breadcrumbs__item" itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+                <a class="breadcrumb__link" href="/news" data-referrer-track="srg_mod1=breadcrumb_navigation_top&amp;srg_mod2=1" itemprop="item">
+                    <span itemprop="name">News</span>
+                </a>
+                <meta itemprop="position" content="1">
+            </li>
+                    <li class="breadcrumbs__item" itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+                <a class="breadcrumb__link" href="/news/schweiz" data-referrer-track="srg_mod1=breadcrumb_navigation_top&amp;srg_mod2=2" itemprop="item">
+                    <span itemprop="name">Schweiz</span>
+                </a>
+                <meta itemprop="position" content="2">
+            </li>
+            </ol>
+    </nav>
+            
+                            <div id="skiplink__contentlink" class="h-offscreen h-skiplink-target" data-news-landmark="contentlink-target"></div>
+            
+            <link itemprop="mainEntityOfPage" href="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000"><meta itemprop="articleSection" content="News">
+<meta itemprop="datePublished" content="2016-04-25T17:58:00+02:00">
+<meta itemprop="dateModified" content="2016-04-25T17:58:00+02:00">
+<meta itemprop="identifier" content="urn:srf:article:20629420">
+<div itemprop="publisher" itemscope itemtype="https://schema.org/NewsMediaOrganization" aria-hidden="true" class="h-offscreen">
+    <meta itemprop="name" content="Schweizer Radio und Fernsehen (SRF)">
+    <meta itemprop="logo" content="/build/assets/srf_logo-BwERk_lU.svg">
+    <meta itemprop="url" content="https://www.srf.ch">
+</div>
+    <meta itemprop="image" content="https://www.srf.ch/static/cms/images/960w/9c5198.jpg">
+
+
+                                            <header class="article-header articlepage__article-header" data-news-landmark="article-header">
+    
+    <h1 class="article-title " itemprop="headline" data-news-landmark="article-title">
+                    <span class="article-title__overline" data-news-landmark="article-title-kicker">Schweiz</span>
+                                        <span class="h-offscreen" aria-hidden="true" role="presentation"> - </span>
+                            <span class="article-title__text" data-news-landmark="article-title-text">SEM schätzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000</span>
+            </h1>
+            <p class="article-lead" data-news-landmark="article-lead">Rund 76.000 Menschen leben ohne Aufenthaltsbewilligung in der Schweiz, sind also sogenannte Sans-Papiers. Davon geht eine neue Studie des Staatssekretariates für Migration (SEM) aus. Die meisten leben schon seit mehreren Jahren hier.</p>    
+                <div style="padding: 16px 0; margin-top: -24px;">
+            
+
+
+<button
+          class="button  button--pill button--theme-radio-srf-default button--themed button--pill-narrow-padding js-play-now-button h-element--hide"
+  data-target-medium-id=''
+                 data-ab-test-play-now-button
+                 data-js-plugin='play-now-button'
+                 data-i18n-text-playnow='Jetzt hören'
+                 data-i18n-text-pause='Pause'
+                 data-i18n-text-loading='Laden...'
+                 data-i18n-text-error='Fehler'
+                
+>
+
+  <span class="h-offscreen">Jetzt hören</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--play-audio"></span>
+      </span>
+    
+        
+            <span class="button-text">Jetzt hören</span>
+      </span>
+ </button>
+        </div>
+        
+        <div class="article-author " data-news-landmark="article-author">
+                    <p
+            class="article-author__date js-dateline"
+            data-publicationdate="2016-04-25T17:58:00+02:00"
+            data-modificationdate="2016-04-25T17:58:00+02:00"
+            data-i18n-text-published-today="Heute, #TIME# Uhr"
+            data-i18n-text-published-yesterday="Gestern, #TIME# Uhr"
+            data-i18n-text-published-else="#DATE#, #TIME# Uhr"
+            data-i18n-text-modified-today="Aktualisiert heute, #TIME# Uhr"
+            data-i18n-text-modified-yesterday="Aktualisiert gestern, #TIME# Uhr"
+            data-i18n-text-modified-else="Aktualisiert #DATE#, #TIME# Uhr"
+            data-news-landmark="article-author-date"
+        >
+            25.04.2016, 17:58
+        </p>
+        <div class="article-author__shimmer">
+            <span class="shimmer "></span>
+                                </div>
+    </div>
+</header>
+            
+
+            <div class="shimmer-box articlepage__shimmer-box">
+    <span class="shimmer shimmer--heading"></span>
+    <span class="shimmer shimmer--heading"></span>
+    <span class="shimmer shimmer--heading shimmer--short"></span>
+</div>
+
+                                                
+<div class="sharing-bar articlepage__sharing-bar" data-news-landmark="sharing-bar-top">
+    <hr class="horizontal-separator horizontal-separator--sharing-bar" role="presentation" aria-hidden="true" />
+    <div class="sharing-bar__container">
+        
+
+
+<button
+          class="button  button--share button--pill js-use-native-sharing-on-mobile"
+  
+                data-modal-id="flyout_article_share"
+                data-modal-yield-to-native-share
+                data-event-track="event_source=article_share_bar&event_name=share-flyout&event_value=open"
+                data-share-link="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000"
+                data-share-title="SEM schätzt Zahl der Sans-Papiers in der Schweiz auf 76'000"
+>
+
+  <span class="h-offscreen">Teilen</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--share"></span>
+      </span>
+    
+        
+            <span class="button-text">Teilen</span>
+      </span>
+ </button>
+    </div>
+</div>
+
+        
+
+<div
+    class="modal-flyout modal-flyout--in-content"
+    data-id="flyout_article_share"    data-animation="as-flyout-from-origin"
+    
+>
+    <div class="modal-flyout__overlay js-modal-overlay"></div>
+    <div class="js-modal-main-wrapper">
+                <div class="modal-flyout__head">
+            <div class="modal-flyout__title js-focus-target">Teilen</div>
+            <div class="modal-flyout__buttons">
+                
+
+
+<button
+          class="button js-close-modal button--transparent button--full-width button--no-spacing button--icon-button button--icon-only"
+  
+>
+
+  <span class="h-offscreen">Schliessen</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--close"></span>
+      </span>
+    
+        
+      </span>
+ </button>
+            </div>
+        </div>
+                <div class="modal-flyout__content">
+                    <ul class="menu-list js-menu-list modal-flyout--in-content">
+        <li class="menu-list__item">
+                
+<a href="#"
+    class="menu-link js-instant-share"
+    data-share-url="https://facebook.com/dialog/feed?app_id=520407055363160&link=https%3A%2F%2Fwww.srf.ch%2Fnews%2Fschweiz%2Fschweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000%3Fsrg_sm_medium%3Dfb&display=popup" data-share-width="655" data-share-height="400" data-event-track="event_source=article_share_bar_share-facebook&event_name=Teilen">
+
+            <span class="menu-link__icon-container">
+            <span class="svg-icon svg-icon--outline-facebook"></span>
+        </span>
+    
+    <span class="menu-link__text">
+                            <span class="h-offscreen">Auf Facebook teilen</span>
+            <span role="presentation" aria-hidden="true">Facebook</span>
+            </span>
+</a>
+    </li>
+        <li class="menu-list__item">
+                
+<a href="#"
+    class="menu-link js-instant-share"
+    data-share-url="https://bsky.app/intent/compose?text=SEM+sch%C3%A4tzt+Zahl+der+Sans-Papiers+in+der+Schweiz+auf+76%27000+https%3A%2F%2Fwww.srf.ch%2Fnews%2Fschweiz%2Fschweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000%3Fsrg_sm_medium%3Dbs" data-share-width="655" data-share-height="400" data-event-track="event_source=article_share_bar_share-bluesky&event_name=Teilen">
+
+            <span class="menu-link__icon-container">
+            <span class="svg-icon svg-icon--outline-bluesky"></span>
+        </span>
+    
+    <span class="menu-link__text">
+                            <span class="h-offscreen">Auf Bluesky teilen</span>
+            <span role="presentation" aria-hidden="true">Bluesky</span>
+            </span>
+</a>
+    </li>
+        <li class="menu-list__item">
+                
+<a href="#"
+    class="menu-link js-instant-share"
+    data-share-url="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.srf.ch%2Fnews%2Fschweiz%2Fschweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000%3Fsrg_sm_medium%3Dli" data-share-width="655" data-share-height="400" data-event-track="event_source=article_share_bar_share-linkedin&event_name=Teilen">
+
+            <span class="menu-link__icon-container">
+            <span class="svg-icon svg-icon--outline-linkedin"></span>
+        </span>
+    
+    <span class="menu-link__text">
+                            <span class="h-offscreen">Auf LinkedIn teilen</span>
+            <span role="presentation" aria-hidden="true">LinkedIn</span>
+            </span>
+</a>
+    </li>
+        <li class="menu-list__item">
+                
+<a href="#"
+    class="menu-link js-instant-share"
+    data-share-url="https://x.com/intent/tweet?url=https%3A%2F%2Fwww.srf.ch%2Fnews%2Fschweiz%2Fschweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000%3Fsrg_sm_medium%3Dtw&text=SEM+sch%C3%A4tzt+Zahl+der+Sans-Papiers+in+der+Schweiz+auf+76%27000+%23srfnews&via=srfnews" data-share-width="550" data-share-height="420" data-event-track="event_source=article_share_bar_share-twitter&event_name=Teilen">
+
+            <span class="menu-link__icon-container">
+            <span class="svg-icon svg-icon--outline-twitter-x"></span>
+        </span>
+    
+    <span class="menu-link__text">
+                            <span class="h-offscreen">Auf X teilen</span>
+            <span role="presentation" aria-hidden="true">X</span>
+            </span>
+</a>
+    </li>
+        <li class="menu-list__item">
+                
+<a href="#"
+    class="menu-link js-instant-share"
+    data-share-url="whatsapp://send?text=SEM+sch%C3%A4tzt+Zahl+der+Sans-Papiers+in+der+Schweiz+auf+76%27000+https%3A%2F%2Fwww.srf.ch%2Fnews%2Fschweiz%2Fschweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000%3Fsrg_sm_medium%3Dwa" data-event-track="event_source=article_share_bar_share-whatsapp&event_name=Teilen">
+
+            <span class="menu-link__icon-container">
+            <span class="svg-icon svg-icon--outline-whatsapp"></span>
+        </span>
+    
+    <span class="menu-link__text">
+                            <span class="h-offscreen">Per WhatsApp teilen</span>
+            <span role="presentation" aria-hidden="true">WhatsApp</span>
+            </span>
+</a>
+    </li>
+        <li class="menu-list__item">
+                
+<a href="mailto:?subject=SEM%20sch%C3%A4tzt%20Zahl%20der%20Sans-Papiers%20in%20der%20Schweiz%20auf%2076%27000&amp;body=https%3A%2F%2Fwww.srf.ch%2Fnews%2Fschweiz%2Fschweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000%3Fsrg_sm_medium%3Dem"
+    class="menu-link "
+    data-share-url="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000" data-event-track="event_source=article_share_bar_share-email&event_name=Teilen" target="_blank" rel="noopener">
+
+            <span class="menu-link__icon-container">
+            <span class="svg-icon svg-icon--outline-mail"></span>
+        </span>
+    
+    <span class="menu-link__text">
+                            <span class="h-offscreen">Per E-Mail teilen</span>
+            <span role="presentation" aria-hidden="true">E-Mail</span>
+            </span>
+</a>
+    </li>
+        <li class="menu-list__item">
+                
+<a href="#"
+    class="menu-link js-copy-to-clipboard js-copy-to-clipboard-link"
+    data-event-track="event_source=article_share_bar_share-clipboard&event_name=Teilen" data-clipboard-data="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000" data-success-text="Link kopiert" data-fail-text="Fehler! Erneut probieren?">
+
+            <span class="menu-link__icon-container">
+            <span class="svg-icon svg-icon--clipboard"></span>
+        </span>
+    
+    <span class="menu-link__text">
+                            <span class="h-offscreen">Link kopieren</span>
+            <span role="presentation" aria-hidden="true">Link kopieren</span>
+            </span>
+</a>
+    </li>
+    </ul>
+            </div>
+    </div>
+</div>
+                            
+                                        
+                            <section class="articlepage__article-content" itemprop="articleBody" data-news-landmark="article-content">
+                                                <div class="article-element article-element--bleed">
+        
+<figure
+    class="image-figure "
+    data-app-image
+    data-js-plugin="open-image-in-webview"
+>
+    
+    
+
+    <div
+        class="image js-image js-image-lazyload image--with-ratio"
+                    style="aspect-ratio: 1.78;"
+                data-image-provider="rokka"         data-image-id="435d92"             >
+                    <picture>
+                <img
+                    alt="Eine Person mit einer Schürzte und Gummihandschuhen."
+                                        class="image__img"
+                    loading="lazy"
+                                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                >
+            </picture>
+            </div>
+
+    
+    <figcaption class="media-caption media-caption--image-figure ">
+                    <span class="h-offscreen">Legende:</span>
+        
+        
+                    <span class="media-caption__description" data-app-image-description>
+                Zahlreiche Sans-Papiers schlagen sich mit Gelegenheitsarbeiten oder Hilfsarbeit durch.
+            </span>
+        
+                                    <span class="media-caption__source" data-app-image-source>
+                    Keystone / Symbolbild
+                </span>
+                    
+            </figcaption>
+</figure>
+    </div>
+                                            <p class="article-paragraph">Zwischen 58&#039;000 und 105&#039;000 Sans-Papiers aus Drittstaaten leben gemäss einer Schätzung des Staatssekretariats für Migration (SEM) in der Schweiz. Als wahrscheinlichste Zahl erachten Fachpersonen in der entsprechenden Studie 76&#039;000.</p>                                            <p class="article-paragraph">Ein Grossteil der Sans-Papier hält sich der Studie zufolge schon seit mehreren Jahren in der Schweiz auf. Etwa neun von zehn erwachsenen Sans-Papier sind erwerbstätig und finanziell unabhängig, wie das Staatssekretariat für Migration (SEM) zur Studie mitteilte. Viele arbeiteten jedoch in prekären Arbeitsbedingungen. Sie arbeiten häufig in Privathaushalten, im Bau- oder Gastgewerbe.</p>                                                        <h2 class="article-heading" id="toc_1">Neuregelung umstritten</h2>
+                                                <p class="article-paragraph">Die Hälfte besitzt auch keine nachobligatorische Ausbildung. Vor drei Jahren wurde zwar eine Regularisierungsmöglichkeit für Jugendliche, die eine Berufslehre absolvieren wollen, eingeführt. Diese wird nach Erkenntnissen der Studie jedoch nur selten genutzt. Häufiger beantragten jugendliche Sans-Papier und ihre Familien eine Härtefallbewilligung.</p>                                            <p class="article-paragraph">Über die Gründe sind sich die Fachpersonen uneinig: Die einen erachteten die Neuregelung als unnötig, den anderen gehe sie zu wenig weit, heisst es in der Studie. Auch Erwachsene mitgezählt, 2014 erhielten 391 Sans-Papiers im Rahmen der Härtefallregelung eine Aufenthaltsbewilligung.</p>                                    </section>
+            
+                                            <p class="article-reference articlepage__reference" data-news-landmark="article-reference"><span itemprop="author" itemScope itemType="https://schema.org/Person"><span itemprop="name">
+                        SRF 4 News, 16:00 Uhr; sda/horm; blur
+                    </span></span></p>            
+                                <div class="article-element article-element--bleed">
+                <noscript>
+            <div class="related-items-list">
+                                    <h2 class="related-items-list__heading">Mehr zum Thema</h2>
+                
+                <ul class="related-items-list__list">
+                                            <li class="related-items-list__item-wrapper">
+                            <a href="/news/basel-baselland-fuenf-basler-sans-papiers-outen-sich" class="related-item">
+                                <div class="related-item__image" aria-hidden="true">
+                                    
+    
+
+    <div
+        class="image js-image js-image-lazyload"
+                data-image-provider="rokka"         data-image-id="d869dd"             >
+                    <picture>
+                <img
+                    alt=""
+                                        class="image__img"
+                    loading="lazy"
+                                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                >
+            </picture>
+            </div>
+                                </div>
+                                <div class="related-item__content">
+                                                                            <p class="related-item__kicker">Basel Baselland</p>
+                                                                        <h3 class="related-item__title">Fünf Basler Sans-Papiers outen sich</h3>
+
+                                                                    </div>
+                            </a>
+                        </li>
+                                    </ul>
+            </div>
+        </noscript>
+
+        <div
+            data-list-heading="Mehr zum Thema"
+            class="js-related-items-list"
+            data-js-plugin="related-items-list"
+            data-current-article-id="20629420"
+            data-related-items="[{&quot;id&quot;:&quot;20624740&quot;,&quot;urn&quot;:&quot;urn:srf:article:20624740&quot;,&quot;shouldApplyOverrides&quot;:true,&quot;isNoCard&quot;:false,&quot;title&quot;:&quot;F\u00fcnf Basler Sans-Papiers outen sich&quot;,&quot;kicker&quot;:&quot;Basel Baselland&quot;,&quot;type&quot;:&quot;article&quot;,&quot;itemType&quot;:&quot;Thing&quot;,&quot;shortLead&quot;:&quot;Sie treten aus der Anonymit\u00e4t und stellen ein Gesuch - in der Hoffnung, dass sie in der Schweiz bleiben d\u00fcrfen.&quot;,&quot;link&quot;:&quot;\/news\/basel-baselland-fuenf-basler-sans-papiers-outen-sich&quot;,&quot;isBreaking&quot;:false,&quot;mediaIcon&quot;:&quot;audio&quot;,&quot;publicationDate&quot;:&quot;2016-04-07T15:17:00+02:00&quot;,&quot;modificationDate&quot;:&quot;2016-04-07T15:28:00+02:00&quot;,&quot;relatedPerson&quot;:null,&quot;commentInfo&quot;:{&quot;enabled&quot;:false,&quot;count&quot;:0},&quot;isLongform&quot;:false,&quot;image&quot;:{&quot;hash&quot;:&quot;d869dd&quot;,&quot;provider&quot;:&quot;rokka&quot;,&quot;id&quot;:&quot;d869dd&quot;,&quot;defaultSource&quot;:&quot;\/320ws\/d869dd.webp&quot;,&quot;hasWebPSupport&quot;:true},&quot;asset&quot;:null,&quot;mediaAspectRatio&quot;:null,&quot;representationLinks&quot;:{&quot;permalink&quot;:&quot;\/news\/basel-baselland-fuenf-basler-sans-papiers-outen-sich&quot;,&quot;web&quot;:&quot;\/news\/basel-baselland-fuenf-basler-sans-papiers-outen-sich&quot;,&quot;webview&quot;:&quot;\/article\/20624740\/webview&quot;},&quot;contentCategories&quot;:null,&quot;excludeFromListing&quot;:false,&quot;soloImageGallery&quot;:[],&quot;ttl&quot;:null,&quot;cacheKeys&quot;:[&quot;urn:srf:article:018ac407-a715-0364-61af-a5c43ed58e65&quot;,&quot;urn:srf:article:20624740&quot;],&quot;origin&quot;:&quot;nora&quot;,&quot;promoModule&quot;:[],&quot;children&quot;:[]}]"
+        ></div>
+    </div>
+            
+                                            <section data-js-plugin="dynamic-promo-banner"
+    data-portal="urn:srf:portal:news"
+    data-ios-store-img="/build/assets/app_store-nrwg-g_r.svg"
+    data-ios-store-alt="Im App-Store öffnen, Link öffnet im neuen Fenster"
+    data-android-store-img="/build/assets/play_store-LW-dZ3Hc.svg"
+    data-android-store-alt="Im Play-Store öffnen, Link öffnet im neuen Fenster"
+    data-close-text="Diesen Banner schliessen."
+    class="articlepage__banner-container">
+</section>
+                                <div class="js-end-of-article"></div>
+                    </article>
+    </main>
+
+            
+<div data-referrer-track="srg_mod1=crossteaser">
+    
+
+
+<div
+    class="collection js-collection collection--standard autobox js-autobox-collection collection--hidden collection--size-m-on-mobile"
+    data-urn="urn:srf:autobox:news"
+    data-referrer-track="srg_mod2=collection-standard&srg_mod3=Meistgelesene%20Artikel"
+        data-load-url-default="/aron/api/articles/autobox?businessUnit=srf&portalName=news&limit=12&representation=web"
+>
+                    <div class="collection__title-wrapper"><div class="collection__title-item collection__title-item--grower"><h2 class="collection__heading js-collection-heading">
+                                                                Meistgelesene Artikel
+                                                            </h2></div></div>        
+        
+                    <ul
+    class="collection__teaser-list js-teaser-list"
+    role="list"
+    >
+    </ul>
+
+        
+            
+    </div>
+</div>
+
+    
+                        <footer class="footer">
+  <h2 id="skiplink__footer" class="h-offscreen h-skiplink-target">Footer</h2>
+
+      <div class="footer__wrapper footer__wrapper--top">
+      <div class="search-header search-header--search-only">
+  <div class="search-header__logo">
+              <a href="/" class="main-logo search-header--search-only" aria-hidden=true tabindex=-1>
+  <span class="h-offscreen">Schweizer Radio und Fernsehen, zur Startseite</span>
+  <svg aria-hidden="true" aria-disabled="true">
+    <use xlink:href="#srf-logo" />
+  </svg>
+</a>
+        </div>
+
+  <h3 class="h-offscreen">Suche</h3>
+  <div class="search-header__search">
+    <form autocomplete="off"
+      class="search  js-search  "
+              data-typeahead-url="https://il.srf.ch/integrationlayer/2.0/srf/searchResultShowList.json?pageSize=8&amp;q="
+            data-suggestion-history=true
+      action="/suche"
+      role="search"
+      data-i18n-text-suggested-shows-label="Suchvorschläge zu Sendungen"
+      data-i18n-text-show-screenreader-text="Sendung: "
+      data-i18n-text-type-audio-screenreader-text="Typ: Audio"
+      data-i18n-text-type-video-screenreader-text="Typ: Video"
+      data-i18n-text-show-all-results="Alle Suchergebnisse anzeigen"
+              >
+      
+  <div class="search-wrapper">
+    <div class="search__input--wrapper">
+      <div class="search__icon"></div>
+
+      <label class="search__label">
+        <span class="h-offscreen">Suche, zeigt beim Tippen Resultate an</span>
+        <input class="search__input js-search-input"
+               name="q"
+               type="text"
+               placeholder="Suchen"
+               data-result-alert-text="Resultate für"
+               data-referrer-track="srg_mod1=search_footer"
+               
+               autocomplete="off"
+               maxlength="128"
+                              >
+      </label>
+
+            <a href="#" class="search__close js-search-close" aria-hidden="true" tabindex="-1">
+        <span class="svg-icon svg-icon--close svg-icon--clear-input"></span>
+      </a>
+
+      <button type="submit"
+              class="h-offscreen"
+              tabindex="-1"
+              aria-hidden="true">Suchen</button>
+    </div>
+    <ul class="search__results js-search-results"
+        aria-live="polite"
+        aria-relevant="additions">
+    </ul>
+  </div>
+  
+</form>
+  </div>
+
+  <div class="search-header__close-wrapper">
+    
+
+
+<button
+          class="button  button--transparent button--align-left button--no-spacing button--icon-button button--mixed-case button--no-text-on-mobile search-header__close js-close-modal"
+  
+>
+
+  <span class="h-offscreen">Menü schliessen</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--close"></span>
+      </span>
+    
+        
+            <span class="button-text">Schliessen</span>
+      </span>
+ </button>
+  </div>
+
+</div>
+    </div>
+  
+      
+  
+  
+<div class="globalnav "
+    id="globalnav--footer"
+    data-referrer-track="srg_mod1=footer">
+
+  <h3 class="h-offscreen">Hauptnavigation</h3>
+
+  <div class="globalnav__container">
+    <div class="globalnav__groups">
+                      <ul class="globalnav__group" aria-label="Rubriken">
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/">
+    <span class="globalnav-link__text">Home</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/news">
+    <span class="globalnav-link__text">News</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/sport">
+    <span class="globalnav-link__text">Sport</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/meteo">
+    <span class="globalnav-link__text">Meteo</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/kultur">
+    <span class="globalnav-link__text">Kultur</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/wissen">
+    <span class="globalnav-link__text">Wissen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/kids">
+    <span class="globalnav-link__text">Kids</span>
+</a>
+            </li>
+                  </ul>
+                      <ul class="globalnav__group" aria-label="TV &amp; Streaming">
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play">
+    <span class="globalnav-link__text">Play SRF Mediathek</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/live">
+    <span class="globalnav-link__text">Live TV</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sport/resultcenter/results">
+    <span class="globalnav-link__text">Sport-Livestreams &amp; Resultate</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/programm/heute">
+    <span class="globalnav-link__text">TV-Programm</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/themen/dokus--reportagen">
+    <span class="globalnav-link__text">Dokus &amp; Reportagen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/themen/film">
+    <span class="globalnav-link__text">Filme</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/themen/serien">
+    <span class="globalnav-link__text">Serien</span>
+</a>
+            </li>
+                  </ul>
+                      <ul class="globalnav__group" aria-label="Radio &amp; Podcast">
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio">
+    <span class="globalnav-link__text">Audio &amp; Podcasts</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/radio-srf-1-live-hoeren">
+    <span class="globalnav-link__text">Live Radio</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/radio-programm">
+    <span class="globalnav-link__text">Radio-Programm</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/themen">
+    <span class="globalnav-link__text">Podcast-Themen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/themen/hoerspiele-geschichten">
+    <span class="globalnav-link__text">Hörspiele</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/a-z">
+    <span class="globalnav-link__text">Alle SRF Podcasts</span>
+</a>
+            </li>
+                  </ul>
+                      <ul class="globalnav__group" aria-label="Weitere Angebote">
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sendungen/school">
+    <span class="globalnav-link__text">SRF school</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/verkehrsinformationen">
+    <span class="globalnav-link__text">Verkehrsinfo &amp; Staumeldungen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/meteo/radar">
+    <span class="globalnav-link__text">Niederschlagsradar</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/unternehmen/unternehmen/events">
+    <span class="globalnav-link__text">Events &amp; Erlebnisse</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/newsletter-uebersicht-srf-newsletter-abonnieren">
+    <span class="globalnav-link__text">Newsletter</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sendungen/archiv">
+    <span class="globalnav-link__text">Archiv</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sendungen/hallosrf">
+    <span class="globalnav-link__text">Hallo SRF!</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/unternehmen">
+    <span class="globalnav-link__text">Über SRF</span>
+</a>
+            </li>
+                  </ul>
+          </div>
+
+  </div>
+
+      <div class="globalnav__container globalnav__container--with-background">
+      <div class="globalnav__groups">
+        <ul class="globalnav__group globalnav__group--radio-stations" aria-label="Radioseiten">
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-1">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-1-square-BRF5hy-0.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 1</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-2-kultur">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-2-square-BnG0DiSc.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 2 Kultur</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-3">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-3-square-Ds8liY9N.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 3</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-4-news">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-4-square-CPpwSzVl.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 4 News</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-musikwelle">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-musikwelle-square-BoII6AQN.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF Musikwelle</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-virus">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-virus-square-DOEcWpsO.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF Virus</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="https://www.radioswissclassic.ch/de">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-swiss-classic-square-DXOgPz0h.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio Swiss Classic</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="https://www.radioswissjazz.ch/de">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-swiss-jazz-square-CXNcln6S.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio Swiss Jazz</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="https://www.radioswisspop.ch/de">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-swiss-pop-square-BYHEtXvn.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio Swiss Pop</span>
+</a>
+            </li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+  
+  <h3 class="h-offscreen">Metanavigation</h3>
+  <div class="footer__wrapper">
+    <ul class="footer__navigation" data-referrer-track="srg_mod1=footer">
+              <li class="footer__navigation-item"><a href="/website-und-apps-srf-apps" title="" class="footer__navigation-link">SRF Apps</a></li>
+        <li class="footer__navigation-item"><a href="/von-a-bis-z-themenliste" title="" class="footer__navigation-link">Themenliste</a></li>
+        <li class="footer__navigation-item"><a href="/korrekturen" title="" class="footer__navigation-link">Korrekturen</a></li>
+        <li class="footer__navigation-item"><a href="https://jobs.srf.ch/de/startseite/" title="" class="footer__navigation-link" target="_blank">Jobs</a></li>
+        <li class="footer__navigation-item"><a href="/hilfe-fragen-antworten-hilfestellungen" title="" class="footer__navigation-link">Hilfe</a></li>
+        <li class="footer__navigation-item"><a href="/hilfe-kontakt" title="" class="footer__navigation-link">Kontakt</a></li>
+        <li class="footer__navigation-item"><a href="https://medien.srf.ch" title="" class="footer__navigation-link" target="_blank">Medien</a></li>
+        <li class="footer__navigation-item"><a href="/ueber-srf-impressum" title="" class="footer__navigation-link">Impressum</a></li>
+        <li class="footer__navigation-item"><a target="_blank" rel="noopener noreferrer" href="https://www.srgssr.ch/de/datenschutz" title="" class="footer__navigation-link">Datenschutz</a></li>
+        <li class="footer__navigation-item"><a href="https://www.srgssr.ch/de/datenschutz" title="" class="footer__navigation-link js-cmp-settings">Datenschutz-Einstellungen</a></li>
+        <li class="footer__navigation-item"><a target="_blank" rel="noopener noreferrer" href="https://www.srgssr.ch/de/nutzungsbedingungen" title="" class="footer__navigation-link">Nutzungs&shy;bedingungen</a></li>
+        <li class="footer__navigation-item"><a href="https://www.playsuisse.ch" title="" class="footer__navigation-link">Play Suisse</a></li>
+          </ul>
+
+    <div class="footer__imprint">
+      <div class="footer__imprint-content">
+        <a href="https://www.srgssr.ch/" target="_blank">
+          <img class="footer__logo" src="/build/assets/srgssr_logo-B1R41pdd.svg" alt="Logo der SRG SSR" role="img" loading="lazy">
+        </a>
+        <p class="footer__description">SRF Schweizer Radio und Fernsehen,<br>Zweigniederlassung der Schweizerischen Radio- und Fernsehgesellschaft</p>
+      </div>
+
+              <ul class="footer__imprint-links">
+          <li class="footer__bu-link-item"><a href="https://www.rts.ch/" title="" class="footer__bu-link"><span>RTS</span></a></li>
+          <li class="footer__bu-link-item"><a href="https://www.rsi.ch/" title="" class="footer__bu-link"><span>RSI</span></a></li>
+          <li class="footer__bu-link-item"><a href="https://www.rtr.ch" title="" class="footer__bu-link"><span>RTR</span></a></li>
+          <li class="footer__bu-link-item"><a href="https://www.swissinfo.ch/" title="" class="footer__bu-link"><span>SWI</span></a></li>
+          <li class="footer__bu-link-item"><a href="https://www.3sat.de" title="" class="footer__bu-link"><span>3SAT</span></a></li>
+        </ul>
+          </div>
+  </div>
+</footer>
+        
+        <div
+    class="player-modal-container js-player-modal"
+    data-js-plugin="player-modal"
+></div>
+
+        <div class="modal  js-modal "
+     data-id="modal-menu"
+     data-animation="scale-from-origin">
+    <div class="modal__overlay js-modal-overlay"></div>
+
+    <div class="modal__main-wrapper  js-modal-main-wrapper">
+        <div class="modal__main-content js-modal-main-content">
+
+            
+                <span class="h-offscreen js-focus-target">Menü</span>
+
+    <div class="modal__content-wrapper">
+        <div class="search-header ">
+  <div class="search-header__logo">
+              <a href="/" class="main-logo " aria-hidden=true tabindex=-1>
+  <span class="h-offscreen">Schweizer Radio und Fernsehen, zur Startseite</span>
+  <svg aria-hidden="true" aria-disabled="true">
+    <use xlink:href="#srf-logo" />
+  </svg>
+</a>
+        </div>
+
+  <h3 class="h-offscreen">Suche</h3>
+  <div class="search-header__search">
+    <form autocomplete="off"
+      class="search  js-search  "
+              data-typeahead-url="https://il.srf.ch/integrationlayer/2.0/srf/searchResultShowList.json?pageSize=8&amp;q="
+            data-suggestion-history=true
+      action="/suche"
+      role="search"
+      data-i18n-text-suggested-shows-label="Suchvorschläge zu Sendungen"
+      data-i18n-text-show-screenreader-text="Sendung: "
+      data-i18n-text-type-audio-screenreader-text="Typ: Audio"
+      data-i18n-text-type-video-screenreader-text="Typ: Video"
+      data-i18n-text-show-all-results="Alle Suchergebnisse anzeigen"
+              >
+      
+  <div class="search-wrapper">
+    <div class="search__input--wrapper">
+      <div class="search__icon"></div>
+
+      <label class="search__label">
+        <span class="h-offscreen">Suche, zeigt beim Tippen Resultate an</span>
+        <input class="search__input js-search-input"
+               name="q"
+               type="text"
+               placeholder="Suchen"
+               data-result-alert-text="Resultate für"
+               data-referrer-track="srg_mod1=search_burger_navigation"
+               
+               autocomplete="off"
+               maxlength="128"
+                              >
+      </label>
+
+            <a href="#" class="search__close js-search-close" aria-hidden="true" tabindex="-1">
+        <span class="svg-icon svg-icon--close svg-icon--clear-input"></span>
+      </a>
+
+      <button type="submit"
+              class="h-offscreen"
+              tabindex="-1"
+              aria-hidden="true">Suchen</button>
+    </div>
+    <ul class="search__results js-search-results"
+        aria-live="polite"
+        aria-relevant="additions">
+    </ul>
+  </div>
+  
+</form>
+  </div>
+
+  <div class="search-header__close-wrapper">
+    
+
+
+<button
+          class="button  button--transparent button--align-left button--no-spacing button--icon-button button--mixed-case button--no-text-on-mobile search-header__close js-close-modal"
+  
+>
+
+  <span class="h-offscreen">Menü schliessen</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--close"></span>
+      </span>
+    
+        
+            <span class="button-text">Schliessen</span>
+      </span>
+ </button>
+  </div>
+
+</div>
+    </div>
+
+            <div
+    id="srg-login-app"
+    data-js-plugin="srg-login-app"
+></div>
+    
+    
+  
+  
+<div class="globalnav "
+    id="globalnav--menu"
+    data-referrer-track="srg_mod1=burger_navigation">
+
+  <h3 class="h-offscreen">Hauptnavigation</h3>
+
+  <div class="globalnav__container">
+    <div class="globalnav__groups">
+                      <ul class="globalnav__group" aria-label="Rubriken">
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/">
+    <span class="globalnav-link__text">Home</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/news">
+    <span class="globalnav-link__text">News</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/sport">
+    <span class="globalnav-link__text">Sport</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/meteo">
+    <span class="globalnav-link__text">Meteo</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/kultur">
+    <span class="globalnav-link__text">Kultur</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/wissen">
+    <span class="globalnav-link__text">Wissen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--portal" href="/kids">
+    <span class="globalnav-link__text">Kids</span>
+</a>
+            </li>
+                  </ul>
+                      <ul class="globalnav__group" aria-label="TV &amp; Streaming">
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play">
+    <span class="globalnav-link__text">Play SRF Mediathek</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/live">
+    <span class="globalnav-link__text">Live TV</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sport/resultcenter/results">
+    <span class="globalnav-link__text">Sport-Livestreams &amp; Resultate</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/programm/heute">
+    <span class="globalnav-link__text">TV-Programm</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/themen/dokus--reportagen">
+    <span class="globalnav-link__text">Dokus &amp; Reportagen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/themen/film">
+    <span class="globalnav-link__text">Filme</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/play/tv/themen/serien">
+    <span class="globalnav-link__text">Serien</span>
+</a>
+            </li>
+                  </ul>
+                      <ul class="globalnav__group" aria-label="Radio &amp; Podcast">
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio">
+    <span class="globalnav-link__text">Audio &amp; Podcasts</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/radio-srf-1-live-hoeren">
+    <span class="globalnav-link__text">Live Radio</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/radio-programm">
+    <span class="globalnav-link__text">Radio-Programm</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/themen">
+    <span class="globalnav-link__text">Podcast-Themen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/themen/hoerspiele-geschichten">
+    <span class="globalnav-link__text">Hörspiele</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/audio/a-z">
+    <span class="globalnav-link__text">Alle SRF Podcasts</span>
+</a>
+            </li>
+                  </ul>
+                      <ul class="globalnav__group" aria-label="Weitere Angebote">
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sendungen/school">
+    <span class="globalnav-link__text">SRF school</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/verkehrsinformationen">
+    <span class="globalnav-link__text">Verkehrsinfo &amp; Staumeldungen</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/meteo/radar">
+    <span class="globalnav-link__text">Niederschlagsradar</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/unternehmen/unternehmen/events">
+    <span class="globalnav-link__text">Events &amp; Erlebnisse</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/newsletter-uebersicht-srf-newsletter-abonnieren">
+    <span class="globalnav-link__text">Newsletter</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sendungen/archiv">
+    <span class="globalnav-link__text">Archiv</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/sendungen/hallosrf">
+    <span class="globalnav-link__text">Hallo SRF!</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link " href="/unternehmen">
+    <span class="globalnav-link__text">Über SRF</span>
+</a>
+            </li>
+                  </ul>
+          </div>
+
+  </div>
+
+      <div class="globalnav__container globalnav__container--with-background">
+      <div class="globalnav__groups">
+        <ul class="globalnav__group globalnav__group--radio-stations" aria-label="Radioseiten">
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-1">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-1-square-BRF5hy-0.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 1</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-2-kultur">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-2-square-BnG0DiSc.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 2 Kultur</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-3">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-3-square-Ds8liY9N.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 3</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-4-news">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-4-square-CPpwSzVl.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF 4 News</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-musikwelle">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-musikwelle-square-BoII6AQN.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF Musikwelle</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="/radio-srf-virus">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-srf-virus-square-DOEcWpsO.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio SRF Virus</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="https://www.radioswissclassic.ch/de">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-swiss-classic-square-DXOgPz0h.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio Swiss Classic</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="https://www.radioswissjazz.ch/de">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-swiss-jazz-square-CXNcln6S.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio Swiss Jazz</span>
+</a>
+            </li>
+                      <li class="globalnav__item">
+              <a class="globalnav-link globalnav-link--sub" href="https://www.radioswisspop.ch/de">
+      <img class="globalnav-link__img"
+      src="/build/assets/radio-swiss-pop-square-BYHEtXvn.svg"
+      loading="lazy"
+      alt=""
+    >
+    <span class="globalnav-link__text">Radio Swiss Pop</span>
+</a>
+            </li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+        </div>
+    </div>
+</div>
+    <div class="modal modal--bottom modal--no-overlay js-modal "
+     data-id="modal-survey"
+     data-animation="slide-from-bottom">
+    <div class="modal__overlay js-modal-overlay"></div>
+
+    <div class="modal__main-wrapper  js-modal-main-wrapper">
+        <div class="modal__main-content js-modal-main-content">
+
+            
+                <span class="h-offscreen js-focus-target">Umfrage in Modal</span>
+    <div class="modal__head">
+        <div class="modal__head-logo main-logo">
+                    </div>
+        
+
+
+<button
+          class="button  button--transparent button--align-left button--no-spacing button--icon-button button--mixed-case button--no-text-on-mobile js-close-modal js-survey-invitation-close-link"
+  
+>
+
+  <span class="h-offscreen">Schliessen</span>
+
+  <span class="button-wrapper button-wrapper--svg-icon" aria-hidden="true" role="presentation">
+          <span class="button-icon ">
+        <span class="svg-icon svg-icon--close"></span>
+      </span>
+    
+        
+      </span>
+ </button>
+    </div>
+    <div class="modal__content-wrapper js-modal-content-container">
+        <h2 class="modal__content-title js-survey-invitation-title"></h2>
+        <div class="modal__content-text js-survey-invitation-text"></div>
+        <a href="#" class="modal__content-link js-survey-invitation-link" target="_blank">
+            <span class="js-survey-invitation-link-text"></span>
+            <span class="h-offscreen"> (Wird in einem neuen Fenster geöffnet.)</span>
+        </a>
+    </div>
+        </div>
+    </div>
+</div>
+
+<span id="config__js" style="display:none;"
+      data-business_unit="srf"
+      data-environment="prod"
+      data-representation="web"
+      data-seo-url="https://www.srf.ch/news/schweiz/schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000"
+      data-analytics-enabled="1"
+      data-kameleoon-enabled="true"      data-analytics-survey-gizmo-beacon="OTAwMjg5MTUtNDIzNzJmNTY3NDA5NTA5ZDQ1NzA4Mzg5MDMxZmNhZDMyN2I3OGVjNGUyM2FkY2U0ZWE="
+      data-analytics-webtrekk-value-object="{&quot;staticUrl&quot;:&quot;https:\/\/data.srf.ch\/292330999892453\/wt?p=438,srf.web.srf.ch.news.schweiz.schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000,0,0,0,0,0,0,0,0&amp;cg1=SRF&amp;cg2=web&amp;cg3=srf.ch&amp;cg5=SEM+sch%C3%A4tzt+Zahl+der+Sans-Papiers+in+der+Schweiz+auf+76%27000&amp;cg6=News&amp;cg7=Schweiz&amp;cg10=20629420&amp;cp1=Artikel&amp;cp3=image%281%29&amp;cp14=News&amp;cp15=Schweiz&amp;cp31=3765&amp;cp32=2016.04.25&amp;cp33=20160425&amp;cp34=17%3A58&amp;cp35=1758&amp;cp36=201604251758&amp;cp52=schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000&quot;,&quot;config&quot;:{&quot;trackId&quot;:&quot;292330999892453&quot;,&quot;trackDomain&quot;:&quot;data.srf.ch&quot;,&quot;cookie&quot;:3,&quot;tabBrowsing&quot;:false,&quot;execRTA&quot;:false,&quot;execCDB&quot;:false,&quot;useCDBCache&quot;:false,&quot;useCDBScript&quot;:false,&quot;forceHTTPS&quot;:true},&quot;pageconfig&quot;:{&quot;contentId&quot;:&quot;srf.web.srf.ch.news.schweiz.schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000&quot;,&quot;domain&quot;:&quot;REGEXP:^([a-z1-9]*)([.]?)srf[.]ch$&quot;,&quot;linkTrack&quot;:&quot;standard&quot;,&quot;heatmap&quot;:false,&quot;form&quot;:false,&quot;executePluginFunction&quot;:null},&quot;contentGroup&quot;:{&quot;1&quot;:&quot;SRF&quot;,&quot;2&quot;:&quot;web&quot;,&quot;3&quot;:&quot;srf.ch&quot;,&quot;10&quot;:&quot;20629420&quot;,&quot;5&quot;:&quot;SEM sch\u00e4tzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000&quot;,&quot;6&quot;:&quot;News&quot;,&quot;7&quot;:&quot;Schweiz&quot;,&quot;8&quot;:null,&quot;9&quot;:null},&quot;customParameter&quot;:{&quot;1&quot;:&quot;Artikel&quot;,&quot;52&quot;:&quot;schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000&quot;,&quot;14&quot;:&quot;News&quot;,&quot;15&quot;:&quot;Schweiz&quot;,&quot;16&quot;:null,&quot;17&quot;:null,&quot;3&quot;:&quot;image(1)&quot;,&quot;5&quot;:null,&quot;userNeed&quot;:null,&quot;team&quot;:null,&quot;32&quot;:&quot;2016.04.25&quot;,&quot;33&quot;:&quot;20160425&quot;,&quot;34&quot;:&quot;17:58&quot;,&quot;35&quot;:&quot;1758&quot;,&quot;36&quot;:&quot;201604251758&quot;,&quot;31&quot;:&quot;3765&quot;},&quot;other&quot;:{&quot;rubric&quot;:&quot;Schweiz&quot;,&quot;author&quot;:&quot;SRF 4 News, 16:00 Uhr; sda\/horm; blur&quot;}}"
+      data-analytics-udp-value-object="{&quot;platform_id&quot;:&quot;srfweb&quot;,&quot;content_publication_datetime&quot;:&quot;2016-04-25T17:58:00+02:00&quot;,&quot;content_modification_datetime&quot;:&quot;2016-04-25T17:58:00+02:00&quot;,&quot;content_page_elements&quot;:&quot;image(1)&quot;,&quot;navigation_level_1&quot;:&quot;News&quot;,&quot;navigation_level_2&quot;:&quot;Schweiz&quot;,&quot;navigation_level_3&quot;:null,&quot;navigation_level_4&quot;:null,&quot;page_urn&quot;:&quot;urn:srf:article:20629420&quot;,&quot;business_unit&quot;:&quot;srf&quot;,&quot;content_title&quot;:&quot;schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000&quot;,&quot;content_title_pretty&quot;:&quot;SEM sch\u00e4tzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000&quot;,&quot;content_id&quot;:&quot;20629420&quot;,&quot;content_page_type&quot;:&quot;Artikel&quot;,&quot;content_publication_version&quot;:&quot;018b2440-fd0a-b8e2-0b2c-893eadff5a8f&quot;,&quot;content_category_1&quot;:&quot;News&quot;,&quot;content_category_2&quot;:&quot;Schweiz&quot;,&quot;content_category_3&quot;:null,&quot;content_category_4&quot;:null,&quot;schema_version&quot;:&quot;0.1.0&quot;,&quot;type&quot;:&quot;page_view&quot;,&quot;product&quot;:&quot;web&quot;,&quot;backend_system&quot;:&quot;cms&quot;,&quot;vector_id&quot;:&quot;web&quot;}"
+      data-analytics-webtrekk-survey-gizmo-value-object="{&quot;params&quot;:{&quot;content_publication_date&quot;:&quot;2016.04.25&quot;,&quot;content_publication_date_concatenated&quot;:&quot;20160425&quot;,&quot;content_publication_time&quot;:&quot;17:58&quot;,&quot;content_publication_time_concatenated&quot;:&quot;1758&quot;,&quot;content_publication_datetime_concatenated&quot;:&quot;201604251758&quot;,&quot;content_publication_datetime&quot;:&quot;2016-04-25T17:58:00+02:00&quot;,&quot;content_modification_datetime&quot;:&quot;2016-04-25T17:58:00+02:00&quot;,&quot;content_elapsed_since_publication&quot;:&quot;3765&quot;,&quot;content_page_elements&quot;:&quot;image(1)&quot;,&quot;content_tags_subject&quot;:null,&quot;navigation_level_1&quot;:&quot;News&quot;,&quot;navigation_level_2&quot;:&quot;Schweiz&quot;,&quot;navigation_level_3&quot;:null,&quot;navigation_level_4&quot;:null,&quot;navigation_bu_distributer&quot;:&quot;SRF&quot;,&quot;navigation_property_type&quot;:&quot;web&quot;,&quot;navigation_app_site_name&quot;:&quot;srf.ch&quot;,&quot;page_urn&quot;:&quot;urn:srf:article:20629420&quot;,&quot;content_title&quot;:&quot;schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000&quot;,&quot;content_title_pretty&quot;:&quot;SEM sch\u00e4tzt Zahl der Sans-Papiers in der Schweiz auf 76&#039;000&quot;,&quot;content_id&quot;:&quot;srf.web.srf.ch.news.schweiz.schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000&quot;,&quot;content_page_type&quot;:&quot;Artikel&quot;,&quot;content_publication_version&quot;:&quot;018b2440-fd0a-b8e2-0b2c-893eadff5a8f&quot;,&quot;content_category_1&quot;:&quot;News&quot;,&quot;content_category_2&quot;:&quot;Schweiz&quot;,&quot;content_category_3&quot;:null,&quot;content_category_4&quot;:null}}"
+      data-udp-endpoints="{&quot;tracking_host&quot;:&quot;https:\/\/api.datahub-srgssr.ch&quot;}"
+      data-rokka-url="/static/cms/images"
+      data-il-image-service-url="https://il.srf.ch/images"
+      data-il-base-url="https://il.srf.ch"
+      data-srg-login="{&quot;authority&quot;:&quot;https:\/\/account.srgssr.ch&quot;,&quot;clientId&quot;:&quot;2f4600b4-51b4-4788-957e-a12c6cc3536c&quot;,&quot;scopes&quot;:&quot;openid email roles profile&quot;}"
+      data-pillarbox-player-il-host="il.srgssr.ch"
+      data-usercentrics-ruleset-id="v6OFae9a5-aJ32"
+      data-clickjacking="true"
+></span>
+
+    <noscript>
+        <img
+            class="h-offscreen"
+            src="https://data.srf.ch/292330999892453/wt?p=438,srf.web.srf.ch.news.schweiz.schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000,0,0,0,0,0,0,0,0&cg1=SRF&cg2=web&cg3=srf.ch&cg5=SEM+sch%C3%A4tzt+Zahl+der+Sans-Papiers+in+der+Schweiz+auf+76%27000&cg6=News&cg7=Schweiz&cg10=20629420&cp1=Artikel&cp3=image%281%29&cp14=News&cp15=Schweiz&cp31=3765&cp32=2016.04.25&cp33=20160425&cp34=17%3A58&cp35=1758&cp36=201604251758&cp52=schweiz-sem-schaetzt-zahl-der-sans-papiers-in-der-schweiz-auf-76-000"
+            alt=""
+        >
+    </noscript>
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"NRJS-6f14e2fcf37c127d7b8","applicationID":"1569086410","transactionName":"Y11UYxBSXRVTBkBZCloXd1QWWlwIHSRmfys=","queueTime":1,"applicationTime":49,"atts":"TxpXFVhIThs=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
