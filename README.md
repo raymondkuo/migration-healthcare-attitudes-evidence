@@ -84,8 +84,14 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - **49** values corrected across 5 countries, each itemised with its evidence.
 - **76 of 78** distinct country-source document citations archived, across 72 URLs; the 2 that
   could not be retrieved are named.
-- Quality grades on all 1,699 displayed values: **A** 1,573 · **B** 10 · **C** 116 · **D** 0.
-- **No unverifiable values remain.** Korea's 2010–2015 overstayer figures, previously
+- Quality grades on all 1,698 displayed values: **A** 1,573 · **B** 112 · **C** 13 · **D** 0.
+- **Every retained number is traceable to an archived source.** Each of the 116 values that were
+  not machine-verified was checked against the archived source document: 102 were found in it and
+  regraded B, 13 are derived from a published range and are flagged ≈, and 1 (Russia 2020 irregular
+  stock) could not be traced to anything and was **deleted** — see `data/deleted_values.csv`.
+- **Every archived source file has a viewable mirror.** All 103 of them — PDFs, HTML, raw JSON/CSV
+  API payloads and spreadsheets — carry a rendered PNG or PDF companion, so a reader can see the
+  content without trusting an opaque binary.
   grade D because their only cited source was offline, were re-sourced to the Ministry
   of Justice series and one error was found and corrected.
 - **Every number in every country's Panel data table is a link.** Click a value, or the grade pill
@@ -118,7 +124,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 232 MB across ~990 files. No single file exceeds 50 MB; the largest is the UN WPP 2024
+- About 332 MB across ~1,190 files. No single file exceeds 50 MB; the largest is the UN WPP 2024
   workbook at 26 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.

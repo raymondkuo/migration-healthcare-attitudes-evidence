@@ -241,9 +241,15 @@ def build_country(iso, en_name, lang):
                 fname('evidence-pages/%s__%s' % (iso, v), lang)), int(r['year']))
             tip = ({'en': 'Evidence for %s %s %d', 'zh': '%s %s %d 年之佐證'}[lang]
                    % (cn, vlab(v, lang), int(r['year'])))
+            der = ''
+            if str(r.get(v + '_derived') or '') == 'yes':
+                dtip = t('derived_tip', lang) % (
+                    str(r.get(v + '_derivation') or ''), str(r.get(v + '_published_range') or ''))
+                der = '<abbr class="der" title="%s">%s</abbr>' % (E(dtip), t('derived_mark', lang))
             cells.append('<td class="num"><a class="cell" href="%s" title="%s">%s</a>'
-                         '<a class="cellg" href="%s" title="%s">%s</a></td>'
-                         % (href, E(tip), num(val), href, E(tip), pill(r.get(v + '_grade', ''))))
+                         '<a class="cellg" href="%s" title="%s">%s</a>%s</td>'
+                         % (href, E(tip), num(val), href, E(tip),
+                            pill(r.get(v + '_grade', '')), der))
         rows.append('<tr>' + ''.join(cells) + '</tr>')
     dtable = ('<div class="tablewrap"><table><thead><tr>' + head + '</tr></thead><tbody>'
               + ''.join(rows) + '</tbody></table></div>')
@@ -333,8 +339,10 @@ def build_country(iso, en_name, lang):
      '  <p class="sub">' + t('panel_sub', lang)
      + pill('A') + ' ' + gl['A'] + '、' * (lang == 'zh') + (', ' if lang == 'en' else '')
      + pill('B') + ' ' + gl['B'] + ('、' if lang == 'zh' else ', ')
-     + pill('C') + ' ' + gl['C'] + ('、' if lang == 'zh' else ', ')
-     + pill('D') + ' ' + gl['D'] + ('。' if lang == 'zh' else '.') + '</p>\n  ' + dtable + '\n'
+     + pill('C') + ' ' + gl['C'] + ('。' if lang == 'zh' else '.') + '</p>\n'
+     + '  <p class="sub" style="margin-top:-10px">'
+     + (t('derived_legend', lang) % ('<abbr class="der">%s</abbr>' % t('derived_mark', lang)))
+     + '</p>\n  ' + dtable + '\n'
      '  <p style="margin-top:12px">'
      + filelink('../evidence/countries/%s/data_from_source.csv' % iso, t('dl_csv', lang))
      + filelink('../evidence/countries/%s/value_check.csv' % iso, t('dl_check', lang))

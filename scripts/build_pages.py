@@ -11,6 +11,25 @@ import i18n_content as C
 from i18n import GRADE_SHORT
 
 S, DT, V, M = C.P['sources'], C.P['data'], C.P['verification'], C.P['methods']
+
+# every archived source file has a rendered visual companion; index them by folder+file
+MIRROR = {}
+_mp = os.path.join(D, 'source_mirrors.csv')
+if os.path.exists(_mp):
+    for _, _r in pd.read_csv(_mp).iterrows():
+        ms = [x for x in str(_r.get('mirrors') or '').split(';') if x]
+        if ms:
+            MIRROR[(str(_r['folder']), str(_r['source_file']))] = ms
+
+
+def mirror_links(folder, filename, lang):
+    """Download links for the rendered mirrors of one archived file."""
+    out = ''
+    for m in MIRROR.get((folder, filename), []):
+        lab = ('PDF mirror' if m.lower().endswith('.pdf') else 'screenshot') if lang == 'en'             else ('PDF 鏡像' if m.lower().endswith('.pdf') else '截圖')
+        out += filelink(folder + '/' + m, lab)
+    return out
+
 snap_by = {}
 for _, s in snaps.iterrows():
     snap_by.setdefault((s['iso3'], s['source_url']), []).append(s)
@@ -29,7 +48,8 @@ def build_sources(lang):
         'color:var(--muted)">%s</a></td><td class="num">%s</td><td>%s</td></tr>'
         % (E(a['publisher']), E(a['description']), E(a['query_url']),
            E(str(a['query_url'])[:95]), num(a['bytes']),
-           filelink(a['path'], os.path.basename(str(a['path']))))
+           filelink(a['path'], os.path.basename(str(a['path'])))
+           + mirror_links(os.path.dirname(str(a['path'])), os.path.basename(str(a['path'])), lang))
         for _, a in apis.iterrows())
     api_table = ('<div class="tablewrap"><table><thead><tr><th>' + L(S['col_publisher'], lang)
                  + '</th><th>' + L(S['col_dataset'], lang) + '</th><th>' + L(S['col_query'], lang)
@@ -73,6 +93,7 @@ def build_sources(lang):
         if lf and lf != 'nan':
             links.append(filelink('evidence/countries/%s/%s' % (iso, lf),
                                   {'en': 'file', 'zh': '檔案'}[lang]))
+            links.append(mirror_links('evidence/countries/%s' % iso, lf, lang))
         for s in snap_by.get((iso, url), []):
             if isinstance(s['pdf_mirror'], str) and s['pdf_mirror']:
                 links.append(filelink('evidence/countries/%s/%s' % (iso, s['pdf_mirror']), 'PDF'))

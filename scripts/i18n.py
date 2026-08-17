@@ -220,6 +220,14 @@ T = {
                   '已改採法務部《出入國·外國人政策統計年報》與政府開放資料之官方序列。'
                   '其中 5 筆完全一致；2015 年該筆經查為 8 月 31 日之時點數，'
                   '與其餘年度之年底數不一致，已更正為官方年底數 214,168。'},
+ 'derived_mark': {'en': '≈', 'zh': '≈'},
+ 'derived_tip': {'en': 'Derived value: %s. Published source range: %s. Use the range, not this midpoint, for any claim about level.',
+                 'zh': '推導值：%s。來源公布區間：%s。若要陳述水準，請引用區間而非此中點值。'},
+ 'derived_legend': {'en': 'A number marked %s is <strong>derived</strong> from its source rather than published by it — for example the midpoint of a published range. The source’s own range is shown on the evidence page.',
+                    'zh': '標示 %s 的數字為<strong>推導值</strong>，並非來源直接公布之數字——例如公布區間的中點。來源本身的區間載於佐證頁。'},
+ 'derived_h': {'en': 'Derived value', 'zh': '推導值'},
+ 'derived_range_label': {'en': 'Published source range', 'zh': '來源公布區間'},
+ 'derivation_label': {'en': 'How it was derived', 'zh': '推導方式'},
  'finding_h': {'en': 'The substantive finding', 'zh': '實質發現'},
  'finding_sub': {'en': 'Verification was not a formality. It changed the data.',
                  'zh': '查證並非形式作業，它實際改動了資料。'},

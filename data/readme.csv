@@ -17,9 +17,9 @@ Corrections applied,49 values across 5 countries (see Corrections_applied)
 ,
 CELL GRADES,
 "A - re-derived from a machine-readable official source, exact match",1573
-B - confirmed by reading the retrieved source document,10
-"C - source document retrieved, modelled estimate not re-derivable",116
-D - cited source could not be retrieved,0
+B - the published figure appears in the retrieved source document,112
+"C - derived from the source (midpoint of a published range), flagged",13
+D - not traceable to an archived source; such values were deleted,0
 ,
 HOW TO USE THIS FOR THE HEALTHCARE-ATTITUDES STUDY,
 Main regressor,"foreign_nationals_pct_pop - the share of residents who are non-nationals. This is the population actually at issue in ""publicly funded healthcare for non-nationals"", it covers 34 of 40 countries, and every value is graded A or B."
@@ -43,3 +43,5 @@ countries/<ISO3>_<Name>/,"One folder per country: README.md, data_from_source.cs
 data_raw/,"The bulk source downloads (World Bank, Eurostat, OECD, UN) used for verification."
 verification/,The full machine-readable verification output.
 scripts/,"Every script used, so the whole check can be re-run."
+Values flagged as derived,13
+Values deleted as untraceable,1 (Russia 2020 irregular stock; see Deleted_values)

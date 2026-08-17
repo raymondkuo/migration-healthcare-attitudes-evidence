@@ -118,6 +118,12 @@ def build(iso3, en_name, v, lang):
                     '<td>%s</td><td>%s</td><td class="wrap-any">%s</td><td>%s</td></tr>'
                     % (y, y, num(r[v]), pill(r.get(v + '_grade', '')), ver, E(src[:110]), E(ref)))
 
+    derived = next((x for x in (sub[v + '_derived'] if (v + '_derived') in sub else [])
+                    if isinstance(x, str) and x.strip() == 'yes'), '')
+    drange = next((x for x in (sub[v + '_published_range'] if (v + '_published_range') in sub else [])
+                   if isinstance(x, str) and x.strip()), '')
+    dhow = next((x for x in (sub[v + '_derivation'] if (v + '_derivation') in sub else [])
+                 if isinstance(x, str) and x.strip()), '')
     note = next((x for x in (sub[v + '_note'] if (v + '_note') in sub else [])
                  if isinstance(x, str) and x.strip()), '')
     vnote = next((x for x in (sub[v + '_verification'] if (v + '_verification') in sub else [])
@@ -152,6 +158,10 @@ def build(iso3, en_name, v, lang):
      + '</th><th>' + t('col_verif', lang) + '</th><th>' + t('col_source', lang)
      + '</th><th>' + t('col_refdate', lang) + '</th></tr></thead><tbody>'
      + ''.join(rows) + '</tbody></table></div>\n'
+     + ('  <div class="note warn"><strong>' + t('derived_h', lang) + ' <abbr class="der">'
+        + t('derived_mark', lang) + '</abbr></strong><br>' + t('derivation_label', lang) + '：'
+        + E(dhow) + '<br>' + t('derived_range_label', lang) + '：<strong>' + E(drange)
+        + '</strong></div>\n' if derived else '')
      + ('  <div class="note">' + t('ev_defnote', lang) + E(note) + '</div>\n' if note else '')
      + ('  <div class="note">' + t('ev_confirm', lang) + E(vnote) + '</div>\n' if vnote else '')
      + '</div></section>\n\n'
