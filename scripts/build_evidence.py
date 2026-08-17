@@ -5,6 +5,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, EV, D, ACCESS, panel, vlog, reg, corr, snaps, apis, pubs,
+                  artifacts as blib_artifacts,
                   ALLVARS, E, num, pill, filelink, page, table, cname, vlab, fname, t,
                   reason_zh)
 import i18n_content as C
@@ -66,6 +67,13 @@ def build(iso3, en_name, v, lang):
         arts.append((label, rel))
 
     for u in urls:
+        # the shared resolver covers archived originals, rendered mirrors, raw payloads,
+        # publisher-page mirrors and page snapshots
+        _regrows = reg_by.get((iso3, u), [])
+        _lfs = [r0.get('local_file') for r0 in _regrows] or [None]
+        for _lf in _lfs:
+            for lab, rel in blib_artifacts(iso3, u, _lf, lang):
+                add(lab, rel)
         k = publisher_for(u)
         if k:
             pr = pub_by_key.get(k)

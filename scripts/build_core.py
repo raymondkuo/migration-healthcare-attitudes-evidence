@@ -5,6 +5,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, EV, D, ACCESS, panel, qual, corr, vlog, reg, apis, snaps,
+                  artifact_links,
                   VARS, ALLVARS, E, num, pill, filelink, page, table, cname, vlab,
                   fname, usable_zh, T, t, GRADE_DESC, GRADE_SHORT, VERTAG, COMPARABILITY,
                   reason_zh)
@@ -285,30 +286,14 @@ def build_country(iso, en_name, lang):
     srows = []
     for _, r in cr.drop_duplicates(subset=['source_url', 'variable']).iterrows():
         url = str(r['source_url'])
-        links = []
-        lf = str(r.get('local_file') or '')
-        if r['retrieval'] == 'VERIFIED_API':
-            base = url.split('?')[0]
-            for _, a in apis[apis.query_url.astype(str).str.split('?').str[0] == base].iterrows():
-                links.append(filelink('../' + a['path'], t('art_raw', lang)))
-        else:
-            if lf and lf != 'nan':
-                links.append(filelink('../evidence/countries/%s/%s' % (iso, lf),
-                                      {'en': 'archived copy', 'zh': '存檔備份'}[lang]))
-            for s in snap_by.get((iso, url), []):
-                if isinstance(s['pdf_mirror'], str) and s['pdf_mirror']:
-                    links.append(filelink('../evidence/countries/%s/%s' % (iso, s['pdf_mirror']),
-                                          {'en': 'PDF mirror', 'zh': 'PDF 鏡像'}[lang]))
-                if isinstance(s['png_screenshot'], str) and s['png_screenshot']:
-                    links.append(filelink('../evidence/countries/%s/%s' % (iso, s['png_screenshot']),
-                                          {'en': 'screenshot', 'zh': '截圖'}[lang]))
+        links = artifact_links(iso, url, r.get('local_file'), lang, up='../')
         if not links:
-            links.append('<span class="tag bad">%s</span>' % C.P['sources']['tag_notret'][lang])
+            links = '<span class="tag bad">%s</span>' % C.P['sources']['tag_notret'][lang]
         srows.append('<tr><td>%s</td><td class="num">%s</td><td class="wrap-any">%s<br>'
                      '<a href="%s" rel="nofollow noopener" style="font-size:11.5px;'
                      'word-break:break-all;color:var(--muted)">%s</a></td><td>%s</td></tr>'
                      % (E(vlab(r['variable'], lang)), E(r['years']),
-                        E(str(r['source_name'])[:150]), E(url), E(url[:100]), ''.join(links)))
+                        E(str(r['source_name'])[:150]), E(url), E(url[:100]), links))
     stable = ('<div class="tablewrap"><table><thead><tr><th>' + t('col_var', lang)
               + '</th><th class="num">' + t('col_years', lang) + '</th><th>'
               + t('col_source', lang) + '</th><th>' + t('col_archived', lang)

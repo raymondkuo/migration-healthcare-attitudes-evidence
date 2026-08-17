@@ -152,3 +152,123 @@ def table(df, cols, headers, numcols=(), rawcols=(), maxlen=None):
 
 def usable_zh(x):
     return USABLE.get(str(x), str(x))
+
+
+# =====================================================================================
+# Archived artifacts for one source.
+# Every source row anywhere on the site resolves through this, so the country pages,
+# the evidence pages and the site-wide Sources page all offer the same set of files:
+# the archived original, its rendered mirror, the publisher page mirror, and any
+# page snapshot.
+# =====================================================================================
+_mirror_idx = {}
+_mp = os.path.join(D, 'source_mirrors.csv')
+if os.path.exists(_mp):
+    for _, _r in pd.read_csv(_mp).iterrows():
+        _ms = [x for x in str(_r.get('mirrors') or '').split(';') if x]
+        if _ms:
+            _mirror_idx[(str(_r['folder']), str(_r['source_file']))] = _ms
+
+_pub_by_key = {}
+_pp = os.path.join(D, 'api_publisher_snapshots.csv')
+if os.path.exists(_pp):
+    for _, _r in pd.read_csv(_pp).iterrows():
+        _pub_by_key[_r['key']] = _r
+
+_apis = pd.read_csv(os.path.join(D, 'api_snapshots.csv')) if \
+    os.path.exists(os.path.join(D, 'api_snapshots.csv')) else pd.DataFrame()
+
+_snap_by = {}
+_sp = os.path.join(D, 'web_snapshots.csv')
+if os.path.exists(_sp):
+    for _, _r in pd.read_csv(_sp).iterrows():
+        _snap_by.setdefault((_r['iso3'], str(_r['source_url'])), []).append(_r)
+
+
+def publisher_key(url):
+    u = str(url)
+    if 'api.worldbank.org' in u and 'SP.POP.TOTL' in u:
+        return 'worldbank_SP_POP_TOTL'
+    if 'api.worldbank.org' in u and 'SM.POP.TOTL' in u:
+        return 'worldbank_SM_POP_TOTL'
+    for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
+        if k in u:
+            return 'eurostat_' + k
+    if 'sdmx.oecd.org' in u:
+        return 'oecd_international_migration_database'
+    if 'population.un.org' in u:
+        return 'un_wpp_2024'
+    if 'un.org/development/desa' in u:
+        return 'un_desa_international_migrant_stock_2024'
+    return None
+
+
+def _mirrors_of(folder, filename, lang):
+    out = []
+    for m in _mirror_idx.get((folder, filename), []):
+        is_pdf = m.lower().endswith('.pdf')
+        lab = ({'en': 'PDF mirror', 'zh': 'PDF 鏡像'} if is_pdf
+               else {'en': 'screenshot', 'zh': '截圖'})[lang]
+        out.append((lab, folder + '/' + m))
+    return out
+
+
+def artifacts(iso3, url, local_file, lang, is_api=False):
+    """All archived files for one source, as (label, path-from-site-root)."""
+    out, seen = [], set()
+
+    def add(label, rel):
+        if rel and rel not in seen and os.path.isfile(
+                os.path.join(SITE, rel.replace('/', os.sep))):
+            seen.add(rel)
+            out.append((label, rel))
+
+    url = str(url or '')
+    lf = str(local_file or '')
+
+    # 1. the archived original document, and its rendered mirror
+    if lf and lf != 'nan':
+        folder = 'evidence/countries/%s' % iso3
+        add({'en': 'archived copy', 'zh': '存檔備份'}[lang], folder + '/' + lf)
+        for lab, rel in _mirrors_of(folder, lf, lang):
+            add(lab, rel)
+
+    # 2. raw API payloads for this query, and their rendered mirrors
+    if len(_apis):
+        base = url.split('?')[0]
+        for _, a in _apis.iterrows():
+            ap = str(a['path'])
+            if str(a['query_url']).split('?')[0] != base:
+                continue
+            add(t('art_raw', lang), ap)
+            for lab, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                add(lab, rel)
+
+    # 3. the publisher's own dataset page, mirrored
+    k = publisher_key(url)
+    if k and k in _pub_by_key:
+        pr = _pub_by_key[k]
+        if isinstance(pr.get('pdf'), str) and pr['pdf']:
+            add(t('art_pubpdf', lang), pr['pdf'])
+        if isinstance(pr.get('png'), str) and pr['png']:
+            add(t('art_pubpng', lang), pr['png'])
+        if k == 'oecd_international_migration_database':
+            add(t('art_oecdxml', lang), 'evidence/api/oecd/DSD_MIG_dataflow_metadata.xml')
+            for _, a in _apis[_apis.path.astype(str).str.contains('oecd/%s_' % iso3, na=False)].iterrows():
+                ap = str(a['path'])
+                add(t('art_sdmx', lang) % os.path.basename(ap), ap)
+                for lab, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab, rel)
+
+    # 4. snapshots of the source web page
+    for s in _snap_by.get((iso3, url), []):
+        if isinstance(s['pdf_mirror'], str) and s['pdf_mirror']:
+            add(t('art_pdfmirror', lang), 'evidence/countries/%s/%s' % (iso3, s['pdf_mirror']))
+        if isinstance(s['png_screenshot'], str) and s['png_screenshot']:
+            add(t('art_screenshot', lang), 'evidence/countries/%s/%s' % (iso3, s['png_screenshot']))
+    return out
+
+
+def artifact_links(iso3, url, local_file, lang, up=''):
+    arts = artifacts(iso3, url, local_file, lang)
+    return ''.join(filelink(up + rel, lab) for lab, rel in arts)

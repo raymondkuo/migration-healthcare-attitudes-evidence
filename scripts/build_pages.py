@@ -6,7 +6,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, D, ACCESS, panel, qual, corr, issues, vlog, reg, codeb, apis,
                   snaps, irrall, pubs, VARS, E, num, pill, filelink, page, table,
-                  vlab, fname, t, GRADE_DESC, COMPARABILITY, reason_zh)
+                  vlab, fname, t, GRADE_DESC, COMPARABILITY, reason_zh, artifact_links)
 import i18n_content as C
 from i18n import GRADE_SHORT
 
@@ -88,17 +88,7 @@ def build_sources(lang):
     drows = []
     for _, r in docs.sort_values(['iso3', 'variable']).iterrows():
         iso, url = r['iso3'], str(r['source_url'])
-        links = []
-        lf = str(r.get('local_file') or '')
-        if lf and lf != 'nan':
-            links.append(filelink('evidence/countries/%s/%s' % (iso, lf),
-                                  {'en': 'file', 'zh': '檔案'}[lang]))
-            links.append(mirror_links('evidence/countries/%s' % iso, lf, lang))
-        for s in snap_by.get((iso, url), []):
-            if isinstance(s['pdf_mirror'], str) and s['pdf_mirror']:
-                links.append(filelink('evidence/countries/%s/%s' % (iso, s['pdf_mirror']), 'PDF'))
-            if isinstance(s['png_screenshot'], str) and s['png_screenshot']:
-                links.append(filelink('evidence/countries/%s/%s' % (iso, s['png_screenshot']), 'PNG'))
+        links = [artifact_links(iso, url, r.get('local_file'), lang)]
         cls, key = TAG.get(str(r.get('outcome', '')), ('', 'tag_archived'))
         note = str(r.get('note') or '')
         status = '<span class="tag %s">%s</span>' % (cls, L(S[key], lang))
