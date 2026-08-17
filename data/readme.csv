@@ -16,10 +16,10 @@ Document source citations,78 distinct country-source citations across 72 URLs
 Corrections applied,49 values across 5 countries (see Corrections_applied)
 ,
 CELL GRADES,
-"A - re-derived from a machine-readable official source, exact match",1564
-B - confirmed by reading the retrieved source document,11
-"C - source document retrieved, modelled estimate not re-derivable",118
-D - cited source could not be retrieved,6
+"A - re-derived from a machine-readable official source, exact match",1573
+B - confirmed by reading the retrieved source document,10
+"C - source document retrieved, modelled estimate not re-derivable",116
+D - cited source could not be retrieved,0
 ,
 HOW TO USE THIS FOR THE HEALTHCARE-ATTITUDES STUDY,
 Main regressor,"foreign_nationals_pct_pop - the share of residents who are non-nationals. This is the population actually at issue in ""publicly funded healthcare for non-nationals"", it covers 34 of 40 countries, and every value is graded A or B."

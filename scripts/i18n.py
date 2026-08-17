@@ -209,13 +209,17 @@ T = {
  'reliab_h': {'en': 'How reliable is each value?', 'zh': '每個數值的可靠程度如何？'},
  'grade_col': {'en': 'Grade', 'zh': '等級'}, 'mean_col': {'en': 'Meaning', 'zh': '定義'},
  'values_col': {'en': 'Values', 'zh': '數值數'}, 'share_col': {'en': 'Share', 'zh': '占比'},
- 'd_note': {'en': '<strong>The six D-graded values</strong> are Korea\'s 2010–2015 overstayer '
-                  'figures. Their only source is a Korean National Police University publication '
-                  'whose host no longer responds, so they could not be checked against anything. '
-                  'They are retained and flagged rather than dropped.',
-            'zh': '<strong>6 筆評為 D 級的數值</strong>為南韓 2010–2015 年逾期停留人數。'
-                  '其唯一來源為韓國警察大學出版品，該網站現已無回應，因此無法與任何來源核對。'
-                  '這些數值予以保留並明確標示，而非逕行刪除。'},
+ 'd_note': {'en': '<strong>No values are graded D.</strong> The six that were &mdash; '
+                  "Korea's 2010–2015 overstayer figures, whose only cited source had gone "
+                  'offline &mdash; were re-sourced to the Ministry of Justice Immigration '
+                  'Statistical Yearbook and open-data series. Five matched exactly; the 2015 '
+                  'value proved to be a 31 August snapshot in an otherwise year-end series and '
+                  'was corrected to the official 214,168.',
+            'zh': '<strong>目前已無評為 D 級的數值。</strong>原先的 6 筆&mdash;&mdash;'
+                  '南韓 2010–2015 年逾期停留人數，其唯一來源已離線&mdash;&mdash;'
+                  '已改採法務部《出入國·外國人政策統計年報》與政府開放資料之官方序列。'
+                  '其中 5 筆完全一致；2015 年該筆經查為 8 月 31 日之時點數，'
+                  '與其餘年度之年底數不一致，已更正為官方年底數 214,168。'},
  'finding_h': {'en': 'The substantive finding', 'zh': '實質發現'},
  'finding_sub': {'en': 'Verification was not a formality. It changed the data.',
                  'zh': '查證並非形式作業，它實際改動了資料。'},

@@ -84,7 +84,10 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - **49** values corrected across 5 countries, each itemised with its evidence.
 - **76 of 78** distinct country-source document citations archived, across 72 URLs; the 2 that
   could not be retrieved are named.
-- Quality grades on all 1,699 displayed values: **A** 1,564 · **B** 11 · **C** 118 · **D** 6.
+- Quality grades on all 1,699 displayed values: **A** 1,573 · **B** 10 · **C** 116 · **D** 0.
+- **No unverifiable values remain.** Korea's 2010–2015 overstayer figures, previously
+  grade D because their only cited source was offline, were re-sourced to the Ministry
+  of Justice series and one error was found and corrected.
 - **Every number in every country's Panel data table is a link.** Click a value, or the grade pill
   beside it, and you reach the evidence for that exact figure.
 - Live sweep of all **176** external URLs the site publishes: **0 undocumented failures**

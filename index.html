@@ -23,10 +23,10 @@
   <div class="stats">
     <div class="stat"><span class="n">2,454</span><span class="l">values re-derived from live sources</span></div>
     <div class="stat"><span class="n">98.4%</span><span class="l">matched the source exactly</span></div>
-    <div class="stat"><span class="n">512</span><span class="l">source files archived</span></div>
-    <div class="stat"><span class="n">223 MB</span><span class="l">of mirrored evidence</span></div>
+    <div class="stat"><span class="n">515</span><span class="l">source files archived</span></div>
+    <div class="stat"><span class="n">224 MB</span><span class="l">of mirrored evidence</span></div>
     <div class="stat"><span class="n">40</span><span class="l">countries, 13 years each</span></div>
-    <div class="stat"><span class="n">49</span><span class="l">values corrected</span></div>
+    <div class="stat"><span class="n">50</span><span class="l">values corrected</span></div>
     <div class="stat"><span class="n">156</span><span class="l">per-variable evidence pages, each with a PDF extract</span></div>
   </div>
 </div></section>
@@ -45,8 +45,8 @@
 <section><div class="wrap">
   <h2>How reliable is each value?</h2>
   <p class="sub">Every one of the 1,699 values in the panel carries a grade. Grades are assigned per value, not per country.</p>
-  <div class="tablewrap"><table><thead><tr><th>Grade</th><th>Meaning</th><th class="num">Values</th><th class="num">Share</th></tr></thead><tbody><tr><td><span class="g gA">A</span></td><td>Re-derived from a machine-readable official source and matched exactly, or corrected against one during this verification</td><td class="num">1,564</td><td class="num">92.1%</td></tr><tr><td><span class="g gB">B</span></td><td>Confirmed by reading the retrieved source document</td><td class="num">11</td><td class="num">0.6%</td></tr><tr><td><span class="g gC">C</span></td><td>Source document retrieved, but the value is a modelled estimate that cannot be mechanically re-derived</td><td class="num">118</td><td class="num">6.9%</td></tr><tr><td><span class="g gD">D</span></td><td>Cited source could not be retrieved by any means</td><td class="num">6</td><td class="num">0.4%</td></tr></tbody></table></div>
-  <div class="note"><strong>The six D-graded values</strong> are Korea's 2010–2015 overstayer figures. Their only source is a Korean National Police University publication whose host no longer responds, so they could not be checked against anything. They are retained and flagged rather than dropped.</div>
+  <div class="tablewrap"><table><thead><tr><th>Grade</th><th>Meaning</th><th class="num">Values</th><th class="num">Share</th></tr></thead><tbody><tr><td><span class="g gA">A</span></td><td>Re-derived from a machine-readable official source and matched exactly, or corrected against one during this verification</td><td class="num">1,573</td><td class="num">92.6%</td></tr><tr><td><span class="g gB">B</span></td><td>Confirmed by reading the retrieved source document</td><td class="num">10</td><td class="num">0.6%</td></tr><tr><td><span class="g gC">C</span></td><td>Source document retrieved, but the value is a modelled estimate that cannot be mechanically re-derived</td><td class="num">116</td><td class="num">6.8%</td></tr><tr><td><span class="g gD">D</span></td><td>Cited source could not be retrieved by any means</td><td class="num">0</td><td class="num">0.0%</td></tr></tbody></table></div>
+  <div class="note"><strong>No values are graded D.</strong> The six that were &mdash; Korea's 2010–2015 overstayer figures, whose only cited source had gone offline &mdash; were re-sourced to the Ministry of Justice Immigration Statistical Yearbook and open-data series. Five matched exactly; the 2015 value proved to be a 31 August snapshot in an otherwise year-end series and was corrected to the official 214,168.</div>
 </div></section>
 
 <section><div class="wrap">
@@ -54,7 +54,7 @@
   <p class="sub">Verification was not a formality. It changed the data.</p>
   <div class="note bad"><strong>A one-year offset in three countries.</strong> In the input workbook, the Eurostat irregular-migration detections series for <strong>Switzerland, Portugal and Sweden</strong> was shifted by one year: the figure Eurostat publishes for year <em>Y+1</em> sat under year <em>Y</em>. The genuine 2010 values were missing and the 2022 cell held the 2023 figure. All 39 values were replaced with the year-aligned Eurostat data.</div>
   <p>A consequence worth noting: the input codebook warned that Sweden's detections series breaks between 2013 (72,835) and 2014 (1,445). That break is an artefact of the offset. In the real Eurostat data it falls between <strong>2014 and 2015</strong>. The evidence is archived as <a href="evidence/api/eurostat_migr_eipre_CH_PT_SE_2010_2023.json">a raw Eurostat API response covering 2010&ndash;2023</a>.</p>
-  <p>Three further corrections were made &mdash; Taiwan's overstayer column mixed two incompatible national measures, Italy's irregular series was missing four years and mixed two methods, and the two input workbooks disagreed on population because they used different publishers. <a href="verification.html">All 49 corrections are itemised, with evidence.</a></p>
+  <p>Three further corrections were made &mdash; Taiwan's overstayer column mixed two incompatible national measures, Italy's irregular series was missing four years and mixed two methods, and the two input workbooks disagreed on population because they used different publishers. <a href="verification.html">All 50 corrections are itemised, with evidence.</a></p>
 </div></section>
 
 <section><div class="wrap">

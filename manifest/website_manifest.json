@@ -29,8 +29,8 @@
       2010,
       2022
     ],
-    "files_total": 998,
-    "bytes_total": 234006732,
+    "files_total": 1002,
+    "bytes_total": 234691200,
     "evidence_directory": "evidence/",
     "api_snapshots": 21,
     "web_page_snapshots": 41,
@@ -41,8 +41,8 @@
     "values_checked": 2454,
     "exact_matches": 2415,
     "discrepancies": 39,
-    "corrections_applied": 49,
-    "countries_corrected": 5,
+    "corrections_applied": 50,
+    "countries_corrected": 6,
     "document_source_variable_rows": 89,
     "document_source_citations_distinct": 78,
     "document_source_citations_archived": 76,
@@ -51,16 +51,16 @@
     "all_source_urls_distinct": 160,
     "source_hosts": 51,
     "grade_counts": {
-      "A": 1564,
-      "B": 11,
-      "C": 111,
-      "D": 6
+      "A": 1573,
+      "B": 10,
+      "C": 109,
+      "D": 0
     }
   },
   "primary_workbook": {
     "path": "data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx",
-    "bytes": 337157,
-    "sha256": "4bfd27f3e1c700b8787b8e9786d2ef64316c2bc0e08773ed4fdc5afb579e95da"
+    "bytes": 337952,
+    "sha256": "61ba041ca78654ef025686a53c8a334b1915e09f028d2b9a4c4f9efd0ad32611"
   },
   "secondary_workbook": {
     "path": "data/migration_population_panel_40countries_2010-2022_final.xlsx",

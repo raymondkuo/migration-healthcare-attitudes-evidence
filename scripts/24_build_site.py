@@ -190,10 +190,7 @@ body = f'''
     <tr><td>{pill('D')}</td><td>Cited source could not be retrieved by any means</td>
         <td class="num">{grades.get('D', 0):,}</td><td class="num">{grades.get('D', 0) / grades.sum() * 100:.1f}%</td></tr>
    </tbody></table></div>
-  <div class="note"><strong>The six D-graded values</strong> are Korea's 2010–2015 overstayer
-   figures. Their only source is a Korean National Police University publication whose host no
-   longer responds, so they could not be checked against anything. They are retained and flagged
-   rather than dropped.</div>
+  <div class="note"><strong>No values are graded D.</strong> The six that were &mdash; Korea's 2010&ndash;2015 overstayer figures, whose only cited source had gone offline &mdash; were re-sourced to the Ministry of Justice Immigration Statistical Yearbook and open-data series. Five matched exactly; the 2015 value turned out to be a 31 August snapshot in an otherwise year-end series and was corrected to the official 214,168.</div>
 </div></section>
 
 <section><div class="wrap">
