@@ -58,7 +58,7 @@ API_DESC = {
     'eurostat_migr_eipre.json': ('Eurostat', 'Third-country nationals found illegally present (migr_eipre), annual, 2010-2022',
                                  'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_eipre?format=JSON&lang=EN&age=TOTAL&sex=T&unit=PER&citizen=TOTAL&sinceTimePeriod=2010&untilTimePeriod=2022'),
     'eurostat_migr_eipre_CH_PT_SE_2010_2023.json': ('Eurostat', 'migr_eipre for CH/PT/SE extended to 2023 - the evidence for the one-year offset correction',
-                                                    'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_eipre?...&geo=CH&geo=PT&geo=SE&sinceTimePeriod=2010&untilTimePeriod=2023'),
+                                                    'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_eipre?format=JSON&lang=EN&age=TOTAL&sex=T&unit=PER&citizen=TOTAL&reason=TOTAL&apprehen=TOTAL&geo=CH&geo=PT&geo=SE&sinceTimePeriod=2010&untilTimePeriod=2023'),
     'UN_WPP2024_demographic_indicators_compact.xlsx': ('UN DESA', 'World Population Prospects 2024, compact demographic indicators',
                                                        'https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/EXCEL_FILES/1_General/WPP2024_GEN_F01_DEMOGRAPHIC_INDICATORS_COMPACT.xlsx'),
     'UN_DESA_IMS2024_stock_by_sex_and_destination.xlsx': ('UN DESA', 'International Migrant Stock 2024, stock by sex and destination',
@@ -75,7 +75,17 @@ for f in sorted(os.listdir(RAW)):
                          bytes=os.path.getsize(src), path='evidence/api/' + f))
     print('   %-52s %10s bytes' % (f, f'{os.path.getsize(src):,}'))
 
-# OECD SDMX responses
+# OECD SDMX responses.
+# The exact query URL for each series is recovered from the source workbook's audit
+# trail rather than reconstructed, so no placeholder or wildcard can be published.
+OECD_REAL_URL = {}
+_lg = pd.read_excel(os.path.join(BASE, 'migration_population_panel_40countries_2010-2022.xlsx'),
+                    sheet_name='Long_all_observations')
+for _u in sorted({str(x) for x in _lg.source_url if 'sdmx.oecd.org' in str(x)}):
+    _m = re.search(r'/([A-Z]{3})\.W\.A\.(B1[45])\.', _u)
+    if _m:
+        OECD_REAL_URL['oecd/%s_%s.json' % (_m.group(1), _m.group(2))] = _u
+
 oecd_dir = os.path.join(RAW, 'oecd')
 if os.path.isdir(oecd_dir):
     os.makedirs(os.path.join(SITE, 'evidence', 'api', 'oecd'), exist_ok=True)
@@ -86,7 +96,7 @@ if os.path.isdir(oecd_dir):
             file='oecd/' + f, publisher='OECD',
             description='International Migration Database, %s, measure %s (%s)'
                         % (iso, meas, 'foreign-born stock' if meas == 'B14' else 'foreign-national stock'),
-            query_url='https://sdmx.oecd.org/public/rest/data/OECD.ELS.IMD,DSD_MIG*/%s.W.A.%s._T._Z._Z.PS?startPeriod=2010&endPeriod=2022' % (iso, meas),
+            query_url=OECD_REAL_URL.get('oecd/%s' % f, ''),
             bytes=os.path.getsize(os.path.join(oecd_dir, f)), path='evidence/api/oecd/' + f))
     print('   oecd/  %d SDMX responses' % len(os.listdir(oecd_dir)))
 

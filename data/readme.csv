@@ -10,15 +10,15 @@ Values re-derived from live sources,2454
   matched exactly,2415 (98.4%)
   discrepancies found,39
 Sources re-queried live,"World Bank WDI (SP.POP.TOTL, SM.POP.TOTL); Eurostat migr_pop3ctb, migr_pop1ctz, migr_eipre; OECD International Migration Database (13 series); UN WPP 2024; UN DESA International Migrant Stock 2024."
-Document sources cited,89 across 27 countries
-  retrieved to country folders,87
-  not retrievable,2 (see Known_issues)
+Document source citations,78 distinct country-source citations across 72 URLs
+  archived in the country folders,76 of 78
+  not retrievable by any means,2 (see Known_issues)
 Corrections applied,49 values across 5 countries (see Corrections_applied)
 ,
 CELL GRADES,
 "A - re-derived from a machine-readable official source, exact match",1564
-"B - official statistical source, consistent",11
-"C - source document retrieved, modelled estimate not re-derivable",111
+B - confirmed by reading the retrieved source document,11
+"C - source document retrieved, modelled estimate not re-derivable",118
 D - cited source could not be retrieved,6
 ,
 HOW TO USE THIS FOR THE HEALTHCARE-ATTITUDES STUDY,

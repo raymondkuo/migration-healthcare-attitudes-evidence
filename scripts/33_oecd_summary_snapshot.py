@@ -72,7 +72,8 @@ and archived in full as
 <tr><th>Version</th><td>VERSIONID</td></tr>
 <tr><th>Registry prepared</th><td>PREPARED</td></tr>
 <tr><th>Metadata query</th><td><code>https://sdmx.oecd.org/public/rest/dataflow/OECD.ELS.IMD/DSD_MIG@DF_MIG/1.0?references=all</code></td></tr>
-<tr><th>Data query pattern</th><td><code>https://sdmx.oecd.org/public/rest/data/OECD.ELS.IMD,DSD_MIG*/&lt;ISO3&gt;.W.A.&lt;MEASURE&gt;._T._Z._Z.PS?startPeriod=2010&amp;endPeriod=2022</code></td></tr>
+<tr><th>Data query, B14</th><td><code>https://sdmx.oecd.org/public/rest/data/OECD.ELS.IMD,DSD_MIG_F@DF_MIG_POPF,1.0/&lt;ISO3&gt;.W.A.B14._T._Z._Z.PS?startPeriod=2010&amp;endPeriod=2022&amp;format=jsondata&amp;dimensionAtObservation=AllDimensions</code></td></tr>
+<tr><th>Data query, B15</th><td><code>https://sdmx.oecd.org/public/rest/data/OECD.ELS.IMD,DSD_MIG@DF_MIG,1.0/&lt;ISO3&gt;.W.A.B15._T._Z._Z.PS?startPeriod=2010&amp;endPeriod=2022&amp;format=jsondata&amp;dimensionAtObservation=AllDimensions</code></td></tr>
 </table>
 
 <h2>MEASURE codelist — the definitions that matter</h2>

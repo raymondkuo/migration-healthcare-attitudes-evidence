@@ -6,15 +6,21 @@
   "pages": {
     "top_level": [
       "countries.html",
+      "countries.zh.html",
       "data.html",
+      "data.zh.html",
       "index.html",
+      "index.zh.html",
       "methods.html",
+      "methods.zh.html",
       "sources.html",
-      "verification.html"
+      "sources.zh.html",
+      "verification.html",
+      "verification.zh.html"
     ],
-    "country_pages": 40,
+    "country_pages": 80,
     "country_directory": "countries/",
-    "total_site_pages": 46
+    "total_site_pages": 92
   },
   "archive": {
     "countries": 40,
@@ -23,8 +29,8 @@
       2010,
       2022
     ],
-    "files_total": 778,
-    "bytes_total": 224411089,
+    "files_total": 998,
+    "bytes_total": 234006157,
     "evidence_directory": "evidence/",
     "api_snapshots": 21,
     "web_page_snapshots": 41,
@@ -53,8 +59,8 @@
   },
   "primary_workbook": {
     "path": "data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx",
-    "bytes": 334276,
-    "sha256": "875e5a45173bab0ac04f09559e17dc15e149f7d0430fee51060e07d5bca568a4"
+    "bytes": 337157,
+    "sha256": "4bfd27f3e1c700b8787b8e9786d2ef64316c2bc0e08773ed4fdc5afb579e95da"
   },
   "secondary_workbook": {
     "path": "data/migration_population_panel_40countries_2010-2022_final.xlsx",

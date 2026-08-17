@@ -4,7 +4,13 @@ import os, json, hashlib
 import pandas as pd
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE = os.path.join(BASE, 'migration-data-archive')
+_here = os.path.dirname(os.path.abspath(__file__))
+_parent = os.path.dirname(_here)
+if os.path.isdir(os.path.join(_parent, 'data')) and os.path.isdir(os.path.join(_parent, 'evidence')):
+    SITE = _parent          # scripts/ lives inside the published archive
+else:
+    SITE = os.path.join(BASE, 'migration-data-archive')
+
 ACCESS = '2026-08-17'
 
 

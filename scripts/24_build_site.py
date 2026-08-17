@@ -119,7 +119,10 @@ def table(df, cols, headers=None, numcols=(), rawcols=(), cls=''):
 # =====================================================================  INDEX
 n_checked = len(vlog)
 n_exact = int((vlog.status == 'EXACT').sum())
-grades = pd.Series([g for v in VARS for g in panel[v + '_grade'].dropna() if str(g).strip()]).value_counts()
+# all displayed variables, including Taiwan's absconded-workers column
+GRADE_VARS = VARS + ['irregular_proxy_absconded_workers']
+grades = pd.Series([g for v in GRADE_VARS if v + '_grade' in panel
+                    for g in panel[v + '_grade'].dropna() if str(g).strip()]).value_counts()
 n_files = sum(len(fs) for _, _, fs in os.walk(os.path.join(SITE, 'evidence')))
 ev_bytes = sum(os.path.getsize(os.path.join(rt, f))
                for rt, _, fs in os.walk(os.path.join(SITE, 'evidence')) for f in fs)
