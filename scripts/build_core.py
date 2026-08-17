@@ -17,7 +17,10 @@ for _, s in snaps.iterrows():
 cinfo = panel.groupby(['iso3', 'country']).size().reset_index()[['iso3', 'country']]
 n_checked = len(vlog)
 n_exact = int((vlog.status == 'EXACT').sum())
-grades = pd.Series([g for v in VARS for g in panel[v + '_grade'].dropna()
+# count grades over every displayed variable, including Taiwan's absconded-workers
+# column, so the index, the README and the workbook all state the same total
+grades = pd.Series([g for v in ALLVARS if v + '_grade' in panel
+                    for g in panel[v + '_grade'].dropna()
                     if str(g).strip()]).value_counts()
 n_files = sum(len(fs) for _, _, fs in os.walk(os.path.join(SITE, 'evidence')))
 ev_bytes = sum(os.path.getsize(os.path.join(rt, f))
