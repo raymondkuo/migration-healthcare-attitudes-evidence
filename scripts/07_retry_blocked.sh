@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Retry the sources that blocked the plain downloader, using a full Chrome header set.
 set -u
-BASE="D:/研究計畫/其他投稿/2026_移民對非本國籍使用公共醫療態度（葉明叡）/claude-work"
+# derive the workspace from this script's own location, so no local path is baked in
+BASE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
 
 fetch () {  # fetch <url> <outfile> <referer>

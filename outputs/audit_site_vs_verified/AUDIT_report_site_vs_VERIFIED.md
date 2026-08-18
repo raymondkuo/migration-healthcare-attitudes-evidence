@@ -8,7 +8,7 @@ This report records the reproducible audit of the published website in this repo
 
 Repository root:
 
-`D:\研究計畫\其他投稿\2026_移民對非本國籍使用公共醫療態度（葉明叡）\claude-work\migration-data-archive`
+`migration-data-archive`
 
 | Artifact | Location | Purpose |
 |---|---|---|
@@ -230,7 +230,7 @@ The spreadsheet-specific `@oai/artifact-tool` runtime was unavailable in this Wi
 From the repository root, first verify the reference path and the listed hashes. Then run the cached audit:
 
 ```powershell
-Set-Location 'D:\研究計畫\其他投稿\2026_移民對非本國籍使用公共醫療態度（葉明叡）\claude-work\migration-data-archive'
+Set-Location 'migration-data-archive'
 
 python scripts/audit_site_against_verified.py `
   --truth ..\FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx `

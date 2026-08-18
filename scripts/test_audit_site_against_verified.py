@@ -9,13 +9,9 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SITE = SCRIPT_DIR.parent
-TRUTH = Path(
-    r"D:\研究計畫\其他投稿\2026_移民對非本國籍使用公共醫療態度（葉明叡）"
-    r"\claude-work\FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx"
-)
-# Resolve the sibling reference workbook relative to the repository rather
-# than relying on an encoding-sensitive absolute Windows path.
-TRUTH = SITE.parent / "FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx"
+# The reference workbook is the one this archive publishes. Resolved from the repository
+# so that no local path - and no author's name - is baked into a published file.
+TRUTH = SITE / "data" / "FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx"
 sys.path.insert(0, str(SCRIPT_DIR))
 
 import audit_site_against_verified as audit  # noqa: E402
