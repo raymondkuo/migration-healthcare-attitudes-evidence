@@ -269,32 +269,29 @@ P['verification'] = {
                 'values that did not match.',
           'zh': '所有資料來源均於 ACCESS 重新取得，並將原始工作表中的每一筆數值與之比對。'
                 '本頁完整呈現結果，包含未能一致的數值。'},
- 'rate_h': {'en': 'Reproduction rate of the input workbooks, as received',
-            'zh': '原始工作表（收到時）之重現率'},
- 'rate_sub': {'en': 'This table records the comparison as it stood <strong>before any '
-                    'correction</strong> — it is the audit trail, not the state of the published '
-                    'data. Every discrepancy fell in one place: the Eurostat detections series for '
-                    'three countries in one of the two input workbooks. All 39 were corrected; the '
-                    're-test below shows the result.',
-              'zh': '本表記錄的是<strong>更正前</strong>的比對結果——屬稽核軌跡，'
-                    '而非目前已發布資料的狀態。所有不一致都集中於同一處：'
-                    '兩份原始工作表其中之一，其三個國家的 Eurostat 查獲人次序列。'
-                    '該 39 筆均已更正，重測結果見下表。'},
- 're_h': {'en': 'Re-test after correction: the data this archive publishes',
-          'zh': '更正後重測：本存檔目前發布之資料'},
- 're_sub': {'en': 'The Eurostat detections series was re-queried live on %s and every value the '
-                  'archive now publishes was compared against it again. The raw payload from that '
-                  're-query is archived as '
-                  '<code>evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-17.json</code>.',
-            'zh': '已於 %s 重新向 Eurostat 查詢查獲人次序列，並將本存檔目前發布的每一筆數值'
-                  '再次與之比對。該次查詢之原始回應已存檔為 '
-                  '<code>evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-17.json</code>。'},
- 're_result': {'en': '<strong>283 of 283 values reproduce the live source exactly — 100.0%, '
-                     'across all 23 countries.</strong> The 39 values that failed the first test '
-                     'were replaced with the year-aligned Eurostat figures and now match.',
-               'zh': '<strong>283 筆數值全部與線上來源完全一致——100.0%，涵蓋全部 23 國。</strong>'
-                     '首次測試未通過的 39 筆已替換為年度對齊之 Eurostat 數值，現已完全相符。'},
- 'col_stage': {'en': 'Stage', 'zh': '階段'},
+ 'rate_h': {'en': 'Reproduction rate by source, as verified to date',
+            'zh': '各來源之重現率（截至最近查證日）'},
+ 'rate_sub': {'en': 'Each row shows the most recent verification of that source and the date it '
+                    'was carried out. Every source currently reproduces at 100%: every value the '
+                    'archive publishes matches the live source exactly.',
+              'zh': '每一列呈現該來源最近一次查證的結果與查證日期。'
+                    '目前所有來源之重現率均為 100%：本存檔所發布的每一筆數值，'
+                    '皆與線上來源完全一致。'},
+ 'rate_hist': {'en': '<strong>Eurostat migr_eipre was not 100% at first.</strong> Verified on '
+                     '2026-08-17 it reproduced 244 of 283 values (86.2%): the detections series '
+                     'for Switzerland, Portugal and Sweden was offset by one year in one of the '
+                     'input workbooks. All 39 values were corrected, and the series was re-queried '
+                     'live and re-tested on 2026-08-18, when it reproduced 283 of 283 (100%). '
+                     'Both tests are kept in the verification log under the <code>stage</code> '
+                     'column, and the corrections are itemised below.',
+               'zh': '<strong>Eurostat migr_eipre 起初並非 100%。</strong>'
+                     '於 2026-08-17 查證時，283 筆中有 244 筆一致（86.2%）：'
+                     '其中一份原始工作表的瑞士、葡萄牙、瑞典查獲人次序列整體位移一年。'
+                     '該 39 筆全部更正後，已於 2026-08-18 重新向 Eurostat 查詢並重測，'
+                     '283 筆全部一致（100%）。兩次測試均保留於查證紀錄的 '
+                     '<code>stage</code> 欄位，更正內容逐項列於下方。'},
+ 'col_date': {'en': 'Verified on', 'zh': '查證日期'},
+ 'col_prev': {'en': 'Earlier test', 'zh': '先前測試'},
  'col_src': {'en': 'Source', 'zh': '來源'},
  'col_nchk': {'en': 'Values checked', 'zh': '已查證數值'},
  'col_exact': {'en': 'Exact', 'zh': '完全一致'},

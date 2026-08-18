@@ -254,21 +254,28 @@ def build_data(lang):
 
 # ==============================================================  VERIFICATION
 def build_verification(lang):
-    _st = vlog['stage'] if 'stage' in vlog.columns else None
-    asrec = vlog[_st == 'as_received'] if _st is not None else vlog
-    after = vlog[_st == 'after_correction'] if _st is not None else vlog.iloc[0:0]
-    by = asrec.groupby('source').agg(n=('status', 'size'),
-                                     exact=('status', lambda s: int((s == 'EXACT').sum()))).reset_index()
+    # one row per source: its most recent verification and the date that test ran
+    by = pd.read_csv(os.path.join(D, 'reproduction_rate_latest.csv'))
     by['rate'] = (by.exact / by.n * 100).round(1)
     by = by.sort_values('n', ascending=False)
+    def _prev(r):
+        v = str(r.get('earlier_date') or '')
+        if not v.strip() or v == 'nan':
+            return '<span style="color:var(--faint)">&mdash;</span>'
+        return ('<span style="color:var(--muted)">%s &middot; %s%%</span>'
+                % (E(v), E(r['earlier_rate'])))
+
     srows = ''.join('<tr><td>%s</td><td class="num">%s</td><td class="num">%s</td>'
-                    '<td class="num">%.1f%%</td></tr>'
-                    % (E(r['source']), num(r['n']), num(r['exact']), r['rate'])
+                    '<td class="num">%s</td><td class="num">%.1f%%</td><td class="num">%s</td></tr>'
+                    % (E(r['source']), E(r['verified_on']), num(r['n']), num(r['exact']),
+                       r['rate'], _prev(r))
                     for _, r in by.iterrows())
     srctab = ('<div class="tablewrap"><table><thead><tr><th>' + L(V['col_src'], lang)
-              + '</th><th class="num">' + L(V['col_nchk'], lang) + '</th><th class="num">'
-              + L(V['col_exact'], lang) + '</th><th class="num">' + L(V['col_rate'], lang)
-              + '</th></tr></thead><tbody>' + srows + '</tbody></table></div>')
+              + '</th><th class="num">' + L(V['col_date'], lang) + '</th><th class="num">'
+              + L(V['col_nchk'], lang) + '</th><th class="num">' + L(V['col_exact'], lang)
+              + '</th><th class="num">' + L(V['col_rate'], lang) + '</th><th class="num">'
+              + L(V['col_prev'], lang) + '</th></tr></thead><tbody>'
+              + srows + '</tbody></table></div>')
 
     order = {'RESOLVED': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'INFO': 4}
     iss = issues.copy()
@@ -317,24 +324,15 @@ def build_verification(lang):
         int((vlog.status != 'EXACT').sum()),
         {'en': 'discrepancies', 'zh': '筆不一致'}[lang], len(corr), t('stat_corr', lang))
      + '<section><div class="wrap">\n  <h2>' + L(V['rate_h'], lang) + '</h2>\n  <p class="sub">'
-     + L(V['rate_sub'], lang) + '</p>\n  ' + srctab + '\n  <p style="margin-top:12px">'
-     + filelink('data/verification_log.csv', L(V['fulllog'], lang)) + '</p>\n</div></section>\n\n'
-     + (('<section><div class="wrap">\n  <h2>' + L(V['re_h'], lang) + '</h2>\n'
-         '  <p class="sub">' + (L(V['re_sub'], lang) % ACCESS) + '</p>\n'
-         '  <div class="note ok-note">' + L(V['re_result'], lang) + '</div>\n'
-         '  <div class="tablewrap"><table><thead><tr><th>' + L(V['col_src'], lang)
-         + '</th><th class="num">' + L(V['col_nchk'], lang) + '</th><th class="num">'
-         + L(V['col_exact'], lang) + '</th><th class="num">' + L(V['col_rate'], lang)
-         + '</th></tr></thead><tbody>'
-         + ''.join('<tr><td>%s</td><td class="num">%s</td><td class="num">%s</td>'
-                   '<td class="num">%.1f%%</td></tr>'
-                   % (E(k), num(len(gg)), num(int((gg.status == 'EXACT').sum())),
-                      (gg.status == 'EXACT').mean() * 100)
-                   for k, gg in after.groupby('source'))
-         + '</tbody></table></div>\n  <p style="margin-top:12px">'
-         + filelink('evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-17.json',
-                    {'en': 'the re-query payload', 'zh': '重測查詢之原始回應'}[lang])
-         + '</p>\n</div></section>\n\n') if len(after) else '')
+     + L(V['rate_sub'], lang) + '</p>\n  ' + srctab + '\n'
+     + '  <div class="note">' + L(V['rate_hist'], lang) + '</div>\n'
+     + '  <p style="margin-top:12px">'
+     + filelink('data/verification_log.csv', L(V['fulllog'], lang))
+     + filelink('data/reproduction_rate_latest.csv', 'reproduction_rate_latest.csv')
+     + filelink('evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-18.json',
+                {'en': 'the 2026-08-18 re-query payload',
+                 'zh': '2026-08-18 重測查詢之原始回應'}[lang])
+     + '</p>\n</div></section>\n\n'
      + '<section><div class="wrap">\n  <h2>' + L(V['corr_h'], lang) + '</h2>\n  <p class="sub">'
      + (L(V['corr_sub'], lang) % (len(corr), corr.iso3.nunique()))
      + '</p>\n  ' + ctab + '\n</div></section>\n\n'
