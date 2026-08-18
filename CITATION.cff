@@ -2,16 +2,18 @@ cff-version: 1.2.0
 title: "Migration and population data archive, 40 countries, 2010-2022"
 message: >-
   If you use this archive, please cite the accompanying study and state the
-  archive freeze date, 2026-08-17.
+  archive freeze date, 2026-08-17. The archive is joint work of Prof. Raymond
+  Kuo (郭年真), National Taiwan University, and Claude (Anthropic).
 type: dataset
-version: "2026-08-17"
-date-released: 2026-08-17
+version: "2026-08-18"
+date-released: 2026-08-18
 
 authors:
-  - family-names: "葉"
-    given-names: "明叡"
-    affiliation: "Study author"
-    # orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: "Kuo"
+    given-names: "Raymond N."
+    alias: "郭年真"
+    affiliation: "Institute of Health Policy and Management, National Taiwan University"
+    website: "https://raymond.cph.ntu.edu.tw/"
 repository-code: "https://github.com/raymondkuo/migration-healthcare-attitudes-evidence"
 license: "NOASSERTION"
 
@@ -21,9 +23,11 @@ abstract: >-
   indicators covering 40 countries for 2010-2022. Every value is traced to a
   source file held in the archive: statistical-agency API responses are stored as
   raw payloads, and web-page sources are stored as HTML, PDF mirrors and full-page
-  screenshots captured on the freeze date. Of 2,454 values re-derived from live
-  sources, 2,415 reproduced exactly; 49 values were corrected and each correction
-  is itemised with its evidence.
+  screenshots. Of 2,454 values re-derived from live sources on 2026-08-17, 2,415
+  reproduced exactly; the 39 discrepancies were corrected and re-verified against
+  the live source on 2026-08-18, when all 21 sources reproduced at 100%. In total
+  2,737 value-by-value comparisons are recorded, and 50 values were corrected,
+  each itemised with its evidence.
 
 keywords:
   - migration

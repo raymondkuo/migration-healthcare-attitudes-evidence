@@ -4,7 +4,7 @@
 
 Joint work of [Prof. Raymond Kuo](https://raymond.cph.ntu.edu.tw/), National Taiwan University,
 and Claude (Anthropic).<br>
-本存檔為國立臺灣大學[郭柏秀教授](https://raymond.cph.ntu.edu.tw/)與 Claude（Anthropic）之共同成果。
+本存檔為國立臺灣大學[郭年真教授](https://raymond.cph.ntu.edu.tw/)與 Claude（Anthropic）之共同成果。
 
 **Browse: <https://raymondkuo.github.io/migration-healthcare-attitudes-evidence/>**
 

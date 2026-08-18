@@ -69,7 +69,7 @@ FOOTER = {
         '<p>All files here are mirrors held for verification. Copyright in each source document '
         'remains with its publisher; every entry links to the original URL.</p>'],
  'zh': ['<p class="credit"><strong>本存檔為國立臺灣大學'
-        '<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">郭柏秀教授</a>'
+        '<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">郭年真教授</a>'
         '與 Claude（Anthropic）之共同成果。</strong></p>',
         '<p><strong>移民與人口資料存檔，40 國，2010&ndash;2022 年。</strong>'
         '所有資料來源均於 ACCESS 重新取得並完成查證。</p>',
@@ -239,7 +239,7 @@ T = {
                     'rel="noopener"><strong>Prof. Raymond Kuo</strong></a>, National Taiwan '
                     'University, and <strong>Claude</strong> (Anthropic).',
               'zh': '本存檔為國立臺灣大學<a href="https://raymond.cph.ntu.edu.tw/" '
-                    'rel="noopener"><strong>郭柏秀教授</strong></a>與 <strong>Claude</strong>'
+                    'rel="noopener"><strong>郭年真教授</strong></a>與 <strong>Claude</strong>'
                     '（Anthropic）之共同成果。'},
  'using_h': {'en': 'Using this archive', 'zh': '如何使用本存檔'},
  'using_sub': {'en': 'For editors and reviewers.', 'zh': '供編輯與審查委員參考。'},

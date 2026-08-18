@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 """Regenerate the 156 PDF extracts with bilingual (EN + 繁體中文) headings, so the
 Chinese pages link to a PDF a Chinese reader can use."""
-import os, sys, html, subprocess, time
+import os, sys, html, subprocess, time, shutil
 import pandas as pd
+
+
+def _psq(s):
+    """A PowerShell single-quoted literal, safe for spaces and CJK in the path."""
+    return "'" + str(s).replace("'", "''") + "'"
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, D, ACCESS, panel, vlog, reg, corr, snaps, apis, pubs,
@@ -53,7 +58,7 @@ B = confirmed by reading the retrieved source document 經來源文件確認 ·
 C = source retrieved but the value is a modelled estimate 已取得來源，但數值為推估值 ·
 D = cited source could not be retrieved 來源無法取得。<br>
 Joint work of Prof. Raymond Kuo, National Taiwan University, and Claude (Anthropic).
-國立臺灣大學郭柏秀教授與 Claude（Anthropic）共同成果。</p>
+國立臺灣大學郭年真教授與 Claude（Anthropic）共同成果。</p>
 </body></html>"""
 
 
@@ -142,21 +147,65 @@ for _, ci in cinfo.iterrows():
         jobs.append((iso, v, src, os.path.join(d, v + '.pdf')))
 
 print('rendering %d bilingual PDF extracts' % len(jobs))
-t0 = time.time(); ok = 0
-for i, (iso, v, src, pdf) in enumerate(jobs, 1):
-    if os.path.exists(pdf):
-        os.remove(pdf)
-    try:
-        subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--no-sandbox',
-                        '--user-data-dir=' + PROFILE, '--hide-scrollbars',
-                        '--no-pdf-header-footer', '--virtual-time-budget=6000',
-                        '--print-to-pdf=' + pdf, 'file:///' + src.replace('\\', '/')],
-                       capture_output=True, timeout=90)
-    except Exception:
-        pass
-    if os.path.exists(pdf) and os.path.getsize(pdf) > 3000:
+t0 = time.time()
+
+# Chrome will not render when spawned directly from this process: it exits 0, writes
+# nothing, and reports "opening in an existing browser session" whenever the user has a
+# browser open. Launched through Start-Process it renders normally, so the render pass
+# is handed to PowerShell. One script for all jobs, so PowerShell starts once.
+#
+# Nothing is written over a good PDF: each job renders to a .new file, and the existing
+# PDF is replaced only after the new one is checked. An earlier version deleted the
+# target before calling Chrome and destroyed 137 extracts when Chrome silently failed.
+work = os.path.join(PRINT, '_render')
+os.makedirs(work, exist_ok=True)
+listing = os.path.join(work, 'jobs.tsv')
+with open(listing, 'w', encoding='utf-8') as fh:
+    for iso, v, src, pdf in jobs:
+        fh.write('%s\t%s\n' % (src, pdf + '.new'))
+
+ps1 = os.path.join(work, 'render.ps1')
+with open(ps1, 'w', encoding='utf-8-sig', newline='\r\n') as fh:
+    fh.write(
+        '$ErrorActionPreference = "Stop"\n'
+        '$chrome = %s\n'
+        '$jobs = Get-Content -LiteralPath %s -Encoding UTF8\n'
+        '$i = 0\n'
+        'foreach ($line in $jobs) {\n'
+        '  if (-not $line.Trim()) { continue }\n'
+        '  $parts = $line -split "`t"\n'
+        '  $src = $parts[0]; $out = $parts[1]\n'
+        '  $url = "file:///" + ($src -replace "\\\\", "/")\n'
+        '  $a = @("--headless=new","--disable-gpu","--no-sandbox",\n'
+        '         "--user-data-dir=$env:TEMP\\claude\\chrome-extract","--hide-scrollbars",\n'
+        '         "--no-pdf-header-footer","--virtual-time-budget=6000",\n'
+        '         "--print-to-pdf=$out", $url)\n'
+        '  try { Start-Process -FilePath $chrome -ArgumentList $a -PassThru -Wait '
+        '-WindowStyle Hidden | Out-Null } catch { }\n'
+        '  $i++\n'
+        '  if ($i %% 30 -eq 0) { Write-Host ("  {0}/{1}" -f $i, $jobs.Count) }\n'
+        '}\n' % (_psq(CHROME), _psq(listing)))
+
+subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass',
+                '-File', ps1], timeout=3600)
+
+ok, failed = 0, []
+for iso, v, src, pdf in jobs:
+    new = pdf + '.new'
+    if os.path.exists(new) and os.path.getsize(new) > 3000:
+        os.replace(new, pdf)          # atomic; the old file survives until this point
         ok += 1
-        os.remove(src)
-    if i % 30 == 0:
-        print('  %3d/%d (%.0fs)' % (i, len(jobs), time.time() - t0)); sys.stdout.flush()
+        if os.path.exists(src):
+            os.remove(src)
+    else:
+        failed.append((iso, v))
+        if os.path.exists(new):
+            os.remove(new)
+
+shutil.rmtree(work, ignore_errors=True)
 print('rendered %d of %d in %.0fs' % (ok, len(jobs), time.time() - t0))
+if failed:
+    print('FAILED (previous PDF left in place): %d' % len(failed))
+    for iso, v in failed[:12]:
+        print('   %s %s' % (iso, v))
+    sys.exit(1)
