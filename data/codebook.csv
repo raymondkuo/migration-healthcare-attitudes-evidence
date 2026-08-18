@@ -1,21 +1,21 @@
-﻿Variable,Definition,Caution / verification
-"country, iso3, iso2, m49_code",Country identifiers.,
-"in_wave1, in_wave2",Whether the country appears in each ISSP/ISPSS wave.,
-year,"Calendar year, 2010-2022.",
-population,"Total resident population. World Bank WDI SP.POP.TOTL, mid-year, for 39 countries; Taiwan is the MOI year-end registered population.",Verified: all 507 World Bank values matched the live API exactly.
-population_un_wpp2024,"Alternative population from UN WPP 2024, total population at 1 July, for all 40 countries including Taiwan.",Verified: all 520 values matched the live UN WPP 2024 file exactly.
-population_wb_vs_unwpp_pct,Percentage gap between the two population series.,Use to see where the choice of population denominator matters.
-foreign_born,Residents born outside the reporting country.,"Includes naturalised citizens, so it exceeds foreign_nationals almost everywhere."
-foreign_nationals,"Residents holding foreign citizenship, including stateless where reported.","Conceptually the closest available match to ""non-nationals"" using public healthcare. RECOMMENDED as the main cross-national regressor."
-irregular_stock,Estimated number of foreign nationals resident without authorisation.,WEAK. 13/40 countries. Methods not comparable across countries.
-irregular_proxy_overstayers,Administrative register count of persons remaining beyond authorised stay.,"WEAK. 5/40 countries. A register count, not a modelled stock."
-irregular_proxy_absconded_workers,Taiwan only: Ministry of Labor count of absconded / missing migrant workers (失聯移工).,A SUBSET of overstayers. Kept separate so it is never read as the same series.
-irregular_proxy_detections,Third-country nationals found to be illegally present during the year.,"A FLOW of enforcement events, NOT a stock, and not a count of persons - one person can be detected more than once."
-*_pct_pop,"Variable divided by population (proportion, not percent).",Recomputed after corrections.
-irregular_proxy_detections_per_1000_pop,"Detections per 1,000 residents.",Provided because a raw flow is not comparable to a stock share.
-*_ref_date,Reference date of the underlying measurement.,Eurostat/OECD stocks are 1 January; Taiwan and Korea are 31 December; Japan is 1 January.
-"*_source, *_url, *_note",Provenance of each value.,
-*_grade,"Data-quality grade for that cell. A = re-derived from a machine-readable official source and matched exactly, or corrected against one during this verification. B = the published figure appears in the retrieved source document. C = derived from the source rather than published by it (see *_derived and *_published_range). Values that could not be traced to an archived source were deleted, so no grade D remains.",Every retained value is traceable to an archived source file.
-*_derived,"Flag: ""yes"" when the cell is derived from the source rather than published by it.","Marked with ≈ on the website. 13 such values, all midpoints of published ranges."
-*_derivation,"How the value was derived, e.g. ""midpoint of the published range"".",Empty when the value is published directly by the source.
-*_published_range,"The range the source actually publishes, where it publishes a range rather than a point estimate.","Use the range, not the derived midpoint, for any claim about level."
+﻿Variable,Definition,Caution / verification,definition_zh,caution_zh
+"country, iso3, iso2, m49_code",Country identifiers.,,國家識別碼。,
+"in_wave1, in_wave2",Whether the country appears in each ISSP/ISPSS wave.,,該國是否納入各期 ISSP／ISPSS 調查。,
+year,"Calendar year, 2010-2022.",,曆年，2010–2022。,
+population,"Total resident population. World Bank WDI SP.POP.TOTL, mid-year, for 39 countries; Taiwan is the MOI year-end registered population.",Verified: all 507 World Bank values matched the live API exactly.,總居住人口。39 國採世界銀行 WDI SP.POP.TOTL 年中人口；臺灣為內政部年底戶籍登記人口。,已查證：507 筆世界銀行數值全部與線上 API 完全一致。
+population_un_wpp2024,"Alternative population from UN WPP 2024, total population at 1 July, for all 40 countries including Taiwan.",Verified: all 520 values matched the live UN WPP 2024 file exactly.,替代之人口數，來自 UN WPP 2024，為 7 月 1 日總人口，涵蓋全部 40 國（含臺灣）。,已查證：520 筆數值全部與線上 UN WPP 2024 檔案完全一致。
+population_wb_vs_unwpp_pct,Percentage gap between the two population series.,Use to see where the choice of population denominator matters.,兩組人口序列之百分比差距。,可用以檢視人口分母之選擇在何處會造成實質影響。
+foreign_born,Residents born outside the reporting country.,"Includes naturalised citizens, so it exceeds foreign_nationals almost everywhere.",出生於報告國以外之居住人口。,已包含歸化取得公民身分者，故幾乎在所有國家都高於外國籍人口。
+foreign_nationals,"Residents holding foreign citizenship, including stateless where reported.","Conceptually the closest available match to ""non-nationals"" using public healthcare. RECOMMENDED as the main cross-national regressor.",持有外國國籍之居住人口，含有通報之無國籍者。,概念上最接近「非本國籍」使用公費醫療之對象。建議作為跨國分析之主要自變項。
+irregular_stock,Estimated number of foreign nationals resident without authorisation.,WEAK. 13/40 countries. Methods not comparable across countries.,推估之未經許可居留外國人數。,較弱。僅 13／40 國有資料，各國推估方法不可比較。
+irregular_proxy_overstayers,Administrative register count of persons remaining beyond authorised stay.,"WEAK. 5/40 countries. A register count, not a modelled stock.",逾期停留者之行政登記數。,較弱。僅 5／40 國有資料。屬登記數而非模型推估之存量。
+irregular_proxy_absconded_workers,Taiwan only: Ministry of Labor count of absconded / missing migrant workers (失聯移工).,A SUBSET of overstayers. Kept separate so it is never read as the same series.,僅臺灣：勞動部統計之失聯移工人數。,屬逾期停留者之部分集合。獨立列出以免被誤讀為同一序列。
+irregular_proxy_detections,Third-country nationals found to be illegally present during the year.,"A FLOW of enforcement events, NOT a stock, and not a count of persons - one person can be detected more than once.",該年度查獲之非法居留第三國國民人次。,屬執法事件之「流量」而非人口「存量」，亦非人數統計——同一人可能被查獲多次。
+*_pct_pop,"Variable divided by population (proportion, not percent).",Recomputed after corrections.,該變項除以總人口（比例，非百分比）。,已於更正後重新計算。
+irregular_proxy_detections_per_1000_pop,"Detections per 1,000 residents.",Provided because a raw flow is not comparable to a stock share.,每千名居民之查獲人次。,因原始流量數與存量占比不可比較，故另行提供。
+*_ref_date,Reference date of the underlying measurement.,Eurostat/OECD stocks are 1 January; Taiwan and Korea are 31 December; Japan is 1 January.,底層測量之基準日。,Eurostat／OECD 存量為 1 月 1 日；臺灣與南韓為 12 月 31 日；日本為 1 月 1 日。
+"*_source, *_url, *_note",Provenance of each value.,,各數值之出處資訊。,
+*_grade,"Data-quality grade for that cell. A = re-derived from a machine-readable official source and matched exactly, or corrected against one during this verification. B = the published figure appears in the retrieved source document. C = derived from the source rather than published by it (see *_derived and *_published_range). Values that could not be traced to an archived source were deleted, so no grade D remains.",Every retained value is traceable to an archived source file.,該儲存格之資料品質等級。A＝自機器可讀之官方來源重新計算並完全一致，或於本次查證中依該來源更正。B＝經閱讀所取得之來源文件確認。C＝已取得來源文件，但該數值為推估值，無法以機械方式重新導出。D＝所引用之來源已無法取得。,本典藏保留之每一筆數值，均可追溯至一份存檔之來源檔案。
+*_derived,"Flag: ""yes"" when the cell is derived from the source rather than published by it.","Marked with ≈ on the website. 13 such values, all midpoints of published ranges.","旗標：當該儲存格之數值係自來源推導而得、而非由來源直接公布時，標示為 ""yes""。",本網站以 ≈ 標記。共 13 筆，全部為已公布區間之中點。
+*_derivation,"How the value was derived, e.g. ""midpoint of the published range"".",Empty when the value is published directly by the source.,說明該數值如何推導而得，例如「已公布區間之中點」。,若數值由來源直接公布，本欄為空白。
+*_published_range,"The range the source actually publishes, where it publishes a range rather than a point estimate.","Use the range, not the derived midpoint, for any claim about level.",來源實際公布之區間；適用於來源公布區間而非單一點估計之情形。,若要對水準值提出任何主張，應引用該區間，而非推導所得之中點。

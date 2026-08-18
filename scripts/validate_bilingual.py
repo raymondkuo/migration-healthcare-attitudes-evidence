@@ -95,6 +95,25 @@ for lang, sfx in (('en', ''), ('zh', '.zh')):
                         errors.append('%s%s.html: %s %d not linked' % (iso, sfx, v, int(r['year'])))
 print('panel cells (both languages): %d | unlinked: %d' % (cells, unlinked))
 
+# ---- row-level translations live beside the English, and must actually be filled in
+for csvname, pairs in (('known_issues.csv', [('issue', 'issue_zh'), ('evidence', 'evidence_zh'),
+                                             ('action', 'action_zh')]),
+                       ('codebook.csv', [(1, 'definition_zh'), (2, 'caution_zh')])):
+    fp = os.path.join(SITE, 'data', csvname)
+    if not os.path.exists(fp):
+        continue
+    df = pd.read_csv(fp).fillna('')
+    for en_col, zh_col in pairs:
+        if zh_col not in df.columns:
+            errors.append('%s: missing translation column %s' % (csvname, zh_col))
+            continue
+        en_s = df.iloc[:, en_col] if isinstance(en_col, int) else df[en_col]
+        for i in range(len(df)):
+            if str(en_s.iloc[i]).strip() and not str(df[zh_col].iloc[i]).strip():
+                errors.append('%s row %d: %s is filled but %s is empty'
+                              % (csvname, i,
+                                 en_col if isinstance(en_col, str) else 'col%d' % en_col, zh_col))
+
 # ---- translation spot-checks: ZH pages must not leak key English UI strings
 LEAK = ['Panel data', 'Verification', 'Data quality by variable', 'All archived files',
         'Sources</h2>', 'Every number below is a link']

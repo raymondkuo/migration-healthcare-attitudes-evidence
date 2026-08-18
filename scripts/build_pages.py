@@ -40,6 +40,19 @@ def L(d, lang, *a):
     return (x % a) if a else x
 
 
+def zh_or_en(row, zh_col, en_col):
+    """Chinese text for a data row, falling back to the English cell if it is absent.
+
+    Both languages live in the same CSV row, so they cannot be silently mismatched
+    the way a separate index-keyed translation table could.
+    """
+    v = row.get(zh_col) if zh_col in row.index else None
+    v = '' if v is None else str(v).strip()
+    if v and v != 'nan':
+        return v
+    return row.iloc[en_col] if isinstance(en_col, int) else row[en_col]
+
+
 # ==============================================================  SOURCES
 def build_sources(lang):
     api_rows = ''.join(
@@ -244,8 +257,10 @@ def build_data(lang):
     hdr = C.CODEBOOK_HDR[lang]
     crows = []
     for idx, r in codeb.iterrows():
-        if lang == 'zh' and idx in C.CODEBOOK_ZH:
-            d, c = C.CODEBOOK_ZH[idx]
+        # both languages come from the same row of data/codebook.csv, so they cannot
+        # drift apart and no row can silently fall back to English
+        if lang == 'zh':
+            d, c = zh_or_en(r, 'definition_zh', 1), zh_or_en(r, 'caution_zh', 2)
         else:
             d, c = r.iloc[1], r.iloc[2]
         crows.append('<tr><td><code>%s</code></td><td>%s</td><td>%s</td></tr>'
@@ -311,7 +326,10 @@ def build_verification(lang):
         if lang == 'zh':
             sev = C.SEV.get(r['severity'], r['severity'])
             scope = C.SCOPE.get(str(r['scope']), str(r['scope']))
-            iz, ez, az = C.ISSUES_ZH.get(idx, (r['issue'], r['evidence'], r['action']))
+            # same row, both languages — see data/known_issues.csv
+            iz = zh_or_en(r, 'issue_zh', 'issue')
+            ez = zh_or_en(r, 'evidence_zh', 'evidence')
+            az = zh_or_en(r, 'action_zh', 'action')
         else:
             sev, scope, iz, ez, az = r['severity'], r['scope'], r['issue'], r['evidence'], r['action']
         irows.append('<tr><td><span class="tag %s">%s</span></td><td>%s<br>'
