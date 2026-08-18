@@ -293,7 +293,10 @@ T = {
  'col_trend': {'en': 'Usable as a trend?', 'zh': '可否作為趨勢使用？'},
  'col_country': {'en': 'Country', 'zh': '國家'},
  'col_status': {'en': 'Status', 'zh': '狀態'},
+ 'col_note': {'en': 'Note', 'zh': '備註'},
  'col_archived': {'en': 'Archived copies', 'zh': '本站存檔'},
+ 'replaced': {'en': 'Replaces the citation originally supplied with the data:',
+              'zh': '取代原始資料所附之引用來源：'},
  'col_refdate': {'en': 'Reference date', 'zh': '基準日'},
  'col_verif': {'en': 'Verification', 'zh': '查證結果'},
  'corr_h': {'en': 'Corrections applied', 'zh': '已套用之更正'},
@@ -327,8 +330,14 @@ T = {
                 'zh': '本序列所依據之查詢網址或文件網址。'},
  'ev_arch_h': {'en': 'Archived evidence for these numbers', 'zh': '支持這些數字的存檔佐證'},
  'ev_arch_sub': {'en': 'Every file below is stored in this archive and downloads from this site '
-                       '&mdash; no external server is involved.',
-                 'zh': '以下每份檔案均儲存於本存檔並自本站下載，不涉及任何外部伺服器。'},
+                       '&mdash; no external server is involved. The last column names the years '
+                       'each file supports, so it is clear what any one file is evidence for.',
+                 'zh': '以下每份檔案均儲存於本存檔並自本站下載，不涉及任何外部伺服器。'
+                       '最後一欄列出各檔案所支持的年度，以明確標示每份檔案究竟佐證哪些數字。'},
+'ev_arch_file': {'en': 'Archived file', 'zh': '存檔檔案'},
+'ev_arch_kind': {'en': 'What it is', 'zh': '檔案性質'},
+'ev_arch_for': {'en': 'Supports', 'zh': '所支持之數值'},
+'ev_arch_all': {'en': 'the whole table on this page', 'zh': '本頁表格全部數值'},
  'ev_pdf': {'en': 'PDF extract of this table', 'zh': '本表之 PDF 摘錄'},
  'ev_country_csv': {'en': 'country data (CSV)', 'zh': '國家資料（CSV）'},
  'ev_check_csv': {'en': 'value check (CSV)', 'zh': '核對表（CSV）'},

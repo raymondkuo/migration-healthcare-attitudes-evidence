@@ -83,6 +83,7 @@ def build_sources(lang):
     TAG = {'DOWNLOADED': ('ok', 'tag_archived'), 'RECOVERED': ('ok', 'tag_recovered'),
            'RECOVERED_SCREENSHOT': ('ok', 'tag_screenshot'),
            'SUBSTITUTED': ('warn', 'tag_substituted'),
+           'SUPERSEDED_CITATION': ('warn', 'tag_superseded'),
            'NOT_RETRIEVED': ('bad', 'tag_notret'),
            'NOT_RETRIEVED_REDUNDANT': ('bad', 'tag_notret')}
     drows = []
@@ -90,20 +91,39 @@ def build_sources(lang):
         iso, url = r['iso3'], str(r['source_url'])
         links = [artifact_links(iso, url, r.get('local_file'), lang)]
         cls, key = TAG.get(str(r.get('outcome', '')), ('', 'tag_archived'))
-        note = str(r.get('note') or '')
         status = '<span class="tag %s">%s</span>' % (cls, L(S[key], lang))
+
+        # the source column names what the value is verified against; anything the archive
+        # stopped relying on is named here instead, so the citation is not simply lost
+        note = str(r.get('note') or '')
+        bits = []
         if note and note != 'nan':
-            status += '<br><span style="color:var(--muted);font-size:11.5px">%s</span>' % E(note[:190])
+            bits.append(E(note))
+        def _s(v):
+            v = str(v or '').strip()
+            return '' if v == 'nan' else v
+        old_n, old_u = _s(r.get('superseded_source_name')), _s(r.get('superseded_source_url'))
+        if old_u:
+            bits.append('<span style="color:var(--muted)">%s</span><br>%s<br>'
+                        '<a href="%s" rel="nofollow noopener" style="word-break:break-all;'
+                        'color:var(--faint)">%s</a>'
+                        % (t('replaced', lang), E(str(old_n)[:130]), E(old_u), E(old_u[:88])))
+        cell_note = ('<span style="font-size:11.5px">' + '<br><br>'.join(bits) + '</span>'
+                     if bits else '<span style="color:var(--faint)">&mdash;</span>')
+
         drows.append('<tr data-t="%s"><td><a href="countries/%s">%s</a></td><td>%s</td>'
                      '<td class="wrap-any">%s<br><a href="%s" rel="nofollow noopener" '
                      'style="font-size:11.5px;word-break:break-all;color:var(--muted)">%s</a></td>'
-                     '<td class="wrap-any">%s</td><td>%s</td></tr>'
-                     % (E((str(iso) + ' ' + str(r['source_name']) + ' ' + url).lower()),
+                     '<td class="wrap-any">%s</td><td class="wrap-any">%s</td><td>%s</td></tr>'
+                     % (E((str(iso) + ' ' + str(r['source_name']) + ' ' + url + ' '
+                           + old_n + ' ' + old_u).strip().lower()),
                         os.path.basename(fname('countries/' + iso, lang)), iso,
                         E(vlab(r['variable'], lang)), E(str(r['source_name'])[:130]),
-                        E(url), E(url[:95]), status,
+                        E(url), E(url[:95]), status, cell_note,
                         ''.join(links) or '<span style="color:var(--faint)">&mdash;</span>'))
     n_arch = int((~docs.outcome.astype(str).str.startswith('NOT_RETRIEVED')).sum())
+    n_superseded = int((docs.get('superseded_source_url', pd.Series(dtype=str))
+                        .astype(str).str.startswith('http')).sum())
     n_urls = int(nonapi.source_url.nunique())
 
     body = (
@@ -131,13 +151,15 @@ def build_sources(lang):
      '    <span class="count" id="n"></span>\n  </div>\n'
      '  <div class="tablewrap"><table id="tbl"><thead><tr><th>' + t('col_country', lang)
      + '</th><th>' + t('col_var', lang) + '</th><th>' + t('col_source', lang) + '</th><th>'
-     + t('col_status', lang) + '</th><th>' + t('col_archived', lang) + '</th></tr></thead><tbody>'
+     + t('col_status', lang) + '</th><th>' + t('col_note', lang) + '</th><th>'
+     + t('col_archived', lang) + '</th></tr></thead><tbody>'
      + ''.join(drows) + '</tbody></table></div>\n  <p style="margin-top:12px">'
      + filelink('data/source_register.csv', 'source_register.csv')
      + filelink('data/web_snapshots.csv', 'web_snapshots.csv')
      + filelink('verification/download_log.csv', 'download_log.csv') + '</p>\n</div></section>\n\n'
      '<section><div class="wrap">\n  <h2>' + L(S['fail_h'], lang) + '</h2>\n'
-     '  <div class="note warn">' + (L(S['fail_note'], lang) % len(docs)) + '</div>\n'
+     '  <div class="note ok-note">' + (L(S['fail_note'], lang) % (len(docs), n_superseded))
+     + '</div>\n'
      '  <p>' + L(S['fail_p'], lang) + '<a href="' + fname('verification', lang) + '">'
      + L(S['ver_link'], lang) + '</a>。</p>\n</div></section>\n\n'
      '<script>\n(function(){\n'
@@ -279,7 +301,7 @@ def build_verification(lang):
               + L(V['col_prev'], lang) + '</th></tr></thead><tbody>'
               + srows + '</tbody></table></div>')
 
-    order = {'RESOLVED': 0, 'NOT USED': 1, 'HIGH': 2, 'MEDIUM': 3, 'LOW': 4, 'INFO': 5}
+    order = {'RESOLVED': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'INFO': 4}
     iss = issues.copy()
     iss['o'] = iss.severity.map(lambda s: order.get(s, 9))
     iss = iss.sort_values('o')
@@ -373,6 +395,8 @@ def build_methods(lang):
      '<section><div class="wrap">\n  <h2>' + L(M['proc_h'], lang) + '</h2>\n'
      '  <ol style="max-width:78ch;line-height:1.75">\n'
      + ''.join('   <li>%s</li>\n' % x for x in M['proc'][lang]) + '  </ol>\n</div></section>\n\n'
+     '<section><div class="wrap">\n  <h2>' + L(M['inputs_h'], lang) + '</h2>\n  <p>'
+     + L(M['inputs_p'], lang) + '</p>\n</div></section>\n\n'
      + '<section><div class="wrap">\n  <h2>' + t('author_h', lang) + '</h2>\n  <p>'
      + t('author_p', lang) + '</p>\n</div></section>\n\n'
      '<section><div class="wrap">\n  <h2>' + L(M['grade_h'], lang) + '</h2>\n  <p class="sub">'

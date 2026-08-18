@@ -4,14 +4,12 @@ known issues, codebook, and the prose on the Sources / Data / Verification /
 Methods pages."""
 
 # ---------------------------------------------------------------- known issues
-SEV = {'RESOLVED': '已解決', 'NOT USED': '未採用', 'HIGH': '高', 'MEDIUM': '中',
-       'LOW': '低', 'INFO': '說明'}
+SEV = {'RESOLVED': '已解決', 'HIGH': '高', 'MEDIUM': '中', 'LOW': '低', 'INFO': '說明'}
 
 SCOPE = {
  'Switzerland, Portugal, Sweden': '瑞士、葡萄牙、瑞典',
  'Sweden': '瑞典', 'Taiwan': '臺灣', 'Italy': '義大利', 'Korea': '南韓',
  'Switzerland': '瑞士', 'Japan': '日本', 'all': '全部',
- 'immigration_country_year_2010_2022.xlsx': 'immigration_country_year_2010_2022.xlsx',
  'Israel, Bulgaria, France, Turkey, USA, Poland, China, Netherlands':
      '以色列、保加利亞、法國、土耳其、美國、波蘭、中國、荷蘭',
  'Turkey, Czechia, Slovakia, Portugal, Germany': '土耳其、捷克、斯洛伐克、葡萄牙、德國',
@@ -44,51 +42,49 @@ ISSUES_ZH = {
      '已下載至 countries/ITA_Italy/sources/。',
      '已更正：義大利現為 2010–2021 年一致之 ISMU 序列。'
      'Pew 推估值仍保留於 Irregular_estimates_all 工作表。'),
- 4: ('該工作表將五種概念上不同的統計置於同一欄位：274 筆 Eurostat 年度查緝查獲數（屬「流量」），'
-     '外加 8 國的逾期停留登記數與推估之無證人口（屬「存量」）。',
-     'Sources 工作表 S3–S12；另見 verification/audit_issues.csv。',
-     '該合併欄位未予採用：本典藏所發布之數值無一取自該欄位，來源清冊中亦無任何一筆'
-     '以該工作表為依據。本典藏將三種統計分置於三個獨立欄位，且絕不可合併使用。'
-     '若某一數值最初係於該工作表中發現，發布前均已重新對照原始發布機關查證'
-     '&mdash;&mdash;520 筆 UN WPP 人口數值完全重現，臺灣 17 筆逾期停留與失聯移工數值'
-     '現直接引用內政部移民署與勞動部。'),
- 5: ('目前不存在可跨國比較的無證移民人口統計。irregular_stock 僅涵蓋 13／40 國、'
+ 4: ('目前不存在可跨國比較的無證移民人口統計。irregular_stock 僅涵蓋 13／40 國、'
      '逾期停留 5／40 國、查獲人次 25／40 國，且三者不可相加亦不可互換。',
      'Coverage 工作表；verification/audit_issues.csv。',
      '至多僅能作為順序尺度的「議題顯著性」指標。若需跨國迴歸自變項，'
      '建議改用 foreign_nationals_pct_pop。'),
- 6: ('兩份原始工作表的人口數不一致，因其一採用 UN WPP 2024、另一採用世界銀行 WDI。'
+ 5: ('兩份原始工作表的人口數不一致，因其一採用 UN WPP 2024、另一採用世界銀行 WDI。'
      '以色列差異 −4.1%、保加利亞 +3.2%、法國 −2.5%。',
      '520 個國家—年度中有 427 個不一致；其中 26 個差異超過 3%。',
      '兩組序列並列保留（population = 世界銀行；population_un_wpp2024 = UN WPP），'
      '差距列於 population_wb_vs_unwpp_pct。請擇一使用並貫徹於所有國家。'),
- 7: ('UN DESA 移民存量與 OECD／Eurostat 外國出生人口序列差異極大'
+ 6: ('UN DESA 移民存量與 OECD／Eurostat 外國出生人口序列差異極大'
      '（土耳其 +144%、捷克 +55%、斯洛伐克 +42%、葡萄牙 −18%）。',
      '就 110 個重疊之國家—年度進行跨檔比對。',
      '兩者不可混用。土耳其尤為明顯：UN DESA 涵蓋受臨時保護之敘利亞人，OECD 序列則否。'),
- 8: ('2010–2015 年數值僅依據單一次級來源（韓國警察大學出版品），該網站現已無回應，'
-     '因此無法與任何來源核對。',
-     'press.police.ac.kr 無回應；亦無網頁典藏備份可用'
-     '（本次作業期間 Wayback Machine 回傳 503）。',
-     '予以保留但評為 D 級。2021 與 2022 年數值已對照線上法務部表格完全查證'
-     '（388,700 與 411,270）。'),
- 9: ('連結失效：所引用之 SEM PDF（ber-sanspapiers-2015-d.pdf）現回傳 404。',
+ 7: ('2010–2015 年數值原僅依據單一次級來源（韓國警察大學出版品），該網站已無回應，'
+     '因此當時無法與任何來源核對。',
+     '其後尋得官方序列：法務部《2015 年度出入國・外國人政策統計年報》表 6-1'
+     '（2010–2015 年底數），以及法務部公開資料之歷年非法滯留外國人序列。',
+     '已解決：2010–2014 年與官方數值完全一致並改註官方來源；'
+     '2015 年自 212,596（8 月 31 日快照）更正為 214,168（年底數）。'
+     '等級自 D 提升為 A（2011–2015）與 B（2010）。本 panel 已無 D 級數值。'),
+ 8: ('連結失效：所引用之 SEM PDF（ber-sanspapiers-2015-d.pdf）現回傳 404。',
      '2026-08-17 以多種網址型式檢查。',
-     '76,000 之推估值由 SRF 對 2016 年 4 月 25 日 SEM 研究發布之報導佐證，'
-     '已存至 countries/CHE_Switzerland/sources/。'
-     '另請注意該研究本身給出的區間為 58,000–105,000。'),
- 10: ('ismu.org 對所有自動化用戶端及真實瀏覽器均回傳 HTTP 403。',
+     '來源清冊現改列該數值實際據以查證之來源：SRF 對 2016 年 4 月 25 日 SEM 研究'
+     '發布之報導，其中明載 76,000。已移轉網址之 SEM PDF 保留於 '
+     'superseded_source_url 欄位。該研究本身給出的區間為 58,000–105,000。'),
+ 9: ('ismu.org 對所有自動化用戶端及真實瀏覽器均回傳 HTTP 403。',
       '2026-08-17 自兩種用戶端檢查。',
-      '改以 ISMU 自行發布之機器可讀序列替代，該序列完全確認了每一筆義大利數值。'),
- 11: ('一個引用的鏡像站（nisshinkyo.org）回傳 404。',
+      '來源清冊現改列 ISMU 自行發布之機器可讀序列，該序列完全重現 2010–2021 年'
+      '每一筆義大利數值。該序列止於 2021 年，故 2022 年（506,000）改引'
+      '第 XXVIII 號 ISMU 移民報告，其中載明該數字並與前一年之 519,000 對照。'
+      '遭封鎖之新聞稿網址保留於 superseded_source_url 欄位。'),
+ 10: ('一個引用的鏡像站（nisshinkyo.org）回傳 404。',
       '2026-08-17 檢查。',
-      '無影響：該檔僅重複出入國在留管理廳 2014 年之數值，而該廳的主要來源已成功下載。'),
- 12: ('2015 年（德國 +193%、匈牙利 +655%、奧地利 +161%）與 2021–2022 年'
+      '對所發布之任何數值均無影響。2014 年之 59,061 載於本站所存檔之'
+      '出入國在留管理廳文件中（已於存檔副本中實際查核，非逕予推定），故該鏡像屬多餘。'
+      '該引用來源保留於 superseded_source_url 欄位，並未刪除。'),
+ 11: ('2015 年（德國 +193%、匈牙利 +655%、奧地利 +161%）與 2021–2022 年'
       '（義大利 +304%、奧地利 +175%、克羅埃西亞 +224%）出現的大幅跳升為真實變動，'
       '反映 2015 年移民危機與 2021–22 年巴爾幹路線及烏克蘭人口移動，並非資料錯誤。',
       '所有數值均與線上 Eurostat 完全一致。',
       '已載明。請勿視為序列斷點。'),
- 13: ('Eurostat 與 OECD 之存量統計係以 1 月 1 日為基準，因此標示為 Y 年的列，'
+ 12: ('Eurostat 與 OECD 之存量統計係以 1 月 1 日為基準，因此標示為 Y 年的列，'
       '描述的是 Y−1 年 12 月 31 日的狀態。',
       'Eurostat migr_pop1ctz／migr_pop3ctb 之後設資料。',
       '若需與年中蒐集之調查資料對應，請考慮落後一期，或改用 ref_date 各欄位。'),
@@ -163,36 +159,56 @@ P['sources'] = {
                   '點選任一國家 Panel 資料表中的任何數字即可進入。'},
  'ev_count': {'en': '156 evidence pages · 156 PDF extracts', 'zh': '156 個佐證頁 · 156 份 PDF 摘錄'},
  'doc_h': {'en': 'Document and web-page sources', 'zh': '文件與網頁來源'},
- 'doc_sub': {'en': 'Beyond the bulk APIs, the two workbooks cite <strong>%d distinct '
-                   'country&ndash;source citations</strong> across %d URLs. <strong>%d of %d</strong> '
-                   'are held in this archive; the 2 that are not are named below. Use the filter to '
-                   'find a country, a publisher or a URL.',
-             'zh': '除批次 API 外，兩份工作表另引用 <strong>%d 筆不重複的國家&ndash;來源</strong>，'
-                   '共 %d 個網址。其中 <strong>%d／%d</strong> 已存檔於本站；'
-                   '未能存檔的 2 筆列於下方。可使用篩選欄查找國家、發布機構或網址。'},
+ 'doc_sub': {'en': 'Beyond the bulk APIs, this archive rests on <strong>%d distinct '
+                   'country&ndash;source citations</strong> across %d URLs, and <strong>%d of '
+                   '%d</strong> are held here. The source column names the document each value is '
+                   'actually verified against. Where the citation originally supplied with the '
+                   'data had gone dead, it was replaced by a live source carrying the same figure, '
+                   'and the original is recorded in the Note column rather than discarded. Use the '
+                   'filter to find a country, a publisher or a URL.',
+             'zh': '除批次 API 外，本典藏另依據 <strong>%d 筆不重複的國家&ndash;來源</strong>，'
+                   '共 %d 個網址，其中 <strong>%d／%d</strong> 已存檔於本站。'
+                   '「來源」欄所列為各數值實際據以查證之文件；'
+                   '若原始資料所附之引用來源已失效，則改以仍可取得、且載有相同數字的來源替代，'
+                   '原引用來源則保留於「備註」欄，不予刪除。'
+                   '可使用篩選欄查找國家、發布機構或網址。'},
  'filter_ph': {'en': 'Filter by country, source or URL…', 'zh': '依國家、來源或網址篩選…'},
  'of_sources': {'en': 'of %d sources', 'zh': '／%d 筆來源'},
- 'fail_h': {'en': 'Sources that could not be archived', 'zh': '無法存檔的來源'},
- 'fail_note': {'en': '<strong>Two of the %d country&ndash;source citations could not be retrieved '
-                     'by any means.</strong><br>\n'
-                     '<em>press.police.ac.kr</em> — the Korean National Police University '
-                     'publication behind Korea’s 2010–2015 overstayer figures. The host '
-                     'does not respond and no web archive copy was available. Those six values are '
-                     'graded D.<br>\n<em>nisshinkyo.org</em> — a mirror of a Japanese Immigration '
-                     'Services Agency table, now 404. No impact: it duplicated a figure whose '
-                     'primary ISA source was retrieved successfully.',
-               'zh': '<strong>%d 筆國家&ndash;來源引用中，有 2 筆無法以任何方式取得。</strong><br>\n'
-                     '<em>press.police.ac.kr</em>——南韓 2010–2015 年逾期停留數所依據的'
-                     '韓國警察大學出版品。該網站無回應，亦無網頁典藏備份，該 6 筆數值評為 D 級。<br>\n'
-                     '<em>nisshinkyo.org</em>——日本出入國在留管理廳表格的鏡像，現已 404。'
-                     '無影響：該檔僅重複一筆數值，其管理廳原始來源已成功取得。'},
- 'fail_p': {'en': 'Three further sources block automated and browser access entirely '
-                  '(<em>ismu.org</em>) or have moved (<em>sem.admin.ch</em>). In each case an '
-                  'equivalent or better source was located and archived instead, and it confirmed '
-                  'the values. See ',
-            'zh': '另有三個來源完全封鎖自動化與瀏覽器存取（<em>ismu.org</em>）或已更動網址'
-                  '（<em>sem.admin.ch</em>）。各案均另尋得同等或更佳之來源並存檔，'
-                  '且均確認了原數值。詳見'},
+ 'fail_h': {'en': 'Citations that were replaced', 'zh': '已更替的引用來源'},
+ 'fail_note': {'en': '<strong>Every one of the %d citations this archive relies on has been '
+                     'retrieved and stored here.</strong> In %d cases the citation originally '
+                     'supplied with the data had gone dead — a moved government PDF, a publisher '
+                     'that refuses all automated and browser access, a host that no longer '
+                     'responds. None of those values was left resting on a dead link: each was '
+                     're-verified against a live source that carries the same figure, and the '
+                     'original citation is preserved in the Note column above.<br>\n'
+                     '<em>sem.admin.ch</em> — the Swiss SEM study PDF moved; the 76,000 figure is '
+                     'stated in the SRF report on its release.<br>\n'
+                     '<em>ismu.org</em> — returns HTTP 403 to every client; replaced by ISMU’s own '
+                     'published series and, for 2022, the XXVIII Rapporto.<br>\n'
+                     '<em>press.police.ac.kr</em> — no longer responds; Korea’s 2010–2015 figures '
+                     'now come from the Ministry of Justice yearbook and open-data series.<br>\n'
+                     '<em>nisshinkyo.org</em> — a mirror of a Japanese Immigration Services Agency '
+                     'table, now 404; the ISA document itself is archived here and prints the same '
+                     'figure.',
+               'zh': '<strong>本典藏所依據的 %d 筆引用來源，已全數取得並存檔於本站。</strong>'
+                     '其中 %d 筆之原始引用來源已失效——政府 PDF 移轉網址、'
+                     '發布機構封鎖所有自動化與瀏覽器存取、或主機不再回應。'
+                     '此類數值均未停留於失效連結之上：每一筆均已改對照仍可取得、'
+                     '且載有相同數字之來源重新查證，原引用來源則保留於上方「備註」欄。<br>\n'
+                     '<em>sem.admin.ch</em>——瑞士 SEM 研究 PDF 已移轉網址；'
+                     '76,000 之數字載於 SRF 對該研究發布之報導。<br>\n'
+                     '<em>ismu.org</em>——對所有用戶端回傳 HTTP 403；'
+                     '改以 ISMU 自行發布之序列替代，2022 年則採第 XXVIII 號報告。<br>\n'
+                     '<em>press.police.ac.kr</em>——已不再回應；南韓 2010–2015 年數值'
+                     '現改採法務部統計年報與公開資料序列。<br>\n'
+                     '<em>nisshinkyo.org</em>——日本出入國在留管理廳表格之鏡像，現已 404；'
+                     '該廳原始文件已存檔於本站，並載有相同數字。'},
+ 'fail_p': {'en': 'Each replacement URL was checked live and the figure it supports was located '
+                  'in the archived copy before the substitution was recorded. The full '
+                  'value-by-value results are in ',
+            'zh': '每一個替代網址均經即時檢查，且於存檔副本中確認其所支持之數字後，'
+                  '方登錄為替代來源。逐筆查證結果詳見'},
  'ver_link': {'en': 'Verification', 'zh': '查證紀錄'},
  'col_publisher': {'en': 'Publisher', 'zh': '發布機構'},
  'col_dataset': {'en': 'Dataset', 'zh': '資料集'},
@@ -206,6 +222,7 @@ P['sources'] = {
  'tag_recovered': {'en': 'recovered', 'zh': '已救回'},
  'tag_screenshot': {'en': 'screenshot', 'zh': '截圖'},
  'tag_substituted': {'en': 'substituted', 'zh': '已替代'},
+ 'tag_superseded': {'en': 'citation superseded', 'zh': '引用來源已更替'},
  'tag_notret': {'en': 'not retrievable', 'zh': '無法取得'},
  'tag_notcap': {'en': 'not captured', 'zh': '未擷取'},
 }
@@ -308,12 +325,11 @@ P['verification'] = {
               'zh': '共 %d 筆數值，涵蓋 %d 個國家。以下逐項列出每一處改動的理由與佐證。'},
  'corr_sub2': {'en': '', 'zh': ''},
  'iss_h': {'en': 'Issues found', 'zh': '所發現的問題'},
- 'iss_sub': {'en': 'Resolved issues first, then an input this archive examined and rejected, '
-                   'then the caveats that remain and must be carried into any analysis. Only '
-                   'rows marked HIGH, MEDIUM, LOW or INFO describe the data published here.',
-             'zh': '先列已解決者，其次為本典藏檢視後未予採用之原始輸入，'
-                   '最後為仍然存在、分析時必須一併納入考量的問題。'
-                   '僅標示為「高」、「中」、「低」、「說明」之列涉及本典藏所發布之資料。'},
+ 'iss_sub': {'en': 'Every row here concerns the data this archive publishes: first the issues '
+                   'that were found and fixed, then the caveats that remain and must be carried '
+                   'into any analysis.',
+             'zh': '本表各列均涉及本典藏所發布之資料：先列已發現並更正者，'
+                   '其後為仍然存在、分析時必須一併納入考量的問題。'},
  'col_sev': {'en': 'Severity', 'zh': '嚴重度'},
  'col_scope': {'en': 'Scope', 'zh': '範圍'},
  'col_issue': {'en': 'Issue', 'zh': '問題'},
@@ -358,6 +374,29 @@ P['methods'] = {
  'lede': {'en': 'The procedure, the grading scheme, and the judgements a reader needs in order to '
                 'decide how much weight each variable can carry.',
           'zh': '作業流程、品質分級標準，以及讀者判斷各變項可承載多少推論重量所需的資訊。'},
+ 'inputs_h': {'en': 'Which inputs were used', 'zh': '採用哪些原始輸入'},
+ 'inputs_p': {'en': 'Two workbooks were supplied. The panel is built on '
+                    '<code>migration_population_panel_40countries_2010-2022.xlsx</code>. The '
+                    'earlier <code>immigration_country_year_2010_2022.xlsx</code> was examined '
+                    'and used only as a cross-check, because its '
+                    '<code>Illegal_immigrants_number</code> column pools five conceptually '
+                    'different measures — annual enforcement detections, which are a flow, '
+                    'together with overstayer register counts and modelled unauthorised-population '
+                    'estimates, which are stocks. Pooled that way the column cannot be read as a '
+                    'series, so this archive keeps the three measures in three separate columns '
+                    'and no published value is taken from the pooled column. Where a figure was '
+                    'first noticed in that workbook it was re-verified against the publisher '
+                    'before publication.',
+              'zh': '本研究獲提供兩份工作表。本 panel 係以 '
+                    '<code>migration_population_panel_40countries_2010-2022.xlsx</code> 為基礎建立。'
+                    '較早的 <code>immigration_country_year_2010_2022.xlsx</code> 已經檢視，'
+                    '但僅作為交叉核對之用，因其 <code>Illegal_immigrants_number</code> 欄位'
+                    '將五種概念上不同的統計合併於同一欄：屬「流量」的年度查緝查獲數，'
+                    '與屬「存量」的逾期停留登記數及推估之無證人口數。'
+                    '如此合併後該欄位無法作為時間序列解讀，'
+                    '故本典藏將三種統計分置於三個獨立欄位，'
+                    '所發布之數值亦無一取自該合併欄位。'
+                    '若某一數值最初係於該工作表中發現，發布前均已重新對照原始發布機關查證。'},
  'proc_h': {'en': 'Procedure', 'zh': '作業流程'},
  'proc': {'en': ['<strong>Catalogue.</strong> Every source reference was extracted from both input '
                  'workbooks: 171 references, 160 distinct URLs across 51 hosts.',

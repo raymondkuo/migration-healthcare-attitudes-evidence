@@ -56,7 +56,10 @@ def build(iso3, en_name, v, lang):
     scol, ucol = v + '_source', v + '_url'
     urls = sorted({str(u) for u in sub[ucol].dropna()}) if ucol in sub else []
 
+    # Files are collected per source URL, not into one undifferentiated basket, so each
+    # archived file can be shown against the years it is actually evidence for.
     arts, seen = [], set()
+    groups, _cur = [], None
 
     def add(label, rel):
         if not rel or rel in seen:
@@ -65,8 +68,12 @@ def build(iso3, en_name, v, lang):
             return
         seen.add(rel)
         arts.append((label, rel))
+        if _cur is not None:
+            _cur.append((label, rel))
 
     for u in urls:
+        _cur = []
+        groups.append((u, _cur))
         # the shared resolver covers archived originals, rendered mirrors, raw payloads,
         # publisher-page mirrors and page snapshots
         _regrows = reg_by.get((iso3, u), [])
@@ -153,7 +160,48 @@ def build(iso3, en_name, v, lang):
                     + rr + '</tbody></table></div>')
 
     pdfrel = 'evidence/extracts/%s/%s.pdf' % (iso3, v)
-    artlinks = ''.join(filelink('../' + rel, lab) for lab, rel in arts)
+
+    # ---- one table row per archived file, against the years it is evidence for ----
+    yv = {int(r['year']): r[v] for _, r in sub.iterrows()}
+    url_years = {}
+    for _, r in sub.iterrows():
+        url_years.setdefault(str(r.get(ucol) or ''), []).append(int(r['year']))
+
+    def supports(years):
+        if not years:
+            return '<span style="color:var(--faint)">&mdash;</span>'
+        return ' &middot; '.join('%d&nbsp;<strong>%s</strong>' % (y, num(yv[y]))
+                                 for y in sorted(years))
+
+    def srcname(u):
+        for r0 in reg_by.get((iso3, u), []):
+            s0 = str(r0.get('source_name') or '')
+            if s0 and s0 != 'nan':
+                return s0
+        for _, r0 in sub.iterrows():
+            if str(r0.get(ucol) or '') == u:
+                s0 = str(r0.get(scol) or '')
+                if s0 and s0 != 'nan':
+                    return s0
+        return u.split('/')[2] if '://' in u else u
+
+    arows = ['<tr><td class="wrap-any">%s</td><td>%s</td><td class="wrap-any">%s</td>'
+             '<td class="wrap-any">%s</td></tr>'
+             % (filelink('../' + pdfrel, os.path.basename(pdfrel)), t('ev_pdf', lang),
+                E(cn) + ' &mdash; ' + E(vlab(v, lang)),
+                '<span style="color:var(--muted)">%s</span>' % t('ev_arch_all', lang))]
+    for u, files in groups:
+        if not files:
+            continue
+        sn, sup = E(srcname(u)[:110]), supports(url_years.get(u, []))
+        for lab, rel in files:
+            arows.append('<tr><td class="wrap-any">%s</td><td>%s</td><td class="wrap-any">%s</td>'
+                         '<td class="wrap-any">%s</td></tr>'
+                         % (filelink('../' + rel, os.path.basename(rel)), E(lab), sn, sup))
+    arttable = ('<div class="tablewrap"><table><thead><tr><th>' + t('ev_arch_file', lang)
+                + '</th><th>' + t('ev_arch_kind', lang) + '</th><th>' + t('col_source', lang)
+                + '</th><th>' + t('ev_arch_for', lang) + '</th></tr></thead><tbody>'
+                + ''.join(arows) + '</tbody></table></div>')
 
     body = (
      '<div class="hero"><div class="wrap">\n'
@@ -179,8 +227,7 @@ def build(iso3, en_name, v, lang):
                % (E(u), E(u)) for u in urls) + '</ul>\n</div></section>\n\n'
      + ('<section><div class="wrap">' + corrhtml + '</div></section>\n\n' if corrhtml else '')
      + '<section><div class="wrap">\n  <h2>' + t('ev_arch_h', lang) + '</h2>\n'
-     '  <p class="sub">' + t('ev_arch_sub', lang) + '</p>\n  <p>'
-     + filelink('../' + pdfrel, t('ev_pdf', lang)) + artlinks + '</p>\n'
+     '  <p class="sub">' + t('ev_arch_sub', lang) + '</p>\n  ' + arttable + '\n'
      '  <p style="margin-top:10px">'
      + filelink('../evidence/countries/%s/data_from_source.csv' % iso3, t('ev_country_csv', lang))
      + filelink('../evidence/countries/%s/value_check.csv' % iso3, t('ev_check_csv', lang))
