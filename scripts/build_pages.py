@@ -203,27 +203,6 @@ def build_data(lang):
      ('manifest/checksums.csv', ('SHA-256 checksums', 'SHA-256 校驗碼'),
       ('Integrity hash for every file in this archive.', '本存檔每一份檔案之完整性雜湊值。')),
     ]
-    ALT = [
-     ('data/migration_population_panel_40countries_2010-2022_final.xlsx',
-      ('Independently produced summary workbook', '另一次獨立彙編之摘要工作表'),
-      ('Produced by a separate compilation run: its internal counts and file paths describe that '
-       'run, not this archive.',
-       '由另一次獨立彙編作業產生：其內部統計數字與檔案路徑描述的是該次作業，而非本存檔。')),
-     ('data/ABOUT_THE_TWO_WORKBOOKS.md',
-      ('Note: how the two workbooks differ', '說明：兩份工作表的差異'),
-      ('Which workbook this website documents, and where the other one diverges.',
-       '本網站所記載的是哪一份工作表，以及另一份在何處分歧。')),
-    ]
-    ORIG = [
-     ('data/original_inputs/immigration_country_year_2010_2022.xlsx',
-      ('Input workbook 1 (unmodified)', '原始輸入工作表 1（未修改）'),
-      ('Kept for provenance. Not used as the base for the final panel.',
-       '為出處留存。未作為最終 panel 之基礎。')),
-     ('data/original_inputs/migration_population_panel_40countries_2010-2022.xlsx',
-      ('Input workbook 2 (unmodified)', '原始輸入工作表 2（未修改）'),
-      ('Kept for provenance. The final panel is built from this file.',
-       '為出處留存。最終 panel 即以本檔為基礎建立。')),
-    ]
     i = 0 if lang == 'en' else 1
 
     def flist(items):
@@ -257,11 +236,6 @@ def build_data(lang):
      + '</p>\n</div></div>\n\n'
      '<section><div class="wrap">\n  <h2>' + L(DT['main_h'], lang) + '</h2>\n  <p class="sub">'
      + L(DT['main_sub'], lang) + '</p>\n' + flist(MAIN_EN) + '\n</div></section>\n\n'
-     '<section><div class="wrap">\n  <h2>' + L(DT['alt_h'], lang) + '</h2>\n'
-     '  <div class="note warn">' + L(DT['alt_note'], lang) + '</div>\n' + flist(ALT)
-     + '\n</div></section>\n\n'
-     '<section><div class="wrap">\n  <h2>' + L(DT['orig_h'], lang) + '</h2>\n  <p class="sub">'
-     + L(DT['orig_sub'], lang) + '</p>\n' + flist(ORIG) + '\n</div></section>\n\n'
      '<section><div class="wrap">\n  <h2>' + L(DT['ctry_h'], lang) + '</h2>\n  <p class="sub">'
      + L(DT['ctry_sub'], lang) + '<a href="' + fname('countries', lang) + '">'
      + L(DT['ctry_link'], lang) + '</a>' + L(DT['ctry_sub2'], lang)
@@ -363,8 +337,7 @@ def build_verification(lang):
          + '</p>\n</div></section>\n\n') if len(after) else '')
      + '<section><div class="wrap">\n  <h2>' + L(V['corr_h'], lang) + '</h2>\n  <p class="sub">'
      + (L(V['corr_sub'], lang) % (len(corr), corr.iso3.nunique()))
-     + '<a href="' + fname('data', lang) + '">' + L(DT['h1'], lang) + '</a>'
-     + L(V['corr_sub2'], lang) + '</p>\n  ' + ctab + '\n</div></section>\n\n'
+     + '</p>\n  ' + ctab + '\n</div></section>\n\n'
      '<section><div class="wrap">\n  <h2>' + L(V['iss_h'], lang) + '</h2>\n  <p class="sub">'
      + L(V['iss_sub'], lang) + '</p>\n  ' + isstab + '\n</div></section>\n\n'
      '<section><div class="wrap">\n  <h2>' + L(V['held_h'], lang) + '</h2>\n  <p class="sub">'

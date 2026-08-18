@@ -215,12 +215,11 @@ P['data'] = {
                 '可在 Excel 中正確開啟，包含中文、日文、韓文與希伯來文之來源名稱。'},
  'main_h': {'en': 'The dataset', 'zh': '資料集'},
  'main_sub': {'en': 'Everything on this website — every count, grade and correction — refers to '
-                    '<strong>FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx</strong>. It '
-                    'is the only workbook whose every value can be traced to a source file held in '
-                    'this archive.',
+                    '<strong>FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx</strong>. '
+                    'Every value in it traces to a source file held in this archive.',
               'zh': '本網站所有內容——每一項統計、等級與更正——均指向 '
                     '<strong>FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx</strong>。'
-                    '這是唯一一份每個數值都能追溯到本存檔內來源檔案的工作表。'},
+                    '其中每一個數值都可追溯至本存檔內的來源檔案。'},
  'alt_h': {'en': 'A second workbook, included for completeness', 'zh': '第二份工作表（為求完整而附上）'},
  'alt_note': {'en': '<strong>This file is not the one the website documents.</strong> It was '
                     'produced by a separate compilation run. Its <em>Verification</em> sheet '
@@ -302,9 +301,10 @@ P['verification'] = {
  'col_rate': {'en': 'Rate', 'zh': '一致率'},
  'fulllog': {'en': 'full verification log (CSV)', 'zh': '完整查證紀錄（CSV）'},
  'corr_h': {'en': 'Corrections applied', 'zh': '已套用之更正'},
- 'corr_sub': {'en': '%d values across %d countries. The original workbooks are kept unmodified on '
-                    'the ', 'zh': '共 %d 筆數值，涵蓋 %d 個國家。原始工作表未經修改，保存於'},
- 'corr_sub2': {'en': ' page so every change can be checked.', 'zh': '頁面，以便逐項查核每一處改動。'},
+ 'corr_sub': {'en': '%d values across %d countries. Each change is itemised below with the reason '
+                    'and the evidence behind it.',
+              'zh': '共 %d 筆數值，涵蓋 %d 個國家。以下逐項列出每一處改動的理由與佐證。'},
+ 'corr_sub2': {'en': '', 'zh': ''},
  'iss_h': {'en': 'Issues found', 'zh': '所發現的問題'},
  'iss_sub': {'en': 'Resolved issues first, then those that remain and must be carried into any '
                    'analysis.',
