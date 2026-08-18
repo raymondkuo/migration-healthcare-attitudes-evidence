@@ -21,18 +21,26 @@
 
 <section><div class="wrap">
   <div class="stats">
-    <div class="stat"><span class="n">2,454</span><span class="l">values re-derived from live sources</span></div>
-    <div class="stat"><span class="n">2,415</span><span class="l">matched the source exactly</span></div>
+    <div class="stat"><span class="n">2,737</span><span class="l">values re-derived from live sources</span></div>
+    <div class="stat"><span class="n">2,698</span><span class="l">matched the source exactly</span></div>
     <div class="stat"><span class="n">39</span><span class="l">discrepancies</span></div>
     <div class="stat"><span class="n">50</span><span class="l">values corrected</span></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <h2>Reproduction rate by source</h2>
-  <p class="sub">Every discrepancy fell in one place: the Eurostat detections series for three countries in one of the two input workbooks.</p>
+  <h2>Reproduction rate of the input workbooks, as received</h2>
+  <p class="sub">This table records the comparison as it stood <strong>before any correction</strong> — it is the audit trail, not the state of the published data. Every discrepancy fell in one place: the Eurostat detections series for three countries in one of the two input workbooks. All 39 were corrected; the re-test below shows the result.</p>
   <div class="tablewrap"><table><thead><tr><th>Source</th><th class="num">Values checked</th><th class="num">Exact</th><th class="num">Rate</th></tr></thead><tbody><tr><td>S1 UN WPP2024</td><td class="num">520</td><td class="num">520</td><td class="num">100.0%</td></tr><tr><td>World Bank SP.POP.TOTL</td><td class="num">507</td><td class="num">507</td><td class="num">100.0%</td></tr><tr><td>Eurostat migr_pop1ctz</td><td class="num">293</td><td class="num">293</td><td class="num">100.0%</td></tr><tr><td>Eurostat migr_pop3ctb</td><td class="num">291</td><td class="num">291</td><td class="num">100.0%</td></tr><tr><td>Eurostat migr_eipre</td><td class="num">283</td><td class="num">244</td><td class="num">86.2%</td></tr><tr><td>S3 Eurostat migr_eipre</td><td class="num">274</td><td class="num">274</td><td class="num">100.0%</td></tr><tr><td>S2 UN DESA IMS2024</td><td class="num">120</td><td class="num">120</td><td class="num">100.0%</td></tr><tr><td>World Bank SM.POP.TOTL</td><td class="num">27</td><td class="num">27</td><td class="num">100.0%</td></tr><tr><td>OECD IMD AUS_B14</td><td class="num">13</td><td class="num">13</td><td class="num">100.0%</td></tr><tr><td>OECD IMD TUR_B15</td><td class="num">13</td><td class="num">13</td><td class="num">100.0%</td></tr><tr><td>OECD IMD ISR_B14</td><td class="num">13</td><td class="num">13</td><td class="num">100.0%</td></tr><tr><td>OECD IMD KOR_B15</td><td class="num">13</td><td class="num">13</td><td class="num">100.0%</td></tr><tr><td>OECD IMD JPN_B15</td><td class="num">13</td><td class="num">13</td><td class="num">100.0%</td></tr><tr><td>OECD IMD USA_B14</td><td class="num">13</td><td class="num">13</td><td class="num">100.0%</td></tr><tr><td>OECD IMD USA_B15</td><td class="num">13</td><td class="num">13</td><td class="num">100.0%</td></tr><tr><td>OECD IMD MEX_B15</td><td class="num">12</td><td class="num">12</td><td class="num">100.0%</td></tr><tr><td>OECD IMD CHL_B14</td><td class="num">11</td><td class="num">11</td><td class="num">100.0%</td></tr><tr><td>OECD IMD TUR_B14</td><td class="num">9</td><td class="num">9</td><td class="num">100.0%</td></tr><tr><td>OECD IMD MEX_B14</td><td class="num">8</td><td class="num">8</td><td class="num">100.0%</td></tr><tr><td>OECD IMD CHL_B15</td><td class="num">6</td><td class="num">6</td><td class="num">100.0%</td></tr><tr><td>OECD IMD NZL_B14</td><td class="num">2</td><td class="num">2</td><td class="num">100.0%</td></tr></tbody></table></div>
   <p style="margin-top:12px"><a class="file" href="data/verification_log.csv" download>full verification log (CSV)</a></p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Re-test after correction: the data this archive publishes</h2>
+  <p class="sub">The Eurostat detections series was re-queried live on 2026-08-17 and every value the archive now publishes was compared against it again. The raw payload from that re-query is archived as <code>evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-17.json</code>.</p>
+  <div class="note ok-note"><strong>283 of 283 values reproduce the live source exactly — 100.0%, across all 23 countries.</strong> The 39 values that failed the first test were replaced with the year-aligned Eurostat figures and now match.</div>
+  <div class="tablewrap"><table><thead><tr><th>Source</th><th class="num">Values checked</th><th class="num">Exact</th><th class="num">Rate</th></tr></thead><tbody><tr><td>Eurostat migr_eipre</td><td class="num">283</td><td class="num">283</td><td class="num">100.0%</td></tr></tbody></table></div>
+  <p style="margin-top:12px"><a class="file" href="evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-17.json" download>the re-query payload</a></p>
 </div></section>
 
 <section><div class="wrap">

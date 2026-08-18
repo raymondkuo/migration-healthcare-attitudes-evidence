@@ -280,8 +280,11 @@ def build_data(lang):
 
 # ==============================================================  VERIFICATION
 def build_verification(lang):
-    by = vlog.groupby('source').agg(n=('status', 'size'),
-                                    exact=('status', lambda s: int((s == 'EXACT').sum()))).reset_index()
+    _st = vlog['stage'] if 'stage' in vlog.columns else None
+    asrec = vlog[_st == 'as_received'] if _st is not None else vlog
+    after = vlog[_st == 'after_correction'] if _st is not None else vlog.iloc[0:0]
+    by = asrec.groupby('source').agg(n=('status', 'size'),
+                                     exact=('status', lambda s: int((s == 'EXACT').sum()))).reset_index()
     by['rate'] = (by.exact / by.n * 100).round(1)
     by = by.sort_values('n', ascending=False)
     srows = ''.join('<tr><td>%s</td><td class="num">%s</td><td class="num">%s</td>'
@@ -342,7 +345,23 @@ def build_verification(lang):
      + '<section><div class="wrap">\n  <h2>' + L(V['rate_h'], lang) + '</h2>\n  <p class="sub">'
      + L(V['rate_sub'], lang) + '</p>\n  ' + srctab + '\n  <p style="margin-top:12px">'
      + filelink('data/verification_log.csv', L(V['fulllog'], lang)) + '</p>\n</div></section>\n\n'
-     '<section><div class="wrap">\n  <h2>' + L(V['corr_h'], lang) + '</h2>\n  <p class="sub">'
+     + (('<section><div class="wrap">\n  <h2>' + L(V['re_h'], lang) + '</h2>\n'
+         '  <p class="sub">' + (L(V['re_sub'], lang) % ACCESS) + '</p>\n'
+         '  <div class="note ok-note">' + L(V['re_result'], lang) + '</div>\n'
+         '  <div class="tablewrap"><table><thead><tr><th>' + L(V['col_src'], lang)
+         + '</th><th class="num">' + L(V['col_nchk'], lang) + '</th><th class="num">'
+         + L(V['col_exact'], lang) + '</th><th class="num">' + L(V['col_rate'], lang)
+         + '</th></tr></thead><tbody>'
+         + ''.join('<tr><td>%s</td><td class="num">%s</td><td class="num">%s</td>'
+                   '<td class="num">%.1f%%</td></tr>'
+                   % (E(k), num(len(gg)), num(int((gg.status == 'EXACT').sum())),
+                      (gg.status == 'EXACT').mean() * 100)
+                   for k, gg in after.groupby('source'))
+         + '</tbody></table></div>\n  <p style="margin-top:12px">'
+         + filelink('evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-17.json',
+                    {'en': 'the re-query payload', 'zh': '重測查詢之原始回應'}[lang])
+         + '</p>\n</div></section>\n\n') if len(after) else '')
+     + '<section><div class="wrap">\n  <h2>' + L(V['corr_h'], lang) + '</h2>\n  <p class="sub">'
      + (L(V['corr_sub'], lang) % (len(corr), corr.iso3.nunique()))
      + '<a href="' + fname('data', lang) + '">' + L(DT['h1'], lang) + '</a>'
      + L(V['corr_sub2'], lang) + '</p>\n  ' + ctab + '\n</div></section>\n\n'

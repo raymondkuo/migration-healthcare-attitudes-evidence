@@ -29,8 +29,8 @@
       2010,
       2022
     ],
-    "files_total": 1190,
-    "bytes_total": 332157118,
+    "files_total": 1192,
+    "bytes_total": 332265026,
     "evidence_directory": "evidence/",
     "api_snapshots": 21,
     "web_page_snapshots": 41,
@@ -38,8 +38,8 @@
     "screenshots": 41
   },
   "verification": {
-    "values_checked": 2454,
-    "exact_matches": 2415,
+    "values_checked": 2737,
+    "exact_matches": 2698,
     "discrepancies": 39,
     "corrections_applied": 50,
     "countries_corrected": 6,
