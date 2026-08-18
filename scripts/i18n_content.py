@@ -4,7 +4,8 @@ known issues, codebook, and the prose on the Sources / Data / Verification /
 Methods pages."""
 
 # ---------------------------------------------------------------- known issues
-SEV = {'RESOLVED': '已解決', 'HIGH': '高', 'MEDIUM': '中', 'LOW': '低', 'INFO': '說明'}
+SEV = {'RESOLVED': '已解決', 'NOT USED': '未採用', 'HIGH': '高', 'MEDIUM': '中',
+       'LOW': '低', 'INFO': '說明'}
 
 SCOPE = {
  'Switzerland, Portugal, Sweden': '瑞士、葡萄牙、瑞典',
@@ -46,7 +47,11 @@ ISSUES_ZH = {
  4: ('該工作表將五種概念上不同的統計置於同一欄位：274 筆 Eurostat 年度查緝查獲數（屬「流量」），'
      '外加 8 國的逾期停留登記數與推估之無證人口（屬「存量」）。',
      'Sources 工作表 S3–S12；另見 verification/audit_issues.csv。',
-     '未採用。最終 panel 將三種統計分置於三個獨立欄位，且絕不可合併使用。'),
+     '該合併欄位未予採用：本典藏所發布之數值無一取自該欄位，來源清冊中亦無任何一筆'
+     '以該工作表為依據。本典藏將三種統計分置於三個獨立欄位，且絕不可合併使用。'
+     '若某一數值最初係於該工作表中發現，發布前均已重新對照原始發布機關查證'
+     '&mdash;&mdash;520 筆 UN WPP 人口數值完全重現，臺灣 17 筆逾期停留與失聯移工數值'
+     '現直接引用內政部移民署與勞動部。'),
  5: ('目前不存在可跨國比較的無證移民人口統計。irregular_stock 僅涵蓋 13／40 國、'
      '逾期停留 5／40 國、查獲人次 25／40 國，且三者不可相加亦不可互換。',
      'Coverage 工作表；verification/audit_issues.csv。',
@@ -303,9 +308,12 @@ P['verification'] = {
               'zh': '共 %d 筆數值，涵蓋 %d 個國家。以下逐項列出每一處改動的理由與佐證。'},
  'corr_sub2': {'en': '', 'zh': ''},
  'iss_h': {'en': 'Issues found', 'zh': '所發現的問題'},
- 'iss_sub': {'en': 'Resolved issues first, then those that remain and must be carried into any '
-                   'analysis.',
-             'zh': '先列已解決者，其後為仍然存在、分析時必須一併納入考量的問題。'},
+ 'iss_sub': {'en': 'Resolved issues first, then an input this archive examined and rejected, '
+                   'then the caveats that remain and must be carried into any analysis. Only '
+                   'rows marked HIGH, MEDIUM, LOW or INFO describe the data published here.',
+             'zh': '先列已解決者，其次為本典藏檢視後未予採用之原始輸入，'
+                   '最後為仍然存在、分析時必須一併納入考量的問題。'
+                   '僅標示為「高」、「中」、「低」、「說明」之列涉及本典藏所發布之資料。'},
  'col_sev': {'en': 'Severity', 'zh': '嚴重度'},
  'col_scope': {'en': 'Scope', 'zh': '範圍'},
  'col_issue': {'en': 'Issue', 'zh': '問題'},

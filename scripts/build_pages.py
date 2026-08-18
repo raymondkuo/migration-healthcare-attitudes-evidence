@@ -162,10 +162,12 @@ def build_data(lang):
     MAIN_EN = [
      ('data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx',
       ('The verified panel, all sheets', '已查證之 panel 資料（全部工作表）'),
-      ('Excel workbook with README, Panel_final, Data_quality, Corrections_applied, Known_issues, '
-       'Verification_log, Source_register, Irregular_estimates_all and Codebook sheets.',
-       'Excel 活頁簿，含 README、Panel_final、Data_quality、Corrections_applied、Known_issues、'
-       'Verification_log、Source_register、Irregular_estimates_all 與 Codebook 等工作表。')),
+      ('Excel workbook, ten sheets: README, Panel_final, Data_quality, Corrections_applied, '
+       'Known_issues, Verification_log, Source_register, Irregular_estimates_all, Codebook '
+       'and Deleted_values.',
+       'Excel 活頁簿，共十個工作表：README、Panel_final、Data_quality、Corrections_applied、'
+       'Known_issues、Verification_log、Source_register、Irregular_estimates_all、Codebook '
+       '與 Deleted_values。')),
      ('data/panel_final.csv', ('Panel_final as CSV', 'Panel_final（CSV 格式）'),
       ('520 rows, one per country-year, with source, URL, reference date and quality grade on '
        'every value.', '520 列，每列為一個國家—年度，每個數值均附來源、網址、基準日與品質等級。')),
@@ -277,7 +279,7 @@ def build_verification(lang):
               + L(V['col_prev'], lang) + '</th></tr></thead><tbody>'
               + srows + '</tbody></table></div>')
 
-    order = {'RESOLVED': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'INFO': 4}
+    order = {'RESOLVED': 0, 'NOT USED': 1, 'HIGH': 2, 'MEDIUM': 3, 'LOW': 4, 'INFO': 5}
     iss = issues.copy()
     iss['o'] = iss.severity.map(lambda s: order.get(s, 9))
     iss = iss.sort_values('o')
