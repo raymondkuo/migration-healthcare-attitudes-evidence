@@ -10,3 +10,11 @@ __pycache__/
 # that contradict the site.
 *VERIFIED.md
 *verified.md
+
+# The audit checklist workbook, same class of internal artifact as the narrative above.
+# Deliberately NOT written as *VERIFIED.xlsx: that would also match
+# data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx, the archive's central
+# deliverable, linked from both Data files pages. Nor as AUDIT_*, which would swallow
+# verification/AUDIT_response.md - the record of how each audit claim was adjudicated,
+# which belongs in the published trail.
+AUDIT_checklist_*.xlsx
