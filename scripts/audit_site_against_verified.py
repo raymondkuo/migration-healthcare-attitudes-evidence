@@ -36,14 +36,13 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SITE_ROOT = SCRIPT_DIR.parent
-DEFAULT_TRUTH = Path(
-    r"D:\研究計畫\其他投稿\2026_移民對非本國籍使用公共醫療態度（葉明叡）"
-    r"\claude-work\FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx"
-)
 DEFAULT_CHECKLIST = SITE_ROOT / "outputs" / "audit_site_vs_verified" / "AUDIT_checklist_site_vs_VERIFIED.xlsx"
-# Resolve the reference workbook relative to this repository.  This keeps the
-# default usable on Windows even when the parent directory contains CJK text.
-DEFAULT_TRUTH = SITE_ROOT.parent / "FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx"
+# The reference workbook is the one this archive PUBLISHES, data/FINAL_....xlsx.
+# It used to default to a loose copy in the parent directory, which silently went
+# stale: on 2026-08-18 that copy still held 2,454 verification rows and 316 source
+# rows while the published workbook held 2,737 and 321, so the audit was checking
+# the live site against superseded truth.
+DEFAULT_TRUTH = SITE_ROOT / "data" / "FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx"
 
 PANEL_VARS = [
     "population",

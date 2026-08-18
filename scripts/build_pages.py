@@ -117,10 +117,14 @@ def build_sources(lang):
             return '' if v == 'nan' else v
         old_n, old_u = _s(r.get('superseded_source_name')), _s(r.get('superseded_source_url'))
         if old_u:
+            # where the superseded page was itself retrieved, offer it: the reader can
+            # check the original citation instead of taking the note's word for it
+            old_arts = artifact_links(iso, old_u, '', lang)
             bits.append('<span style="color:var(--muted)">%s</span><br>%s<br>'
                         '<a href="%s" rel="nofollow noopener" style="word-break:break-all;'
-                        'color:var(--faint)">%s</a>'
-                        % (t('replaced', lang), E(str(old_n)[:130]), E(old_u), E(old_u[:88])))
+                        'color:var(--faint)">%s</a>%s'
+                        % (t('replaced', lang), E(str(old_n)[:130]), E(old_u), E(old_u[:88]),
+                           ('<br>' + old_arts) if old_arts else ''))
         cell_note = ('<span style="font-size:11.5px">' + '<br><br>'.join(bits) + '</span>'
                      if bits else '<span style="color:var(--faint)">&mdash;</span>')
 
