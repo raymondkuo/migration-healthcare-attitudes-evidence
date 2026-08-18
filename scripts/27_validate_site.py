@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Validate the archive site: every internal link resolves, every panel value is
 represented, and the checksum manifest is complete and correct."""
-import os, re, sys, hashlib, urllib.parse
+import os, re, sys, hashlib, subprocess, urllib.parse
 import pandas as pd
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -126,6 +126,24 @@ for root, dirs, files in os.walk(SITE):
         continue
     for f in files:
         on_disk.add(os.path.relpath(os.path.join(root, f), SITE).replace('\\', '/'))
+
+
+def _git_ignored(paths):
+    """Files git will not publish. They are deliberately absent from the manifest, so
+    flagging them as missing would invite someone to 'fix' it by publishing them.
+    NUL-separated bytes: in text mode Windows sends \\r\\n and nothing ever matches."""
+    if not paths:
+        return set()
+    data = ('\0'.join(sorted(paths)) + '\0').encode('utf-8')
+    try:
+        p = subprocess.run(['git', '-C', SITE, 'check-ignore', '-z', '--stdin'],
+                           input=data, capture_output=True, timeout=180)
+    except Exception:
+        return set()
+    return {x.replace('\\', '/') for x in p.stdout.decode('utf-8').split('\0') if x}
+
+
+on_disk -= _git_ignored(on_disk)
 missing = on_disk - have
 extra = have - on_disk
 if missing:

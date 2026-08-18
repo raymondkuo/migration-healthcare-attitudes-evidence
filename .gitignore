@@ -4,3 +4,9 @@ node_modules/
 *.tmp
 __pycache__/
 *.pyc
+
+# Internal QA narrative - kept locally, never published. Its figures go stale the
+# moment the archive is corrected, and a reviewer who found it would read numbers
+# that contradict the site.
+*VERIFIED.md
+*verified.md
