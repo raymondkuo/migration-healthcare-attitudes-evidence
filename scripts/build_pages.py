@@ -199,6 +199,18 @@ def build_data(lang):
         return os.path.getsize(p) if os.path.exists(p) else 0
 
     MAIN_EN = [
+     ('data/CLEAN_country_year_panel_2010-2022.xlsx',
+      ('Analysis extract, one row per country-year', '分析用資料集（每列為一個國家—年度）'),
+      ('The verified numbers as a clean rectangle: 520 rows, 40 countries, 2010&ndash;2022, '
+       'with shares, a quality grade beside each variable, a codebook and the cautions. '
+       'Percentages here are 0&ndash;100.',
+       '已查證數值之精簡表格：520 列、40 國、2010&ndash;2022 年，'
+       '含各項占比、每一變項之品質等級、變項說明書與使用注意事項。'
+       '本檔百分比欄位為 0&ndash;100。')),
+     ('data/clean_country_year_panel_2010-2022.csv',
+      ('Analysis extract as CSV', '分析用資料集（CSV 格式）'),
+      ('The Country_year sheet above, as UTF-8 CSV.',
+       '即上述 Country_year 工作表之 UTF-8 CSV 版本。')),
      ('data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx',
       ('The verified panel, all sheets', '已查證之 panel 資料（全部工作表）'),
       ('Excel workbook, ten sheets: README, Panel_final, Data_quality, Corrections_applied, '
