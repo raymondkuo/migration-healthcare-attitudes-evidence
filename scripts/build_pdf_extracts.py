@@ -10,7 +10,7 @@ def _psq(s):
     return "'" + str(s).replace("'", "''") + "'"
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from blib import (SITE, D, ACCESS, panel, vlog, reg, corr, snaps, apis, pubs,
+from blib import (SITE, D, ACCESS, revised_on, panel, vlog, reg, corr, snaps, apis, pubs,
                   ALLVARS, cname, vlab, reason_zh)
 from i18n import VERTAG, COUNTRY, VLAB
 
@@ -41,8 +41,8 @@ TPL = """<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8">
    line-height:1.55}
 </style></head><body>
 <h1>TITLE_EN<span class="zh">TITLE_ZH</span></h1>
-<p class="sub">Data extract and provenance sheet · retrieved ACCESSDATE ·
-資料摘錄與出處說明 · 取得日期 ACCESSDATE · Migration and Population Data Archive 移民與人口資料存檔</p>
+<p class="sub">Data extract and provenance sheet · sources first retrieved ACCESSDATE REVDATE·
+資料摘錄與出處說明 · 資料來源首次取得 ACCESSDATE REVDATEZH· Migration and Population Data Archive 移民與人口資料存檔</p>
 <h2>Values <span>數值</span></h2>
 <table><thead><tr>
 <th class="n">Year<small>年度</small></th><th class="n">Value<small>數值</small></th>
@@ -137,7 +137,12 @@ for _, ci in cinfo.iterrows():
         doc = (TPL.replace('TITLE_ATTR', esc('%s %s extract' % (iso, v)))
                   .replace('TITLE_EN', esc('%s — %s' % (en, VLAB['en'].get(v, v))))
                   .replace('TITLE_ZH', esc('%s — %s' % (COUNTRY.get(en, en), VLAB['zh'].get(v, v))))
-                  .replace('ACCESSDATE', ACCESS).replace('TRS', trs).replace('NOTEBOX', nb)
+                  .replace('ACCESSDATE', ACCESS)
+                  .replace('REVDATEZH', ('· 本國條目最近修訂 %s ' % revised_on(iso))
+                           if revised_on(iso) else '')
+                  .replace('REVDATE', ('· entries for this country last amended %s '
+                                       % revised_on(iso)) if revised_on(iso) else '')
+                  .replace('TRS', trs).replace('NOTEBOX', nb)
                   .replace('URLS', ''.join('<li><code>%s</code></li>' % esc(u) for u in urls) or '<li>—</li>')
                   .replace('ARTS', ''.join('<li><code>%s</code></li>' % esc(a) for a in arts) or '<li>—</li>'))
         d = os.path.join(PRINT, iso)

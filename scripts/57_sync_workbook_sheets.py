@@ -23,6 +23,7 @@ SHEETS = {
     'Irregular_estimates_all': 'irregular_estimates_all.csv',
     'Codebook': 'codebook.csv',
     'Deleted_values': 'deleted_values.csv',
+    'Revision_history': 'revision_history.csv',
 }
 
 # The sheet is written in plain ASCII, but the translation columns are Chinese by
@@ -39,8 +40,11 @@ def clean(x):
 
 
 wb = openpyxl.load_workbook(XLSX)
-missing = [s for s in SHEETS if s not in wb.sheetnames]
-assert not missing, 'workbook has no sheet(s): %s' % missing
+# a sheet added to SHEETS after the workbook was built is created, placed after README
+for s in SHEETS:
+    if s not in wb.sheetnames:
+        wb.create_sheet(s, 1)
+        print('created sheet %s' % s)
 
 for sheet, csv in SHEETS.items():
     fp = os.path.join(D, csv)
@@ -64,7 +68,23 @@ for sheet, csv in SHEETS.items():
           % (sheet, before[0], before[1], ws.max_row - 1, ws.max_column, flag))
 
 log = pd.read_csv(os.path.join(D, 'verification_log.csv'))
+hist = pd.read_csv(os.path.join(D, 'revision_history.csv')).fillna('')
+last = str(hist[hist.amends_data == 'yes'].date.max())
 ws = wb['README']
+for row in range(1, ws.max_row + 1):
+    if str(ws.cell(row, 1).value or '') == 'Built':
+        ws.cell(row, 2).value = (
+            'Sources first retrieved and verified 2026-08-17. Data last revised %s. Every '
+            'amendment after first collection is dated on the Revision_history sheet.' % last)
+    if str(ws.cell(row, 1).value or '') == 'Revision_history':
+        ws.cell(row, 2).value = 'Every amendment to the data after first collection, dated.'
+labels = [str(ws.cell(r, 1).value or '') for r in range(1, ws.max_row + 1)]
+if 'Revision_history' not in labels and 'Deleted_values' in labels:
+    at = labels.index('Deleted_values') + 2          # 1-based row after Deleted_values
+    ws.insert_rows(at)
+    ws.cell(at, 1).value = 'Revision_history'
+    ws.cell(at, 2).value = 'Every amendment to the data after first collection, dated.'
+    print('README: Revision_history added to the sheet list')
 for row in range(1, ws.max_row + 1):
     if str(ws.cell(row, 1).value or '') == 'Verification_log':
         ws.cell(row, 2).value = ('All %d value-by-value comparisons against live sources, each '

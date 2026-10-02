@@ -63,7 +63,8 @@ FOOTER = {
         '<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">Prof. Raymond Kuo</a>, '
         'National Taiwan University, and Claude (Anthropic).</strong></p>',
         '<p><strong>Migration and population data archive, 40 countries, 2010&ndash;2022.</strong> '
-        'Every source retrieved and verified ACCESS.</p>',
+        'Sources first retrieved and verified ACCESS. Data last revised LASTREV; every '
+        'amendment since is dated in the <a href="REVLINK">revision history</a>.</p>',
         '<p>Companion archive to a study of attitudes toward publicly funded healthcare for '
         'non-nationals. Prepared for journal editors and peer reviewers.</p>',
         '<p>All files here are mirrors held for verification. Copyright in each source document '
@@ -72,7 +73,8 @@ FOOTER = {
         '<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">郭年真教授</a>'
         '與 Claude（Anthropic）之共同成果。</strong></p>',
         '<p><strong>移民與人口資料存檔，40 國，2010&ndash;2022 年。</strong>'
-        '所有資料來源均於 ACCESS 重新取得並完成查證。</p>',
+        '資料來源首次取得並查證於 ACCESS；資料最近修訂於 LASTREV，'
+        '此後每一項修訂均於<a href="REVLINK">修訂紀錄</a>中載明日期。</p>',
         '<p>本存檔為「民眾對非本國籍人士使用公費醫療之態度」研究之配套資料，'
         '供期刊編輯與審查委員查核之用。</p>',
         '<p>本站所存檔案均為查證用之備份。各來源文件之著作權仍屬其原出版機構所有，'
@@ -161,8 +163,9 @@ def reason_zh(text):
 # ---------------------------------------------------------------- generic UI
 T = {
  # page furniture
- 'access_prefix': {'en': 'Replication &amp; source archive · accessed ',
-                   'zh': '重製與來源存檔 · 取得日期 '},
+ 'access_prefix': {'en': 'Replication &amp; source archive · first accessed ',
+                   'zh': '重製與來源存檔 · 首次取得 '},
+ 'lastrev_mid': {'en': ' · last revised ', 'zh': ' · 最近修訂 '},
  'retrieved': {'en': 'Retrieved ', 'zh': '取得日期 '},
  'back_to': {'en': '&larr; back to ', 'zh': '&larr; 返回 '},
  # index
@@ -257,9 +260,9 @@ T = {
  # country page
  'ctry_eyebrow': {'en': ' &middot; country archive', 'zh': ' &middot; 國家存檔'},
  'ctry_lede': {'en': 'Data, verification result and every archived source document for %s, '
-                     '2010&ndash;2022. All sources retrieved ',
+                     '2010&ndash;2022. Sources first retrieved ',
                'zh': '%s 2010&ndash;2022 年之資料、查證結果，以及全部已存檔之來源文件。'
-                     '所有來源取得日期為 '},
+                     '資料來源首次取得日期為 '},
  'panel_h': {'en': 'Panel data', 'zh': 'Panel 資料'},
  'panel_sub': {'en': '<strong>Every number below is a link.</strong> Click a value, or the grade '
                      'pill beside it, to open the evidence for that exact figure &mdash; the '
@@ -319,8 +322,8 @@ T = {
  # evidence page
  'ev_eyebrow': {'en': ' &middot; evidence for one variable', 'zh': ' &middot; 單一變項佐證'},
  'ev_lede': {'en': 'Every value behind this series, what it was checked against, and every file '
-                   'held in this archive that supports it. Retrieved ',
-             'zh': '本序列的每一筆數值、其核對對象，以及本存檔中支持該數值的全部檔案。取得日期 '},
+                   'held in this archive that supports it. Sources first retrieved ',
+             'zh': '本序列的每一筆數值、其核對對象，以及本存檔中支持該數值的全部檔案。資料來源首次取得日期為 '},
  'ev_values': {'en': 'Values', 'zh': '數值'},
  'ev_defnote': {'en': '<strong>Definition note.</strong> ', 'zh': '<strong>定義說明。</strong>'},
  'ev_confirm': {'en': '<strong>How this was confirmed.</strong> ',

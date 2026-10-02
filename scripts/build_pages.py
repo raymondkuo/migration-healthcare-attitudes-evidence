@@ -4,7 +4,7 @@ import os, sys
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from blib import (SITE, D, ACCESS, panel, qual, corr, issues, vlog, reg, codeb, apis,
+from blib import (SITE, D, ACCESS, LAST_REVISED, revhist, panel, qual, corr, issues, vlog, reg, codeb, apis,
                   snaps, irrall, pubs, VARS, E, num, pill, filelink, page, table,
                   vlab, fname, t, GRADE_DESC, COMPARABILITY, reason_zh, artifact_links)
 import i18n_content as C
@@ -142,11 +142,16 @@ def build_sources(lang):
     n_superseded = int((docs.get('superseded_source_url', pd.Series(dtype=str))
                         .astype(str).str.startswith('http')).sum())
     n_urls = int(nonapi.source_url.nunique())
+    _later = snaps[snaps['captured'].astype(str) != ACCESS]
+    _ldates = ', '.join(sorted(set(_later['captured'].astype(str))))
+    later_caps = ({'en': '; %d later snapshots carry their own date (%s).',
+                   'zh': '；其後另有 %d 份快照，各載有擷取日期（%s）。'}[lang]
+                  % (len(_later), _ldates)) if len(_later) else {'en': '.', 'zh': '。'}[lang]
 
     body = (
      '<div class="hero"><div class="wrap">\n  <p class="eyebrow">' + L(S['eyebrow'], lang)
      + '</p>\n  <h1>' + L(S['h1'], lang) + '</h1>\n  <p class="lede">' + L(S['lede'], lang)
-     + ACCESS + '.</p>\n</div></div>\n\n'
+     + ACCESS + later_caps + '</p>\n</div></div>\n\n'
      '<section><div class="wrap">\n  <h2>' + L(S['api_h'], lang) + '</h2>\n  <p class="sub">'
      + (L(S['api_sub'], lang) % (len(apis), format(int((vlog.status == 'EXACT').sum()), ','),
                                  format(len(vlog), ',')))
@@ -207,18 +212,22 @@ def build_data(lang):
        '已查證數值之精簡表格：520 列、40 國、2010&ndash;2022 年，'
        '含各項占比、每一變項之品質等級、變項說明書與使用注意事項。'
        '本檔百分比欄位為 0&ndash;100。')),
+     ('data/revision_history.csv',
+      ('Revision history', '修訂紀錄'),
+      ('Every amendment to the data after first collection, dated, with what changed and why.',
+       '首次蒐集後對資料之每一項修訂，載明日期、變更內容與理由。')),
      ('data/clean_country_year_panel_2010-2022.csv',
       ('Analysis extract as CSV', '分析用資料集（CSV 格式）'),
       ('The Country_year sheet above, as UTF-8 CSV.',
        '即上述 Country_year 工作表之 UTF-8 CSV 版本。')),
      ('data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx',
       ('The verified panel, all sheets', '已查證之 panel 資料（全部工作表）'),
-      ('Excel workbook, ten sheets: README, Panel_final, Data_quality, Corrections_applied, '
-       'Known_issues, Verification_log, Source_register, Irregular_estimates_all, Codebook '
-       'and Deleted_values.',
-       'Excel 活頁簿，共十個工作表：README、Panel_final、Data_quality、Corrections_applied、'
-       'Known_issues、Verification_log、Source_register、Irregular_estimates_all、Codebook '
-       '與 Deleted_values。')),
+      ('Excel workbook, eleven sheets: README, Revision_history, Panel_final, Data_quality, '
+       'Corrections_applied, Known_issues, Verification_log, Source_register, '
+       'Irregular_estimates_all, Codebook and Deleted_values.',
+       'Excel 活頁簿，共十一個工作表：README、Revision_history、Panel_final、Data_quality、'
+       'Corrections_applied、Known_issues、Verification_log、Source_register、'
+       'Irregular_estimates_all、Codebook 與 Deleted_values。')),
      ('data/panel_final.csv', ('Panel_final as CSV', 'Panel_final（CSV 格式）'),
       ('520 rows, one per country-year, with source, URL, reference date and quality grade on '
        'every value.', '520 列，每列為一個國家—年度，每個數值均附來源、網址、基準日與品質等級。')),
@@ -309,6 +318,36 @@ def build_data(lang):
 
 # ==============================================================  VERIFICATION
 def build_verification(lang):
+    # ---- dated revision history, newest first
+    rrows = []
+    for _, r in revhist.sort_values(['date', 'time'], ascending=False).iterrows():
+        kind = str(r['kind'])
+        klab = V['kind'][lang].get(kind, kind)
+        tag = ('<span class="tag warn">%s</span> ' % L(V['tag_data'], lang)
+               if str(r['amends_data']) == 'yes' else '')
+        zh = lang == 'zh'
+        scope = r['scope_zh'] if zh and str(r['scope_zh']) else r['scope']
+        before = r['before_zh'] if zh and str(r['before_zh']) else r['before']
+        after = r['after_zh'] if zh and str(r['after_zh']) else r['after']
+        ba = ''
+        if str(before) or str(after):
+            ba = '%s &rarr; <strong>%s</strong>' % (E(before) or '&mdash;', E(after))
+        detail = r['change_zh'] if zh and str(r['change_zh']) else r['change']
+        rrows.append('<tr><td class="num">%s<br><span style="color:var(--faint);'
+                     'font-size:11.5px">%s &middot; %s</span></td><td>%s%s</td>'
+                     '<td class="wrap-any">%s</td><td class="wrap-any">%s</td>'
+                     '<td class="wrap-any" style="font-size:12.6px">%s</td></tr>'
+                     % (E(r['date']), E(r['time']), E(r['commit']), tag, E(klab),
+                        E(scope), ba, E(detail)))
+    revsec = ('<section id="revisions"><div class="wrap">\n  <h2>' + L(V['rev_h'], lang)
+              + '</h2>\n  <p class="sub">' + L(V['rev_sub'], lang).replace('ACCESS', ACCESS)
+              + '</p>\n  <div class="tablewrap"><table><thead><tr><th class="num">'
+              + L(V['col_when'], lang) + '</th><th>' + L(V['col_kind'], lang) + '</th><th>'
+              + L(V['col_scope'], lang) + '</th><th>' + L(V['col_ba'], lang) + '</th><th>'
+              + L(V['col_detail'], lang) + '</th></tr></thead><tbody>' + ''.join(rrows)
+              + '</tbody></table></div>\n  <p style="margin-top:12px">'
+              + filelink('data/revision_history.csv', 'revision_history.csv')
+              + '</p>\n</div></section>\n\n')
     # one row per source: its most recent verification and the date that test ran
     by = pd.read_csv(os.path.join(D, 'reproduction_rate_latest.csv'))
     by['rate'] = (by.exact / by.n * 100).round(1)
@@ -371,6 +410,7 @@ def build_verification(lang):
      '<div class="hero"><div class="wrap">\n  <p class="eyebrow">' + L(V['eyebrow'], lang)
      + '</p>\n  <h1>' + L(V['h1'], lang) + '</h1>\n  <p class="lede">'
      + L(V['lede'], lang).replace('ACCESS', ACCESS) + '</p>\n</div></div>\n\n'
+     + revsec +
      '<section><div class="wrap">\n  <div class="stats">\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'

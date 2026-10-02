@@ -36,10 +36,10 @@ P['sources'] = {
  'lede': {'en': 'Two kinds of source feed this dataset. Bulk statistical APIs were captured as raw '
                 'response payloads. Individual documents and web pages were downloaded, and where '
                 'the source is a web page it was additionally rendered to PDF and to a full-page '
-                'screenshot. Everything was captured on ',
+                'screenshot. Capture began on ',
           'zh': '本資料集有兩類來源。批次統計 API 以原始回應內容完整保存；'
                 '個別文件與網頁則直接下載，若來源為網頁，另製作 PDF 與整頁截圖。'
-                '全部擷取日期為 '},
+                '擷取始於 '},
  'api_h': {'en': 'Bulk statistical sources (API snapshots)', 'zh': '批次統計來源（API 快照）'},
  'api_sub': {'en': 'These %d payloads are the evidence behind %s of the %s verified values. Each '
                    'file is exactly what the publisher’s server returned; the query URL that '
@@ -196,9 +196,34 @@ P['verification'] = {
  'h1': {'en': 'What was checked, and what changed', 'zh': '查證了什麼，以及改動了什麼'},
  'lede': {'en': 'Every source was retrieved again on ACCESS and each value in the input workbooks '
                 'was compared against it. This page reports the result in full, including the '
-                'values that did not match.',
+                'values that did not match. Everything done to the data after that day - '
+                'every correction, deletion, re-classification, re-citation and re-check - '
+                'is dated in the revision history below.',
           'zh': '所有資料來源均於 ACCESS 重新取得，並將原始工作表中的每一筆數值與之比對。'
-                '本頁完整呈現結果，包含未能一致的數值。'},
+                '本頁完整呈現結果，包含未能一致的數值。'
+                '此後對資料所做之一切處理——每一項更正、刪除、重新歸類、改引來源與重新查證——'
+                '均於下方修訂紀錄中載明日期。'},
+ 'rev_h': {'en': 'Revision history', 'zh': '修訂紀錄'},
+ 'rev_sub': {'en': 'Every change to the data after sources were first retrieved on ACCESS, '
+                   'taken from the version history of this archive (Taipei time). Rows '
+                   'marked <strong>data</strong> changed a value, how it is classified or '
+                   'what it is cited to; the others are checks and added evidence that left '
+                   'the numbers as they were. Wording, translation and layout changes are '
+                   'not data amendments and are not listed.',
+             'zh': '資料來源於 ACCESS 首次取得後，對資料所做之每一項變更，'
+                   '取自本存檔之版本紀錄（臺北時間）。標示<strong>資料</strong>者，'
+                   '變更了數值、其歸類或其引用來源；其餘為查證與新增佐證，數值未變。'
+                   '文字、翻譯與版面之修改不屬資料修訂，不予列入。'},
+ 'col_when': {'en': 'Date', 'zh': '日期'},
+ 'col_kind': {'en': 'Change', 'zh': '變更類型'},
+ 'col_ba': {'en': 'Before &rarr; after', 'zh': '變更前 &rarr; 變更後'},
+ 'col_detail': {'en': 'What and why', 'zh': '內容與理由'},
+ 'tag_data': {'en': 'data', 'zh': '資料'},
+ 'kind': {'en': {}, 'zh': {'first publication': '首次發布', 'value corrected': '數值更正',
+                          'value deleted': '數值刪除', 'flagged as derived': '標示為推導值',
+                          're-verified': '重新查證', 'source re-cited': '改引來源',
+                          'evidence added': '新增佐證', 'value reclassified': '數值重新歸類',
+                          'note amended': '備註修訂'}},
  'rate_h': {'en': 'Reproduction rate by source, as verified to date',
             'zh': '各來源之重現率（截至最近查證日）'},
  'rate_sub': {'en': 'Each row shows the most recent verification of that source and the date it '

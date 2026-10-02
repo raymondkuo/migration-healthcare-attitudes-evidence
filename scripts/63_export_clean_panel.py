@@ -27,6 +27,8 @@ D = os.path.join(SITE, 'data')
 from i18n import COUNTRY                                            # noqa: E402
 
 p = pd.read_csv(os.path.join(D, 'panel_final.csv'))
+hist = pd.read_csv(os.path.join(D, 'revision_history.csv')).fillna('')
+LAST = str(hist[hist.amends_data == 'yes'].date.max())
 out = pd.DataFrame()
 
 # ---------------------------------------------------------------- identifiers
@@ -157,7 +159,8 @@ README = [
  ('Full evidence version', 'data/panel_final.csv in that archive carries source, URL, grade, '
                            'reference date and verification note on EVERY value, and each number '
                            'on the website links to its archived source document.'),
- ('Built', 'Compiled and verified 2026-08-17; Eurostat migr_eipre re-verified 2026-08-18.'),
+ ('Built', 'Sources first retrieved and verified 2026-08-17. Data last revised %s. Every '
+           'amendment since is dated on the Revision_history sheet.' % LAST),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
  ('Value-by-value comparisons', '2,737 against live sources, across 21 sources at 100%.'),
@@ -210,6 +213,7 @@ with pd.ExcelWriter(xlsx, engine='openpyxl') as xw:
     out.to_excel(xw, sheet_name='Country_year', index=False)
     codebook.to_excel(xw, sheet_name='Codebook', index=False)
     coverage.to_excel(xw, sheet_name='Coverage', index=False)
+    hist.to_excel(xw, sheet_name='Revision_history', index=False)
 
 import openpyxl
 from openpyxl.styles import Alignment, Font

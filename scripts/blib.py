@@ -28,6 +28,36 @@ corr = pd.read_csv(os.path.join(D, 'corrections_applied.csv'))
 issues = pd.read_csv(os.path.join(D, 'known_issues.csv'))
 vlog = pd.read_csv(os.path.join(D, 'verification_log.csv'))
 reg = pd.read_csv(os.path.join(D, 'source_register.csv'))
+
+# ---- revision history: the dated record of every amendment after first collection.
+# ACCESS is the date sources were first retrieved; it is NOT the date of the data as
+# published, which may have been amended since. Dates shown on the site are derived from
+# data/revision_history.csv so they cannot drift from the record.
+_hp = os.path.join(D, 'revision_history.csv')
+revhist = pd.read_csv(_hp).fillna('') if os.path.exists(_hp) else pd.DataFrame(
+    columns=['date', 'amends_data', 'iso3'])
+_amend = revhist[revhist['amends_data'].astype(str) == 'yes']
+LAST_REVISED = str(_amend['date'].max()) if len(_amend) else ACCESS
+
+
+def revised_on(iso3):
+    """Latest date on which data for this country was amended, or '' if never."""
+    if not len(_amend):
+        return ''
+    hit = _amend[_amend['iso3'].astype(str).map(lambda v: iso3 in v.split(';'))]
+    return str(hit['date'].max()) if len(hit) else ''
+
+
+def revised_note(iso3, lang, up=''):
+    """A sentence for a country's pages when its data has been amended since collection."""
+    d = revised_on(iso3)
+    if not d:
+        return ''
+    link = up + fname('verification', lang) + '#revisions'
+    return {'en': ' Entries for this country were last amended on %s; every amendment is '
+                  'dated in the <a href="%s">revision history</a>.' % (d, link),
+            'zh': '本國條目最近一次修訂於 %s，每一項修訂均載明於<a href="%s">修訂紀錄</a>。'
+                  % (d, link)}[lang]
 codeb = pd.read_csv(os.path.join(D, 'codebook.csv'))
 apis = pd.read_csv(os.path.join(D, 'api_snapshots.csv'))
 snaps = pd.read_csv(os.path.join(D, 'web_snapshots.csv'))
@@ -110,7 +140,9 @@ def page(stem, title, body, lang, up='', desc=''):
         switch = ('<a class="langsw" href="%s%s" title="%s" hreflang="%s" rel="alternate">%s</a>'
                   % (up, alt_href, SWITCH_TITLE[lang], HTML_LANG[o], SWITCH_LABEL[lang]))
 
-    foot = ''.join(x.replace('ACCESS', ACCESS) for x in FOOTER[lang])
+    revlink = up + fname('verification', lang) + '#revisions'
+    foot = ''.join(x.replace('ACCESS', ACCESS).replace('LASTREV', LAST_REVISED)
+                    .replace('REVLINK', revlink) for x in FOOTER[lang])
     doc = (
         '<!doctype html>\n<html lang="%s">\n<head>\n<meta charset="utf-8">\n' % HTML_LANG[lang]
         + '<meta name="viewport" content="width=device-width,initial-scale=1">\n'

@@ -4,7 +4,7 @@ import os, sys
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from blib import (SITE, EV, D, ACCESS, panel, qual, corr, vlog, reg, apis, snaps,
+from blib import (SITE, EV, D, ACCESS, LAST_REVISED, revised_note, panel, qual, corr, vlog, reg, apis, snaps,
                   artifact_links,
                   VARS, ALLVARS, E, num, pill, filelink, page, table, cname, vlab,
                   fname, usable_zh, T, t, GRADE_DESC, GRADE_SHORT, VERTAG, COMPARABILITY,
@@ -63,10 +63,13 @@ USING = {
  'en': ['<strong>Every file is downloadable at a stable relative URL.</strong> Nothing is behind a '
         'script, a query string, or an external service.',
         '<strong>API data is archived as raw responses.</strong> The exact JSON and spreadsheet '
-        'payloads returned by the World Bank, Eurostat, OECD and UN DESA on ACCESS are in '
-        '<code>evidence/api/</code>, together with the query URL that produced each one.',
+        'payloads returned by the World Bank, Eurostat, OECD and UN DESA are in '
+        '<code>evidence/api/</code>, together with the query URL that produced each one. The '
+        'first retrieval was on ACCESS; a later re-query carries its own date in the file '
+        'name.',
         '<strong>Web pages are archived three ways</strong> where possible: the original HTML, a '
-        'PDF mirror, and a full-page PNG screenshot, all captured on ACCESS.',
+        'PDF mirror, and a full-page PNG screenshot. Capture began on ACCESS, and the date of '
+        'every capture is recorded in <a href="data/web_snapshots.csv">web_snapshots.csv</a>.',
         '<strong>Integrity is checkable.</strong> <a href="manifest/checksums.csv">SHA-256 '
         'checksums</a> are published for every file in the archive.',
         '<strong>The verification is re-runnable.</strong> Every script used is included in '
@@ -74,10 +77,11 @@ USING = {
  'zh': ['<strong>每份檔案都有穩定的相對網址可供下載。</strong>'
         '沒有任何內容藏在腳本、查詢字串或外部服務之後。',
         '<strong>API 資料以原始回應形式存檔。</strong>世界銀行、Eurostat、OECD 與 UN DESA '
-        '於 ACCESS 回傳的 JSON 與試算表內容原封保存於 <code>evidence/api/</code>，'
-        '並附上產生各該回應的查詢網址。',
+        '回傳的 JSON 與試算表內容原封保存於 <code>evidence/api/</code>，'
+        '並附上產生各該回應的查詢網址。首次取得於 ACCESS；其後重新查詢者，其日期載於檔名。',
         '<strong>網頁來源以三種方式存檔</strong>（在可行的情況下）：原始 HTML、PDF 鏡像，'
-        '以及整頁 PNG 截圖，全部擷取於 ACCESS。',
+        '以及整頁 PNG 截圖。擷取始於 ACCESS，每一次擷取之日期均載於 '
+        '<a href="data/web_snapshots.csv">web_snapshots.csv</a>。',
         '<strong>完整性可供驗證。</strong>本存檔每一份檔案的 '
         '<a href="manifest/checksums.csv">SHA-256 校驗碼</a>均已公布。',
         '<strong>查證過程可重複執行。</strong>所使用的每一支腳本均收錄於 <code>scripts/</code>。'],
@@ -115,7 +119,8 @@ def build_index(lang):
         for k in ['A', 'B', 'C', 'D'])
     body = (
      '<div class="hero"><div class="wrap">\n'
-     '  <p class="eyebrow">' + t('access_prefix', lang) + ACCESS + '</p>\n'
+     '  <p class="eyebrow">' + t('access_prefix', lang) + ACCESS
+     + t('lastrev_mid', lang) + LAST_REVISED + '</p>\n'
      '  <h1>' + t('idx_title', lang) + '</h1>\n'
      '  <p class="lede">' + t('idx_lede', lang) + '</p>\n</div></div>\n\n'
      '<section><div class="wrap">\n  <div class="stats">\n'
@@ -319,7 +324,9 @@ def build_country(iso, en_name, lang):
      '<div class="hero"><div class="wrap">\n'
      '  <p class="eyebrow">' + iso + t('ctry_eyebrow', lang) + '</p>\n'
      '  <h1>' + E(cn) + '</h1>\n'
-     '  <p class="lede">' + (t('ctry_lede', lang) % E(cn)) + ACCESS + '</p>\n</div></div>\n\n'
+     '  <p class="lede">' + (t('ctry_lede', lang) % E(cn)) + ACCESS
+     + {'en': '.', 'zh': '。'}[lang] + revised_note(iso, lang, up='../')
+     + '</p>\n</div></div>\n\n'
      '<section><div class="wrap">\n  <h2>' + t('panel_h', lang) + '</h2>\n'
      '  <p class="sub">' + t('panel_sub', lang)
      + pill('A') + ' ' + gl['A'] + '、' * (lang == 'zh') + (', ' if lang == 'en' else '')

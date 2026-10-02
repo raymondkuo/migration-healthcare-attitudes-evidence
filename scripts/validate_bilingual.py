@@ -98,7 +98,11 @@ print('panel cells (both languages): %d | unlinked: %d' % (cells, unlinked))
 # ---- row-level translations live beside the English, and must actually be filled in
 for csvname, pairs in (('known_issues.csv', [('issue', 'issue_zh'), ('evidence', 'evidence_zh'),
                                              ('action', 'action_zh')]),
-                       ('codebook.csv', [(1, 'definition_zh'), (2, 'caution_zh')])):
+                       ('codebook.csv', [(1, 'definition_zh'), (2, 'caution_zh')]),
+                       ('revision_history.csv', [('scope', 'scope_zh'),
+                                                 ('before', 'before_zh'),
+                                                 ('after', 'after_zh'),
+                                                 ('change', 'change_zh')])):
     fp = os.path.join(SITE, 'data', csvname)
     if not os.path.exists(fp):
         continue

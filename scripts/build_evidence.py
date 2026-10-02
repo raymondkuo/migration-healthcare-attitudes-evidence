@@ -4,7 +4,7 @@ import os, sys
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from blib import (SITE, EV, D, ACCESS, panel, vlog, reg, corr, snaps, apis, pubs,
+from blib import (SITE, EV, D, ACCESS, revised_note, panel, vlog, reg, corr, snaps, apis, pubs,
                   artifacts as blib_artifacts,
                   ALLVARS, E, num, pill, filelink, page, table, cname, vlab, fname, t,
                   reason_zh)
@@ -207,7 +207,9 @@ def build(iso3, en_name, v, lang):
      '<div class="hero"><div class="wrap">\n'
      '  <p class="eyebrow">' + iso3 + t('ev_eyebrow', lang) + '</p>\n'
      '  <h1>' + E(cn) + ' &mdash; ' + E(vlab(v, lang)) + '</h1>\n'
-     '  <p class="lede">' + t('ev_lede', lang) + ACCESS + '</p>\n</div></div>\n\n'
+     '  <p class="lede">' + t('ev_lede', lang) + ACCESS
+     + {'en': '.', 'zh': '。'}[lang] + revised_note(iso3, lang, up='../')
+     + '</p>\n</div></div>\n\n'
      '<section><div class="wrap">\n  <h2>' + t('ev_values', lang) + '</h2>\n'
      '  <div class="tablewrap"><table><thead><tr><th class="num">' + t('year', lang)
      + '</th><th class="num">' + t('col_value', lang) + '</th><th>' + t('grade_col', lang)
