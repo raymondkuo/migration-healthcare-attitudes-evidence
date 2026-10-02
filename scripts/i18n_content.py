@@ -12,6 +12,9 @@ SCOPE = {
  'Switzerland, Portugal, Sweden': '瑞士、葡萄牙、瑞典',
  'Sweden': '瑞典', 'Taiwan': '臺灣', 'Italy': '義大利', 'Korea': '南韓',
  'Switzerland': '瑞士', 'Japan': '日本', 'all': '全部',
+ 'Israel': '以色列',
+ 'Australia, India, Israel, New Zealand, Russia, South Africa':
+     '澳洲、印度、以色列、紐西蘭、俄羅斯、南非',
  'Israel, Bulgaria, France, Turkey, USA, Poland, China, Netherlands':
      '以色列、保加利亞、法國、土耳其、美國、波蘭、中國、荷蘭',
  'Turkey, Czechia, Slovakia, Portugal, Germany': '土耳其、捷克、斯洛伐克、葡萄牙、德國',

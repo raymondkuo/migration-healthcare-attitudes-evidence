@@ -18,3 +18,7 @@ __pycache__/
 # verification/AUDIT_response.md - the record of how each audit claim was adjudicated,
 # which belongs in the published trail.
 AUDIT_checklist_*.xlsx
+
+# Intermediate HTML the PDF-extract renderer writes before calling Chrome.
+# Leftovers from a failed render were being published as site files.
+*.src.html
