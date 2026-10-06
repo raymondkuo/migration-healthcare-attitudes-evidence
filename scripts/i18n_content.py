@@ -286,7 +286,8 @@ P['verification'] = {
                           're-verified': '重新查證', 'source re-cited': '改引來源',
                           'evidence added': '新增佐證', 'value reclassified': '數值重新歸類',
                           'note amended': '備註修訂', 'range extended': '期間延伸',
-                          'collection attempted, not obtained': '嘗試蒐集而未取得'}},
+                          'collection attempted, not obtained': '嘗試蒐集而未取得',
+                          'manifest corrected': '雜湊清單更正'}},
  'rate_h': {'en': 'Reproduction rate by source, as verified to date',
             'zh': '各來源之重現率（截至最近查證日）'},
  'rate_sub': {'en': 'Each row shows the most recent verification of that source and the date it '

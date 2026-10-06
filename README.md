@@ -69,7 +69,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 | `evidence/api/publisher_pages/` | PDF and screenshot mirrors of the publishers' own dataset pages |
 | `evidence/countries/<ISO3>/` | Every source document, PDF mirror and screenshot for that country |
 | `evidence/extracts/` | 157 bilingual PDF extracts, one per country × variable |
-| `manifest/checksums.csv` | SHA-256 hash of every file in the archive |
+| `manifest/checksums.csv` | SHA-256 hash of every file in the archive, of the bytes the website serves (text files with LF line endings, so a Windows checkout with CRLF will not match; `scripts/78_verify_checksums.py` checks the manifest against git) |
 | `verification/` | Machine-readable verification output, the live link sweep, and the audit response |
 | `scripts/` | Every script used, so the verification and the site build can be re-run |
 | `VERIFICATION_REPORT.md` | The written verification report |
@@ -155,7 +155,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 381 MB across 1,315 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
+- About 381 MB across 1,318 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the
@@ -187,6 +187,22 @@ python scripts/build_pages.py            # sources, data, verification, methods 
 python scripts/build_pdf_extracts.py     # 157 bilingual PDF extracts
 python scripts/validate_bilingual.py     # link, language-pairing and cell-link validation
 python scripts/28_checksums.py           # refresh manifest/checksums.csv
+python scripts/78_verify_checksums.py    # after committing: compare it with what git stored
+
+# the 2001 extension (each step is idempotent; the pre-extension panel is read from commit 0d64a1c)
+python scripts/67_fetch_extension_apis.py   # raw payloads: OECD, Eurostat, World Bank, 2001-2022
+python scripts/68_collect_api_cells.py      # Eurostat / OECD cells, overlap check, splice summary
+python scripts/69_collect_population_and_un.py
+python scripts/70_collect_taiwan.py         # Ministry of the Interior table, NDC data book
+python scripts/71_collect_census_za_in.py   # South Africa and India censuses
+python scripts/72_collect_russia_2002.py
+python scripts/73_collect_uk_ons_2004_2005.py
+python scripts/74_assemble_panel.py         # merge into panel_final.csv; asserts no published value changed
+python scripts/75_build_derived_tables.py   # source register, issues, codebook, quality tables
+python scripts/66_revision_history.py       # dated amendments
+python scripts/63_export_clean_panel.py     # analysis extract
+python scripts/57_sync_workbook_sheets.py   # workbook sheets
+python scripts/77_update_readme.py          # numbers quoted in README and CITATION.cff
 ```
 
 Translations live in `scripts/i18n.py` (UI, countries, variables) and `scripts/i18n_content.py`

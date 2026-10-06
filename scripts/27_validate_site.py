@@ -156,13 +156,14 @@ import random
 random.seed(0)
 sample = random.sample(sorted(have & on_disk), min(25, len(have & on_disk)))
 bad = 0
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from served import served_bytes, text_unset            # noqa: E402  hashes are of the served bytes
+raw_text = text_unset(SITE, sample)
 for rel in sample:
-    h = hashlib.sha256()
     with open(os.path.join(SITE, rel.replace('/', os.sep)), 'rb') as fh:
-        for c in iter(lambda: fh.read(1 << 20), b''):
-            h.update(c)
+        data = served_bytes(rel, fh.read(), raw_text)
     exp = ck[ck.path == rel]['sha256'].iloc[0]
-    if h.hexdigest() != exp:
+    if hashlib.sha256(data).hexdigest() != exp:
         bad += 1
         warns.append('checksum mismatch (stale manifest): %s' % rel)
 

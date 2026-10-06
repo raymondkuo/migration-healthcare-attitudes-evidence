@@ -217,6 +217,27 @@ ZH.update({
                                "採用內政部 1996–2022 年彙整表"),
  ("%s" % K, "collection attempted, not obtained"): ("澳洲（外國籍）· 智利 2002（外國出生）", "", "未能蒐集"),
 })
+# A correction to the published record itself, not to a value (so not in AMENDING). It has no
+# commit stamp: the commit that carries it cannot name its own hash.
+H.append(dict(
+    date="2026-10-07", time="", commit="", kind="manifest corrected", iso3="",
+    scope="manifest/checksums.csv · text files and 24 raw captures",
+    before="hashes of the Windows working copy", after="hashes of the bytes the site serves",
+    change="Values unchanged. The checksum manifest had been built from the working folder, where "
+           "git on Windows writes text files with CRLF line endings, while GitHub serves them with "
+           "LF; the hash of any downloaded CSV, page or Markdown file therefore differed from the "
+           "recorded one (PDF, image and spreadsheet files were not affected). The manifest now "
+           "hashes the bytes the site serves, scripts/78_verify_checksums.py checks every row "
+           "against what git stored, and 24 downloaded web pages and CSV files whose servers send "
+           "CRLF are now stored byte for byte as saved (.gitattributes) instead of with the line "
+           "endings converted.",
+    change_zh="數值不變。雜湊清單原是依工作資料夾計算；在 Windows 上，git 於工作資料夾以 CRLF 寫入文字檔，"
+              "而 GitHub 提供之檔案為 LF，故任何下載之 CSV、網頁或 Markdown 檔之雜湊值皆與記錄不符"
+              "（PDF、圖片與試算表檔不受影響）。現清單改依網站實際提供之位元組計算，"
+              "並以 scripts/78_verify_checksums.py 將每一列與 git 所存內容核對；另有 24 個下載之網頁與 CSV 檔"
+              "（其伺服器以 CRLF 傳送）現已逐位元組依所存內容保存（.gitattributes），不再轉換換行字元。"))
+ZH[("", "manifest corrected")] = ("manifest/checksums.csv · 文字檔與 24 個原始擷取檔",
+                                 "依 Windows 工作資料夾計算之雜湊值", "依網站實際提供之位元組計算之雜湊值")
 hist = pd.DataFrame(H)
 missing_zh = [k for k in zip(hist.commit, hist.kind) if k not in ZH]
 assert not missing_zh, 'revision rows with no Chinese: %s' % missing_zh

@@ -1,0 +1,31 @@
+# Raw source captures are evidence and must be stored exactly as captured.
+#
+# git on Windows is configured here to turn CRLF into LF when it stores a text file, which
+# silently altered the bytes of downloaded web pages and CSV files whose servers send CRLF
+# (or a mixture). The files below were downloaded that way, so line-ending conversion is
+# switched off for them: what is committed is what was captured. Everything else, which this
+# archive generates itself, keeps the normal conversion.
+evidence/api/oecd/DSD_MIG_dataflow_metadata.xml -text
+evidence/countries/AUS/irregular_proxy_overstayers__6b569b4ed3__press-files.anu.edu.au.html -text
+evidence/countries/CHL/irregular_stock__84522ec4c7__www.ine.gob.cl.html -text
+evidence/countries/CHN/foreign_nationals__06858e32fc__www.stats.gov.cn.html -text
+evidence/countries/DEU/irregular_stock__f2d4f3db84__www.bpb.de.html -text
+evidence/countries/HRV/foreign_born__a2e888f94b__web.dzs.hr.html -text
+evidence/countries/HRV/foreign_nationals__f43cbc3a6d__web.dzs.hr.html -text
+evidence/countries/IND/foreign_born__ORGI_Census2001_D01_India__catalog-19293.html -text
+evidence/countries/ITA/irregular_stock__77693a7efa__www.vita.it.html -text
+evidence/countries/ITA/irregular_stock__ISMU_XXVII_Rapporto_2021_comunicato.html -text
+evidence/countries/ITA/irregular_stock__ISMU_XXV_Rapporto_2019_comunicato.html -text
+evidence/countries/ITA/irregular_stock__ISMU_data_on_migration_CORROBORATION.html -text
+evidence/countries/JPN/irregular_proxy_overstayers__9ff4b8949e__www.moj.go.jp.html -text
+evidence/countries/JPN/irregular_proxy_overstayers__b84a36a0c9__www.moj.go.jp.html -text
+evidence/countries/KOR/irregular__be27eb2dc4__www.moj.go.kr.html -text
+evidence/countries/KOR/irregular_proxy_overstayers__MOJ_annual_illegal_stay_2011-2025_datagokr.csv -text
+evidence/countries/KOR/irregular_proxy_overstayers__f55526aebb__www.ekw.co.kr.html -text
+evidence/countries/TWN/foreign_nationals__MOI_statis_c0930103_ROC85-111__retrieved_2026-10-07.csv -text
+evidence/countries/TWN/irregular__40806cb930__www.ly.gov.tw.html -text
+evidence/countries/TWN/irregular__539a03cf36__www.ly.gov.tw.html -text
+evidence/countries/TWN/irregular_proxy_overstayers__5d0d32cf1c__www.ly.gov.tw.html -text
+evidence/countries/USA/irregular_stock__693e3d8133__cmsny.org.html -text
+evidence/countries/USA/irregular_stock__a21b7d97cf__www.migrationpolicy.org.html -text
+evidence/countries/USA/irregular_stock__acbbe0d526__journals.sagepub.com.html -text

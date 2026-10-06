@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Recompute the SHA-256 manifest for every file the archive publishes."""
-import os, hashlib, subprocess
+"""Recompute the SHA-256 manifest for every file the archive publishes.
+
+Hashes are of the bytes the website serves. On Windows git is configured to check files out
+with CRLF line endings and store them with LF, so the files in the working folder are not the
+files GitHub Pages serves: hashing the working copy gave a manifest that no downloaded text file
+could ever match. Text files are therefore hashed after the same CRLF -> LF conversion git
+applies (see served.py). scripts/78_verify_checksums.py checks the result against what git
+actually stored."""
+import os, hashlib, subprocess, sys
 import pandas as pd
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -10,6 +17,8 @@ if os.path.isdir(os.path.join(_parent, 'data')) and os.path.isdir(os.path.join(_
     SITE = _parent          # scripts/ lives inside the published archive
 else:
     SITE = os.path.join(BASE, 'migration-data-archive')
+sys.path.insert(0, _here)
+from served import is_text_ext, served_bytes, text_unset          # noqa: E402
 
 
 def _ignored(paths):
@@ -39,10 +48,15 @@ for root, dirs, files in os.walk(SITE):
         candidates.append(os.path.relpath(os.path.join(root, f), SITE).replace('\\', '/'))
 
 skipped = _ignored(candidates)
+raw_text = text_unset(SITE, [c for c in candidates if is_text_ext(c) and c not in skipped])
 for rel in candidates:
     if rel in skipped:
         continue
     fp = os.path.join(SITE, rel.replace('/', os.sep))
+    if is_text_ext(rel):
+        data = served_bytes(rel, open(fp, 'rb').read(), raw_text)
+        rows.append(dict(path=rel, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()))
+        continue
     h = hashlib.sha256()
     with open(fp, 'rb') as fh:
         for chunk in iter(lambda: fh.read(1 << 20), b''):
