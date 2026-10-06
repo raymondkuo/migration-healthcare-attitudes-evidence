@@ -206,16 +206,36 @@ def build_data(lang):
     MAIN_EN = [
      ('data/CLEAN_country_year_panel_2010-2022.xlsx',
       ('Analysis extract, one row per country-year', '分析用資料集（每列為一個國家—年度）'),
-      ('The verified numbers as a clean rectangle: 520 rows, 40 countries, 2010&ndash;2022, '
-       'with shares, a quality grade beside each variable, a codebook and the cautions. '
-       'Percentages here are 0&ndash;100.',
-       '已查證數值之精簡表格：520 列、40 國、2010&ndash;2022 年，'
-       '含各項占比、每一變項之品質等級、變項說明書與使用注意事項。'
-       '本檔百分比欄位為 0&ndash;100。')),
+      ('The verified numbers as a clean rectangle: 880 rows, 40 countries, 2001&ndash;2022, '
+       'with shares, a quality grade, source type and flag beside each variable, a codebook and '
+       'the cautions. Percentages here are 0&ndash;100. The file name keeps "2010-2022" from '
+       'the first release so that existing links still work.',
+       '已查證數值之精簡表格：880 列、40 國、2001&ndash;2022 年，'
+       '含各項占比、每一變項之品質等級、來源類型與旗標、變項說明書與使用注意事項。'
+       '本檔百分比欄位為 0&ndash;100。檔名沿用首次發布之「2010-2022」，以免既有連結失效。')),
      ('data/revision_history.csv',
       ('Revision history', '修訂紀錄'),
       ('Every amendment to the data after first collection, dated, with what changed and why.',
        '首次蒐集後對資料之每一項修訂，載明日期、變更內容與理由。')),
+     ('data/extension_splice_summary.csv', ('Source changes at the join', '接合處之來源更換'),
+      ('For every series whose 2001-2009 values come from a different source than 2010-2022: the '
+       'years of overlap and the mean, minimum and maximum difference between the two.',
+       '凡 2001–2009 年數值與 2010–2022 年所用來源不同之序列：兩者之重疊年數，以及差異之平均、最小與最大值。')),
+     ('data/migrant_stock_alternatives.csv', ('Competing values for the extension years', '延伸年度之競合數值'),
+      ('Every source that holds a value for a cell added in the extension, which one the panel '
+       'uses, and the difference. Includes the full OECD series for every spliced country, so a '
+       'single-source series can be built.',
+       '凡延伸所新增之格，各個持有數值之來源、本 panel 所採用者及其差異。包含每個接續之國家'
+       '完整之 OECD 序列，以便建立單一來源之序列。')),
+     ('data/extension_large_changes.csv', ('Large changes in the added years', '延伸年度之大幅變動'),
+      ('Every year-on-year change of 25% or more that involves a year added in the extension, with '
+       'the source type and flag on both sides. Nothing was adjusted; the file shows where to look.',
+       '凡涉及延伸所新增年度、相鄰年度間變動達 25% 以上者，逐筆列出變動前後兩端之來源類型與旗標。'
+       '未作任何調整；本檔僅指出應檢視之處。')),
+     ('data/extension_overlap_check.csv', ('Re-check of published values', '已發布數值之重新查核'),
+      ('Each source re-queried on 2026-10-07 and compared with the values the archive already '
+       'published: cells compared, identical, different.',
+       '2026-10-07 重新查詢之各來源，與本存檔已發布數值比對：已比對、完全一致、不一致之格數。')),
      ('data/clean_country_year_panel_2010-2022.csv',
       ('Analysis extract as CSV', '分析用資料集（CSV 格式）'),
       ('The Country_year sheet above, as UTF-8 CSV.',
@@ -224,13 +244,15 @@ def build_data(lang):
       ('The verified panel, all sheets', '已查證之 panel 資料（全部工作表）'),
       ('Excel workbook, eleven sheets: README, Revision_history, Panel_final, Data_quality, '
        'Corrections_applied, Known_issues, Verification_log, Source_register, '
-       'Irregular_estimates_all, Codebook and Deleted_values.',
+       'Irregular_estimates_all, Codebook and Deleted_values. The sheets now cover 2001-2022; the '
+       'file name is kept from the first release so that existing links still work.',
        'Excel 活頁簿，共十一個工作表：README、Revision_history、Panel_final、Data_quality、'
        'Corrections_applied、Known_issues、Verification_log、Source_register、'
-       'Irregular_estimates_all、Codebook 與 Deleted_values。')),
+       'Irregular_estimates_all、Codebook 與 Deleted_values。工作表現涵蓋 2001–2022 年；'
+       '檔名沿用首次發布者，以免既有連結失效。')),
      ('data/panel_final.csv', ('Panel_final as CSV', 'Panel_final（CSV 格式）'),
-      ('520 rows, one per country-year, with source, URL, reference date and quality grade on '
-       'every value.', '520 列，每列為一個國家—年度，每個數值均附來源、網址、基準日與品質等級。')),
+      ('880 rows, one per country-year, with source, URL, reference date and quality grade on '
+       'every value.', '880 列，每列為一個國家—年度，每個數值均附來源、網址、基準日與品質等級。')),
      ('data/codebook.csv', ('Codebook', '變項說明書'),
       ('Variable definitions and cautions.', '變項定義與注意事項。')),
      ('data/data_quality.csv', ('Data quality by country and variable', '各國各變項之資料品質'),
@@ -320,7 +342,7 @@ def build_data(lang):
 def build_verification(lang):
     # ---- dated revision history, newest first
     rrows = []
-    for _, r in revhist.sort_values(['date', 'time'], ascending=False).iterrows():
+    for _, r in revhist.sort_values(['date', 'time'], ascending=False, kind='stable').iterrows():
         kind = str(r['kind'])
         klab = V['kind'][lang].get(kind, kind)
         tag = ('<span class="tag warn">%s</span> ' % L(V['tag_data'], lang)
@@ -333,12 +355,13 @@ def build_verification(lang):
         if str(before) or str(after):
             ba = '%s &rarr; <strong>%s</strong>' % (E(before) or '&mdash;', E(after))
         detail = r['change_zh'] if zh and str(r['change_zh']) else r['change']
-        rrows.append('<tr><td class="num">%s<br><span style="color:var(--faint);'
-                     'font-size:11.5px">%s &middot; %s</span></td><td>%s%s</td>'
+        meta = ' &middot; '.join(x for x in (E(r['time']), E(r['commit'])) if x)
+        rrows.append('<tr><td class="num">%s%s</td><td>%s%s</td>'
                      '<td class="wrap-any">%s</td><td class="wrap-any">%s</td>'
                      '<td class="wrap-any" style="font-size:12.6px">%s</td></tr>'
-                     % (E(r['date']), E(r['time']), E(r['commit']), tag, E(klab),
-                        E(scope), ba, E(detail)))
+                     % (E(r['date']),
+                        ('<br><span style="color:var(--faint);font-size:11.5px">%s</span>' % meta)
+                        if meta else '', tag, E(klab), E(scope), ba, E(detail)))
     revsec = ('<section id="revisions"><div class="wrap">\n  <h2>' + L(V['rev_h'], lang)
               + '</h2>\n  <p class="sub">' + L(V['rev_sub'], lang).replace('ACCESS', ACCESS)
               + '</p>\n  <div class="tablewrap"><table><thead><tr><th class="num">'
@@ -347,6 +370,67 @@ def build_verification(lang):
               + L(V['col_detail'], lang) + '</th></tr></thead><tbody>' + ''.join(rrows)
               + '</tbody></table></div>\n  <p style="margin-top:12px">'
               + filelink('data/revision_history.csv', 'revision_history.csv')
+              + '</p>\n</div></section>\n\n')
+    # ---- the 2001 extension: what was added, the re-check, the source changes, what is missing
+    ext_added = []
+    for v in ('foreign_born', 'foreign_nationals'):
+        m = panel[v + '_collected_on'].notna()
+        for st, g in panel[m].groupby(v + '_source_type'):
+            ext_added.append((vlab(v, lang) + ' &middot; ' + L(V['ext_type'], lang).get(st, st),
+                              len(g), g.iso3.nunique()))
+    for v in ('population', 'population_un_wpp2024'):
+        m = panel[v + '_collected_on'].notna()
+        ext_added.append((vlab(v, lang) if v == 'population' else
+                          {'en': 'Population (UN WPP)', 'zh': '總人口（UN WPP）'}[lang],
+                          int(m.sum()), panel[m].iso3.nunique()))
+    addtab = ('<div class="tablewrap"><table><thead><tr><th>' + L(V['ext_col_what'], lang)
+              + '</th><th class="num">' + L(V['ext_col_n'], lang) + '</th><th class="num">'
+              + L(V['ext_col_c'], lang) + '</th></tr></thead><tbody>'
+              + ''.join('<tr><td>%s</td><td class="num">%s</td><td class="num">%d</td></tr>'
+                        % (a_, format(n_, ','), c_) for a_, n_, c_ in ext_added)
+              + '</tbody></table></div>')
+    ovl = pd.read_csv(os.path.join(D, 'extension_overlap_check.csv'))
+    og = ovl.groupby('source')[['cells_compared', 'identical']].sum().reset_index()
+    recheck = ('<div class="tablewrap"><table><thead><tr><th>' + L(V['ext_col_src'], lang)
+               + '</th><th class="num">' + L(V['ext_col_cmp'], lang) + '</th><th class="num">'
+               + L(V['ext_col_same'], lang) + '</th></tr></thead><tbody>'
+               + ''.join('<tr><td>%s</td><td class="num">%s</td><td class="num">%s</td></tr>'
+                         % (E(r_['source']), format(int(r_['cells_compared']), ','),
+                            format(int(r_['identical']), ','))
+                         for _, r_ in og.iterrows())
+               + '<tr><td><strong>%s</strong></td><td class="num"><strong>%s</strong></td>'
+                 '<td class="num"><strong>%s</strong></td></tr>'
+               % ({'en': 'Total', 'zh': '合計'}[lang], format(int(og.cells_compared.sum()), ','),
+                  format(int(og.identical.sum()), ','))
+               + '</tbody></table></div>')
+    spl = pd.read_csv(os.path.join(D, 'extension_splice_summary.csv'))
+    bigs = spl[spl.mean_gap_pct.abs() >= 5].sort_values('mean_gap_pct', key=abs, ascending=False)
+    spltab = ('<div class="tablewrap"><table><thead><tr><th>' + t('col_country', lang)
+              + '</th><th>' + t('col_var', lang) + '</th><th class="num">' + L(V['ext_col_gap'], lang)
+              + '</th><th class="num">' + L(V['ext_col_range'], lang) + '</th><th class="num">'
+              + L(V['ext_col_ov'], lang) + '</th><th class="num">' + L(V['ext_col_ext'], lang)
+              + '</th></tr></thead><tbody>'
+              + ''.join('<tr><td><a href="countries/%s">%s</a></td><td>%s</td>'
+                        '<td class="num">%+.1f%%</td><td class="num">%+.1f%% to %+.1f%%</td>'
+                        '<td class="num">%d</td><td class="num">%d&ndash;%d</td></tr>'
+                        % (os.path.basename(fname('countries/' + r_['iso3'], lang)), r_['iso3'],
+                           E(vlab(r_['variable'], lang)), r_['mean_gap_pct'], r_['min_gap_pct'],
+                           r_['max_gap_pct'], r_['overlap_years'], r_['first_year_extended'],
+                           r_['last_year_extended']) for _, r_ in bigs.iterrows())
+              + '</tbody></table></div>')
+    extsec = ('<section id="extension"><div class="wrap">\n  <h2>' + L(V['ext_h'], lang)
+              + '</h2>\n  <p class="sub">' + L(V['ext_sub'], lang) + '</p>\n  <h3>'
+              + L(V['ext_added_h'], lang) + '</h3>\n  ' + addtab + '\n  <h3>'
+              + L(V['ext_recheck_h'], lang) + '</h3>\n  <p class="sub">'
+              + L(V['ext_recheck_sub'], lang) + '</p>\n  ' + recheck + '\n  <h3>'
+              + L(V['ext_splice_h'], lang) + '</h3>\n  <p class="sub">'
+              + (L(V['ext_splice_sub'], lang) % (len(spl), len(bigs))) + '</p>\n  ' + spltab
+              + '\n  <h3>' + L(V['ext_none_h'], lang) + '</h3>\n  <p>' + L(V['ext_none_p'], lang)
+              + '</p>\n  <p style="margin-top:12px">'
+              + filelink('data/extension_splice_summary.csv', 'extension_splice_summary.csv')
+              + filelink('data/migrant_stock_alternatives.csv', 'migrant_stock_alternatives.csv')
+              + filelink('data/extension_overlap_check.csv', 'extension_overlap_check.csv')
+              + filelink('data/extension_large_changes.csv', 'extension_large_changes.csv')
               + '</p>\n</div></section>\n\n')
     # one row per source: its most recent verification and the date that test ran
     by = pd.read_csv(os.path.join(D, 'reproduction_rate_latest.csv'))
@@ -410,7 +494,7 @@ def build_verification(lang):
      '<div class="hero"><div class="wrap">\n  <p class="eyebrow">' + L(V['eyebrow'], lang)
      + '</p>\n  <h1>' + L(V['h1'], lang) + '</h1>\n  <p class="lede">'
      + L(V['lede'], lang).replace('ACCESS', ACCESS) + '</p>\n</div></div>\n\n'
-     + revsec +
+     + revsec + extsec +
      '<section><div class="wrap">\n  <div class="stats">\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'
@@ -453,8 +537,9 @@ def build_methods(lang):
         row = qsum[qsum.variable == v]
         obs = int(row.obs.iloc[0]) if len(row) else 0
         nc = int(row.countries.iloc[0]) if len(row) else 0
-        qrows += ('<tr><td>%s</td><td class="num">%d / 520</td><td class="num">%d / 40</td>'
-                  '<td>%s</td></tr>' % (E(vlab(v, lang)), obs, nc, E(M['verdict'][lang][v])))
+        qrows += ('<tr><td>%s</td><td class="num">%d / %d</td><td class="num">%d / 40</td>'
+                  '<td>%s</td></tr>' % (E(vlab(v, lang)), obs, len(panel), nc,
+                                        E(M['verdict'][lang][v])))
     qtab = ('<div class="tablewrap"><table><thead><tr><th>' + t('col_var', lang)
             + '</th><th class="num">' + L(M['col_cy'], lang) + '</th><th class="num">'
             + L(M['col_ctries'], lang) + '</th><th>' + L(M['col_verdict'], lang)

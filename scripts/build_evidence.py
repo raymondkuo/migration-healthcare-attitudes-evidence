@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Bilingual build: 156 per-country, per-variable evidence pages in each language."""
+"""Bilingual build: the per-country, per-variable evidence pages in each language."""
 import os, sys
 import pandas as pd
 
@@ -62,13 +62,16 @@ def build(iso3, en_name, v, lang):
     groups, _cur = [], None
 
     def add(label, rel):
-        if not rel or rel in seen:
+        if not rel:
             return
         if not os.path.isfile(os.path.join(SITE, rel.replace('/', os.sep))):
             return
-        seen.add(rel)
-        arts.append((label, rel))
-        if _cur is not None:
+        if rel not in seen:
+            seen.add(rel)
+            arts.append((label, rel))
+        # recorded against every URL group it belongs to, so a file that supports more than one
+        # group of years (an old and a new payload of the same series) shows all of them
+        if _cur is not None and (label, rel) not in _cur:
             _cur.append((label, rel))
 
     for u in urls:
@@ -115,23 +118,82 @@ def build(iso3, en_name, v, lang):
     from i18n import VERTAG
     vt = VERTAG[lang]
 
+    # source type and comparability flags exist for the two migrant-stock variables
+    has_flags = (v + '_flag') in sub.columns and sub[v + '_flag'].fillna('').astype(str).str.strip().ne('').any()
+    TYPE_ZH = {'annual': '逐年', 'census': '普查', 'survey': '調查', 'un_estimate': 'UN 估計值',
+               'other': '其他'}
+    FLAG_ZH = {'splice (large gap)': '接續（差距大）', 'splice': '接續', 'un_estimate': 'UN 估計值',
+               'declared citizenship basis': '宣告為公民身分基礎',
+               'comparability caution': '可比性提醒', 'includes former-USSR births': '含前蘇聯出生者',
+               'derived by subtraction': '以相減推得',
+               'Eurostat flag: break in time series': 'Eurostat 旗標：時間序列斷裂',
+               'Eurostat flag: estimated': 'Eurostat 旗標：估計值',
+               'Eurostat flag: provisional': 'Eurostat 旗標：暫定值',
+               'Eurostat flag: estimated, provisional': 'Eurostat 旗標：估計值、暫定值'}
+
+    def flag_html(r):
+        f = str(r.get(v + '_flag') or '').strip()
+        if not f or f == 'nan':
+            return '<span style="color:var(--faint)">&mdash;</span>'
+        parts = [x.strip() for x in f.split(';') if x.strip()]
+        if lang == 'zh':
+            parts = [FLAG_ZH.get(x, x) for x in parts]
+        big = 'large gap' in f
+        return ('<span class="tag %s">%s</span>' % ('bad' if big else 'warn', E('；'.join(parts)
+                                                                                  if lang == 'zh' else '; '.join(parts))))
+
     rows = []
     for _, r in sub.iterrows():
         y = int(r['year'])
         c = chk.get(y)
+        vtext = str(r.get(v + '_verification') or '')
         if y in corrected:
             ver = '<span class="tag ok">%s</span>' % vt['corrected']
         elif c is not None and c['status'] == 'EXACT':
             ver = '<span class="tag ok">%s</span>' % vt['exact']
-        elif str(r.get(v + '_verification') or '') not in ('', 'nan'):
+        elif vtext.startswith('Read directly from the archived'):
+            ver = '<span class="tag ok">%s</span>' % vt['api']
+        elif vtext not in ('', 'nan'):
             ver = '<span class="tag ok">%s</span>' % vt['doc']
         else:
             ver = '<span class="tag">%s</span>' % vt['nomach']
         src = str(r.get(scol) or '')
+        stype = str(r.get(v + '_source_type') or '') if (v + '_source_type') in r else ''
+        stype = '' if stype == 'nan' else stype
+        srccell = E(src[:110]) + ('<br><span style="color:var(--muted);font-size:11.5px">%s</span>'
+                                  % E(TYPE_ZH.get(stype, stype) if lang == 'zh' else stype)
+                                  if stype else '')
         ref = str(r.get(v + '_ref_date') or '') if (v + '_ref_date') in r else ''
         rows.append('<tr id="y%d"><td class="num">%d</td><td class="num"><strong>%s</strong></td>'
-                    '<td>%s</td><td>%s</td><td class="wrap-any">%s</td><td>%s</td></tr>'
-                    % (y, y, num(r[v]), pill(r.get(v + '_grade', '')), ver, E(src[:110]), E(ref)))
+                    '<td>%s</td><td>%s</td><td class="wrap-any">%s</td><td>%s</td>%s</tr>'
+                    % (y, y, num(r[v]), pill(r.get(v + '_grade', '')), ver, srccell, E(ref),
+                       ('<td class="wrap-any">%s</td>' % flag_html(r)) if has_flags else ''))
+
+    def yrs_label(ys):
+        ys = sorted(set(ys))
+        out, i = [], 0
+        while i < len(ys):
+            j = i
+            while j + 1 < len(ys) and ys[j + 1] == ys[j] + 1:
+                j += 1
+            out.append(str(ys[i]) if i == j else '%d&ndash;%d' % (ys[i], ys[j]))
+            i = j + 1
+        return ', '.join(out)
+
+    def grouped_notes(col):
+        """Distinct texts of a column with the years each applies to, in order of first year."""
+        found = {}
+        for _, r in sub.iterrows():
+            x = r.get(col)
+            if isinstance(x, str) and x.strip() and x.strip() != 'nan':
+                found.setdefault(x.strip(), []).append(int(r['year']))
+        return sorted(found.items(), key=lambda kv: kv[1][0])
+
+    def note_boxes(col, label):
+        gs = grouped_notes(col)
+        return ''.join('  <div class="note">%s%s%s</div>\n'
+                       % (label, ('<strong>%s</strong>: ' % yrs_label(ys)) if len(gs) > 1 else '',
+                          E(text)) for text, ys in gs)
 
     derived = next((x for x in (sub[v + '_derived'] if (v + '_derived') in sub else [])
                     if isinstance(x, str) and x.strip() == 'yes'), '')
@@ -190,14 +252,23 @@ def build(iso3, en_name, v, lang):
              % (filelink('../' + pdfrel, os.path.basename(pdfrel)), t('ev_pdf', lang),
                 E(cn) + ' &mdash; ' + E(vlab(v, lang)),
                 '<span style="color:var(--muted)">%s</span>' % t('ev_arch_all', lang))]
+    # one row per file: the union of the years of every source group it is evidence for
+    finfo, forder = {}, []
     for u, files in groups:
-        if not files:
-            continue
-        sn, sup = E(srcname(u)[:110]), supports(url_years.get(u, []))
         for lab, rel in files:
-            arows.append('<tr><td class="wrap-any">%s</td><td>%s</td><td class="wrap-any">%s</td>'
-                         '<td class="wrap-any">%s</td></tr>'
-                         % (filelink('../' + rel, os.path.basename(rel)), E(lab), sn, sup))
+            d = finfo.setdefault(rel, dict(lab=lab, years=set(), src=[]))
+            d['years'].update(url_years.get(u, []))
+            nm = srcname(u)[:110]
+            if nm not in d['src']:
+                d['src'].append(nm)
+            if rel not in forder:
+                forder.append(rel)
+    for rel in forder:
+        d = finfo[rel]
+        arows.append('<tr><td class="wrap-any">%s</td><td>%s</td><td class="wrap-any">%s</td>'
+                     '<td class="wrap-any">%s</td></tr>'
+                     % (filelink('../' + rel, os.path.basename(rel)), E(d['lab']),
+                        E(' / '.join(d['src'])[:150]), supports(sorted(d['years']))))
     arttable = ('<div class="tablewrap"><table><thead><tr><th>' + t('ev_arch_file', lang)
                 + '</th><th>' + t('ev_arch_kind', lang) + '</th><th>' + t('col_source', lang)
                 + '</th><th>' + t('ev_arch_for', lang) + '</th></tr></thead><tbody>'
@@ -214,14 +285,15 @@ def build(iso3, en_name, v, lang):
      '  <div class="tablewrap"><table><thead><tr><th class="num">' + t('year', lang)
      + '</th><th class="num">' + t('col_value', lang) + '</th><th>' + t('grade_col', lang)
      + '</th><th>' + t('col_verif', lang) + '</th><th>' + t('col_source', lang)
-     + '</th><th>' + t('col_refdate', lang) + '</th></tr></thead><tbody>'
+     + '</th><th>' + t('col_refdate', lang) + '</th>'
+     + ('<th>' + t('col_flag', lang) + '</th>' if has_flags else '') + '</tr></thead><tbody>'
      + ''.join(rows) + '</tbody></table></div>\n'
      + ('  <div class="note warn"><strong>' + t('derived_h', lang) + ' <abbr class="der">'
         + t('derived_mark', lang) + '</abbr></strong><br>' + t('derivation_label', lang) + '：'
-        + E(dhow) + '<br>' + t('derived_range_label', lang) + '：<strong>' + E(drange)
-        + '</strong></div>\n' if derived else '')
-     + ('  <div class="note">' + t('ev_defnote', lang) + E(note) + '</div>\n' if note else '')
-     + ('  <div class="note">' + t('ev_confirm', lang) + E(vnote) + '</div>\n' if vnote else '')
+        + E(dhow) + (('<br>' + t('derived_range_label', lang) + '：<strong>' + E(drange)
+                      + '</strong>') if drange else '') + '</div>\n' if derived else '')
+     + note_boxes(v + '_note', t('ev_defnote', lang))
+     + note_boxes(v + '_verification', t('ev_confirm', lang))
      + '</div></section>\n\n'
      '<section><div class="wrap">\n  <h2>' + t('ev_src_h', lang) + '</h2>\n'
      '  <p class="sub">' + t('ev_src_sub', lang) + '</p>\n  <ul class="clean">'
@@ -241,8 +313,8 @@ def build(iso3, en_name, v, lang):
     page('evidence-pages/%s__%s' % (iso3, v),
          '%s — %s — %s' % (cn, vlab(v, lang), {'en': 'evidence', 'zh': '佐證'}[lang]),
          body, lang, up='../',
-         desc={'en': 'Every value, source and archived file for %s %s, 2010-2022.' % (cn, vlab(v, lang)),
-               'zh': '%s %s 2010–2022 年之全部數值、來源與存檔檔案。' % (cn, vlab(v, lang))}[lang])
+         desc={'en': 'Every value, source and archived file for %s %s, 2001-2022.' % (cn, vlab(v, lang)),
+               'zh': '%s %s 2001–2022 年之全部數值、來源與存檔檔案。' % (cn, vlab(v, lang))}[lang])
 
 
 if __name__ == '__main__':

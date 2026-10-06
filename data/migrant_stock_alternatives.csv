@@ -1,0 +1,923 @@
+﻿country,iso3,year,variable,source,value,used_in_panel,diff_vs_used_pct
+Australia,AUS,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",4482120,yes,0.0
+Australia,AUS,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",4534510,yes,0.0
+Australia,AUS,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",4655610,yes,0.0
+Australia,AUS,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",4752950,yes,0.0
+Australia,AUS,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",4877090,yes,0.0
+Australia,AUS,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5031630,yes,0.0
+Australia,AUS,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5233250,yes,0.0
+Australia,AUS,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5477900,yes,0.0
+Australia,AUS,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5729880,yes,0.0
+Austria,AUT,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",843000,yes,0.0
+Austria,AUT,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1112094,yes,0.0
+Austria,AUT,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1137351,yes,0.0
+Austria,AUT,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1141212,yes,0.0
+Austria,AUT,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1154776,yes,0.0
+Austria,AUT,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1195156,yes,0.0
+Austria,AUT,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1215695,yes,0.0
+Austria,AUT,2008,foreign_born,Eurostat [migr_pop3ctb],1234879,yes,0.0
+Austria,AUT,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1235678,no,0.065
+Austria,AUT,2009,foreign_born,Eurostat [migr_pop3ctb],1259626,yes,0.0
+Austria,AUT,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1260277,no,0.052
+Austria,AUT,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1275487,no (published series kept),0.046
+Austria,AUT,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1294706,no (published series kept),0.037
+Austria,AUT,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1323083,no (published series kept),0.032
+Austria,AUT,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1364771,no (published series kept),0.056
+Austria,AUT,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1414624,no (published series kept),0.029
+Austria,AUT,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1484595,no (published series kept),0.099
+Austria,AUT,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1594723,no (published series kept),0.41
+Austria,AUT,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1656266,no (published series kept),0.44
+Austria,AUT,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1697123,no (published series kept),0.385
+Austria,AUT,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1728554,no (published series kept),0.332
+Austria,AUT,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1765311,no (published series kept),0.268
+Austria,AUT,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1797573,no (published series kept),0.308
+Austria,AUT,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1842426,no (published series kept),0.441
+Austria,AUT,2001,foreign_nationals,Eurostat [migr_pop1ctz],709696,yes,0.0
+Austria,AUT,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",701768,no,-1.117
+Austria,AUT,2002,foreign_nationals,Eurostat [migr_pop1ctz],704836,yes,0.0
+Austria,AUT,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",730261,no,3.607
+Austria,AUT,2003,foreign_nationals,Eurostat [migr_pop1ctz],727052,yes,0.0
+Austria,AUT,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",746753,no,2.71
+Austria,AUT,2004,foreign_nationals,Eurostat [migr_pop1ctz],738579,yes,0.0
+Austria,AUT,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",754216,no,2.117
+Austria,AUT,2005,foreign_nationals,Eurostat [migr_pop1ctz],761005,yes,0.0
+Austria,AUT,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",774401,no,1.76
+Austria,AUT,2006,foreign_nationals,Eurostat [migr_pop1ctz],783539,yes,0.0
+Austria,AUT,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",796666,no,1.675
+Austria,AUT,2007,foreign_nationals,Eurostat [migr_pop1ctz],793364,yes,0.0
+Austria,AUT,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",804779,no,1.439
+Austria,AUT,2008,foreign_nationals,Eurostat [migr_pop1ctz],826485,yes,0.0
+Austria,AUT,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",829679,no,0.386
+Austria,AUT,2009,foreign_nationals,Eurostat [migr_pop1ctz],855557,yes,0.0
+Austria,AUT,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",860004,no,0.52
+Belgium,BEL,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1080790,yes,0.0
+Belgium,BEL,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1117261,yes,0.0
+Belgium,BEL,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1156732,yes,0.0
+Belgium,BEL,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1185456,yes,0.0
+Belgium,BEL,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1220062,yes,0.0
+Belgium,BEL,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1268915,yes,0.0
+Belgium,BEL,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1319302,yes,0.0
+Belgium,BEL,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1380323,yes,0.0
+Belgium,BEL,2009,foreign_born,Eurostat [migr_pop3ctb],1443937,yes,0.0
+Belgium,BEL,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1443937,no,0.0
+Belgium,BEL,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1504254,no (published series kept),0.03
+Belgium,BEL,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1629364,no (published series kept),0.035
+Belgium,BEL,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1679844,no (published series kept),0.126
+Belgium,BEL,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1724419,no (published series kept),0.125
+Belgium,BEL,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1750834,no (published series kept),0.119
+Belgium,BEL,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1786080,no (published series kept),0.145
+Belgium,BEL,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1849287,no (published series kept),0.198
+Belgium,BEL,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1880808,no (published series kept),0.218
+Belgium,BEL,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1920457,no (published series kept),0.218
+Belgium,BEL,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1973007,no (published series kept),0.251
+Belgium,BEL,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2056415,no (published series kept),1.413
+Belgium,BEL,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2079757,no (published series kept),0.679
+Belgium,BEL,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2125700,no (published series kept),0.283
+Belgium,BEL,2001,foreign_nationals,Eurostat [migr_pop1ctz],861192,yes,0.0
+Belgium,BEL,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",861685,no,0.057
+Belgium,BEL,2002,foreign_nationals,Eurostat [migr_pop1ctz],846287,yes,0.0
+Belgium,BEL,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",846734,no,0.053
+Belgium,BEL,2003,foreign_nationals,Eurostat [migr_pop1ctz],847932,yes,0.0
+Belgium,BEL,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",850077,no,0.253
+Belgium,BEL,2004,foreign_nationals,Eurostat [migr_pop1ctz],860287,yes,0.0
+Belgium,BEL,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",860287,no,0.0
+Belgium,BEL,2005,foreign_nationals,Eurostat [migr_pop1ctz],870862,yes,0.0
+Belgium,BEL,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",870862,no,0.0
+Belgium,BEL,2006,foreign_nationals,Eurostat [migr_pop1ctz],900473,yes,0.0
+Belgium,BEL,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",900473,no,0.0
+Belgium,BEL,2007,foreign_nationals,Eurostat [migr_pop1ctz],932161,yes,0.0
+Belgium,BEL,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",932161,no,0.0
+Belgium,BEL,2008,foreign_nationals,Eurostat [migr_pop1ctz],971448,yes,0.0
+Belgium,BEL,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",971448,no,0.0
+Belgium,BEL,2009,foreign_nationals,Eurostat [migr_pop1ctz],1009055,yes,0.0
+Belgium,BEL,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1013260,no,0.417
+Bulgaria,BGR,2008,foreign_nationals,Eurostat [migr_pop1ctz],36265,yes,0.0
+Bulgaria,BGR,2009,foreign_nationals,Eurostat [migr_pop1ctz],37132,yes,0.0
+Switzerland,CHE,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1570756,yes,0.0
+Switzerland,CHE,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2075182,no (published series kept),6.949
+Switzerland,CHE,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2158424,no (published series kept),6.133
+Switzerland,CHE,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2218445,no (published series kept),5.491
+Switzerland,CHE,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2289560,no (published series kept),4.871
+Switzerland,CHE,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2354837,no (published series kept),4.28
+Switzerland,CHE,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2416394,no (published series kept),3.955
+Switzerland,CHE,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2480032,no (published series kept),3.703
+Switzerland,CHE,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2519068,no (published series kept),3.558
+Switzerland,CHE,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2553416,no (published series kept),3.403
+Switzerland,CHE,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2590039,no (published series kept),3.201
+Switzerland,CHE,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2630432,no (published series kept),3.024
+Switzerland,CHE,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2672440,no (published series kept),2.86
+Switzerland,CHE,2001,foreign_nationals,Eurostat [migr_pop1ctz],1424341,yes,0.0
+Switzerland,CHE,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1384382,no,-2.805
+Switzerland,CHE,2002,foreign_nationals,Eurostat [migr_pop1ctz],1447525,yes,0.0
+Switzerland,CHE,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1419095,no,-1.964
+Switzerland,CHE,2003,foreign_nationals,Eurostat [migr_pop1ctz],1476934,yes,0.0
+Switzerland,CHE,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1447312,no,-2.006
+Switzerland,CHE,2004,foreign_nationals,Eurostat [migr_pop1ctz],1500872,yes,0.0
+Switzerland,CHE,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1471033,no,-1.988
+Switzerland,CHE,2005,foreign_nationals,Eurostat [migr_pop1ctz],1524616,yes,0.0
+Switzerland,CHE,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1495008,no,-1.942
+Switzerland,CHE,2006,foreign_nationals,Eurostat [migr_pop1ctz],1541825,yes,0.0
+Switzerland,CHE,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1511937,no,-1.938
+Switzerland,CHE,2007,foreign_nationals,Eurostat [migr_pop1ctz],1554417,yes,0.0
+Switzerland,CHE,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1523586,no,-1.983
+Switzerland,CHE,2008,foreign_nationals,Eurostat [migr_pop1ctz],1602093,yes,0.0
+Switzerland,CHE,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1570965,no,-1.943
+Switzerland,CHE,2009,foreign_nationals,Eurostat [migr_pop1ctz],1669715,yes,0.0
+Switzerland,CHE,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1638949,no,-1.843
+Chile,CHL,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",184464,yes,0.0
+Chile,CHL,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",223000,yes,0.0
+Chile,CHL,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",235545,yes,0.0
+Chile,CHL,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",247365,yes,0.0
+Chile,CHL,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",258829,yes,0.0
+Chile,CHL,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",290901,yes,0.0
+Chile,CHL,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",317057,yes,0.0
+Czech Republic,CZE,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",448477,yes,0.0
+Czech Republic,CZE,2009,foreign_born,Eurostat [migr_pop3ctb],384161,yes,0.0
+Czech Republic,CZE,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",745193,no (published series kept),92.074
+Czech Republic,CZE,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",390843,no (published series kept),0.0
+Czech Republic,CZE,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",387337,no (published series kept),0.0
+Czech Republic,CZE,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",396156,no (published series kept),0.0
+Czech Republic,CZE,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",416454,no (published series kept),0.0
+Czech Republic,CZE,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",433290,no (published series kept),0.0
+Czech Republic,CZE,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",465056,no (published series kept),0.0
+Czech Republic,CZE,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",467580,no (published series kept),0.0
+Czech Republic,CZE,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",507051,no (published series kept),0.0
+Czech Republic,CZE,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",533639,no (published series kept),0.0
+Czech Republic,CZE,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",570139,no (published series kept),39.323
+Czech Republic,CZE,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",685840,no (published series kept),0.0
+Czech Republic,CZE,2001,foreign_nationals,Eurostat [migr_pop1ctz],180242,yes,0.0
+Czech Republic,CZE,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",200951,no,11.49
+Czech Republic,CZE,2002,foreign_nationals,Eurostat [migr_pop1ctz],163805,yes,0.0
+Czech Republic,CZE,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",210794,no,28.686
+Czech Republic,CZE,2003,foreign_nationals,Eurostat [migr_pop1ctz],179154,yes,0.0
+Czech Republic,CZE,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",231608,no,29.279
+Czech Republic,CZE,2004,foreign_nationals,Eurostat [migr_pop1ctz],195394,yes,0.0
+Czech Republic,CZE,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",240421,no,23.044
+Czech Republic,CZE,2005,foreign_nationals,Eurostat [migr_pop1ctz],193467,yes,0.0
+Czech Republic,CZE,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",254294,no,31.441
+Czech Republic,CZE,2006,foreign_nationals,Eurostat [migr_pop1ctz],258325,yes,0.0
+Czech Republic,CZE,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",278312,no,7.737
+Czech Republic,CZE,2007,foreign_nationals,Eurostat [migr_pop1ctz],296202,yes,0.0
+Czech Republic,CZE,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",321456,no,8.526
+Czech Republic,CZE,2008,foreign_nationals,Eurostat [migr_pop1ctz],347649,yes,0.0
+Czech Republic,CZE,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",392315,no,12.848
+Czech Republic,CZE,2009,foreign_nationals,Eurostat [migr_pop1ctz],407541,yes,0.0
+Czech Republic,CZE,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",437565,no,7.367
+Germany,DEU,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10371000,yes,0.0
+Germany,DEU,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10410000,yes,0.0
+Germany,DEU,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10505000,yes,0.0
+Germany,DEU,2009,foreign_born,Eurostat [migr_pop3ctb],9548865,yes,0.0
+Germany,DEU,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10546000,no,10.442
+Germany,DEU,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10510000,no (published series kept),7.111
+Germany,DEU,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10503000,no (published series kept),17.541
+Germany,DEU,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",9752000,no (published series kept),6.955
+Germany,DEU,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10047000,no (published series kept),6.247
+Germany,DEU,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10401000,no (published series kept),6.047
+Germany,DEU,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",10792000,no (published series kept),5.593
+Germany,DEU,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",11392000,no (published series kept),4.435
+Germany,DEU,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",12609000,no (published series kept),4.16
+Germany,DEU,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",13088000,no (published series kept),-4.786
+Germany,DEU,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",13520000,no (published series kept),-9.138
+Germany,DEU,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",13754000,no (published series kept),-8.555
+Germany,DEU,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",13882000,no (published series kept),-8.447
+Germany,DEU,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",14245000,no (published series kept),-6.82
+Germany,DEU,2001,foreign_nationals,Eurostat [migr_pop1ctz],7210710,yes,0.0
+Germany,DEU,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",7296817,no,1.194
+Germany,DEU,2002,foreign_nationals,Eurostat [migr_pop1ctz],7262099,yes,0.0
+Germany,DEU,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",7318628,no,0.778
+Germany,DEU,2003,foreign_nationals,Eurostat [migr_pop1ctz],7291969,yes,0.0
+Germany,DEU,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",7335592,no,0.598
+Germany,DEU,2004,foreign_nationals,Eurostat [migr_pop1ctz],7291306,yes,0.0
+Germany,DEU,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",7334765,no,0.596
+Germany,DEU,2005,foreign_nationals,Eurostat [migr_pop1ctz],7242810,yes,0.0
+Germany,DEU,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6717115,no,-7.258
+Germany,DEU,2006,foreign_nationals,Eurostat [migr_pop1ctz],6711072,yes,0.0
+Germany,DEU,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6755811,no,0.667
+Germany,DEU,2007,foreign_nationals,Eurostat [migr_pop1ctz],7207716,yes,0.0
+Germany,DEU,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6751004,no,-6.336
+Germany,DEU,2008,foreign_nationals,Eurostat [migr_pop1ctz],7255395,yes,0.0
+Germany,DEU,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6744879,no,-7.036
+Germany,DEU,2009,foreign_nationals,Eurostat [migr_pop1ctz],7185921,yes,0.0
+Germany,DEU,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6727618,no,-6.378
+Denmark,DNK,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",308674,yes,0.0
+Denmark,DNK,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",321794,yes,0.0
+Denmark,DNK,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",331506,yes,0.0
+Denmark,DNK,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",337802,yes,0.0
+Denmark,DNK,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",343367,yes,0.0
+Denmark,DNK,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",350436,yes,0.0
+Denmark,DNK,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",360902,yes,0.0
+Denmark,DNK,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",378665,yes,0.0
+Denmark,DNK,2009,foreign_born,Eurostat [migr_pop3ctb],486003,yes,0.0
+Denmark,DNK,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",401771,no,-17.332
+Denmark,DNK,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",414422,no (published series kept),-17.243
+Denmark,DNK,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",428904,no (published series kept),-17.077
+Denmark,DNK,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",441538,no (published series kept),-16.932
+Denmark,DNK,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",456386,no (published series kept),-16.78
+Denmark,DNK,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",476059,no (published series kept),-16.422
+Denmark,DNK,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",501057,no (published series kept),-15.913
+Denmark,DNK,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",540503,no (published series kept),-15.104
+Denmark,DNK,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",570581,no (published series kept),-14.595
+Denmark,DNK,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",591678,no (published series kept),-14.318
+Denmark,DNK,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",607622,no (published series kept),-14.163
+Denmark,DNK,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",614353,no (published series kept),-14.189
+Denmark,DNK,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",617770,no (published series kept),-14.334
+Denmark,DNK,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",640922,no (published series kept),-14.068
+Denmark,DNK,2001,foreign_nationals,Eurostat [migr_pop1ctz],258556,yes,0.0
+Denmark,DNK,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",258629,no,0.028
+Denmark,DNK,2002,foreign_nationals,Eurostat [migr_pop1ctz],266627,yes,0.0
+Denmark,DNK,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",266729,no,0.038
+Denmark,DNK,2003,foreign_nationals,Eurostat [migr_pop1ctz],265332,yes,0.0
+Denmark,DNK,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",265424,no,0.035
+Denmark,DNK,2004,foreign_nationals,Eurostat [migr_pop1ctz],271111,yes,0.0
+Denmark,DNK,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",271211,no,0.037
+Denmark,DNK,2005,foreign_nationals,Eurostat [migr_pop1ctz],267512,yes,0.0
+Denmark,DNK,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",267604,no,0.034
+Denmark,DNK,2006,foreign_nationals,Eurostat [migr_pop1ctz],269964,yes,0.0
+Denmark,DNK,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",270051,no,0.032
+Denmark,DNK,2007,foreign_nationals,Eurostat [migr_pop1ctz],278010,yes,0.0
+Denmark,DNK,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",278096,no,0.031
+Denmark,DNK,2008,foreign_nationals,Eurostat [migr_pop1ctz],298450,yes,0.0
+Denmark,DNK,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",298490,no,0.013
+Denmark,DNK,2009,foreign_nationals,Eurostat [migr_pop1ctz],320033,yes,0.0
+Denmark,DNK,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",320188,no,0.048
+Spain,ESP,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1969270,yes,0.0
+Spain,ESP,2002,foreign_born,Eurostat [migr_pop3ctb],2334096,yes,0.0
+Spain,ESP,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2594052,no,11.137
+Spain,ESP,2003,foreign_born,Eurostat [migr_pop3ctb],2984092,yes,0.0
+Spain,ESP,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",3302440,no,10.668
+Spain,ESP,2004,foreign_born,Eurostat [migr_pop3ctb],3547669,yes,0.0
+Spain,ESP,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",3693806,no,4.119
+Spain,ESP,2005,foreign_born,Eurostat [migr_pop3ctb],4107228,yes,0.0
+Spain,ESP,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",4391484,no,6.921
+Spain,ESP,2006,foreign_born,Eurostat [migr_pop3ctb],4637971,yes,0.0
+Spain,ESP,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",4837622,no,4.305
+Spain,ESP,2007,foreign_born,Eurostat [migr_pop3ctb],5200060,yes,0.0
+Spain,ESP,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5249993,no,0.96
+Spain,ESP,2008,foreign_born,Eurostat [migr_pop3ctb],5878921,yes,0.0
+Spain,ESP,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5878919,no,-0.0
+Spain,ESP,2009,foreign_born,Eurostat [migr_pop3ctb],6225516,yes,0.0
+Spain,ESP,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6225513,no,-0.0
+Spain,ESP,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6280064,no (published series kept),0.0
+Spain,ESP,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6282208,no (published series kept),0.0
+Spain,ESP,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6294952,no (published series kept),-0.0
+Spain,ESP,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6174740,no (published series kept),0.148
+Spain,ESP,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5958308,no (published series kept),0.093
+Spain,ESP,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5891208,no (published series kept),0.124
+Spain,ESP,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5918341,no (published series kept),0.088
+Spain,ESP,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6024523,no (published series kept),0.163
+Spain,ESP,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6198832,no (published series kept),-0.14
+Spain,ESP,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6538960,no (published series kept),-0.158
+Spain,ESP,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6996825,no (published series kept),-0.256
+Spain,ESP,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7254797,no (published series kept),0.0
+Spain,ESP,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7468144,no (published series kept),0.0
+Spain,ESP,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1370657,yes,0.0
+Spain,ESP,2002,foreign_nationals,Eurostat [migr_pop1ctz],1737969,yes,0.0
+Spain,ESP,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1977946,no,13.808
+Spain,ESP,2003,foreign_nationals,Eurostat [migr_pop1ctz],2362023,yes,0.0
+Spain,ESP,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2664168,no,12.792
+Spain,ESP,2004,foreign_nationals,Eurostat [migr_pop1ctz],2900790,yes,0.0
+Spain,ESP,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3034326,no,4.603
+Spain,ESP,2005,foreign_nationals,Eurostat [migr_pop1ctz],3430204,yes,0.0
+Spain,ESP,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3730610,no,8.758
+Spain,ESP,2006,foreign_nationals,Eurostat [migr_pop1ctz],3930916,yes,0.0
+Spain,ESP,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4144166,no,5.425
+Spain,ESP,2007,foreign_nationals,Eurostat [migr_pop1ctz],4449431,yes,0.0
+Spain,ESP,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4519554,no,1.576
+Spain,ESP,2008,foreign_nationals,Eurostat [migr_pop1ctz],5086293,yes,0.0
+Spain,ESP,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5086295,no,0.0
+Spain,ESP,2009,foreign_nationals,Eurostat [migr_pop1ctz],5386659,yes,0.0
+Spain,ESP,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5386659,no,0.0
+Spain,ESP,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5402579,no (published series kept),0.0
+Spain,ESP,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5312440,no (published series kept),0.0
+Spain,ESP,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5236030,no (published series kept),0.0
+Spain,ESP,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5072680,no (published series kept),0.16
+Spain,ESP,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4677059,no (published series kept),0.015
+Spain,ESP,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4454353,no (published series kept),0.008
+Spain,ESP,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4417517,no (published series kept),-0.041
+Spain,ESP,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4419455,no (published series kept),0.041
+Spain,ESP,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4562962,no (published series kept),-0.314
+Spain,ESP,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4840207,no (published series kept),-0.218
+Spain,ESP,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5226906,no (published series kept),-0.274
+Spain,ESP,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5402702,no (published series kept),0.0
+Spain,ESP,2022,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5509134,no (published series kept),0.0
+Finland,FIN,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",136203,yes,0.0
+Finland,FIN,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",145139,yes,0.0
+Finland,FIN,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",152057,yes,0.0
+Finland,FIN,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",158867,yes,0.0
+Finland,FIN,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",166361,yes,0.0
+Finland,FIN,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",176612,yes,0.0
+Finland,FIN,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",187910,yes,0.0
+Finland,FIN,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",202528,yes,0.0
+Finland,FIN,2009,foreign_born,Eurostat [migr_pop3ctb],214118,yes,0.0
+Finland,FIN,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",218626,no,2.105
+Finland,FIN,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",233183,no (published series kept),2.058
+Finland,FIN,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",248135,no (published series kept),2.022
+Finland,FIN,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",266148,no (published series kept),2.029
+Finland,FIN,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",285471,no (published series kept),2.048
+Finland,FIN,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",304279,no (published series kept),2.172
+Finland,FIN,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",321977,no (published series kept),2.262
+Finland,FIN,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",337162,no (published series kept),2.413
+Finland,FIN,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",357541,no (published series kept),2.451
+Finland,FIN,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",372802,no (published series kept),2.498
+Finland,FIN,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",387215,no (published series kept),2.612
+Finland,FIN,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",404179,no (published series kept),2.699
+Finland,FIN,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",420766,no (published series kept),2.958
+Finland,FIN,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",442290,no (published series kept),3.24
+Finland,FIN,2001,foreign_nationals,Eurostat [migr_pop1ctz],90569,yes,0.0
+Finland,FIN,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",91074,no,0.558
+Finland,FIN,2002,foreign_nationals,Eurostat [migr_pop1ctz],98142,yes,0.0
+Finland,FIN,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",98577,no,0.443
+Finland,FIN,2003,foreign_nationals,Eurostat [migr_pop1ctz],103206,yes,0.0
+Finland,FIN,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",103682,no,0.461
+Finland,FIN,2004,foreign_nationals,Eurostat [migr_pop1ctz],106545,yes,0.0
+Finland,FIN,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",107003,no,0.43
+Finland,FIN,2005,foreign_nationals,Eurostat [migr_pop1ctz],107804,yes,0.0
+Finland,FIN,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",108346,no,0.503
+Finland,FIN,2006,foreign_nationals,Eurostat [migr_pop1ctz],112529,yes,0.0
+Finland,FIN,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",113852,no,1.176
+Finland,FIN,2007,foreign_nationals,Eurostat [migr_pop1ctz],121110,yes,0.0
+Finland,FIN,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",121739,no,0.519
+Finland,FIN,2008,foreign_nationals,Eurostat [migr_pop1ctz],132708,yes,0.0
+Finland,FIN,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",132708,no,0.0
+Finland,FIN,2009,foreign_nationals,Eurostat [migr_pop1ctz],142288,yes,0.0
+Finland,FIN,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",143256,no,0.68
+France,FRA,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6910060,yes,0.0
+France,FRA,2007,foreign_born,Eurostat [migr_pop3ctb],7013242,yes,0.0
+France,FRA,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7017207,no,0.057
+France,FRA,2008,foreign_born,Eurostat [migr_pop3ctb],7076824,yes,0.0
+France,FRA,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7129254,no,0.741
+France,FRA,2009,foreign_born,Eurostat [migr_pop3ctb],7245620,yes,0.0
+France,FRA,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7202116,no,-0.6
+France,FRA,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7287794,no (published series kept),-0.304
+France,FRA,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7372688,no (published series kept),0.501
+France,FRA,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7474654,no (published series kept),0.154
+France,FRA,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7590945,no (published series kept),0.623
+France,FRA,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7746520,no (published series kept),0.0
+France,FRA,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7915838,no (published series kept),0.0
+France,FRA,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8028227,no (published series kept),0.0
+France,FRA,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8098872,no (published series kept),0.0
+France,FRA,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8199663,no (published series kept),0.0
+France,FRA,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8368280,no (published series kept),0.0
+France,FRA,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8473346,no (published series kept),0.0
+France,FRA,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8548924,no (published series kept),0.0
+France,FRA,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8635504,no (published series kept),0.0
+France,FRA,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3541820,yes,0.0
+France,FRA,2007,foreign_nationals,Eurostat [migr_pop1ctz],3685544,yes,0.0
+France,FRA,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3696874,no,0.307
+France,FRA,2008,foreign_nationals,Eurostat [migr_pop1ctz],3709814,yes,0.0
+France,FRA,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3731224,no,0.577
+France,FRA,2009,foreign_nationals,Eurostat [migr_pop1ctz],3750406,yes,0.0
+France,FRA,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3773236,no,0.609
+France,FRA,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3821456,no (published series kept),-0.082
+France,FRA,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3875096,no (published series kept),0.0
+France,FRA,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3944725,no (published series kept),0.0
+France,FRA,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4092106,no (published series kept),0.0
+France,FRA,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4227226,no (published series kept),0.0
+France,FRA,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4431376,no (published series kept),0.0
+France,FRA,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4544793,no (published series kept),0.0
+France,FRA,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4605669,no (published series kept),0.0
+France,FRA,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4950717,no (published series kept),0.0
+France,FRA,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5042171,no (published series kept),0.0
+France,FRA,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5173605,no (published series kept),0.0
+France,FRA,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5302510,no (published series kept),0.0
+France,FRA,2022,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5458039,no (published series kept),0.0
+United Kingdom,GBR,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5757000,yes,0.0
+United Kingdom,GBR,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6192000,yes,0.0
+United Kingdom,GBR,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6633000,yes,0.0
+United Kingdom,GBR,2009,foreign_born,Eurostat [migr_pop3ctb],6861616,yes,0.0
+United Kingdom,GBR,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",6899000,no,0.545
+United Kingdom,GBR,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7056000,no (published series kept),-0.894
+United Kingdom,GBR,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7430000,no (published series kept),1.191
+United Kingdom,GBR,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7588000,no (published series kept),-2.246
+United Kingdom,GBR,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",7860000,no (published series kept),-0.801
+United Kingdom,GBR,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8064000,no (published series kept),0.307
+United Kingdom,GBR,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8482000,no (published series kept),0.892
+United Kingdom,GBR,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",8898000,no (published series kept),2.317
+United Kingdom,GBR,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",9317000,no (published series kept),0.204
+United Kingdom,GBR,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",9388000,no (published series kept),-1.308
+United Kingdom,GBR,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",9398000,no (published series kept),-0.75
+United Kingdom,GBR,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",9539000,no (published series kept),3.685
+United Kingdom,GBR,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",9614000,no (published series kept),0.146
+United Kingdom,GBR,2001,foreign_nationals,Eurostat [migr_pop1ctz],2649219,yes,0.0
+United Kingdom,GBR,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2342000,no,-11.597
+United Kingdom,GBR,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2587000,yes,0.0
+United Kingdom,GBR,2003,foreign_nationals,Eurostat [migr_pop1ctz],2753753,yes,0.0
+United Kingdom,GBR,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2584000,no,-6.164
+United Kingdom,GBR,2004,foreign_nationals,Eurostat [migr_pop1ctz],2926657,yes,0.0
+United Kingdom,GBR,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2742000,no,-6.309
+United Kingdom,GBR,2004,foreign_nationals,"Office for National Statistics, Population by country of birth and nationality, Annual Population Survey, January to December 2004 (historical edition, re-weighted March 2015)",2978000,no,1.754
+United Kingdom,GBR,2005,foreign_nationals,Eurostat [migr_pop1ctz],3066055,yes,0.0
+United Kingdom,GBR,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2857000,no,-6.818
+United Kingdom,GBR,2005,foreign_nationals,"Office for National Statistics, Population by country of birth and nationality, Annual Population Survey, January to December 2005 (historical edition, re-weighted March 2015)",3232000,no,5.412
+United Kingdom,GBR,2006,foreign_nationals,Eurostat [migr_pop1ctz],3425000,yes,0.0
+United Kingdom,GBR,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3392000,no,-0.964
+United Kingdom,GBR,2007,foreign_nationals,Eurostat [migr_pop1ctz],3659900,yes,0.0
+United Kingdom,GBR,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3824000,no,4.484
+United Kingdom,GBR,2008,foreign_nationals,Eurostat [migr_pop1ctz],4020800,yes,0.0
+United Kingdom,GBR,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4186000,no,4.109
+United Kingdom,GBR,2009,foreign_nationals,Eurostat [migr_pop1ctz],4244092,yes,0.0
+United Kingdom,GBR,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4348000,no,2.448
+United Kingdom,GBR,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4524000,no (published series kept),1.993
+United Kingdom,GBR,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4785000,no (published series kept),5.237
+United Kingdom,GBR,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4788000,no (published series kept),-1.974
+United Kingdom,GBR,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4941000,no (published series kept),-0.755
+United Kingdom,GBR,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5154000,no (published series kept),2.072
+United Kingdom,GBR,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5592000,no (published series kept),3.189
+United Kingdom,GBR,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5951000,no (published series kept),5.52
+United Kingdom,GBR,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6137000,no (published series kept),1.045
+United Kingdom,GBR,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5991000,no (published series kept),-4.693
+United Kingdom,GBR,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6194000,no (published series kept),0.357
+United Kingdom,GBR,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6101000,no (published series kept),1.683
+United Kingdom,GBR,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",6013000,no (published series kept),0.217
+Hungary,HUN,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",294573,yes,0.0
+Hungary,HUN,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",300069,yes,0.0
+Hungary,HUN,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",302750,yes,0.0
+Hungary,HUN,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",307817,yes,0.0
+Hungary,HUN,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",319000,yes,0.0
+Hungary,HUN,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",331493,yes,0.0
+Hungary,HUN,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",344600,yes,0.0
+Hungary,HUN,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",381781,yes,0.0
+Hungary,HUN,2009,foreign_born,Eurostat [migr_pop3ctb],424031,yes,0.0
+Hungary,HUN,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",394234,no,-7.027
+Hungary,HUN,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",434430,no (published series kept),-0.501
+Hungary,HUN,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",441002,no (published series kept),-0.517
+Hungary,HUN,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",402691,no (published series kept),0.229
+Hungary,HUN,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",424192,no (published series kept),0.207
+Hungary,HUN,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",447657,no (published series kept),0.14
+Hungary,HUN,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",476077,no (published series kept),0.12
+Hungary,HUN,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",504302,no (published series kept),0.102
+Hungary,HUN,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",514127,no (published series kept),0.093
+Hungary,HUN,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",536578,no (published series kept),0.074
+Hungary,HUN,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",565127,no (published series kept),0.065
+Hungary,HUN,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",594270,no (published series kept),0.056
+Hungary,HUN,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",597642,no (published series kept),0.034
+Hungary,HUN,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",612660,no (published series kept),0.007
+Hungary,HUN,2001,foreign_nationals,Eurostat [migr_pop1ctz],115436,yes,0.0
+Hungary,HUN,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",110028,no,-4.685
+Hungary,HUN,2002,foreign_nationals,Eurostat [migr_pop1ctz],116085,yes,0.0
+Hungary,HUN,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",116429,no,0.296
+Hungary,HUN,2003,foreign_nationals,Eurostat [migr_pop1ctz],115599,yes,0.0
+Hungary,HUN,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",115888,no,0.25
+Hungary,HUN,2004,foreign_nationals,Eurostat [migr_pop1ctz],130109,yes,0.0
+Hungary,HUN,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",130109,no,0.0
+Hungary,HUN,2005,foreign_nationals,Eurostat [migr_pop1ctz],143638,yes,0.0
+Hungary,HUN,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",142153,no,-1.034
+Hungary,HUN,2006,foreign_nationals,Eurostat [migr_pop1ctz],155978,yes,0.0
+Hungary,HUN,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",154430,no,-0.992
+Hungary,HUN,2007,foreign_nationals,Eurostat [migr_pop1ctz],167715,yes,0.0
+Hungary,HUN,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",166030,no,-1.005
+Hungary,HUN,2008,foreign_nationals,Eurostat [migr_pop1ctz],176580,yes,0.0
+Hungary,HUN,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",174697,no,-1.066
+Hungary,HUN,2009,foreign_nationals,Eurostat [migr_pop1ctz],186365,yes,0.0
+Hungary,HUN,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",184358,no,-1.077
+Iceland,ISL,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",16927,yes,0.0
+Iceland,ISL,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",18338,yes,0.0
+Iceland,ISL,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",19072,yes,0.0
+Iceland,ISL,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",19530,yes,0.0
+Iceland,ISL,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",20669,yes,0.0
+Iceland,ISL,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",24678,yes,0.0
+Iceland,ISL,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",30387,yes,0.0
+Iceland,ISL,2008,foreign_born,Eurostat [migr_pop3ctb],35885,yes,0.0
+Iceland,ISL,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",35895,no,0.028
+Iceland,ISL,2009,foreign_born,Eurostat [migr_pop3ctb],37552,yes,0.0
+Iceland,ISL,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",37562,no,0.027
+Iceland,ISL,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",35121,no (published series kept),0.085
+Iceland,ISL,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",34709,no (published series kept),0.17
+Iceland,ISL,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",34671,no (published series kept),0.35
+Iceland,ISL,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",35437,no (published series kept),0.334
+Iceland,ISL,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",37230,no (published series kept),0.307
+Iceland,ISL,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",39221,no (published series kept),0.381
+Iceland,ISL,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",42020,no (published series kept),0.399
+Iceland,ISL,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",46515,no (published series kept),0.944
+Iceland,ISL,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",54592,no (published series kept),1.965
+Iceland,ISL,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",61401,no (published series kept),2.337
+Iceland,ISL,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",66767,no (published series kept),2.396
+Iceland,ISL,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",67438,no (published series kept),0.0
+Iceland,ISL,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",71767,no (published series kept),0.0
+Iceland,ISL,2001,foreign_nationals,Eurostat [migr_pop1ctz],8821,yes,0.0
+Iceland,ISL,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",8824,no,0.034
+Iceland,ISL,2002,foreign_nationals,Eurostat [migr_pop1ctz],9847,yes,0.0
+Iceland,ISL,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",9850,no,0.03
+Iceland,ISL,2003,foreign_nationals,Eurostat [migr_pop1ctz],10218,yes,0.0
+Iceland,ISL,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",10221,no,0.029
+Iceland,ISL,2004,foreign_nationals,Eurostat [migr_pop1ctz],10151,yes,0.0
+Iceland,ISL,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",10180,no,0.286
+Iceland,ISL,2005,foreign_nationals,Eurostat [migr_pop1ctz],10607,yes,0.0
+Iceland,ISL,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",10636,no,0.273
+Iceland,ISL,2006,foreign_nationals,Eurostat [migr_pop1ctz],13746,yes,0.0
+Iceland,ISL,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",13778,no,0.233
+Iceland,ISL,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",18563,yes,0.0
+Iceland,ISL,2008,foreign_nationals,Eurostat [migr_pop1ctz],23420,yes,0.0
+Iceland,ISL,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",23421,no,0.004
+Iceland,ISL,2009,foreign_nationals,Eurostat [migr_pop1ctz],24379,yes,0.0
+Iceland,ISL,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",24379,no,0.0
+Iceland,ISL,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",21701,no (published series kept),0.0
+Iceland,ISL,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",21143,no (published series kept),0.0
+Iceland,ISL,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",20957,no (published series kept),0.0
+Iceland,ISL,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",21446,no (published series kept),0.0
+Iceland,ISL,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",22744,no (published series kept),0.0
+Iceland,ISL,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",24294,no (published series kept),0.0
+Iceland,ISL,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",26485,no (published series kept),0.0
+Iceland,ISL,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",30275,no (published series kept),0.0
+Iceland,ISL,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",37830,no (published series kept),0.0
+Iceland,ISL,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",44269,no (published series kept),0.0
+Iceland,ISL,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",49391,no (published series kept),0.0
+Iceland,ISL,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",51283,no (published series kept),0.0
+Iceland,ISL,2022,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",54959,no (published series kept),0.0
+Israel,ISR,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1958000,yes,0.0
+Israel,ISR,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1978000,yes,0.0
+Israel,ISR,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1983000,yes,0.0
+Israel,ISR,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1975000,yes,0.0
+Israel,ISR,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1961000,yes,0.0
+Israel,ISR,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1948000,yes,0.0
+Israel,ISR,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1930000,yes,0.0
+Israel,ISR,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1916200,yes,0.0
+Israel,ISR,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1899400,yes,0.0
+Italy,ITA,2002,foreign_born,Eurostat [migr_pop3ctb],2261729,yes,0.0
+Italy,ITA,2003,foreign_born,Eurostat [migr_pop3ctb],2417218,yes,0.0
+Italy,ITA,2004,foreign_born,Eurostat [migr_pop3ctb],2817326,yes,0.0
+Italy,ITA,2005,foreign_born,Eurostat [migr_pop3ctb],3169038,yes,0.0
+Italy,ITA,2006,foreign_born,Eurostat [migr_pop3ctb],3384810,yes,0.0
+Italy,ITA,2007,foreign_born,Eurostat [migr_pop3ctb],3563728,yes,0.0
+Italy,ITA,2008,foreign_born,Eurostat [migr_pop3ctb],3989058,yes,0.0
+Italy,ITA,2009,foreign_born,Eurostat [migr_pop3ctb],4358808,yes,0.0
+Italy,ITA,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",5813773,no,33.38
+Italy,ITA,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1379749,yes,0.0
+Italy,ITA,2002,foreign_nationals,Eurostat [migr_pop1ctz],1341414,yes,0.0
+Italy,ITA,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1448392,no,7.975
+Italy,ITA,2003,foreign_nationals,Eurostat [migr_pop1ctz],1483277,yes,0.0
+Italy,ITA,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1549373,no,4.456
+Italy,ITA,2004,foreign_nationals,Eurostat [migr_pop1ctz],1893927,yes,0.0
+Italy,ITA,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1990159,no,5.081
+Italy,ITA,2005,foreign_nationals,Eurostat [migr_pop1ctz],2269018,yes,0.0
+Italy,ITA,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2402157,no,5.868
+Italy,ITA,2006,foreign_nationals,Eurostat [migr_pop1ctz],2498411,yes,0.0
+Italy,ITA,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2670514,no,6.888
+Italy,ITA,2007,foreign_nationals,Eurostat [migr_pop1ctz],2692022,yes,0.0
+Italy,ITA,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2938922,no,9.172
+Italy,ITA,2008,foreign_nationals,Eurostat [migr_pop1ctz],3151553,yes,0.0
+Italy,ITA,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3432651,no,8.919
+Italy,ITA,2009,foreign_nationals,Eurostat [migr_pop1ctz],3558853,yes,0.0
+Italy,ITA,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3402435,no,-4.395
+Italy,ITA,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3648128,no (published series kept),-4.906
+Italy,ITA,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",3879224,no (published series kept),-5.416
+Italy,ITA,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4052081,no (published series kept),-6.184
+Italy,ITA,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4387721,no (published series kept),-4.832
+Italy,ITA,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4921272,no (published series kept),2.801
+Italy,ITA,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5014437,no (published series kept),3.706
+Italy,ITA,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5026854,no (published series kept),4.053
+Italy,ITA,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5047028,no (published series kept),4.74
+Italy,ITA,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5144440,no (published series kept),5.344
+Italy,ITA,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",4996158,no (published series kept),0.0
+Italy,ITA,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5039637,no (published series kept),0.0
+Italy,ITA,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5171894,no (published series kept),0.0
+Italy,ITA,2022,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",5030716,no (published series kept),0.0
+Japan,JPN,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1686444,yes,0.0
+Japan,JPN,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1778462,yes,0.0
+Japan,JPN,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1851758,yes,0.0
+Japan,JPN,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1915030,yes,0.0
+Japan,JPN,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",1973747,yes,0.0
+Japan,JPN,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2011555,yes,0.0
+Japan,JPN,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2083202,yes,0.0
+Japan,JPN,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2151400,yes,0.0
+Japan,JPN,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",2215901,yes,0.0
+Korea (South),KOR,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",210249,yes,0.0
+Korea (South),KOR,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",229648,yes,0.0
+Korea (South),KOR,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",271666,yes,0.0
+Korea (South),KOR,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",460261,yes,0.0
+Korea (South),KOR,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",491409,yes,0.0
+Korea (South),KOR,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",510509,yes,0.0
+Korea (South),KOR,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",660607,yes,0.0
+Korea (South),KOR,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",800262,yes,0.0
+Korea (South),KOR,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",997300,yes,0.0
+Lithuania,LTU,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",246500,yes,0.0
+Lithuania,LTU,2002,foreign_born,Eurostat [migr_pop3ctb],218241,yes,0.0
+Lithuania,LTU,2003,foreign_born,Eurostat [migr_pop3ctb],214034,yes,0.0
+Lithuania,LTU,2004,foreign_born,Eurostat [migr_pop3ctb],208317,yes,0.0
+Lithuania,LTU,2005,foreign_born,Eurostat [migr_pop3ctb],201209,yes,0.0
+Lithuania,LTU,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",226500,no,12.57
+Lithuania,LTU,2006,foreign_born,Eurostat [migr_pop3ctb],192071,yes,0.0
+Lithuania,LTU,2007,foreign_born,Eurostat [migr_pop3ctb],184703,yes,0.0
+Lithuania,LTU,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",222000,no,20.193
+Lithuania,LTU,2008,foreign_born,Eurostat [migr_pop3ctb],177836,yes,0.0
+Lithuania,LTU,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",222500,no,25.115
+Lithuania,LTU,2009,foreign_born,Eurostat [migr_pop3ctb],171179,yes,0.0
+Lithuania,LTU,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",220100,no,28.579
+Lithuania,LTU,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",215300,no (published series kept),33.916
+Lithuania,LTU,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",207900,no (published series kept),39.023
+Lithuania,LTU,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",206600,no (published series kept),43.797
+Lithuania,LTU,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",140000,no (published series kept),1.231
+Lithuania,LTU,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",137417,no (published series kept),2.745
+Lithuania,LTU,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",136021,no (published series kept),3.102
+Lithuania,LTU,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",129706,no (published series kept),2.726
+Lithuania,LTU,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",127351,no (published series kept),1.91
+Lithuania,LTU,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",130975,no (published series kept),-0.872
+Lithuania,LTU,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",138171,no (published series kept),-7.068
+Lithuania,LTU,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",152578,no (published series kept),-0.728
+Lithuania,LTU,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",165164,no (published series kept),6.156
+Lithuania,LTU,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",168787,no (published series kept),0.0
+Lithuania,LTU,2001,foreign_nationals,Eurostat [migr_pop1ctz],35094,yes,0.0
+Lithuania,LTU,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",35100,no,0.017
+Lithuania,LTU,2002,foreign_nationals,Eurostat [migr_pop1ctz],32665,yes,0.0
+Lithuania,LTU,2003,foreign_nationals,Eurostat [migr_pop1ctz],33609,yes,0.0
+Lithuania,LTU,2004,foreign_nationals,Eurostat [migr_pop1ctz],33708,yes,0.0
+Lithuania,LTU,2005,foreign_nationals,Eurostat [migr_pop1ctz],33672,yes,0.0
+Lithuania,LTU,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",32327,no,-3.994
+Lithuania,LTU,2006,foreign_nationals,Eurostat [migr_pop1ctz],32685,yes,0.0
+Lithuania,LTU,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",32862,no,0.542
+Lithuania,LTU,2007,foreign_nationals,Eurostat [migr_pop1ctz],32240,yes,0.0
+Lithuania,LTU,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",32240,no,0.0
+Lithuania,LTU,2008,foreign_nationals,Eurostat [migr_pop1ctz],31998,yes,0.0
+Lithuania,LTU,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",31998,no,0.0
+Lithuania,LTU,2009,foreign_nationals,Eurostat [migr_pop1ctz],30907,yes,0.0
+Lithuania,LTU,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",30907,no,0.0
+Mexico,MEX,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",611825,yes,0.0
+Mexico,MEX,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",631194,yes,0.0
+Mexico,MEX,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",722590,yes,0.0
+Mexico,MEX,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",772470,yes,0.0
+Mexico,MEX,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",885651,yes,0.0
+Netherlands,NLD,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1615377,yes,0.0
+Netherlands,NLD,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1674581,yes,0.0
+Netherlands,NLD,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1714155,yes,0.0
+Netherlands,NLD,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1731788,yes,0.0
+Netherlands,NLD,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1736107,yes,0.0
+Netherlands,NLD,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1734722,yes,0.0
+Netherlands,NLD,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1732379,yes,0.0
+Netherlands,NLD,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1751033,yes,0.0
+Netherlands,NLD,2009,foreign_born,Eurostat [migr_pop3ctb],1793744,yes,0.0
+Netherlands,NLD,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1793744,no,0.0
+Netherlands,NLD,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1832510,no (published series kept),0.0
+Netherlands,NLD,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1868655,no (published series kept),0.0
+Netherlands,NLD,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1906295,no (published series kept),0.0
+Netherlands,NLD,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1927728,no (published series kept),0.0
+Netherlands,NLD,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1953436,no (published series kept),0.0
+Netherlands,NLD,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1996319,no (published series kept),0.0
+Netherlands,NLD,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2056523,no (published series kept),0.0
+Netherlands,NLD,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2137236,no (published series kept),0.0
+Netherlands,NLD,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2215851,no (published series kept),0.0
+Netherlands,NLD,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2298709,no (published series kept),0.0
+Netherlands,NLD,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2399808,no (published series kept),0.0
+Netherlands,NLD,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2451161,no (published series kept),0.0
+Netherlands,NLD,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2550837,no (published series kept),0.0
+Netherlands,NLD,2001,foreign_nationals,Eurostat [migr_pop1ctz],588437,yes,0.0
+Netherlands,NLD,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",667802,no,13.487
+Netherlands,NLD,2002,foreign_nationals,Eurostat [migr_pop1ctz],590962,yes,0.0
+Netherlands,NLD,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",690393,no,16.825
+Netherlands,NLD,2003,foreign_nationals,Eurostat [migr_pop1ctz],592779,yes,0.0
+Netherlands,NLD,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",699954,no,18.08
+Netherlands,NLD,2004,foreign_nationals,Eurostat [migr_pop1ctz],599356,yes,0.0
+Netherlands,NLD,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",702185,no,17.157
+Netherlands,NLD,2005,foreign_nationals,Eurostat [migr_pop1ctz],601974,yes,0.0
+Netherlands,NLD,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",699351,no,16.176
+Netherlands,NLD,2006,foreign_nationals,Eurostat [migr_pop1ctz],599648,yes,0.0
+Netherlands,NLD,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",691357,no,15.294
+Netherlands,NLD,2007,foreign_nationals,Eurostat [migr_pop1ctz],597552,yes,0.0
+Netherlands,NLD,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",681932,no,14.121
+Netherlands,NLD,2008,foreign_nationals,Eurostat [migr_pop1ctz],688375,yes,0.0
+Netherlands,NLD,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",688375,no,0.0
+Netherlands,NLD,2009,foreign_nationals,Eurostat [migr_pop1ctz],637136,yes,0.0
+Netherlands,NLD,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",719494,no,12.926
+Norway,NOR,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",305035,yes,0.0
+Norway,NOR,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",315147,yes,0.0
+Norway,NOR,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",333855,yes,0.0
+Norway,NOR,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",347280,yes,0.0
+Norway,NOR,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",361143,yes,0.0
+Norway,NOR,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",380367,yes,0.0
+Norway,NOR,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",405109,yes,0.0
+Norway,NOR,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",445360,yes,0.0
+Norway,NOR,2009,foreign_born,Eurostat [migr_pop3ctb],488753,yes,0.0
+Norway,NOR,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",488753,no,0.0
+Norway,NOR,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",526800,no (published series kept),-0.516
+Norway,NOR,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",569096,no (published series kept),-0.548
+Norway,NOR,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",616286,no (published series kept),-0.596
+Norway,NOR,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",663870,no (published series kept),-0.645
+Norway,NOR,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",704511,no (published series kept),-0.712
+Norway,NOR,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",741812,no (published series kept),-0.751
+Norway,NOR,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",772477,no (published series kept),-0.807
+Norway,NOR,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",799797,no (published series kept),-0.846
+Norway,NOR,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",822360,no (published series kept),-0.885
+Norway,NOR,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",841580,no (published series kept),-0.915
+Norway,NOR,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",867778,no (published series kept),-0.936
+Norway,NOR,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",878153,no (published series kept),0.0
+Norway,NOR,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",898218,no (published series kept),-0.951
+Norway,NOR,2001,foreign_nationals,Eurostat [migr_pop1ctz],184136,yes,0.0
+Norway,NOR,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",184337,no,0.109
+Norway,NOR,2002,foreign_nationals,Eurostat [migr_pop1ctz],185735,yes,0.0
+Norway,NOR,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",185863,no,0.069
+Norway,NOR,2003,foreign_nationals,Eurostat [migr_pop1ctz],197627,yes,0.0
+Norway,NOR,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",197668,no,0.021
+Norway,NOR,2004,foreign_nationals,Eurostat [migr_pop1ctz],204676,yes,0.0
+Norway,NOR,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",204731,no,0.027
+Norway,NOR,2005,foreign_nationals,Eurostat [migr_pop1ctz],213242,yes,0.0
+Norway,NOR,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",213303,no,0.029
+Norway,NOR,2006,foreign_nationals,Eurostat [migr_pop1ctz],222209,yes,0.0
+Norway,NOR,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",222277,no,0.031
+Norway,NOR,2007,foreign_nationals,Eurostat [migr_pop1ctz],238237,yes,0.0
+Norway,NOR,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",238305,no,0.029
+Norway,NOR,2008,foreign_nationals,Eurostat [migr_pop1ctz],266260,yes,0.0
+Norway,NOR,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",266260,no,0.0
+Norway,NOR,2009,foreign_nationals,Eurostat [migr_pop1ctz],302908,yes,0.0
+Norway,NOR,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",302977,no,0.023
+New Zealand,NZL,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",698625,yes,0.0
+New Zealand,NZL,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",879537,yes,0.0
+Poland,POL,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",776185,yes,0.0
+Poland,POL,2009,foreign_born,Eurostat [migr_pop3ctb],453248,yes,0.0
+Poland,POL,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",674900,no (published series kept),5.882
+Poland,POL,2001,foreign_nationals,Eurostat [migr_pop1ctz],41000,yes,0.0
+Poland,POL,2002,foreign_nationals,Eurostat [migr_pop1ctz],41375,yes,0.0
+Poland,POL,2003,foreign_nationals,Eurostat [migr_pop1ctz],41650,yes,0.0
+Poland,POL,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",49221,no,18.178
+Poland,POL,2004,foreign_nationals,Eurostat [migr_pop1ctz],41950,yes,0.0
+Poland,POL,2005,foreign_nationals,Eurostat [migr_pop1ctz],42763,yes,0.0
+Poland,POL,2006,foreign_nationals,Eurostat [migr_pop1ctz],49499,yes,0.0
+Poland,POL,2007,foreign_nationals,Eurostat [migr_pop1ctz],44431,yes,0.0
+Poland,POL,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",54883,no,23.524
+Poland,POL,2008,foreign_nationals,Eurostat [migr_pop1ctz],57842,yes,0.0
+Poland,POL,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",57548,no,-0.508
+Poland,POL,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",60431,yes,0.0
+Poland,POL,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",75210,no (published series kept),0.0
+Poland,POL,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",79338,no (published series kept),0.0
+Poland,POL,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",85829,no (published series kept),0.0
+Poland,POL,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",93265,no (published series kept),0.0
+Poland,POL,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",101204,no (published series kept),0.0
+Poland,POL,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",108279,no (published series kept),0.0
+Poland,POL,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",149586,no (published series kept),0.0
+Poland,POL,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",210328,no (published series kept),0.0
+Poland,POL,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",239230,no (published series kept),0.0
+Poland,POL,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",289751,no (published series kept),0.0
+Poland,POL,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",358239,no (published series kept),0.0
+Poland,POL,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",457038,no (published series kept),2.145
+Poland,POL,2022,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",453101,no (published series kept),2.59
+Portugal,PRT,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",651472,yes,0.0
+Portugal,PRT,2009,foreign_born,Eurostat [migr_pop3ctb],853328,yes,0.0
+Portugal,PRT,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",871813,no (published series kept),15.398
+Portugal,PRT,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1089023,no (published series kept),-27.181
+Portugal,PRT,2001,foreign_nationals,Eurostat [migr_pop1ctz],216479,yes,0.0
+Portugal,PRT,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",207607,no,-4.098
+Portugal,PRT,2002,foreign_nationals,Eurostat [migr_pop1ctz],224926,yes,0.0
+Portugal,PRT,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",350503,no,55.83
+Portugal,PRT,2003,foreign_nationals,Eurostat [migr_pop1ctz],238737,yes,0.0
+Portugal,PRT,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",413304,no,73.121
+Portugal,PRT,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",434252,yes,0.0
+Portugal,PRT,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",449182,yes,0.0
+Portugal,PRT,2006,foreign_nationals,Eurostat [migr_pop1ctz],276000,yes,0.0
+Portugal,PRT,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",415934,no,50.701
+Portugal,PRT,2007,foreign_nationals,Eurostat [migr_pop1ctz],434869,yes,0.0
+Portugal,PRT,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",434869,no,0.0
+Portugal,PRT,2008,foreign_nationals,Eurostat [migr_pop1ctz],446333,yes,0.0
+Portugal,PRT,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",446333,no,0.0
+Portugal,PRT,2009,foreign_nationals,Eurostat [migr_pop1ctz],440277,yes,0.0
+Portugal,PRT,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",440277,no,0.0
+Portugal,PRT,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",454191,no (published series kept),0.0
+Portugal,PRT,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",445262,no (published series kept),0.0
+Portugal,PRT,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",436822,no (published series kept),5.765
+Portugal,PRT,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",417042,no (published series kept),5.873
+Portugal,PRT,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",401320,no (published series kept),6.328
+Portugal,PRT,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",395195,no (published series kept),7.721
+Portugal,PRT,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",388731,no (published series kept),7.693
+Portugal,PRT,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",397731,no (published series kept),7.472
+Portugal,PRT,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",421711,no (published series kept),8.704
+Portugal,PRT,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",480300,no (published series kept),8.699
+Portugal,PRT,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",590348,no (published series kept),13.422
+Portugal,PRT,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",661607,no (published series kept),11.046
+Portugal,PRT,2022,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",698536,no (published series kept),8.578
+Slovak Republic,SVK,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",61361,yes,0.0
+Slovak Republic,SVK,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",140704,no (published series kept),118.41
+Slovak Republic,SVK,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",145656,no (published series kept),113.776
+Slovak Republic,SVK,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",169848,no (published series kept),8.264
+Slovak Republic,SVK,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",172638,no (published series kept),9.151
+Slovak Republic,SVK,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",174908,no (published series kept),0.0
+Slovak Republic,SVK,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",177624,no (published series kept),0.0
+Slovak Republic,SVK,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",181642,no (published series kept),0.0
+Slovak Republic,SVK,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",186217,no (published series kept),0.0
+Slovak Republic,SVK,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",190308,no (published series kept),0.0
+Slovak Republic,SVK,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",194389,no (published series kept),0.0
+Slovak Republic,SVK,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",198429,no (published series kept),0.0
+Slovak Republic,SVK,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",201941,no (published series kept),0.0
+Slovak Republic,SVK,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",227318,no (published series kept),6.636
+Slovak Republic,SVK,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",28801,yes,0.0
+Slovak Republic,SVK,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",29418,yes,0.0
+Slovak Republic,SVK,2003,foreign_nationals,Eurostat [migr_pop1ctz],29854,yes,0.0
+Slovak Republic,SVK,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",29491,no,-1.216
+Slovak Republic,SVK,2004,foreign_nationals,Eurostat [migr_pop1ctz],29854,yes,0.0
+Slovak Republic,SVK,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",29196,no,-2.204
+Slovak Republic,SVK,2005,foreign_nationals,Eurostat [migr_pop1ctz],22152,yes,0.0
+Slovak Republic,SVK,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",22251,no,0.447
+Slovak Republic,SVK,2006,foreign_nationals,Eurostat [migr_pop1ctz],25561,yes,0.0
+Slovak Republic,SVK,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",25563,no,0.008
+Slovak Republic,SVK,2007,foreign_nationals,Eurostat [migr_pop1ctz],32125,yes,0.0
+Slovak Republic,SVK,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",32130,no,0.016
+Slovak Republic,SVK,2008,foreign_nationals,Eurostat [migr_pop1ctz],40904,yes,0.0
+Slovak Republic,SVK,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",40904,no,0.0
+Slovak Republic,SVK,2009,foreign_nationals,Eurostat [migr_pop1ctz],61361,yes,0.0
+Slovak Republic,SVK,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",52545,no,-14.367
+Slovak Republic,SVK,2010,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",62882,no (published series kept),-4.571
+Slovak Republic,SVK,2011,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",67976,no (published series kept),-2.343
+Slovak Republic,SVK,2012,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",53412,no (published series kept),-24.481
+Slovak Republic,SVK,2013,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",56514,no (published series kept),-22.504
+Slovak Republic,SVK,2014,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",59151,no (published series kept),0.0
+Slovak Republic,SVK,2015,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",61766,no (published series kept),0.0
+Slovak Republic,SVK,2016,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",65840,no (published series kept),0.0
+Slovak Republic,SVK,2017,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",69695,no (published series kept),0.0
+Slovak Republic,SVK,2018,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",72883,no (published series kept),0.0
+Slovak Republic,SVK,2019,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",76116,no (published series kept),0.0
+Slovak Republic,SVK,2020,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",78936,no (published series kept),0.0
+Slovak Republic,SVK,2021,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",82075,no (published series kept),0.0
+Slovak Republic,SVK,2022,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",63066,no (published series kept),4.862
+Slovenia,SVN,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",214946,yes,0.0
+Slovenia,SVN,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",217191,yes,0.0
+Slovenia,SVN,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",217927,yes,0.0
+Slovenia,SVN,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",219531,yes,0.0
+Slovenia,SVN,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",217218,yes,0.0
+Slovenia,SVN,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",222297,yes,0.0
+Slovenia,SVN,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",227463,yes,0.0
+Slovenia,SVN,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",241698,yes,0.0
+Slovenia,SVN,2009,foreign_born,Eurostat [migr_pop3ctb],243404,yes,0.0
+Slovenia,SVN,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",243404,no,0.0
+Slovenia,SVN,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",253786,no (published series kept),0.0
+Slovenia,SVN,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",228588,no (published series kept),0.0
+Slovenia,SVN,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",230109,no (published series kept),0.0
+Slovenia,SVN,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",232703,no (published series kept),0.0
+Slovenia,SVN,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",235310,no (published series kept),0.0
+Slovenia,SVN,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",237616,no (published series kept),0.0
+Slovenia,SVN,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",241203,no (published series kept),0.0
+Slovenia,SVN,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",245369,no (published series kept),0.0
+Slovenia,SVN,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",250226,no (published series kept),0.0
+Slovenia,SVN,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",265072,no (published series kept),0.0
+Slovenia,SVN,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",281621,no (published series kept),0.0
+Slovenia,SVN,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",292824,no (published series kept),0.0
+Slovenia,SVN,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",294533,no (published series kept),0.0
+Slovenia,SVN,2001,foreign_nationals,Eurostat [migr_pop1ctz],42141,yes,0.0
+Slovenia,SVN,2002,foreign_nationals,Eurostat [migr_pop1ctz],45180,yes,0.0
+Slovenia,SVN,2003,foreign_nationals,Eurostat [migr_pop1ctz],44591,yes,0.0
+Slovenia,SVN,2004,foreign_nationals,Eurostat [migr_pop1ctz],45209,yes,0.0
+Slovenia,SVN,2005,foreign_nationals,Eurostat [migr_pop1ctz],44258,yes,0.0
+Slovenia,SVN,2006,foreign_nationals,Eurostat [migr_pop1ctz],48943,yes,0.0
+Slovenia,SVN,2007,foreign_nationals,Eurostat [migr_pop1ctz],53524,yes,0.0
+Slovenia,SVN,2008,foreign_nationals,Eurostat [migr_pop1ctz],68621,yes,0.0
+Slovenia,SVN,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",68621,no,0.0
+Slovenia,SVN,2009,foreign_nationals,Eurostat [migr_pop1ctz],70554,yes,0.0
+Slovenia,SVN,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",70554,no,0.0
+Sweden,SWE,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1003798,yes,0.0
+Sweden,SWE,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1027974,yes,0.0
+Sweden,SWE,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1053463,yes,0.0
+Sweden,SWE,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1078075,yes,0.0
+Sweden,SWE,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1100262,yes,0.0
+Sweden,SWE,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1125790,yes,0.0
+Sweden,SWE,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1175200,yes,0.0
+Sweden,SWE,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1227770,yes,0.0
+Sweden,SWE,2009,foreign_born,Eurostat [migr_pop3ctb],1280908,yes,0.0
+Sweden,SWE,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1281581,no,0.053
+Sweden,SWE,2010,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1337965,no (published series kept),0.056
+Sweden,SWE,2011,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1384929,no (published series kept),0.059
+Sweden,SWE,2012,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1427296,no (published series kept),0.063
+Sweden,SWE,2013,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1473256,no (published series kept),0.061
+Sweden,SWE,2014,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1533493,no (published series kept),0.061
+Sweden,SWE,2015,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1603551,no (published series kept),0.064
+Sweden,SWE,2016,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1676264,no (published series kept),0.069
+Sweden,SWE,2017,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1784497,no (published series kept),0.074
+Sweden,SWE,2018,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1877050,no (published series kept),0.075
+Sweden,SWE,2019,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1955569,no (published series kept),0.077
+Sweden,SWE,2020,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2019733,no (published series kept),0.076
+Sweden,SWE,2021,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2046731,no (published series kept),0.073
+Sweden,SWE,2022,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",2090503,no (published series kept),0.072
+Sweden,SWE,2001,foreign_nationals,Eurostat [migr_pop1ctz],473379,yes,0.0
+Sweden,SWE,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",472350,no,-0.217
+Sweden,SWE,2002,foreign_nationals,Eurostat [migr_pop1ctz],472765,yes,0.0
+Sweden,SWE,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",471344,no,-0.301
+Sweden,SWE,2003,foreign_nationals,Eurostat [migr_pop1ctz],471320,yes,0.0
+Sweden,SWE,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",473266,no,0.413
+Sweden,SWE,2004,foreign_nationals,Eurostat [migr_pop1ctz],473556,yes,0.0
+Sweden,SWE,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",476076,no,0.532
+Sweden,SWE,2005,foreign_nationals,Eurostat [migr_pop1ctz],478776,yes,0.0
+Sweden,SWE,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",481141,no,0.494
+Sweden,SWE,2006,foreign_nationals,Eurostat [migr_pop1ctz],477760,yes,0.0
+Sweden,SWE,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",479899,no,0.448
+Sweden,SWE,2007,foreign_nationals,Eurostat [migr_pop1ctz],472329,yes,0.0
+Sweden,SWE,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",491996,no,4.164
+Sweden,SWE,2008,foreign_nationals,Eurostat [migr_pop1ctz],524488,yes,0.0
+Sweden,SWE,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",524488,no,0.0
+Sweden,SWE,2009,foreign_nationals,Eurostat [migr_pop1ctz],547664,yes,0.0
+Sweden,SWE,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",562124,no,2.64
+Turkey,TUR,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",1278671,yes,0.0
+Turkey,TUR,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",271280,yes,0.0
+Turkey,TUR,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",98064,yes,0.0
+Turkey,TUR,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",104441,yes,0.0
+United States,USA,2001,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",31548128,yes,0.0
+United States,USA,2002,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",33096150,yes,0.0
+United States,USA,2003,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",33667678,yes,0.0
+United States,USA,2004,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",34257701,yes,0.0
+United States,USA,2005,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",35769603,yes,0.0
+United States,USA,2006,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",37469387,yes,0.0
+United States,USA,2007,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",38048456,yes,0.0
+United States,USA,2008,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",38016102,yes,0.0
+United States,USA,2009,foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",38452822,yes,0.0
+United States,USA,2001,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",17757696,yes,0.0
+United States,USA,2002,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",18533679,yes,0.0
+United States,USA,2003,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",20490602,yes,0.0
+United States,USA,2004,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",20634068,yes,0.0
+United States,USA,2005,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",19857656,yes,0.0
+United States,USA,2006,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",20836032,yes,0.0
+United States,USA,2007,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",21696303,yes,0.0
+United States,USA,2008,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",21843559,yes,0.0
+United States,USA,2009,foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",21685745,yes,0.0

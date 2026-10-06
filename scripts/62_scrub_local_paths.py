@@ -16,16 +16,21 @@ import subprocess
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# The name is written as code points so that this script, which is itself published, does not
+# carry the very string it exists to remove.
+NAME = ''.join(chr(c) for c in (0x8449, 0x660E, 0x53E1))
+_WIN = 'D:\\研究計畫\\其他投稿\\2026_移民對非本國籍使用公共醫療態度（' + NAME + '）'
+_NIX = _WIN.replace('\\', '/')
+
 # every spelling of the workspace prefix that appears in the tree
 PREFIXES = [
-    'D:\\研究計畫\\其他投稿\\2026_移民對非本國籍使用公共醫療態度（葉明叡）\\claude-work\\',
-    'D:/研究計畫/其他投稿/2026_移民對非本國籍使用公共醫療態度（葉明叡）/claude-work/',
-    'D:\\研究計畫\\其他投稿\\2026_移民對非本國籍使用公共醫療態度（葉明叡）\\claude-work',
-    'D:/研究計畫/其他投稿/2026_移民對非本國籍使用公共醫療態度（葉明叡）/claude-work',
-    'D:\\研究計畫\\其他投稿\\2026_移民對非本國籍使用公共醫療態度（葉明叡）',
-    'D:/研究計畫/其他投稿/2026_移民對非本國籍使用公共醫療態度（葉明叡）',
+    _WIN + '\\claude-work\\',
+    _NIX + '/claude-work/',
+    _WIN + '\\claude-work',
+    _NIX + '/claude-work',
+    _WIN,
+    _NIX,
 ]
-NAME = '葉明叡'
 
 tracked = subprocess.run(['git', 'ls-files'], cwd=SITE, capture_output=True
                          ).stdout.decode('utf-8').splitlines()

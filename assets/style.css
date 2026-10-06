@@ -124,6 +124,14 @@ abbr.der{display:inline-block;margin-left:4px;min-width:17px;text-align:center;
   background:var(--c-bg);color:var(--c);text-decoration:none;border-bottom:none;cursor:help}
 abbr.der:hover{outline:1.5px solid currentColor;outline-offset:1px}
 
+/* source / comparability markers beside a number (splice, UN estimate, caution) */
+abbr.flg{display:inline-block;margin-left:4px;min-width:17px;text-align:center;
+  padding:0 5px;border-radius:5px;font:650 11px/1.6 var(--mono);
+  background:var(--accent-soft);color:var(--accent);text-decoration:none;border-bottom:none;
+  cursor:help}
+abbr.flg.big{background:var(--d-bg);color:var(--d)}
+abbr.flg:hover{outline:1.5px solid currentColor;outline-offset:1px}
+
 /* grade pills */
 .g{display:inline-block;min-width:19px;text-align:center;padding:1px 6px;border-radius:5px;
   font:650 11.5px/1.6 var(--mono)}

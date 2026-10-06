@@ -89,6 +89,90 @@ for row in range(1, ws.max_row + 1):
     if str(ws.cell(row, 1).value or '') == 'Verification_log':
         ws.cell(row, 2).value = ('All %d value-by-value comparisons against live sources, each '
                                  'stamped with the stage and the date it was performed.' % len(log))
+
+# README counters that quote the size of the source register, recomputed rather than typed
+reg_ = pd.read_csv(os.path.join(D, 'source_register.csv')).fillna('')
+pan_ = pd.read_csv(os.path.join(D, 'panel_final.csv'))
+ovl_ = pd.read_csv(os.path.join(D, 'extension_overlap_check.csv'))
+spl_ = pd.read_csv(os.path.join(D, 'extension_splice_summary.csv'))
+COUNTS = {
+    'Document source citations': '%d source rows across %d distinct URLs'
+                                 % (len(reg_), reg_.source_url.nunique()),
+    '  archived in the country folders':
+        '%d of %d (%d verified live via API, %d archived as documents)'
+        % (int((reg_.local_file.astype(str).str.len() > 3).sum()), len(reg_),
+           int((reg_.retrieval == 'VERIFIED_API').sum()), int((reg_.retrieval == 'ARCHIVED').sum())),
+}
+for r_ in range(1, ws.max_row + 1):
+    lab = str(ws.cell(r_, 1).value or '')
+    if lab in COUNTS:
+        ws.cell(r_, 2).value = COUNTS[lab]
+
+# counts typed into the README sheet at first release, recomputed from the data files
+import re
+GRADE_VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
+              'irregular_proxy_overstayers', 'irregular_proxy_detections']
+gc_ = pd.Series([g for v in GRADE_VARS for g in pan_[v + '_grade'].dropna()
+                 if str(g).strip()]).value_counts()
+corr_ = pd.read_csv(os.path.join(D, 'corrections_applied.csv'))
+n_der_ = int(sum((pan_[v + '_derived'].astype(str).str.strip() == 'yes').sum()
+                 for v in ('foreign_born', 'foreign_nationals', 'irregular_stock')))
+gap_ = pan_.population_wb_vs_unwpp_pct.dropna()
+late_ = pan_[pan_.year >= 2010]
+FIXED = {
+    'Corrections applied': '%d values across %d countries: %s (see Corrections_applied)'
+                           % (len(corr_), corr_.iso3.nunique(), ', '.join(sorted(corr_.iso3.unique()))),
+    'Values flagged as derived': str(n_der_),
+}
+REGEX = {
+    'Main regressor': (r'covers \d+ of 40 countries',
+                       'covers %d of 40 countries' % pan_[pan_.foreign_nationals.notna()].iso3.nunique()),
+    'Second choice': (r'\(\d+ countries\)',
+                      '(%d countries)' % pan_[pan_.foreign_born.notna()].iso3.nunique()),
+    'Irregular migration': (r'Coverage is [\d.]+% of (?:the 2010-2022 )?country-years for stocks'
+                            r'(?: \(not collected earlier\))?',
+                            'Coverage is %.1f%% of the 2010-2022 country-years for stocks (not '
+                            'collected earlier)' % (100 * late_.irregular_stock.notna().mean())),
+    'Population denominator': (r'more than 3% for \d+ country-years',
+                               'more than 3%% for %d country-years' % int((gap_.abs() > 3).sum())),
+}
+for r_ in range(1, ws.max_row + 1):
+    lab = str(ws.cell(r_, 1).value or '')
+    if lab in FIXED:
+        ws.cell(r_, 2).value = FIXED[lab]
+    elif lab[:4] in ('A - ', 'B - ', 'C - ', 'D - '):
+        ws.cell(r_, 2).value = int(gc_.get(lab[0], 0))
+    elif lab in REGEX:
+        pat, new_ = REGEX[lab]
+        old_ = str(ws.cell(r_, 2).value)
+        assert re.search(pat, old_), 'README sheet row %s no longer matches %s' % (lab, pat)
+        ws.cell(r_, 2).value = re.sub(pat, lambda m: new_, old_, count=1)
+
+n_new_ = sum(int(pan_[v + '_collected_on'].notna().sum()) for v in
+             ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals'))
+ROWS_ADD = [
+    ('Extension to 2001',
+     'On 2026-10-07 the panel was extended from 2010-2022 back to 2001: %d rows, %s new values, '
+     'and no value published earlier changed. Every cell has a source_type and flag column; '
+     '%d series needed a source change at the join and are flagged (see Source_register, '
+     'data/extension_splice_summary.csv and the website). The file name is kept from the first '
+     'release so that existing links still work.'
+     % (len(pan_), format(n_new_, ','), len(spl_))),
+    ('Re-check on 2026-10-07',
+     '%s values published before the extension were compared with fresh responses from '
+     'Eurostat, OECD, the World Bank and UN WPP: %s reproduced exactly.'
+     % (format(int(ovl_.cells_compared.sum()), ','), format(int(ovl_.identical.sum()), ','))),
+]
+labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
+anchor = labels_.index('Corrections applied') + 1 if 'Corrections applied' in labels_ else None
+for lab, text in ROWS_ADD:
+    labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
+    if lab in labels_:
+        ws.cell(labels_.index(lab) + 1, 2).value = text
+    elif anchor:
+        ws.insert_rows(anchor + 1)
+        ws.cell(anchor + 1, 1).value, ws.cell(anchor + 1, 2).value = lab, text
+        anchor += 1
 wb.save(XLSX)
 
 chk = openpyxl.load_workbook(XLSX, read_only=True)

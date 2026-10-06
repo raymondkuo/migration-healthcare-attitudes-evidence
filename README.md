@@ -1,6 +1,6 @@
 # Migration and Population Data Archive<br>移民與人口資料存檔
 
-**40 countries, 2010–2022 · 40 國，2010–2022 年**
+**40 countries, 2001–2022 · 40 國，2001–2022 年**
 
 Joint work of [Prof. Raymond Kuo](https://raymond.cph.ntu.edu.tw/), National Taiwan University,
 and Claude (Anthropic).<br>
@@ -12,11 +12,11 @@ Source archive and verification record for the migration and population panel us
 **attitudes toward publicly funded healthcare for non-nationals**. It exists so that a journal
 editor or peer reviewer can check every number in the dataset against the source it came from,
 without depending on any external server still being available. All sources were retrieved and
-verified on **2026-08-17**.
+verified on **2026-08-17**. The panel was extended back from 2010 to 2001 on **2026-10-07** (see *Extension* below).
 
 本存檔為「民眾對非本國籍人士使用公費醫療之態度」研究之來源存檔與查證紀錄，
 目的在於讓期刊編輯與審查委員能將資料集中的每一個數字追溯至其來源，
-且不需依賴任何外部伺服器仍然運作。所有來源均於 **2026-08-17** 取得並完成查證。
+且不需依賴任何外部伺服器仍然運作。所有來源均於 **2026-08-17** 取得並完成查證。面板已於 **2026-10-07** 向前延伸至 2001 年（見下方「延伸」）。
 
 ---
 
@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**404 pages** — 202 per language. Validated: 15,540 internal links, 0 broken.
+**406 pages** — 203 per language. Validated: 26,602 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -59,16 +59,16 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 |---|---|
 | `index.html` / `index.zh.html` | Overview, headline verification results |
 | `countries.html`, `countries/<ISO3>.html` | One page per country: data, verification result, sources |
-| `evidence-pages/` | 156 per-country, per-variable evidence pages (×2 languages) — every value with its source, verification result and archived files |
+| `evidence-pages/` | 157 per-country, per-variable evidence pages (×2 languages) — every value with its source, verification result and archived files |
 | `sources.html` | Complete source register — original URL plus archived copy for each |
 | `data.html` | Download the dataset and every supporting table |
-| `verification.html` | All 2,454 value comparisons, corrections and issues |
+| `verification.html` | All 2,737 value comparisons, the 1,777 re-comparisons of 2026-10-07, corrections, the extension and the issues |
 | `methods.html` | Procedure, grading scheme, and guidance on variable reliability |
 | `data/` | The verified panel (Excel + CSV), codebook, logs, the two original inputs, and a second independently produced summary workbook — see `data/ABOUT_THE_TWO_WORKBOOKS.md` |
 | `evidence/api/` | Raw API response payloads exactly as returned by the publisher |
 | `evidence/api/publisher_pages/` | PDF and screenshot mirrors of the publishers' own dataset pages |
 | `evidence/countries/<ISO3>/` | Every source document, PDF mirror and screenshot for that country |
-| `evidence/extracts/` | 156 bilingual PDF extracts, one per country × variable |
+| `evidence/extracts/` | 157 bilingual PDF extracts, one per country × variable |
 | `manifest/checksums.csv` | SHA-256 hash of every file in the archive |
 | `verification/` | Machine-readable verification output, the live link sweep, and the audit response |
 | `scripts/` | Every script used, so the verification and the site build can be re-run |
@@ -76,28 +76,59 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 | `AUDIT_report_site_vs_VERIFIED.md` | Independent site-vs-workbook audit |
 | `verification/AUDIT_response.md` | Point-by-point response to that audit, and what was fixed |
 
+<!-- headline:begin -->
 ## Headline results
 
+**At first release (2026-08-17 / 08-18)**
+
 - **2,454** values re-derived from live sources; **2,415 (98.4%)** matched exactly.
-- **39** discrepancies found — all one error: the Eurostat irregular-migration detections series
-  for **Switzerland, Portugal and Sweden** was offset by one year in one input workbook.
-- **49** values corrected across 5 countries, each itemised with its evidence.
-- **76 of 78** distinct country-source document citations archived, across 72 URLs; the 2 that
-  could not be retrieved are named.
-- Quality grades on all 1,698 displayed values: **A** 1,573 · **B** 112 · **C** 13 · **D** 0.
+- **39** discrepancies found — all one error: the Eurostat irregular-migration detections
+  series for **Switzerland, Portugal and Sweden** was offset by one year in one input workbook.
+- **52** corrections across 7 countries, each itemised with its evidence
+  (`data/corrections_applied.csv`).
+- **88 of 88** distinct country-source document citations archived, across 78 URLs.
 - **Every retained number is traceable to an archived source.** Each of the 116 values that were
-  not machine-verified was checked against the archived source document: 102 were found in it and
-  regraded B, 13 are derived from a published range and are flagged ≈, and 1 (Russia 2020 irregular
-  stock) could not be traced to anything and was **deleted** — see `data/deleted_values.csv`.
-- **Every archived source file has a viewable mirror.** All 103 of them — PDFs, HTML, raw JSON/CSV
-  API payloads and spreadsheets — carry a rendered PNG or PDF companion, so a reader can see the
-  content without trusting an opaque binary.
-  grade D because their only cited source was offline, were re-sourced to the Ministry
-  of Justice series and one error was found and corrected.
+  not machine-verified at first release was checked against the archived source document: 102 were
+  found in it and regraded B, 13 are derived from a published range and are flagged ≈, and 1
+  (Russia 2020 irregular stock) could not be traced to anything and was **deleted** — see
+  `data/deleted_values.csv`.
+- **Every archived source file has a viewable mirror.** Every PDF, HTML page, raw JSON/CSV API
+  payload and spreadsheet carries a rendered PNG or PDF companion, so a reader can see the content
+  without trusting an opaque binary.
+- Korea's 2010–2015 overstayer figures, which were grade D because their only cited source was
+  offline, were re-sourced to the Ministry of Justice series, and one error was found and corrected.
 - **Every number in every country's Panel data table is a link.** Click a value, or the grade pill
   beside it, and you reach the evidence for that exact figure.
-- Live sweep of all **176** external URLs the site publishes: **0 undocumented failures**
-  (`verification/link_sweep.csv`).
+
+**Now (revised 2026-10-07)**
+
+- Quality grades on all 2,473 displayed values (2001–2022): **A** 2,340 · **B** 120 · **C** 13 · **D** 0.
+- Live sweep of all **194** external URLs the site publishes, run 2026-10-07: **0 undocumented
+  failures** (`verification/link_sweep.csv`).
+
+## Extension to 2001 · 延伸至 2001 年
+
+On **2026-10-07** the panel was extended from 2010–2022 back to **2001**, following the plan in
+the project notes (foreign-born and foreign-national stocks wherever a verifiable source exists).
+
+- **880 rows** now (was 520); 194 foreign-born and 228 foreign-national values and
+  720 population values were added. **No value published before the extension changed**: this
+  is asserted cell by cell against the 2026-08-17 panel, and 1,777 published values were
+  re-compared with fresh responses from Eurostat, OECD, the World Bank and UN WPP (1,777 identical).
+- Each foreign-born / foreign-national value now states its **source type** (annual, census,
+  survey, UN estimate) and carries a **flag**. Where an earlier year had to come from a different
+  source than the 2010–2022 series (**28 series**), the gap between the two sources over the
+  overlapping years was measured; **7 series differ by 5% or more** and are flagged as a
+  break in the series (largest: Slovakia and Denmark foreign-born).
+- Not everything could be found. Australia's foreign nationals and Chile's 2002 foreign-born count were
+  searched for and not obtained; several countries have only census years; nothing was
+  approximated. See `data/known_issues.csv` and the *Verification* page.
+- The file names that carry "2010-2022" are unchanged so that existing links keep working; the
+  data inside run 2001–2022.
+- Unresolved, for the authors: UN DESA labels the migrant stock of China, India, the Philippines,
+  Suriname and Thailand as based on citizenship although the panel carries it as foreign-born
+  (`data/known_issues.csv`).
+<!-- headline:end -->
 
 ## How sources were preserved
 
@@ -124,8 +155,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 332 MB across ~1,190 files. No single file exceeds 50 MB; the largest is the UN WPP 2024
-  workbook at 26 MB.
+- About 381 MB across 1,315 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the
@@ -152,9 +182,9 @@ python scripts/41_link_sweep.py          # live sweep of every published URL
 
 # bilingual site build
 python scripts/build_core.py             # index, countries index, 40 country pages ×2
-python scripts/build_evidence.py         # 156 evidence pages ×2
+python scripts/build_evidence.py         # 157 evidence pages ×2
 python scripts/build_pages.py            # sources, data, verification, methods ×2
-python scripts/build_pdf_extracts.py     # 156 bilingual PDF extracts
+python scripts/build_pdf_extracts.py     # 157 bilingual PDF extracts
 python scripts/validate_bilingual.py     # link, language-pairing and cell-link validation
 python scripts/28_checksums.py           # refresh manifest/checksums.csv
 ```

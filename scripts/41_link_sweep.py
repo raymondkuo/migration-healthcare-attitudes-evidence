@@ -68,6 +68,10 @@ KNOWN = {
  'https://www.sem.admin.ch/dam/sem/de/data/internationales/illegale-migration/sans_papiers/ber-sanspapiers-2015-d.pdf': 'link rot; corroborated by SRF report, archived',
  'https://www.migrationpolicy.org/commentary/diverse-flows-drive-increase-us-unauthorized-immigrant-population': 'blocked; rendered from archived HTML',
  'https://cmsny.org/us-undocumented-population-increased-in-july-2023-warren-090624/': 'blocked; rendered from archived HTML',
+ # answered on 2026-08-18, failing on 2026-10-07; the copy archived on 2026-08-17 is the evidence
+ 'https://porcausa.org/wp-content/uploads/2020/07/RetratodelairregularidadporCausa.pdf': 'link rot since 2026-08-18 (HTTP 404); PDF archived 2026-08-17',
+ 'https://www.ine.gob.cl/docs/default-source/demografia-y-migracion/publicaciones-y-anuarios/migraci%C3%B3n-internacional/estimaci%C3%B3n-poblaci%C3%B3n-extranjera-en-chile-2018/sintesis-epe2023.pdf?sfvrsn=cc51129c_10': 'host unreachable on 2026-10-07 (no connection); PDF and rendered mirror archived 2026-08-17',
+ 'https://www.ine.gob.cl/sala-de-prensa/prensa/general/noticia/2023/12/29/poblaci%C3%B3n-extranjera-residente-en-chile-super%C3%B3-los-1-6-millones-de-personas-en-2022-con-un-6-6-de-ellas-en-situaci%C3%B3n-irregular': 'host unreachable on 2026-10-07 (no connection); HTML and rendered mirror archived 2026-08-17',
 }
 
 rows = []

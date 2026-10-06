@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-17",
-  "generator": "scripts/24_build_site.py, 25_country_pages.py, 26_other_pages.py (Python)",
+  "generated_at": "2026-10-07",
+  "generator": "scripts/build_core.py, build_pages.py, build_evidence.py, build_pdf_extracts.py (Python)",
   "validated_by": "scripts/27_validate_site.py — 0 errors across all internal links",
   "freeze_date": "2026-08-17",
   "pages": {
@@ -24,18 +24,18 @@
   },
   "archive": {
     "countries": 40,
-    "country_year_rows": 520,
+    "country_year_rows": 880,
     "years": [
-      2010,
+      2001,
       2022
     ],
-    "files_total": 1225,
-    "bytes_total": 347594329,
+    "files_total": 1315,
+    "bytes_total": 380714433,
     "evidence_directory": "evidence/",
-    "api_snapshots": 21,
-    "web_page_snapshots": 46,
-    "pdf_mirrors": 43,
-    "screenshots": 46
+    "api_snapshots": 27,
+    "web_page_snapshots": 53,
+    "pdf_mirrors": 50,
+    "screenshots": 53
   },
   "verification": {
     "values_checked": 2737,
@@ -43,24 +43,28 @@
     "discrepancies": 39,
     "corrections_applied": 52,
     "countries_corrected": 7,
-    "document_source_variable_rows": 89,
-    "document_source_citations_distinct": 78,
-    "document_source_citations_archived": 76,
-    "document_source_citations_not_retrievable": 2,
-    "document_source_urls_distinct": 72,
-    "all_source_urls_distinct": 160,
-    "source_hosts": 51,
+    "document_source_variable_rows": 97,
+    "document_source_citations_distinct": 88,
+    "document_source_citations_archived": 88,
+    "document_source_citations_not_retrievable": 0,
+    "document_source_urls_distinct": 78,
+    "all_source_urls_distinct": 171,
+    "source_hosts": 54,
+    "rechecked_2026_10_07": {
+      "compared": 1777,
+      "identical": 1777
+    },
     "grade_counts": {
-      "A": 1573,
-      "B": 105,
+      "A": 2340,
+      "B": 120,
       "C": 13,
       "D": 0
     }
   },
   "primary_workbook": {
     "path": "data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx",
-    "bytes": 487540,
-    "sha256": "8f2fffa2f10052611ba093e4a8f9b9b45f164d0fcc2a956c3104502f97369522"
+    "bytes": 675308,
+    "sha256": "6dbb568815a8f02327af2b1f74f603233a1e394fc4de8cee470118369989eefa"
   },
   "secondary_workbook": {
     "path": "data/migration_population_panel_40countries_2010-2022_final.xlsx",

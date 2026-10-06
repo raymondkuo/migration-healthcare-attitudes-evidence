@@ -28,7 +28,7 @@
    <li><strong>製作快照。</strong>所有網頁來源均轉製為 PDF 與整頁截圖。每次轉製後再傾印其算繪後的 DOM，比對機器人牆與封鎖頁的特徵字串加以驗證；凡回應為攔截頁者，改以當日稍早已存檔之 HTML 備份重新轉製，並明確標示。</li>
    <li><strong>稽核。</strong>另行獨立檢驗內部一致性、衍生欄位、跨檔一致性與年度間斷點，不倚賴來源核對之結果。</li>
    <li><strong>更正與分級。</strong>可明確歸因於錯誤的不一致，均依線上來源更正並逐項載明；所有數值均給予品質等級。</li>
-   <li><strong>建立可追溯性。</strong>為每一組國家&times;變項序列產生一個佐證頁&mdash;&mdash;共 156 個&mdash;&mdash;列出各年度數值、品質等級、核對對象，以及支持該數值的全部存檔檔案。每頁另轉製為 PDF 摘錄，使每個數字除網頁外亦存在於可引用的固定文件中。每個國家 Panel 資料表中的每一筆數值，均連結至其專屬佐證。</li>
+   <li><strong>建立可追溯性。</strong>為每一組國家&times;變項序列產生一個佐證頁&mdash;&mdash;共 157 個&mdash;&mdash;列出各年度數值、品質等級、核對對象，以及支持該數值的全部存檔檔案。每頁另轉製為 PDF 摘錄，使每個數字除網頁外亦存在於可引用的固定文件中。每個國家 Panel 資料表中的每一筆數值，均連結至其專屬佐證。</li>
    <li><strong>校驗碼。</strong>為每一份檔案記錄 SHA-256 雜湊值。</li>
   </ol>
 </div></section>
@@ -51,7 +51,7 @@
 
 <section><div class="wrap">
   <h2>各變項可承載的推論重量</h2>
-  <div class="tablewrap"><table><thead><tr><th>變項</th><th class="num">國家—年度</th><th class="num">國家數</th><th>評斷</th></tr></thead><tbody><tr><td>總人口</td><td class="num">520 / 520</td><td class="num">40 / 40</td><td>強。可放心使用。</td></tr><tr><td>外國出生人口</td><td class="num">395 / 520</td><td class="num">38 / 40</td><td>強，但已包含歸化取得公民身分者。</td></tr><tr><td>外國籍人口</td><td class="num">383 / 520</td><td class="num">34 / 40</td><td>強，且在概念上正是本研究所需之變項。</td></tr><tr><td>無證移民存量</td><td class="num">59 / 520</td><td class="num">13 / 40</td><td>弱。不可跨國比較。</td></tr><tr><td>逾期停留・居留</td><td class="num">38 / 520</td><td class="num">5 / 40</td><td>弱。屬登記數，會低估實際人數。</td></tr><tr><td>查獲人次</td><td class="num">297 / 520</td><td class="num">25 / 40</td><td>最弱。屬執法事件之流量，而非人口存量。</td></tr></tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>變項</th><th class="num">國家—年度</th><th class="num">國家數</th><th>評斷</th></tr></thead><tbody><tr><td>總人口</td><td class="num">880 / 880</td><td class="num">40 / 40</td><td>強。可放心使用。</td></tr><tr><td>外國出生人口</td><td class="num">589 / 880</td><td class="num">38 / 40</td><td>強，但已包含歸化取得公民身分者。</td></tr><tr><td>外國籍人口</td><td class="num">611 / 880</td><td class="num">35 / 40</td><td>強，且在概念上正是本研究所需之變項。</td></tr><tr><td>無證移民存量</td><td class="num">57 / 880</td><td class="num">12 / 40</td><td>弱。不可跨國比較。</td></tr><tr><td>逾期停留・居留</td><td class="num">39 / 880</td><td class="num">6 / 40</td><td>弱。屬登記數，會低估實際人數。</td></tr><tr><td>查獲人次</td><td class="num">297 / 880</td><td class="num">25 / 40</td><td>最弱。屬執法事件之流量，而非人口存量。</td></tr></tbody></table></div>
   <div class="note"><strong>建議。</strong>以 <code>foreign_nationals_pct_pop</code> 作為跨國分析的主要自變項。它正是調查題目所指涉的人口，涵蓋 40 國中的 34 國，且每一筆數值均為 A 或 B 級。可用 <code>foreign_born_pct_pop</code> 進行穩健性檢驗，但須注意其已包含歸化者，而這些人<em>本身即為本國籍</em>。</div>
   <div class="note warn"><strong>請勿將任何無證移民變項作為跨國連續型自變項。</strong>存量僅涵蓋 10.6% 的國家—年度，各國推估方法不可比較；查獲人次則屬流量，受查緝強度與該國在移民路線上的位置驅動。若論證確實需要無證移民，請將其視為順序尺度的議題顯著性指標，或僅利用國家內部的變異。</div>
 </div></section>
@@ -71,6 +71,6 @@
 </div></section>
 
 <footer class="site"><div class="wrap">
-<p class="credit"><strong>本存檔為國立臺灣大學<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">郭年真教授</a>與 Claude（Anthropic）之共同成果。</strong></p><p><strong>移民與人口資料存檔，40 國，2010&ndash;2022 年。</strong>資料來源首次取得並查證於 2026-08-17；資料最近修訂於 2026-10-02，此後每一項修訂均於<a href="verification.zh.html#revisions">修訂紀錄</a>中載明日期。</p><p>本存檔為「民眾對非本國籍人士使用公費醫療之態度」研究之配套資料，供期刊編輯與審查委員查核之用。</p><p>本站所存檔案均為查證用之備份。各來源文件之著作權仍屬其原出版機構所有，每筆條目均附原始網址連結。</p>
+<p class="credit"><strong>本存檔為國立臺灣大學<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">郭年真教授</a>與 Claude（Anthropic）之共同成果。</strong></p><p><strong>移民與人口資料存檔，40 國，2001&ndash;2022 年。</strong>資料來源首次取得並查證於 2026-08-17；資料最近修訂於 2026-10-07，此後每一項修訂均於<a href="verification.zh.html#revisions">修訂紀錄</a>中載明日期。</p><p>本存檔為「民眾對非本國籍人士使用公費醫療之態度」研究之配套資料，供期刊編輯與審查委員查核之用。</p><p>本站所存檔案均為查證用之備份。各來源文件之著作權仍屬其原出版機構所有，每筆條目均附原始網址連結。</p>
 </div></footer>
 </body></html>

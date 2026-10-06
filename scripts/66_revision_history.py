@@ -114,6 +114,109 @@ ZH = {
  ("d50724c", "value reclassified"): ("以色列 · 2020", "無證移民存量 30,100", "逾期停留 30,100"),
  ("d50724c", "note amended"): ("以色列 · 無證移民存量 · 2022", "26,798", "26,798（下限）"),
 }
+# ---------------------------------------------------------------- the 2001 extension
+# Counts come from the data files, not from this script. The commit hash and time are not known
+# until the extension is committed, so they are read from a stamp file written afterwards and
+# are blank until then.
+import json
+panel = pd.read_csv(os.path.join(D, "panel_final.csv"))
+ovl = pd.read_csv(os.path.join(D, "extension_overlap_check.csv"))
+spl = pd.read_csv(os.path.join(D, "extension_splice_summary.csv"))
+MARK = ["population", "population_un_wpp2024", "foreign_born", "foreign_nationals"]
+new = {v: int(panel[v + "_collected_on"].notna().sum()) for v in MARK}
+n_new, n_mig = sum(new.values()), new["foreign_born"] + new["foreign_nationals"]
+n_rows = int((panel.year < 2010).sum())
+n_chk, n_same = int(ovl.cells_compared.sum()), int(ovl.identical.sum())
+n_big = int((spl.mean_gap_pct.abs() >= 5).sum())
+n_old_flag = int(sum((panel[v + "_collected_on"].isna() & panel[v + "_flag"].notna()
+                      & panel[v + "_flag"].astype(str).str.strip().ne("")).sum()
+                     for v in ("foreign_born", "foreign_nationals")))
+stamp = {}
+sp = os.path.join(D, "extension_staging", "commit_stamp.json")
+if os.path.exists(sp):
+    stamp = json.load(open(sp, encoding="utf-8"))
+T, K = stamp.get("time", ""), stamp.get("commit", "")
+ALL40 = ";".join(sorted(panel.iso3.unique()))
+AMENDING.add("range extended")
+
+H += [
+ dict(date="2026-10-07", time=T, commit=K, kind="range extended", iso3=ALL40,
+      scope="All 40 countries · 2001-2009 (and 2010-2011 for Taiwan)",
+      before="520 rows, 2010-2022", after="880 rows, 2001-2022; %s new values" % format(n_new, ","),
+      change="The panel was extended back to 2001. %s values were added - %s foreign-born and "
+             "foreign-national values, and %s population values because the share columns need a "
+             "denominator - and no value published earlier changed (asserted cell by cell against "
+             "the 2026-08-17 panel). Sources were used in this order: the same source as the "
+             "country's published series where it reaches the year, then another annual series, "
+             "then census and UN benchmark years, each cell stating its source type and flag. "
+             "%d series needed a source change at the join; %d of them differ from the series "
+             "they were joined to by 5%% or more and are flagged. Irregular-migration variables "
+             "were not extended. Flags (UN DESA estimates, the citizenship basis UN DESA "
+             "declares, and the flags Eurostat itself attached) were also written for %d cells "
+             "published earlier; they are notes about the values, and the values did not change."
+             % (format(n_new, ","), format(n_mig, ","),
+                format(new["population"] + new["population_un_wpp2024"], ","),
+                len(spl), n_big, n_old_flag),
+      change_zh="本 panel 已向前延伸至 2001 年。共新增 %s 筆數值——其中外國出生與外國籍人口數值 %s 筆，"
+                "另因占比欄位需要分母而新增人口數值 %s 筆——先前已發布之數值無一變動"
+                "（已逐格與 2026-08-17 之 panel 比對確認）。來源之採用順序為：若該國已發布序列所用之來源"
+                "涵蓋該年度則沿用同一來源，其次為其他逐年序列，再次為普查與聯合國基準年，"
+                "每一筆均載明其來源類型與旗標。有 %d 組序列於接合處需更換來源，其中 %d 組"
+                "與所銜接之序列相差 5%% 以上，已加註旗標。無證移民相關變項未予延伸。此外，先前已發布之 %d 格亦"
+                "補註旗標（UN DESA 估計值、UN DESA 宣告之公民身分基礎，以及 Eurostat 自身所附之旗標）；"
+                "旗標僅為對數值之說明，數值本身未變動。"
+                % (format(n_new, ","), format(n_mig, ","),
+                   format(new["population"] + new["population_un_wpp2024"], ","), len(spl), n_big,
+                   n_old_flag)),
+ dict(date="2026-10-07", time=T, commit=K, kind="re-verified", iso3="",
+      scope="Eurostat, OECD, World Bank, UN WPP, UN DESA mirror · %s published values"
+            % format(n_chk, ","),
+      before="last checked 2026-08-17 / 08-18", after="%s of %s reproduced exactly"
+      % (format(n_same, ","), format(n_chk, ",")),
+      change="Every payload retrieved for the extension spans 2001-2022, so the part covering "
+             "2010-2022 was compared with the values already published: Eurostat %s, OECD %s, "
+             "World Bank population %s, UN WPP %s and the UN DESA mirror %s cells. All reproduced "
+             "exactly (OECD's decimal values compared after rounding to whole persons, as the "
+             "panel stores them)."
+             % tuple(format(int(ovl[ovl.source.str.startswith(k)].cells_compared.sum()), ",")
+                     for k in ("Eurostat", "OECD", "World Bank SP.POP.TOTL", "UN WPP 2024",
+                               "World Bank SM.POP.TOTL")),
+      change_zh="為本次延伸所取得之每一份回應均涵蓋 2001–2022 年，故其涵蓋 2010–2022 年之部分已與先前發布之數值"
+                "比對：Eurostat、OECD、世界銀行人口、UN WPP 與 UN DESA 鏡像，共 %s 格，"
+                "全數完全一致（OECD 之小數值於四捨五入至整數後比對，與 panel 之儲存方式相同）。"
+                % format(n_chk, ",")),
+ dict(date="2026-10-07", time=T, commit=K, kind="note amended", iso3="TWN",
+      scope="Taiwan · foreign residents · 2012-2022 (11 notes)",
+      before="series begins in 2012", after="MOI table 1996-2022 used",
+      change="Values unchanged. The note said the series on this basis begins in 2012. The Ministry "
+             "of the Interior's consolidated table 1996-2022 gives the earlier years as well, with "
+             "all eleven published values reproducing exactly, so 2001-2011 were added with a "
+             "comparability caution and the original statement was kept in the note.",
+      change_zh="數值不變。原備註稱依此基礎之序列自 2012 年起。內政部統計處 1996–2022 年之彙整表亦提供較早年度，"
+                "且已發布之 11 筆數值完全重現，故新增 2001–2011 年並加註可比性提醒，原說明則保留於備註中。"),
+ dict(date="2026-10-07", time=T, commit=K, kind="collection attempted, not obtained", iso3="AUS;CHL",
+      scope="Australia (foreign nationals) · Chile 2002 (foreign-born)",
+      before="", after="not collected",
+      change="Australia: the ABS Census QuickStats pages carry no citizenship totals and the other "
+             "ABS host did not resolve, so no national count of non-citizens was retrieved. Chile: "
+             "the INE Census 2017 synthesis gives 2017 (746,465) but only the 2002 share (1.27%); "
+             "the longer INE report that may hold the 2002 count stopped downloading partway, and "
+             "a count was not derived from a percentage.",
+      change_zh="澳洲：澳洲統計局普查 QuickStats 頁面不含公民身分總數，另一個澳洲統計局主機無法解析，"
+                "故未取得全國非公民人數。智利：INE 2017 年普查綜合報告載有 2017 年數（746,465），"
+                "但 2002 年僅有比例（1.27%）；可能載有 2002 年人數之較長報告於下載途中中斷，"
+                "且不從百分比推算人數。"),
+]
+ZH.update({
+ ("%s" % K, "range extended"): ("全部 40 國 · 2001–2009（臺灣另含 2010–2011）",
+                                 "520 列，2010–2022", "880 列，2001–2022；新增 %s 筆數值" % format(n_new, ",")),
+ ("%s" % K, "re-verified"): ("Eurostat、OECD、世界銀行、UN WPP、UN DESA 鏡像 · 已發布數值 %s 筆"
+                              % format(n_chk, ","), "最近查證：2026-08-17／08-18",
+                              "%s 筆中 %s 筆完全重現" % (format(n_chk, ","), format(n_same, ","))),
+ ("%s" % K, "note amended"): ("臺灣 · 外僑居留人數 · 2012–2022（11 筆備註）", "序列自 2012 年起",
+                               "採用內政部 1996–2022 年彙整表"),
+ ("%s" % K, "collection attempted, not obtained"): ("澳洲（外國籍）· 智利 2002（外國出生）", "", "未能蒐集"),
+})
 hist = pd.DataFrame(H)
 missing_zh = [k for k in zip(hist.commit, hist.kind) if k not in ZH]
 assert not missing_zh, 'revision rows with no Chinese: %s' % missing_zh

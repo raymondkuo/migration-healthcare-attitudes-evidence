@@ -1,0 +1,24 @@
+﻿iso3,country,variable,year,previous_value,value,change_pct,previous_source_type,source_type,previous_flag,flag
+AUT,Austria,foreign_born,2002,843000,1112094,31.9,annual,annual,splice,splice
+DNK,Denmark,foreign_born,2009,378665,486003,28.3,annual,annual,splice (large gap),
+ESP,Spain,foreign_born,2003,2334096,2984092,27.8,annual,annual,,
+POL,Poland,foreign_born,2010,453248,642417,41.7,annual,annual,,
+CZE,Czech Republic,foreign_nationals,2006,193467,258325,33.5,annual,annual,,
+ESP,Spain,foreign_nationals,2002,1370657,1737969,26.8,annual,annual,splice,
+ESP,Spain,foreign_nationals,2003,1737969,2362023,35.9,annual,annual,,
+ISL,Iceland,foreign_nationals,2006,10607,13746,29.6,annual,annual,,
+ISL,Iceland,foreign_nationals,2007,13746,18563,35.0,annual,annual,,splice
+ISL,Iceland,foreign_nationals,2008,18563,23420,26.2,annual,annual,splice,
+ITA,Italy,foreign_nationals,2004,1483277,1893927,27.7,annual,annual,,
+KOR,Korea (South),foreign_nationals,2004,271666,460261,69.4,annual,annual,,
+KOR,Korea (South),foreign_nationals,2007,510509,660607,29.4,annual,annual,,
+POL,Poland,foreign_nationals,2008,44431,57842,30.2,annual,annual,,
+PRT,Portugal,foreign_nationals,2004,238737,434252,81.9,annual,annual,,splice (large gap)
+PRT,Portugal,foreign_nationals,2006,449182,276000,-38.6,annual,annual,splice (large gap),Eurostat flag: estimated
+PRT,Portugal,foreign_nationals,2007,276000,434869,57.6,annual,annual,Eurostat flag: estimated,
+SVK,Slovak Republic,foreign_nationals,2005,29854,22152,-25.8,annual,annual,Eurostat flag: break in time series,
+SVK,Slovak Republic,foreign_nationals,2007,25561,32125,25.7,annual,annual,,
+SVK,Slovak Republic,foreign_nationals,2008,32125,40904,27.3,annual,annual,,
+SVK,Slovak Republic,foreign_nationals,2009,40904,61361,50.0,annual,annual,,Eurostat flag: break in time series
+SVN,Slovenia,foreign_nationals,2008,53524,68621,28.2,annual,annual,,
+TUR,Turkey,foreign_nationals,2010,104441,167344,60.2,annual,annual,,

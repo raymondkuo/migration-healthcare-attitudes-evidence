@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Write manifest/website_manifest.json describing this build accurately."""
 import os, json, hashlib
+from urllib.parse import urlparse
 import pandas as pd
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +32,13 @@ corr = pd.read_csv(os.path.join(SITE, 'data', 'corrections_applied.csv'))
 snaps = pd.read_csv(os.path.join(SITE, 'data', 'web_snapshots.csv'))
 apis = pd.read_csv(os.path.join(SITE, 'data', 'api_snapshots.csv'))
 ck = pd.read_csv(os.path.join(SITE, 'manifest', 'checksums.csv'))
+reg = pd.read_csv(os.path.join(SITE, 'data', 'source_register.csv')).fillna('')
+ovl = pd.read_csv(os.path.join(SITE, 'data', 'extension_overlap_check.csv'))
+hist = pd.read_csv(os.path.join(SITE, 'data', 'revision_history.csv')).fillna('')
+nonapi = reg[reg.retrieval != 'VERIFIED_API']
+docs = nonapi.drop_duplicates(subset=['iso3', 'source_url'])
+n_held = int((~docs.outcome.astype(str).str.startswith('NOT_RETRIEVED')).sum())
+LAST = str(hist[hist.amends_data == 'yes'].date.max())
 
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections']
@@ -41,8 +49,8 @@ country_pages = len([f for f in os.listdir(os.path.join(SITE, 'countries')) if f
 top_pages = sorted(f for f in os.listdir(SITE) if f.endswith('.html'))
 
 m = {
-    'generated_at': ACCESS,
-    'generator': 'scripts/24_build_site.py, 25_country_pages.py, 26_other_pages.py (Python)',
+    'generated_at': LAST,
+    'generator': 'scripts/build_core.py, build_pages.py, build_evidence.py, build_pdf_extracts.py (Python)',
     'validated_by': 'scripts/27_validate_site.py — 0 errors across all internal links',
     'freeze_date': ACCESS,
     'pages': {
@@ -69,13 +77,15 @@ m = {
         'discrepancies': int((vlog.status != 'EXACT').sum()),
         'corrections_applied': int(len(corr)),
         'countries_corrected': int(corr.iso3.nunique()),
-        'document_source_variable_rows': 89,
-        'document_source_citations_distinct': 78,
-        'document_source_citations_archived': 76,
-        'document_source_citations_not_retrievable': 2,
-        'document_source_urls_distinct': 72,
-        'all_source_urls_distinct': 160,
-        'source_hosts': 51,
+        'document_source_variable_rows': int(len(nonapi)),
+        'document_source_citations_distinct': int(len(docs)),
+        'document_source_citations_archived': int(n_held),
+        'document_source_citations_not_retrievable': int(len(docs) - n_held),
+        'document_source_urls_distinct': int(nonapi.source_url.nunique()),
+        'all_source_urls_distinct': int(reg.source_url.nunique()),
+        'source_hosts': int(reg.source_url.map(lambda u: urlparse(str(u)).netloc).nunique()),
+        'rechecked_2026_10_07': {'compared': int(ovl.cells_compared.sum()),
+                                 'identical': int(ovl.identical.sum())},
         'grade_counts': {k: int(grades.get(k, 0)) for k in ['A', 'B', 'C', 'D']},
     },
     'primary_workbook': sha('data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx'),

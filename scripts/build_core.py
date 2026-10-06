@@ -2,6 +2,7 @@
 """Bilingual build: index, countries index, and the 40 country pages."""
 import os, sys
 import pandas as pd
+from counts import N_EVIDENCE
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, EV, D, ACCESS, LAST_REVISED, revised_note, panel, qual, corr, vlog, reg, apis, snaps,
@@ -91,7 +92,7 @@ EVLINK = {
  'en': ['Click any value &mdash; or the grade pill beside it &mdash; and you land on the evidence '
         'for that exact figure: the source, the query URL that produced it, what it was checked '
         'against, the correction applied if there was one, and every archived file that supports '
-        'it. There are <strong>156 such evidence pages</strong>, one per country and variable, '
+        'it. There are <strong>' + str(N_EVIDENCE) + ' such evidence pages</strong>, one per country and variable, '
         'each with its own <strong>PDF extract</strong> so the numbers exist in a fixed, citable '
         'document as well as on the page.',
         'This holds for the bulk statistical sources too. The World Bank, Eurostat, OECD and UN '
@@ -100,7 +101,7 @@ EVLINK = {
         'date.'],
  'zh': ['點選任何數值&mdash;&mdash;或其旁的等級標記&mdash;&mdash;即可進入該筆數字的佐證頁：'
         '包含來源、產生該數值的查詢網址、核對對象、若有更正則載明更正內容，'
-        '以及支持該數值的全部存檔檔案。此類佐證頁共 <strong>156 個</strong>，'
+        '以及支持該數值的全部存檔檔案。此類佐證頁共 <strong>' + str(N_EVIDENCE) + ' 個</strong>，'
         '每個國家的每個變項各一，並各附 <strong>PDF 摘錄</strong>，'
         '使這些數字除網頁外亦存在於可引用的固定文件中。',
         '批次統計來源亦同。世界銀行、Eurostat、OECD 與 UN DESA 的序列，'
@@ -130,11 +131,11 @@ def build_index(lang):
      '    <div class="stat"><span class="n">%.0f MB</span><span class="l">%s</span></div>\n'
      '    <div class="stat"><span class="n">40</span><span class="l">%s</span></div>\n'
      '    <div class="stat"><span class="n">%d</span><span class="l">%s</span></div>\n'
-     '    <div class="stat"><span class="n">156</span><span class="l">%s</span></div>\n'
+     '    <div class="stat"><span class="n">%d</span><span class="l">%s</span></div>\n'
      '  </div>\n</div></section>\n\n'
      % (format(n_checked, ','), t('stat_checked', lang), n_exact / n_checked * 100,
         t('stat_exact', lang), n_files, t('stat_files', lang), ev_bytes / 1e6, t('stat_mb', lang),
-        t('stat_countries', lang), len(corr), t('stat_corr', lang), t('stat_ev', lang))
+        t('stat_countries', lang), len(corr), t('stat_corr', lang), N_EVIDENCE, t('stat_ev', lang))
      + '<section><div class="wrap">\n  <h2>' + t('start_here', lang) + '</h2>\n'
      '  <p class="sub">' + t('start_sub', lang) + '</p>\n  <div class="cards">\n'
      '    <div class="card"><h3>' + t('card_data_h', lang) + '</h3><p>' + t('card_data_p', lang)
@@ -176,11 +177,11 @@ def build_index(lang):
      '  <p class="sub">' + t('using_sub', lang) + '</p>\n  <ul class="clean">\n'
      + ''.join('   <li>' + x.replace('ACCESS', ACCESS) + '</li>\n' for x in USING[lang])
      + '  </ul>\n</div></section>\n')
-    page('index', {'en': 'Migration & Population Data Archive, 40 countries 2010–2022',
-                   'zh': '移民與人口資料存檔，40 國，2010–2022'}[lang], body, lang,
+    page('index', {'en': 'Migration & Population Data Archive, 40 countries 2001–2022',
+                   'zh': '移民與人口資料存檔，40 國，2001–2022'}[lang], body, lang,
          desc={'en': 'Source archive and verification record for a 40-country migration and '
-                     'population panel, 2010-2022.',
-               'zh': '40 國移民與人口 panel 資料（2010–2022）之來源存檔與查證紀錄。'}[lang])
+                     'population panel, 2001-2022.',
+               'zh': '40 國移民與人口 panel 資料（2001–2022）之來源存檔與查證紀錄。'}[lang])
 
 
 def build_countries_index(lang):
@@ -218,6 +219,11 @@ def build_countries_index(lang):
                'zh': '各國資料、查證結果與已存檔之來源文件。'}[lang])
 
 
+def _s(x):
+    """Text of a cell, or '' where it is blank (NaN)."""
+    return '' if x is None or (isinstance(x, float) and pd.isna(x)) else str(x)
+
+
 def build_country(iso, en_name, lang):
     cn = cname(en_name, lang)
     g = panel[panel.iso3 == iso].sort_values('year')
@@ -234,6 +240,7 @@ def build_country(iso, en_name, lang):
     head = '<th class="num">' + t('year', lang) + '</th>' + \
            ''.join('<th class="num">%s</th>' % vlab(v, lang) for v in show)
     rows = []
+    has_marks = False
     for _, r in g.iterrows():
         cells = ['<td class="num">%d</td>' % int(r['year'])]
         for v in show:
@@ -248,14 +255,29 @@ def build_country(iso, en_name, lang):
             tip = ({'en': 'Evidence for %s %s %d', 'zh': '%s %s %d 年之佐證'}[lang]
                    % (cn, vlab(v, lang), int(r['year'])))
             der = ''
-            if str(r.get(v + '_derived') or '') == 'yes':
-                dtip = t('derived_tip', lang) % (
-                    str(r.get(v + '_derivation') or ''), str(r.get(v + '_published_range') or ''))
+            if _s(r.get(v + '_derived')) == 'yes':
+                how, rng = _s(r.get(v + '_derivation')), _s(r.get(v + '_published_range'))
+                dtip = (t('derived_tip', lang) % (how, rng)) if rng else (t('derived_tip_nr', lang) % how)
                 der = '<abbr class="der" title="%s">%s</abbr>' % (E(dtip), t('derived_mark', lang))
+            # markers for values whose source or comparability a reader should know about
+            flg = ''
+            if v in ('foreign_born', 'foreign_nationals'):
+                f, st = _s(r.get(v + '_flag')), _s(r.get(v + '_source_type'))
+                if 'large gap' in f:
+                    flg += '<abbr class="flg big" title="%s">&#8644;!</abbr>' % E(t('flag_big', lang))
+                elif 'splice' in f:
+                    flg += '<abbr class="flg" title="%s">&#8644;</abbr>' % E(t('flag_splice', lang))
+                if st == 'un_estimate' or 'un_estimate' in f:
+                    flg += '<abbr class="flg" title="%s">UN</abbr>' % E(t('flag_un', lang))
+                if any(k in f for k in ('comparability caution', 'declared citizenship',
+                                        'includes former-USSR')):
+                    flg += '<abbr class="flg" title="%s">!</abbr>' % E(t('flag_caution', lang))
+                if flg:
+                    has_marks = True
             cells.append('<td class="num"><a class="cell" href="%s" title="%s">%s</a>'
-                         '<a class="cellg" href="%s" title="%s">%s</a>%s</td>'
+                         '<a class="cellg" href="%s" title="%s">%s</a>%s%s</td>'
                          % (href, E(tip), num(val), href, E(tip),
-                            pill(r.get(v + '_grade', '')), der))
+                            pill(r.get(v + '_grade', '')), der, flg))
         rows.append('<tr>' + ''.join(cells) + '</tr>')
     dtable = ('<div class="tablewrap"><table><thead><tr>' + head + '</tr></thead><tbody>'
               + ''.join(rows) + '</tbody></table></div>')
@@ -334,6 +356,10 @@ def build_country(iso, en_name, lang):
      + pill('C') + ' ' + gl['C'] + ('。' if lang == 'zh' else '.') + '</p>\n'
      + '  <p class="sub" style="margin-top:-10px">'
      + (t('derived_legend', lang) % ('<abbr class="der">%s</abbr>' % t('derived_mark', lang)))
+     + ((' ' + t('flag_legend', lang) % ('<abbr class="flg">&#8644;</abbr>',
+                                        '<abbr class="flg big">&#8644;!</abbr>',
+                                        '<abbr class="flg">UN</abbr>', '<abbr class="flg">!</abbr>'))
+        if has_marks else '')
      + '</p>\n  ' + dtable + '\n'
      '  <p style="margin-top:12px">'
      + filelink('../evidence/countries/%s/data_from_source.csv' % iso, t('dl_csv', lang))
@@ -354,8 +380,8 @@ def build_country(iso, en_name, lang):
     page('countries/%s' % iso,
          '%s — %s' % (cn, {'en': 'Migration Data Archive', 'zh': '移民與人口資料存檔'}[lang]),
          body, lang, up='../',
-         desc={'en': 'Data, verification and archived sources for %s, 2010-2022.' % cn,
-               'zh': '%s 2010–2022 年之資料、查證與存檔來源。' % cn}[lang])
+         desc={'en': 'Data, verification and archived sources for %s, 2001-2022.' % cn,
+               'zh': '%s 2001–2022 年之資料、查證與存檔來源。' % cn}[lang])
 
 
 if __name__ == '__main__':

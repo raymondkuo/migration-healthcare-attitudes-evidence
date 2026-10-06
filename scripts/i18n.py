@@ -6,6 +6,9 @@ Terminology follows Taiwan usage: 臺灣, 資料 (not 数据), 外國人 / 非�
 """
 
 LANGS = ['en', 'zh']
+
+from counts import N_CITES, N_CITES_HELD   # noqa: E402
+
 HTML_LANG = {'en': 'en', 'zh': 'zh-Hant-TW'}
 OTHER = {'en': 'zh', 'zh': 'en'}
 SWITCH_LABEL = {'en': '中文', 'zh': 'English'}
@@ -62,7 +65,7 @@ FOOTER = {
  'en': ['<p class="credit"><strong>This archive is joint work of '
         '<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">Prof. Raymond Kuo</a>, '
         'National Taiwan University, and Claude (Anthropic).</strong></p>',
-        '<p><strong>Migration and population data archive, 40 countries, 2010&ndash;2022.</strong> '
+        '<p><strong>Migration and population data archive, 40 countries, 2001&ndash;2022.</strong> '
         'Sources first retrieved and verified ACCESS. Data last revised LASTREV; every '
         'amendment since is dated in the <a href="REVLINK">revision history</a>.</p>',
         '<p>Companion archive to a study of attitudes toward publicly funded healthcare for '
@@ -72,7 +75,7 @@ FOOTER = {
  'zh': ['<p class="credit"><strong>本存檔為國立臺灣大學'
         '<a href="https://raymond.cph.ntu.edu.tw/" rel="noopener">郭年真教授</a>'
         '與 Claude（Anthropic）之共同成果。</strong></p>',
-        '<p><strong>移民與人口資料存檔，40 國，2010&ndash;2022 年。</strong>'
+        '<p><strong>移民與人口資料存檔，40 國，2001&ndash;2022 年。</strong>'
         '資料來源首次取得並查證於 ACCESS；資料最近修訂於 LASTREV，'
         '此後每一項修訂均於<a href="REVLINK">修訂紀錄</a>中載明日期。</p>',
         '<p>本存檔為「民眾對非本國籍人士使用公費醫療之態度」研究之配套資料，'
@@ -106,9 +109,11 @@ GRADE_SHORT = {
 # ---------------------------------------------------------------- verification tags
 VERTAG = {
  'en': {'corrected': 'corrected &amp; re-derived', 'exact': 'reproduced exactly',
-        'doc': 'confirmed in document', 'nomach': 'not machine-checkable'},
+        'doc': 'confirmed in document', 'nomach': 'not machine-checkable',
+        'api': 'read from raw API response'},
  'zh': {'corrected': '已更正並重新導出', 'exact': '完全重現',
-        'doc': '經文件確認', 'nomach': '無法機械核對'},
+        'doc': '經文件確認', 'nomach': '無法機械核對',
+        'api': '直接讀自 API 原始回應'},
 }
 
 # ---------------------------------------------------------------- data-quality strings
@@ -169,8 +174,8 @@ T = {
  'retrieved': {'en': 'Retrieved ', 'zh': '取得日期 '},
  'back_to': {'en': '&larr; back to ', 'zh': '&larr; 返回 '},
  # index
- 'idx_title': {'en': 'Migration and population data for 40 countries, 2010–2022',
-               'zh': '40 國移民與人口資料，2010–2022 年'},
+ 'idx_title': {'en': 'Migration and population data for 40 countries, 2001–2022',
+               'zh': '40 國移民與人口資料，2001–2022 年'},
  'idx_lede': {'en': 'Every number in the accompanying dataset is traced here to a source file you '
                     'can download. Statistical-agency APIs were captured as raw response '
                     'snapshots; web pages were mirrored as PDF and full-page screenshots on the '
@@ -183,7 +188,7 @@ T = {
  'stat_exact': {'en': 'matched the source exactly', 'zh': '與來源完全一致'},
  'stat_files': {'en': 'source files archived', 'zh': '份來源檔案已存檔'},
  'stat_mb': {'en': 'of mirrored evidence', 'zh': '的鏡像佐證資料'},
- 'stat_countries': {'en': 'countries, 13 years each', 'zh': '個國家，各 13 年'},
+ 'stat_countries': {'en': 'countries, 22 years each', 'zh': '個國家，各 22 年'},
  'stat_corr': {'en': 'values corrected', 'zh': '筆數值已更正'},
  'stat_ev': {'en': 'per-variable evidence pages, each with a PDF extract',
              'zh': '個別變項佐證頁，各附 PDF 摘錄'},
@@ -202,9 +207,11 @@ T = {
                  'zh': '每國一頁：該國資料、與線上來源的核對結果，以及本站所保存的所有來源文件。'},
  'card_ctry_go': {'en': '40 countries &rarr;', 'zh': '40 個國家 &rarr;'},
  'card_src_h': {'en': 'Every source', 'zh': '所有資料來源'},
- 'card_src_p': {'en': 'The complete source register: 78 country&ndash;source citations, 76 of them '
-                      'archived here, each linking to both the original URL and the local copy.',
-                'zh': '完整的來源清冊：78 筆國家&ndash;來源引用，其中 76 筆已存檔於本站，'
+ 'card_src_p': {'en': 'The complete source register: ' + str(N_CITES) + ' country&ndash;source '
+                      'citations, ' + str(N_CITES_HELD) + ' of them archived here, each linking to '
+                      'both the original URL and the local copy.',
+                'zh': '完整的來源清冊：' + str(N_CITES) + ' 筆國家&ndash;來源引用，其中 '
+                      + str(N_CITES_HELD) + ' 筆已存檔於本站，'
                       '每筆均同時連結原始網址與本站備份。'},
  'card_src_go': {'en': 'Source register &rarr;', 'zh': '來源清冊 &rarr;'},
  'card_ver_h': {'en': 'What was checked', 'zh': '查證了什麼'},
@@ -228,6 +235,22 @@ T = {
                  'zh': '推導值：%s。來源公布區間：%s。若要陳述水準，請引用區間而非此中點值。'},
  'derived_legend': {'en': 'A number marked %s is <strong>derived</strong> from its source rather than published by it — for example the midpoint of a published range. The source’s own range is shown on the evidence page.',
                     'zh': '標示 %s 的數字為<strong>推導值</strong>，並非來源直接公布之數字——例如公布區間的中點。來源本身的區間載於佐證頁。'},
+ 'derived_tip_nr': {'en': 'Derived value: %s. See the evidence page for how it was worked out.',
+                    'zh': '推導值：%s。計算方式見佐證頁。'},
+ 'col_flag': {'en': 'Flag', 'zh': '旗標'},
+ 'flag_splice': {'en': 'Source differs from the rest of this series (splice); see the evidence page for the measured gap.',
+                 'zh': '來源與本序列其餘部分不同（接續）；實測差距見佐證頁。'},
+ 'flag_big': {'en': 'Source differs from the rest of this series by 5% or more where they overlap: a step here is a source effect, not a change in migration.',
+              'zh': '來源與本序列其餘部分於重疊年度相差 5% 以上：此處之變動屬來源效應，並非移民之實際變化。'},
+ 'flag_un': {'en': 'UN DESA model estimate (benchmark years only), not an annual count.',
+             'zh': 'UN DESA 模型估計值（僅基準年度），並非逐年統計。'},
+ 'flag_caution': {'en': 'Comparability caution; see the evidence page.',
+                  'zh': '可比性提醒；詳見佐證頁。'},
+ 'flag_legend': {'en': 'Other markers: %s the source differs from the rest of the series (splice); '
+                       '%s the same, and the two sources differ by 5%% or more; %s a UN DESA model estimate; '
+                       '%s a comparability caution. Each is explained on the evidence page.',
+                 'zh': '其他標記：%s 來源與序列其餘部分不同（接續）；%s 同上，且兩來源相差 5%% 以上；'
+                       '%s 為 UN DESA 模型估計值；%s 為可比性提醒。各項說明均載於佐證頁。'},
  'derived_h': {'en': 'Derived value', 'zh': '推導值'},
  'derived_range_label': {'en': 'Published source range', 'zh': '來源公布區間'},
  'derivation_label': {'en': 'How it was derived', 'zh': '推導方式'},
@@ -260,8 +283,8 @@ T = {
  # country page
  'ctry_eyebrow': {'en': ' &middot; country archive', 'zh': ' &middot; 國家存檔'},
  'ctry_lede': {'en': 'Data, verification result and every archived source document for %s, '
-                     '2010&ndash;2022. Sources first retrieved ',
-               'zh': '%s 2010&ndash;2022 年之資料、查證結果，以及全部已存檔之來源文件。'
+                     '2001&ndash;2022. Sources first retrieved ',
+               'zh': '%s 2001&ndash;2022 年之資料、查證結果，以及全部已存檔之來源文件。'
                      '資料來源首次取得日期為 '},
  'panel_h': {'en': 'Panel data', 'zh': 'Panel 資料'},
  'panel_sub': {'en': '<strong>Every number below is a link.</strong> Click a value, or the grade '

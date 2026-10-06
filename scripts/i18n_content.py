@@ -5,6 +5,10 @@ Row-level text for known_issues and codebook is NOT here: it lives beside the En
 in data/known_issues.csv and data/codebook.csv, one row carrying both languages, so
 the two cannot drift apart or be mis-keyed by row index."""
 
+from counts import (N_EVIDENCE, N_ALL_URLS, N_CITES, N_CITES_HELD, N_CHECKS,  # noqa: E402
+                    N_RECHECKED)
+
+
 # ---------------------------------------------------------------- known issues
 SEV = {'RESOLVED': '已解決', 'HIGH': '高', 'MEDIUM': '中', 'LOW': '低', 'INFO': '說明'}
 
@@ -18,6 +22,13 @@ SCOPE = {
  'Israel, Bulgaria, France, Turkey, USA, Poland, China, Netherlands':
      '以色列、保加利亞、法國、土耳其、美國、波蘭、中國、荷蘭',
  'Turkey, Czechia, Slovakia, Portugal, Germany': '土耳其、捷克、斯洛伐克、葡萄牙、德國',
+ 'Spliced series (OECD values extend a Eurostat series)':
+     '接續序列（以 OECD 數值延伸 Eurostat 序列）',
+ 'Denmark, Slovakia, Czechia, Lithuania, Poland, Portugal':
+     '丹麥、斯洛伐克、捷克、立陶宛、波蘭、葡萄牙',
+ 'China, India, Philippines, Suriname, Thailand': '中國、印度、菲律賓、蘇利南、泰國',
+ 'Not collected for 2001-2009': '2001–2009 年未能蒐集者',
+ 'Added years 2001-2010, several countries': '延伸之年度 2001–2010，多國',
  'EU/EFTA': '歐盟／歐洲自由貿易聯盟',
  'Eurostat / OECD countries': 'Eurostat／OECD 國家',
 }
@@ -62,7 +73,8 @@ P['sources'] = {
             'zh': '除來源層級的鏡像外，每一組國家&times;變項序列都有專屬佐證頁與 PDF 摘錄，'
                   '列出各年度數值、品質等級、核對對象，以及其背後的全部存檔檔案。'
                   '點選任一國家 Panel 資料表中的任何數字即可進入。'},
- 'ev_count': {'en': '156 evidence pages · 156 PDF extracts', 'zh': '156 個佐證頁 · 156 份 PDF 摘錄'},
+ 'ev_count': {'en': str(N_EVIDENCE) + ' evidence pages · ' + str(N_EVIDENCE) + ' PDF extracts',
+              'zh': str(N_EVIDENCE) + ' 個佐證頁 · ' + str(N_EVIDENCE) + ' 份 PDF 摘錄'},
  'doc_h': {'en': 'Document and web-page sources', 'zh': '文件與網頁來源'},
  'doc_sub': {'en': 'Beyond the bulk APIs, this archive rests on <strong>%d distinct '
                    'country&ndash;source citations</strong> across %d URLs, and <strong>%d of '
@@ -154,16 +166,20 @@ P['data'] = {
  'alt_note': {'en': '<strong>This file is not the one the website documents.</strong> It was '
                     'produced by a separate compilation run. Its <em>Verification</em> sheet '
                     'reports 203 source rows, 192 of 203 snapshots and 750 of 750 values matched; '
-                    'the figures for this archive are 160 distinct source URLs, 87 of 89 document '
-                    'sources retrieved and 2,454 values checked. Its <em>Source Audit</em> and '
+                    'the figures for this archive are ' + str(N_ALL_URLS) + ' distinct source URLs, '
+                    + str(N_CITES_HELD) + ' of ' + str(N_CITES) + ' document citations retrieved '
+                    'and ' + format(N_CHECKS, ',') + ' value comparisons (' + format(N_RECHECKED, ',')
+                    + ' of them repeated on 2026-10-07). Its <em>Source Audit</em> and '
                     '<em>Folder Index</em> sheets also point at a folder layout '
                     '(<code>country_sources\\…</code>) that does not exist in this repository. Its '
                     'substantive conclusions agree with this archive’s; its counts are not '
                     'interchangeable with them.',
               'zh': '<strong>本檔案並非本網站所記載的那一份。</strong>'
                     '它由另一次獨立的彙編作業產生。其 <em>Verification</em> 工作表記載 203 筆來源、'
-                    '192／203 份快照、750／750 筆數值一致；而本存檔的對應數字為 72 個不重複之'
-                    '文件來源網址、76／78 筆國家—來源引用已存檔、2,454 筆數值已查證。'
+                    '192／203 份快照、750／750 筆數值一致；而本存檔的對應數字為 ' + str(N_ALL_URLS)
+                    + ' 個不重複之來源網址、' + str(N_CITES_HELD) + '／' + str(N_CITES)
+                    + ' 筆國家—來源引用已存檔、' + format(N_CHECKS, ',') + ' 筆數值比對（其中 '
+                    + format(N_RECHECKED, ',') + ' 筆於 2026-10-07 重複比對）。'
                     '其 <em>Source Audit</em> 與 <em>Folder Index</em> 工作表所指向的資料夾結構'
                     '（<code>country_sources\\…</code>）在本存放庫中並不存在。'
                     '其實質結論與本存檔一致，但統計數字不可互換引用。'},
@@ -214,6 +230,52 @@ P['verification'] = {
                    '取自本存檔之版本紀錄（臺北時間）。標示<strong>資料</strong>者，'
                    '變更了數值、其歸類或其引用來源；其餘為查證與新增佐證，數值未變。'
                    '文字、翻譯與版面之修改不屬資料修訂，不予列入。'},
+ 'ext_h': {'en': 'The extension back to 2001', 'zh': '向前延伸至 2001 年'},
+ 'ext_sub': {'en': 'On 2026-10-07 the panel was extended from 2010&ndash;2022 back to 2001. This '
+                   'section shows what was added, how it relates to the series already published, '
+                   'and what could not be collected. Every added value is still a link to its '
+                   'evidence, and no value published before the extension changed.',
+             'zh': '2026-10-07 本 panel 由 2010–2022 年向前延伸至 2001 年。本節說明新增了什麼、'
+                   '與先前發布之序列有何關係，以及哪些無法蒐集。每一筆新增數值仍連結至其佐證，'
+                   '且延伸前已發布之數值無一變動。'},
+ 'ext_added_h': {'en': 'What was added', 'zh': '新增內容'},
+ 'ext_col_what': {'en': 'Variable and source type', 'zh': '變項與來源類型'},
+ 'ext_col_n': {'en': 'New values', 'zh': '新增數值'},
+ 'ext_col_c': {'en': 'Countries', 'zh': '國家數'},
+ 'ext_type': {'en': {'annual': 'annual official series', 'census': 'census', 'survey': 'household survey',
+                     'un_estimate': 'UN DESA model estimate', 'other': 'other'},
+              'zh': {'annual': '官方逐年序列', 'census': '普查', 'survey': '家戶調查',
+                     'un_estimate': 'UN DESA 模型估計值', 'other': '其他'}},
+ 'ext_recheck_h': {'en': 'Re-check of values already published', 'zh': '對已發布數值之重新查核'},
+ 'ext_recheck_sub': {'en': 'Each payload retrieved for the extension spans 2001&ndash;2022, so the '
+                           'part covering 2010&ndash;2022 was compared with what the archive already '
+                           'published.',
+                     'zh': '為本次延伸所取得之每份回應均涵蓋 2001–2022 年，故其涵蓋 2010–2022 年之部分'
+                           '已與本存檔先前發布之數值比對。'},
+ 'ext_col_src': {'en': 'Source', 'zh': '來源'},
+ 'ext_col_cmp': {'en': 'Compared', 'zh': '已比對'},
+ 'ext_col_same': {'en': 'Identical', 'zh': '完全一致'},
+ 'ext_splice_h': {'en': 'Where the source changes at the join', 'zh': '於接合處更換來源者'},
+ 'ext_splice_sub': {'en': 'Where the source of the earlier years differs from the one already used '
+                          'for 2010&ndash;2022, the two were compared over the years they share. '
+                          '%d series needed a change; %d differ by 5%% or more and are shown here. A '
+                          'step of that size at the join is a source effect, not a change in '
+                          'migration. The rest are listed in the file below.',
+                    'zh': '若較早年度所用之來源與 2010–2022 年已使用者不同，則於兩者共有之年度加以比較。'
+                          '共有 %d 組序列須更換來源，其中 %d 組相差 5%% 以上，列於下表。接合處如此幅度之變動'
+                          '屬來源效應，並非移民之實際變化。其餘序列見下方檔案。'},
+ 'ext_col_gap': {'en': 'Mean gap', 'zh': '平均差距'},
+ 'ext_col_range': {'en': 'Range over the overlap', 'zh': '重疊年度之範圍'},
+ 'ext_col_ext': {'en': 'Years extended', 'zh': '延伸之年度'},
+ 'ext_col_ov': {'en': 'Overlap (years)', 'zh': '重疊年數'},
+ 'ext_none_h': {'en': 'What could not be collected', 'zh': '無法蒐集者'},
+ 'ext_none_p': {'en': 'Australia\'s foreign nationals and Chile\'s 2002 foreign-born count were looked '
+                      'for and not obtained; several countries have only census years, and Japan, '
+                      'Israel and New Zealand have no comparable statistic for one of the two '
+                      'variables. The full list, with reasons, is in the issues table below and in '
+                      'the revision history above.',
+                'zh': '已尋找但未取得者為澳洲外國籍人口與智利 2002 年外國出生人數；數個國家僅有普查年度；'
+                      '日本、以色列與紐西蘭則有一項變項無可比較之統計。完整清單與原因見下方問題表與上方修訂紀錄。'},
  'col_when': {'en': 'Date', 'zh': '日期'},
  'col_kind': {'en': 'Change', 'zh': '變更類型'},
  'col_ba': {'en': 'Before &rarr; after', 'zh': '變更前 &rarr; 變更後'},
@@ -223,7 +285,8 @@ P['verification'] = {
                           'value deleted': '數值刪除', 'flagged as derived': '標示為推導值',
                           're-verified': '重新查證', 'source re-cited': '改引來源',
                           'evidence added': '新增佐證', 'value reclassified': '數值重新歸類',
-                          'note amended': '備註修訂'}},
+                          'note amended': '備註修訂', 'range extended': '期間延伸',
+                          'collection attempted, not obtained': '嘗試蒐集而未取得'}},
  'rate_h': {'en': 'Reproduction rate by source, as verified to date',
             'zh': '各來源之重現率（截至最近查證日）'},
  'rate_sub': {'en': 'Each row shows the most recent verification of that source and the date it '
@@ -270,10 +333,12 @@ P['verification'] = {
  'col_action': {'en': 'Action taken', 'zh': '已採取之處理'},
  'held_h': {'en': 'What held up', 'zh': '通過查證的部分'},
  'held_sub': {'en': 'Worth stating as plainly as the problems.', 'zh': '這些同樣值得如實載明。'},
- 'held': {'en': ['All 520 UN WPP 2024 population values reproduced exactly.',
-                 'All 507 World Bank population values reproduced exactly.',
-                 'All 584 Eurostat foreign-born and foreign-national values reproduced exactly.',
-                 'All 139 OECD International Migration Database values reproduced exactly.',
+ 'held': {'en': ['All 520 UN WPP 2024 population values for 2010&ndash;2022 reproduced exactly.',
+                 'All 507 World Bank population values for 2010&ndash;2022 reproduced exactly.',
+                 'All 584 Eurostat foreign-born and foreign-national values for 2010&ndash;2022 reproduced exactly.',
+                 'All 139 OECD International Migration Database values for 2010&ndash;2022 reproduced exactly.',
+                 'On 2026-10-07, against fresh responses, all 1,777 values published before the '
+                 'extension to 2001 reproduced exactly again (see the revision history above).',
                  'All 274 Eurostat detections in input workbook 1 reproduced exactly &mdash; '
                  'including the three countries workbook 2 had wrong.',
                  'Workbook 2’s Panel sheet is perfectly consistent with its own audit trail: '
@@ -286,10 +351,12 @@ P['verification'] = {
                  '<strong>78,396</strong>.',
                  'Every Italian irregular-migration value verified against ISMU’s own '
                  'published series.'],
-          'zh': ['520 筆 UN WPP 2024 人口數值全部完全重現。',
-                 '507 筆世界銀行人口數值全部完全重現。',
-                 '584 筆 Eurostat 外國出生與外國籍人口數值全部完全重現。',
-                 '139 筆 OECD 國際移民資料庫數值全部完全重現。',
+          'zh': ['520 筆 UN WPP 2024 人口數值（2010–2022 年）全部完全重現。',
+                 '507 筆世界銀行人口數值（2010–2022 年）全部完全重現。',
+                 '584 筆 Eurostat 外國出生與外國籍人口數值（2010–2022 年）全部完全重現。',
+                 '139 筆 OECD 國際移民資料庫數值（2010–2022 年）全部完全重現。',
+                 '2026-10-07 對照全新取得之回應，延伸至 2001 年之前已發布之 1,777 筆數值再次全數完全重現'
+                 '（見上方修訂紀錄）。',
                  '原始工作表 1 之 274 筆 Eurostat 查獲人次全部完全重現'
                  '&mdash;&mdash;包含工作表 2 記載錯誤的那三個國家。',
                  '工作表 2 的 Panel 分頁與其自身稽核軌跡完全一致：1,690 筆數值、'
@@ -350,7 +417,7 @@ P['methods'] = {
                  '<strong>Correct and grade.</strong> Discrepancies traced to a demonstrable error '
                  'were corrected against the live source and itemised; every value was graded.',
                  '<strong>Make it traceable.</strong> One evidence page was generated for every '
-                 'country&times;variable series &mdash; 156 in all &mdash; listing each '
+                 'country&times;variable series &mdash; ' + str(N_EVIDENCE) + ' in all &mdash; listing each '
                  'year&rsquo;s value, its grade, what it was checked against, and every archived '
                  'file supporting it. Each was also rendered to a PDF extract, so every number '
                  'exists in a fixed citable document as well as on a web page. Every value in '
@@ -371,7 +438,7 @@ P['methods'] = {
                  '<strong>更正與分級。</strong>可明確歸因於錯誤的不一致，'
                  '均依線上來源更正並逐項載明；所有數值均給予品質等級。',
                  '<strong>建立可追溯性。</strong>為每一組國家&times;變項序列產生一個佐證頁'
-                 '&mdash;&mdash;共 156 個&mdash;&mdash;列出各年度數值、品質等級、核對對象，'
+                 '&mdash;&mdash;共 ' + str(N_EVIDENCE) + ' 個&mdash;&mdash;列出各年度數值、品質等級、核對對象，'
                  '以及支持該數值的全部存檔檔案。每頁另轉製為 PDF 摘錄，'
                  '使每個數字除網頁外亦存在於可引用的固定文件中。'
                  '每個國家 Panel 資料表中的每一筆數值，均連結至其專屬佐證。',

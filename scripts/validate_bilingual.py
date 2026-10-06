@@ -128,6 +128,12 @@ for p in zh:
         if s in body:
             warns.append('%s: untranslated string "%s"' % (os.path.relpath(p, SITE), s))
 
+import json
+json.dump({'pages_en': len(en), 'pages_zh': len(zh), 'internal_links_checked': checked,
+           'panel_cells_both_languages': cells, 'panel_cells_unlinked': unlinked,
+           'errors': len(errors), 'warnings': len(warns)},
+          open(os.path.join(SITE, 'manifest', 'validation_summary.json'), 'w', encoding='utf-8'),
+          indent=1)
 print('\n%d errors, %d warnings' % (len(errors), len(warns)))
 for e in errors[:30]:
     print('  ERROR  ' + e)

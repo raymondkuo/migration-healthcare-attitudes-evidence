@@ -1,0 +1,63 @@
+﻿variable,source,iso3,cells_compared,identical,different,retrieved
+foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",AUS,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],AUT,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],BEL,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],BGR,12,12,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],CHE,12,12,0,2026-10-07
+foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",CHL,11,11,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],CZE,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],DEU,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],DNK,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],ESP,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],FIN,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],FRA,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],GBR,10,10,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],HRV,10,10,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],HUN,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],ISL,13,13,0,2026-10-07
+foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",ISR,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],ITA,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],LTU,13,13,0,2026-10-07
+foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",MEX,8,8,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],NLD,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],NOR,13,13,0,2026-10-07
+foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",NZL,2,2,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],POL,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],PRT,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],SVK,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],SVN,13,13,0,2026-10-07
+foreign_born,Eurostat [migr_pop3ctb],SWE,13,13,0,2026-10-07
+foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",TUR,9,9,0,2026-10-07
+foreign_born,"OECD International Migration Database (stocks of foreign-born population, measure B14)",USA,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],AUT,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],BEL,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],BGR,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],CHE,13,13,0,2026-10-07
+foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",CHL,6,6,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],CZE,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],DEU,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],DNK,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],ESP,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],FIN,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],FRA,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],GBR,10,10,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],HRV,10,10,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],HUN,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],ISL,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],ITA,13,13,0,2026-10-07
+foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",JPN,13,13,0,2026-10-07
+foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",KOR,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],LTU,13,13,0,2026-10-07
+foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",MEX,12,12,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],NLD,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],NOR,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],POL,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],PRT,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],SVK,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],SVN,13,13,0,2026-10-07
+foreign_nationals,Eurostat [migr_pop1ctz],SWE,13,13,0,2026-10-07
+foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",TUR,13,13,0,2026-10-07
+foreign_nationals,"OECD International Migration Database (stocks of foreign population, measure B15)",USA,13,13,0,2026-10-07
+population,World Bank SP.POP.TOTL,(all),507,507,0,2026-10-07
+population_un_wpp2024,UN WPP 2024 (compact demographic indicators),(all),520,520,0,2026-10-07
+foreign_born,World Bank SM.POP.TOTL (mirror of UN DESA migrant stock),(all),27,27,0,2026-10-07

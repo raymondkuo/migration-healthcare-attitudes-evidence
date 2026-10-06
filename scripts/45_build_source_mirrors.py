@@ -11,8 +11,12 @@ Existing snapshots are not regenerated.
 import os, re, sys, json, html, shutil, subprocess, time
 import pandas as pd
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE = os.path.join(BASE, 'migration-data-archive')
+_here = os.path.dirname(os.path.abspath(__file__))
+_parent = os.path.dirname(_here)
+if os.path.isdir(os.path.join(_parent, 'data')) and os.path.isdir(os.path.join(_parent, 'evidence')):
+    SITE = _parent                      # scripts/ sits inside the published archive
+else:
+    SITE = os.path.join(os.path.dirname(_parent), 'migration-data-archive')
 EVC = os.path.join(SITE, 'evidence', 'countries')
 EVA = os.path.join(SITE, 'evidence', 'api')
 CHROME = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
@@ -42,11 +46,19 @@ def shell(dst_pdf, dst_png, src_url):
         if os.path.exists(dst) and os.path.getsize(dst) > 4000:
             ok += 1
             continue
+        # Chrome exits 0 and writes nothing when spawned directly while the user has a
+        # browser open ("opening in an existing browser session"); through Start-Process it
+        # renders normally. See build_pdf_extracts.py.
+        args = ['--headless=new', '--disable-gpu', '--no-sandbox',
+                '--user-data-dir=' + PROFILE, '--hide-scrollbars',
+                '--virtual-time-budget=12000'] + flags + [src_url]
+        ps = ('$a = @(%s); $p = Start-Process -FilePath %s -ArgumentList $a -PassThru -Wait '
+              '-WindowStyle Hidden; exit $p.ExitCode'
+              % (','.join("'" + x.replace("'", "''") + "'" for x in args),
+                 "'" + CHROME.replace("'", "''") + "'"))
         try:
-            subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--no-sandbox',
-                            '--user-data-dir=' + PROFILE, '--hide-scrollbars',
-                            '--virtual-time-budget=12000'] + flags + [src_url],
-                           capture_output=True, timeout=150)
+            subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-Command', ps],
+                           capture_output=True, timeout=300)
         except Exception:
             pass
         if os.path.exists(dst) and os.path.getsize(dst) > 4000:
