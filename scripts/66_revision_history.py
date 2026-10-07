@@ -127,6 +127,8 @@ new = {v: int(panel[v + "_collected_on"].notna().sum()) for v in MARK}
 n_new, n_mig = sum(new.values()), new["foreign_born"] + new["foreign_nationals"]
 n_rows = int((panel.year < 2010).sum())
 n_chk, n_same = int(ovl.cells_compared.sum()), int(ovl.identical.sum())
+# This entry describes the extension as it was made: the rule then flagged the series whose SIGNED mean reached 5%
+# (7 of 28). The audit entries below record the correction to the mean absolute gap (8 series).
 n_big = int((spl.mean_gap_pct.abs() >= 5).sum())
 n_old_flag = int(sum((panel[v + "_collected_on"].isna() & panel[v + "_flag"].notna()
                       & panel[v + "_flag"].astype(str).str.strip().ne("")).sum()

@@ -232,10 +232,14 @@ def build_data(lang):
        'the source type and flag on both sides. Nothing was adjusted; the file shows where to look.',
        '凡涉及延伸所新增年度、相鄰年度間變動達 25% 以上者，逐筆列出變動前後兩端之來源類型與旗標。'
        '未作任何調整；本檔僅指出應檢視之處。')),
-     ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit of 2026-10-07', '對 2026-10-07 稽核之回應'),
-      ('All 24 findings re-checked against the archived sources: verdict, what was checked, what changed, and what stays '
-       'with the authors.',
-       '24 項發現均對照存檔來源重新查核：判定、查核內容、變更內容，以及留待作者決定者。')),
+     ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit and the re-audit of 2026-10-07', '對 2026-10-07 稽核與再稽核之回應'),
+      ('All 24 audit findings and all 11 re-audit findings re-checked against the archived sources: verdict, what was '
+       'checked, what changed, and what stays with the authors.',
+       '24 項稽核發現與 11 項再稽核發現均對照存檔來源重新查核：判定、查核內容、變更內容，以及留待作者決定者。')),
+     ('data/audit_inputs/README.md', ('Audit inputs of the build', '建置所用之稽核輸入'),
+      ('The independent audit’s own result tables (3,365 observations) that the verification ledger is built from; '
+       'committed so that a clean clone reproduces the ledger. The tables are in the same folder.',
+       '獨立稽核自身之結果表（3,365 筆觀測值），驗證表即據以建置；納入存放庫，使乾淨之複本即可重現驗證表。結果表位於同一資料夾。')),
      ('data/audit_changes_2026-10-07.csv', ('Every cell changed by the audit', '稽核所致之每一儲存格變更'),
       ('Old and new value and grade, reason and evidence for each corrected, regraded, relabelled, added or deleted cell.',
        '每一更正、改評、改標、新增或刪除之儲存格：新舊數值與等級、理由與佐證。')),

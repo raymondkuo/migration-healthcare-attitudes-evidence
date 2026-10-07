@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**406 pages** — 203 per language. Validated: 26,830 internal links, 0 broken.
+**406 pages** — 203 per language. Validated: 26,832 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
