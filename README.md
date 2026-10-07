@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**406 pages** — 203 per language. Validated: 26,602 internal links, 0 broken.
+**406 pages** — 203 per language. Validated: 26,824 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -71,9 +71,11 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 | `evidence/extracts/` | 157 bilingual PDF extracts, one per country × variable |
 | `manifest/checksums.csv` | SHA-256 hash of every file in the archive, of the bytes the website serves (text files with LF line endings, so a Windows checkout with CRLF will not match; `scripts/78_verify_checksums.py` checks the manifest against git) |
 | `verification/` | Machine-readable verification output, the live link sweep, and the audit response |
-| `scripts/` | Every script used, so the verification and the site build can be re-run |
-| `VERIFICATION_REPORT.md` | The written verification report |
-| `AUDIT_report_site_vs_VERIFIED.md` | Independent site-vs-workbook audit |
+| `scripts/` | Every script used. Only the pipeline in `REBUILD.md` can be re-run safely; the first-release builders (numbered below 67) would undo later corrections |
+| `VERIFICATION_REPORT.md` | The written verification report (first release; kept as written) |
+| `REBUILD.md` | The supported order for rebuilding this release, and what must not be re-run |
+| `verification/AUDIT_RESPONSE_2026-10-07.md` | The response to the audit of 2026-10-07, finding by finding |
+| `data/ANALYSIS_NOTES.md` | The construct, timing, universe and sensitivity choices that are the authors' to make |
 | `verification/AUDIT_response.md` | Point-by-point response to that audit, and what was fixed |
 
 <!-- headline:begin -->
@@ -84,12 +86,13 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - **2,454** values re-derived from live sources; **2,415 (98.4%)** matched exactly.
 - **39** discrepancies found — all one error: the Eurostat irregular-migration detections
   series for **Switzerland, Portugal and Sweden** was offset by one year in one input workbook.
-- **52** corrections across 7 countries, each itemised with its evidence
+- **67** corrections across 10 countries, each itemised with its evidence
   (`data/corrections_applied.csv`).
 - **88 of 88** distinct country-source document citations archived, across 78 URLs.
-- **Every retained number is traceable to an archived source.** Each of the 116 values that were
-  not machine-verified at first release was checked against the archived source document: 102 were
-  found in it and regraded B, 13 are derived from a published range and are flagged ≈, and 1
+- **Every retained number cites an archived source.** Whether a source was read under the right year and
+  concept is a separate question, and the audit of 2026-10-07 found it was not always (below). At first
+  release each of the 116 values that were not machine-verified was checked against the archived source
+  document: 102 were found in it and regraded B, 13 are derived from a published range and are flagged ≈, and 1
   (Russia 2020 irregular stock) could not be traced to anything and was **deleted** — see
   `data/deleted_values.csv`.
 - **Every archived source file has a viewable mirror.** Every PDF, HTML page, raw JSON/CSV API
@@ -102,9 +105,17 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 
 **Now (revised 2026-10-07)**
 
-- Quality grades on all 2,473 displayed values (2001–2022): **A** 2,340 · **B** 120 · **C** 13 · **D** 0.
-- Live sweep of all **194** external URLs the site publishes, run 2026-10-07: **0 undocumented
-  failures** (`verification/link_sweep.csv`).
+- **Audit of 2026-10-07** (issues #1–#25): all 24 findings were re-checked against the archived sources and
+  confirmed; **40 cell changes** followed (15 corrected, 7 regraded, 6 added, 5 relabelled, 4 source corrected, 2 metadata cleared, 1 deleted). The response is in
+  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **3,365** current observations are in
+  `data/current_panel_verification.csv`. The 2,454 / 2,737 figures above are comparison *records* of the first-release
+  check, not a count of unique current observations.
+- Quality grades on all 2,478 displayed values (2001–2022): **A** 2,323 · **B** 142 · **C** 13 · **D** 0. A grade
+  says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
+  C a published estimate or range); it does not say how precise or comparable the value is.
+- Link sweep of 2026-10-07 over **195** external URLs: 184 reachable (0 only on a curl retry,
+  after a failed first attempt), 11 blocked, moved or lost and documented with their archived copies,
+  **0 undocumented failures** (`verification/link_sweep.csv`, with the date and method of each check).
 
 ## Extension to 2001 · 延伸至 2001 年
 
@@ -155,7 +166,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 381 MB across 1,318 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
+- About 385 MB across 1,352 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the
@@ -170,40 +181,7 @@ verification log and code may be reused with attribution to the study.
 
 ## Re-running
 
-```bash
-pip install pandas openpyxl
-
-# verification chain
-python scripts/02_fetch_bulk.py          # re-download the bulk sources
-python scripts/03_verify_api.py          # compare every value
-python scripts/04_verify_oecd.py
-python scripts/09_audit.py               # internal-consistency audit
-python scripts/41_link_sweep.py          # live sweep of every published URL
-
-# bilingual site build
-python scripts/build_core.py             # index, countries index, 40 country pages ×2
-python scripts/build_evidence.py         # 157 evidence pages ×2
-python scripts/build_pages.py            # sources, data, verification, methods ×2
-python scripts/build_pdf_extracts.py     # 157 bilingual PDF extracts
-python scripts/validate_bilingual.py     # link, language-pairing and cell-link validation
-python scripts/28_checksums.py           # refresh manifest/checksums.csv
-python scripts/78_verify_checksums.py    # after committing: compare it with what git stored
-
-# the 2001 extension (each step is idempotent; the pre-extension panel is read from commit 0d64a1c)
-python scripts/67_fetch_extension_apis.py   # raw payloads: OECD, Eurostat, World Bank, 2001-2022
-python scripts/68_collect_api_cells.py      # Eurostat / OECD cells, overlap check, splice summary
-python scripts/69_collect_population_and_un.py
-python scripts/70_collect_taiwan.py         # Ministry of the Interior table, NDC data book
-python scripts/71_collect_census_za_in.py   # South Africa and India censuses
-python scripts/72_collect_russia_2002.py
-python scripts/73_collect_uk_ons_2004_2005.py
-python scripts/74_assemble_panel.py         # merge into panel_final.csv; asserts no published value changed
-python scripts/75_build_derived_tables.py   # source register, issues, codebook, quality tables
-python scripts/66_revision_history.py       # dated amendments
-python scripts/63_export_clean_panel.py     # analysis extract
-python scripts/57_sync_workbook_sheets.py   # workbook sheets
-python scripts/77_update_readme.py          # numbers quoted in README and CITATION.cff
-```
+The supported rebuild is in **[`REBUILD.md`](REBUILD.md)**: the order, what is pinned (commit `0d64a1c` and the archived payloads), and which first-release scripts must not be re-run because they would undo later corrections. Needs `pip install pandas openpyxl pymupdf pdfplumber pypdf`. After committing, `python scripts/78_verify_checksums.py` compares `manifest/checksums.csv` with what git stored.
 
 Translations live in `scripts/i18n.py` (UI, countries, variables) and `scripts/i18n_content.py`
 (long-form prose, codebook, known issues).<br>

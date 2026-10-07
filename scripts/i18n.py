@@ -41,9 +41,9 @@ VLAB = {
  'zh': {'population': '總人口', 'foreign_born': '外國出生人口',
         'foreign_nationals': '外國籍人口', 'irregular_stock': '無證移民存量',
         'irregular_proxy_overstayers': '逾期停留・居留',
-        'irregular_proxy_detections': '查獲人次',
+        'irregular_proxy_detections': '查獲人數',
         'irregular_proxy_absconded_workers': '失聯移工（臺灣）',
-        'irregular_detections': '查獲人次', 'irregular': '非常規移民',
+        'irregular_detections': '查獲人數', 'irregular': '非常規移民',
         'foreign_workers': '外籍移工'},
 }
 
@@ -86,24 +86,24 @@ FOOTER = {
 
 # ---------------------------------------------------------------- grades
 GRADE_DESC = {
- 'en': {'A': 'Re-derived from a machine-readable official source and matched exactly, or '
-             'corrected against one during this verification',
-        'B': 'Confirmed by reading the retrieved source document',
-        'C': 'Source document retrieved, but the value is a modelled estimate that cannot be '
-             'mechanically re-derived',
-        'D': 'Cited source could not be retrieved by any means'},
- 'zh': {'A': '自機器可讀之官方來源重新計算並完全一致，或於本次查證中依該來源更正',
-        'B': '經閱讀所取得之來源文件確認',
-        'C': '已取得來源文件，但該數值為推估值，無法以機械方式重新導出',
-        'D': '所引用之來源已無法以任何方式取得'},
+ 'en': {'A': 'Decoded from a machine-readable official source (API response, open-data file or official '
+             'workbook) and matched exactly',
+        'B': 'Read from an archived source document (PDF, web page, printed table or chart) in which the '
+             'value appears, or summed from figures printed there',
+        'C': 'A published estimate or range: the value is the point estimate, or the midpoint of the range',
+        'D': 'No archived source supports the value (none are published: such values are deleted)'},
+ 'zh': {'A': '自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致',
+        'B': '自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，或由文件中所印數字加總',
+        'C': '來源公布之推估值或區間：取其點估計，或區間之中點',
+        'D': '無任何存檔來源支持該數值（現無此類數值：此類數值一律刪除）'},
 }
 
 GRADE_SHORT = {
- 'en': {'A': 'verified against a machine-readable official source',
-        'B': 'confirmed in the source document',
-        'C': 'modelled estimate', 'D': 'source unretrievable'},
- 'zh': {'A': '已對照機器可讀之官方來源查證',
-        'B': '經來源文件確認', 'C': '推估值', 'D': '來源無法取得'},
+ 'en': {'A': 'decoded from a machine-readable official source',
+        'B': 'read from the archived source document',
+        'C': 'published estimate or range', 'D': 'no archived source'},
+ 'zh': {'A': '自機器可讀之官方來源解出',
+        'B': '自已存檔之來源文件讀取', 'C': '公布之推估值或區間', 'D': '無存檔來源'},
 }
 
 # ---------------------------------------------------------------- verification tags
@@ -137,6 +137,10 @@ COMPARABILITY = {
  'irregular_proxy_detections': '不可跨國比較，且屬執法事件之「流量」而非人口「存量」。'
                                '數值受查緝強度與該國在移民路線上的位置影響。',
 }
+
+import audit_texts as _AT                                    # noqa: E402
+USABLE.update(_AT.USABLE_ZH)
+COMPARABILITY.update(_AT.COMPARABILITY_ZH)
 
 # ---------------------------------------------------------------- correction reasons
 REASON = {
@@ -184,8 +188,9 @@ T = {
               'zh': '本資料集中的每一個數字，都可在此追溯到一份可下載的來源檔案。'
                     '各統計機構 API 的原始回應已完整保存；網頁來源則於取得當日製作 PDF 鏡像'
                     '與整頁截圖。本存檔的任何內容都不依賴外部伺服器是否仍然運作。'},
- 'stat_checked': {'en': 'values re-derived from live sources', 'zh': '筆數值自線上來源重新導出'},
- 'stat_exact': {'en': 'matched the source exactly', 'zh': '與來源完全一致'},
+ 'stat_checked': {'en': 'comparisons with live sources (first release and its re-check)',
+                   'zh': '筆與線上來源之比對（首次發布及更正後複查）'},
+ 'stat_exact': {'en': 'of those comparisons matched exactly', 'zh': '之比對與來源完全一致'},
  'stat_files': {'en': 'source files archived', 'zh': '份來源檔案已存檔'},
  'stat_mb': {'en': 'of mirrored evidence', 'zh': '的鏡像佐證資料'},
  'stat_countries': {'en': 'countries, 22 years each', 'zh': '個國家，各 22 年'},

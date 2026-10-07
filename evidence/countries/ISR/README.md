@@ -1,6 +1,6 @@
 # Israel — source verification
 
-ISO3: **ISR**   Verified: 2026-08-17
+ISO3: **ISR**   First verified: 2026-08-17 (first release; the counts below are that check). Audit of 2026-10-07: see verification/AUDIT_RESPONSE_2026-10-07.md
 
 ## Machine-readable sources
 
@@ -11,7 +11,7 @@ ISO3: **ISR**   Verified: 2026-08-17
 ## Document sources
 
 - Cited document sources: **1**
-- Retrieved into `sources/`: **1**
+- Retrieved into this folder: **1**
 
 | variable | years | status | file | source |
 |---|---|---|---|---|
@@ -23,10 +23,10 @@ ISO3: **ISR**   Verified: 2026-08-17
 
 ## Files in this folder
 
-- `data_from_source.csv` — every observation for this country with its live-source check
+- `data_from_source.csv` — the observations extracted from the sources for this country: the 2010-2022 records of the first release plus, since 2026-10-07, every current panel value that had no row. `used_in_panel` is recomputed from the current panel and `historical_status` says why a record is no longer used (superseded, rejected, reclassified, deleted)
 - `value_check.csv` — workbook value vs live source value, where machine-checkable
 - `source_manifest.csv` — every cited source and how it was retrieved
-- `sources/` — the downloaded source documents and screenshots
+- the downloaded source documents sit directly in this folder (there is no `sources/` subfolder); each has a viewable `MIRROR__` PDF/PNG, and a `SNAPSHOT__` page extract where one was cut out
 
 <!-- extension-2001:begin -->
 

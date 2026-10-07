@@ -62,7 +62,7 @@ SRC = {
 for k, v in SRC.items():
     v['url'] = url_of(v['file'])
 
-LARGE_GAP = 5.0          # % mean difference between source families that counts as a level shift
+LARGE_GAP = 5.0          # % MEAN ABSOLUTE difference between source families that counts as a level shift
 EURO_FLAG = {'b': 'break in time series', 'e': 'estimated', 'p': 'provisional',
              'd': 'definition differs', 'u': 'low reliability', 'c': 'confidential'}
 
@@ -182,20 +182,24 @@ for var in ('fb', 'fn'):
                             iso3=iso, variable=pv, extension_source=short(src['name']),
                             published_series_source=short(SRC[(var, h)]['name']),
                             overlap_years=len(gaps), mean_gap_pct=round(float(np.mean(gaps)), 3),
+                            mean_abs_gap_pct=round(float(np.mean(np.abs(gaps))), 3),
                             min_gap_pct=round(min(gaps), 3), max_gap_pct=round(max(gaps), 3),
                             years=[]))
                         sp['years'].append(y)
                         sp['family'] = chosen
-                        large = abs(float(np.mean(gaps))) >= LARGE_GAP
+                        # the declared rule is the mean ABSOLUTE gap: a signed mean lets
+                        # differences of opposite sign cancel (Germany foreign-born: signed
+                        # +1.6%, absolute 7.4%)
+                        large = float(np.mean(np.abs(gaps))) >= LARGE_GAP
                         extra.append(
                             'SPLICE: this country\'s published series from %d on uses %s; %s is '
                             'used here because %s does not reach %d. Over the %d years where '
-                            'both exist, %s is %+.2f%% on average (range %+.2f%% to %+.2f%%) '
-                            'relative to %s.'
+                            'both exist, %s is %+.2f%% on average (mean absolute difference '
+                            '%.2f%%, range %+.2f%% to %+.2f%%) relative to %s.'
                             % (first_pub, short(SRC[(var, h)]['name']), short(src['name']),
                                short(SRC[(var, h)]['name']), y, len(gaps), short(src['name']),
-                               float(np.mean(gaps)), min(gaps), max(gaps),
-                               short(SRC[(var, h)]['name'])))
+                               float(np.mean(gaps)), float(np.mean(np.abs(gaps))), min(gaps),
+                               max(gaps), short(SRC[(var, h)]['name'])))
                         if large:
                             extra[-1] = ('LARGE LEVEL GAP (%g%% or more): a step of this size at '
                                          'the join is a source effect, not a change in migration. '
@@ -206,7 +210,8 @@ for var in ('fb', 'fn'):
                     sp = SPL.setdefault((iso, pv), dict(
                         iso3=iso, variable=pv, extension_source=short(src['name']),
                         published_series_source='a different source family', overlap_years=0,
-                        mean_gap_pct=None, min_gap_pct=None, max_gap_pct=None, years=[]))
+                        mean_gap_pct=None, mean_abs_gap_pct=None, min_gap_pct=None,
+                        max_gap_pct=None, years=[]))
                     sp['years'].append(y)
                     sp['family'] = chosen
                     extra.append('SPLICE: this country\'s published series uses a different '

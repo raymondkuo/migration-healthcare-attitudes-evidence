@@ -1,2 +1,3 @@
 ﻿iso3,year,variable,deleted_value,deleted_on,reason
 RUS,2020,irregular_stock,1200000.0,2026-08-17,"The cited source (The Moscow Times report of MVD data) contains no numeric estimate in the archived copy, and no alternative source was found. Per the traceability rule the value was deleted rather than retained unverified."
+TWN,2021,irregular_proxy_overstayers,81538.0,2026-10-07,"The cited source (Ministry of Labor Table 12-7) is the series of absconded workers, 55,805 at the end of 2021; the National Immigration Agency total of overstaying persons for 2021 is not in any archived or located document (the Legislative Yuan reports archived here end at 2020). Per the traceability rule the value was deleted rather than retained unverified (audit finding F06)."

@@ -23,7 +23,7 @@ D = os.path.join(SITE, "data")
 
 # amending kinds change a value, its classification, or what it is cited to
 AMENDING = {"value corrected", "value deleted", "value reclassified", "flagged as derived",
-            "source re-cited", "note amended"}
+            "source re-cited", "note amended", "values added", "grade changed", "flag changed"}
 
 H = [
  dict(date="2026-08-17", time="16:53", commit="187428a", kind="first publication", iso3="",
@@ -217,6 +217,117 @@ ZH.update({
                                "採用內政部 1996–2022 年彙整表"),
  ("%s" % K, "collection attempted, not obtained"): ("澳洲（外國籍）· 智利 2002（外國出生）", "", "未能蒐集"),
 })
+
+# ---------------------------------------------------------------- the audit of 2026-10-07
+# Entries carry their own Chinese in the dict (several share a kind and a commit, so the (commit, kind)
+# lookup used above cannot tell them apart). The commit and time come from their own stamp file.
+ap = os.path.join(D, "extension_staging", "commit_stamp_audit.json")
+astamp = json.load(open(ap, encoding="utf-8")) if os.path.exists(ap) else {}
+TA, KA = astamp.get("time", ""), astamp.get("commit", "")
+chg = pd.read_csv(os.path.join(D, "audit_changes_2026-10-07.csv"))
+n_a2b = int(((chg.old_grade == "A") & (chg.new_grade == "B")).sum())
+n_del = int((chg.kind == "deleted").sum())
+sp_ = pd.read_csv(os.path.join(D, "extension_splice_summary.csv"))
+n_large_new = int((sp_.mean_abs_gap_pct >= 5).sum())
+dq_ = pd.read_csv(os.path.join(D, "data_quality.csv"))
+n_usable = int(dq_.usable_for_trend.str.contains("single source").sum())
+n_added = int((chg.kind == "added").sum())
+A = dict(date="2026-10-07", time=TA, commit=KA)
+H += [
+ dict(A, kind="value corrected", iso3="CHL", scope="Chile - irregular stock - 2018-2022",
+      scope_zh="智利 · 無證移民存量 · 2018–2022",
+      before="59,682 / 115,059 / 130,017 / 53,356 / 109,846", before_zh="59,682／115,059／130,017／53,356／109,846",
+      after="10,375 / 21,833 / 53,356 / 109,846 / 291,149", after_zh="10,375／21,833／53,356／109,846／291,149",
+      change="The first release took the five values from the right chart (page 12 of the INE/SERMIG Sintesis 2023) but "
+             "placed them under the wrong years and mixed the 2022 and 2023 methodologies. Now the 2023 methodology for "
+             "every year; the 2022 methodology and the press-release 107,223 are alternatives. Audit finding F01.",
+      change_zh="首次發布由正確之圖表（INE/SERMIG《2023 年摘要》第 12 頁）取得五個數值，卻置於錯誤年度並混用 2022 與 2023 年方法。"
+                "現各年一律採 2023 年方法；2022 年方法與新聞稿之 107,223 列為替代值。稽核發現 F01。"),
+ dict(A, kind="value corrected", iso3="IND", scope="India - foreign-born - 2011", scope_zh="印度 · 外國出生人口 · 2011",
+      before="5,490,000", before_zh="5,490,000", after="5,363,099", after_zh="5,363,099",
+      change="5,490,000 was Table 2a of a journal article, built on Census Table D-2 (place of LAST residence). The "
+             "official birthplace table D-01 gives 5,363,099 in its national row \"Born Outside India\". Authors of the "
+             "article corrected to Singh and Biradar. Audit finding F02.",
+      change_zh="5,490,000 為一篇期刊論文之表 2a，以普查表 D-2（最近一次居住地）為基礎。官方出生地表 D-01 全國列「Born Outside India」為 5,363,099。"
+                "論文作者更正為 Singh 與 Biradar。稽核發現 F02。"),
+ dict(A, kind="value corrected", iso3="SUR", scope="Suriname - foreign nationals - 2012",
+      scope_zh="蘇利南 · 外國籍人口 · 2012", before="36,393", before_zh="36,393", after="33,053", after_zh="33,053",
+      change="36,393 was total population minus Surinamese nationals and includes 3,340 persons of unknown nationality. "
+             "The six printed foreign nationality categories sum to 33,053; 36,393 is kept as an alternative. Audit finding F03.",
+      change_zh="36,393 為總人口減蘇利南籍，包含 3,340 名國籍不明者。表中所印六個外國國籍類別加總為 33,053；36,393 保留為替代值。稽核發現 F03。"),
+ dict(A, kind="value corrected", iso3="TWN", scope="Taiwan - population - 2010-2016 (7 values)",
+      scope_zh="臺灣 · 總人口 · 2010–2016（7 筆）", before="rounded to thousands (NDC)", before_zh="四捨五入至千位（國發會）",
+      after="exact totals (MOI yearbook)", after_zh="精確總數（內政部年報）",
+      change="The cited MOI yearbook prints exact totals (23,162,123 ... 23,539,816); the panel held the NDC figures rounded to "
+             "thousands. Differences -123 to +483 persons; shares recomputed. Audit finding F08.",
+      change_zh="所引用之內政部年報載有精確總數（23,162,123 … 23,539,816）；panel 所載為國發會四捨五入至千位之數。差異 −123 至 +483 人；占比已重算。稽核發現 F08。"),
+ dict(A, kind="value corrected", iso3="TWN", scope="Taiwan - absconded workers - 2019",
+      scope_zh="臺灣 · 失聯移工 · 2019", before="47,632 (31 July)", before_zh="47,632（7 月 31 日）",
+      after="48,491 (year-end)", after_zh="48,491（年底）",
+      change="The column is the Ministry of Labor year-end stock; 2019 held the 31 July figure of a Legislative Yuan report. Table 12-7 "
+             "gives 48,491 for the end of 2019; 47,632 is kept as an alternative. Found while checking finding F06.",
+      change_zh="該欄為勞動部年底存量；2019 年所載為立法院報告之 7 月 31 日數字。表 12-7 之 2019 年底為 48,491；47,632 保留為替代值。查核稽核發現 F06 時發現。"),
+ dict(A, kind="value deleted", iso3="TWN", scope="Taiwan - overstayers - 2021", scope_zh="臺灣 · 逾期停留 · 2021",
+      before="81,538", before_zh="81,538", after="deleted", after_zh="已刪除",
+      change="The cited Ministry of Labor table (Table 12-7) is the absconded-worker series; no archived or located document gives "
+             "an end-2021 total of 81,538. Deleted under the traceability rule. Audit finding F06.",
+      change_zh="所引用之勞動部表（表 12-7）為失聯移工序列；任何存檔或查得之文件均無 2021 年底 81,538 之總數。依可追溯原則刪除。稽核發現 F06。"),
+ dict(A, kind="source re-cited", iso3="TWN", scope="Taiwan - overstayers - 2012, 2013, 2019, 2020 (and notes 2014-2018)",
+      scope_zh="臺灣 · 逾期停留 · 2012、2013、2019、2020（及 2014–2018 備註）",
+      before="cited a Ministry of Labor absconded-worker table", before_zh="引用勞動部失聯移工表",
+      after="Legislative Yuan Budget Center reports", after_zh="立法院預算中心報告",
+      change="Values unchanged. The numbers are in the Legislative Yuan reports of July 2019 (附表11) and September 2021 (Table 1), "
+             "which are now cited. The notes now say the total covers all categories of overstaying persons (foreign nationals, "
+             "mainland Chinese, Hong Kong/Macao, no household registration), with the foreign-national component for 2012-2018 as an "
+             "alternative; 2019-2020 are labelled as a year whose month the source does not state. Audit findings F06 and F07.",
+      change_zh="數值不變。該些數字見立法院預算中心 2019 年 7 月報告（附表11）與 2021 年 9 月報告（表 1），現已改引。備註現載明該總數涵蓋逾期人員之所有類別"
+                "（外國人、大陸地區人民、港澳居民、無戶籍國民），2012–2018 年之外國人部分列為替代值；2019–2020 年標示為來源未載月份之年度。稽核發現 F06 與 F07。"),
+ dict(A, kind="values added", iso3="AUS;JPN;ISL", scope="Australia 2015; Japan 2010, 2012, 2013, 2015; Iceland 2021 (%d values)" % n_added,
+      scope_zh="澳洲 2015；日本 2010、2012、2013、2015；冰島 2021（%d 筆）" % n_added,
+      before="blank", before_zh="空白", after="values with sources", after_zh="附來源之數值",
+      change="Held by the secondary workbook and omitted from the panel although the archived sources support them: the DIBP Annual "
+             "Report 2015-16 (unlawful non-citizens, 62,000 at 30 June 2015), ISA Table 21 (overstayers 1 January) and the archived "
+             "Eurostat payload (Iceland 2021 detections, 130). Audit finding F16.",
+      change_zh="次要活頁簿載有而 panel 遺漏，但存檔來源可支持：DIBP 2015–16 年報（2015 年 6 月 30 日之非法非公民 62,000）、"
+                "入國管理局表 21（1 月 1 日之逾期停留）與所存檔之 Eurostat 回應（冰島 2021 年查獲數 130）。稽核發現 F16。"),
+ dict(A, kind="grade changed", iso3="TWN;GBR", scope="%d values: Taiwan population 2010-2022, Taiwan overstayers, UK foreign-born 2020" % n_a2b,
+      scope_zh="%d 筆：臺灣 2010–2022 人口、臺灣逾期停留、英國 2020 外國出生人口" % n_a2b,
+      before="A", before_zh="A", after="B", after_zh="B",
+      change="Values read from a printed table are grade B, not A (grade A is decoded from a machine-readable source). With the deleted "
+             "Taiwan 2021 value that is the 19 grade-A values the audit identified. Grades are now defined by provenance only. Audit finding F20.",
+      change_zh="讀自印刷表格之數值為 B 級而非 A 級（A 級指由機器可讀來源解出）。連同已刪除之臺灣 2021 年數值，即稽核所指之 19 筆 A 級數值。"
+                "等級現僅依出處定義。稽核發現 F20。"),
+ dict(A, kind="flag changed", iso3="DEU;POL;PRT;LTU", scope="Splice flags: Germany foreign-born 2006-2008 now \"splice (large gap)\"",
+      scope_zh="接續旗標：德國外國出生人口 2006–2008 現標示「splice (large gap)」", before="7 series flagged", before_zh="7 組序列被標示",
+      after="%d series flagged" % n_large_new, after_zh="%d 組序列被標示" % n_large_new,
+      change="The large-gap rule is a mean ABSOLUTE gap of 5%% or more; the code had tested the signed mean. Both are now reported in "
+             "extension_splice_summary.csv. Values unchanged. Audit finding F12." % (),
+      change_zh="達 5% 以上之判準為「平均絕對」差距；程式原檢定有號平均。現兩者均載於 extension_splice_summary.csv。數值不變。稽核發現 F12。"),
+ dict(A, kind="value reclassified", iso3="CHN;IND;PHL;SUR;THA", scope="UN DESA citizenship-basis migrant stock (20 cells)",
+      scope_zh="UN DESA 公民身分基礎之移民存量（20 格）", before="in foreign_born without distinction", before_zh="未加區分地列於 foreign_born",
+      after="marked in foreign_born_concept; separate columns in the analysis extract", after_zh="於 foreign_born_concept 標明；分析用資料集中另列欄位",
+      change="UN declares these stocks on a citizenship basis. Values unchanged. The extract keeps them out of foreign_born. Audit finding F04.",
+      change_zh="UN 將這些存量宣告為公民身分基礎。數值不變。分析用資料集將其排除於 foreign_born 之外。稽核發現 F04。"),
+ dict(A, kind="evidence added", iso3="IND;CHL;SUR;TWN;JPN;AUS", scope="India Census 2011 D-01 workbook; page extracts for Chile, Suriname, Taiwan, Japan, Australia; status and verification tables",
+      scope_zh="印度 2011 年普查 D-01 活頁簿；智利、蘇利南、臺灣、日本、澳洲之頁面摘錄；狀態與查證表",
+      before="", before_zh="", after="archived and registered", after_zh="已存檔並登錄",
+      change="Evidence for the corrected and added values, a status for every record of irregular_estimates_all.csv, used_in_panel rebuilt in "
+             "every country's data_from_source.csv, the source register's data_raw/ placeholders routed to exact files, "
+             "current_panel_verification.csv, secondary_workbook_differences.csv, the chart check and REBUILD.md. Audit findings F14, F15, F16, F21, F23.",
+      change_zh="更正與新增數值之佐證、irregular_estimates_all.csv 每筆之狀態、各國 data_from_source.csv 重建之 used_in_panel、"
+                "來源清冊 data_raw/ 佔位符改指確切檔案、current_panel_verification.csv、secondary_workbook_differences.csv、圖表檢查與 REBUILD.md。"
+                "稽核發現 F14、F15、F16、F21、F23。"),
+ dict(A, kind="re-verified", iso3="", scope="Audit of 2026-10-07: 24 findings re-checked against the archived sources",
+      scope_zh="2026-10-07 稽核：24 項發現已對照存檔來源重新查核",
+      before="last checked 2026-10-07 (extension)", before_zh="最近查證：2026-10-07（延伸）",
+      after="24 of 24 confirmed; %d cell changes" % len(chg), after_zh="24 項全部屬實；%d 項儲存格變更" % len(chg),
+      change="Each finding was checked against the archived source or the publisher's own page before anything was changed (verification/"
+             "AUDIT_RESPONSE_2026-10-07.md). The source links were re-tested, failures retried with curl, and the date and method of each "
+             "check recorded (verification/link_sweep.csv). Audit findings F22, F23.",
+      change_zh="每項發現均先對照存檔來源或出版機構自身頁面查核，再行變更（verification/AUDIT_RESPONSE_2026-10-07.md）。來源連結已重新測試，"
+                "失敗者以 curl 重試，並記錄每次檢查之日期與方法（verification/link_sweep.csv）。稽核發現 F22、F23。"),
+]
+
 # A correction to the published record itself, not to a value (so not in AMENDING). It has no
 # commit stamp: the commit that carries it cannot name its own hash.
 H.append(dict(
@@ -239,11 +350,15 @@ H.append(dict(
 ZH[("", "manifest corrected")] = ("manifest/checksums.csv · 文字檔與 24 個原始擷取檔",
                                  "依 Windows 工作資料夾計算之雜湊值", "依網站實際提供之位元組計算之雜湊值")
 hist = pd.DataFrame(H)
-missing_zh = [k for k in zip(hist.commit, hist.kind) if k not in ZH]
+for col in ('scope_zh', 'before_zh', 'after_zh'):
+    if col not in hist.columns:
+        hist[col] = None
+direct = hist.scope_zh.notna()
+missing_zh = [k for k, d in zip(zip(hist.commit, hist.kind), direct) if not d and k not in ZH]
 assert not missing_zh, 'revision rows with no Chinese: %s' % missing_zh
-hist['scope_zh'] = [ZH[k][0] for k in zip(hist.commit, hist.kind)]
-hist['before_zh'] = [ZH[k][1] for k in zip(hist.commit, hist.kind)]
-hist['after_zh'] = [ZH[k][2] for k in zip(hist.commit, hist.kind)]
+for i, col in enumerate(('scope_zh', 'before_zh', 'after_zh')):
+    hist[col] = [r[col] if d else ZH[(r['commit'], r['kind'])][i]
+                 for (_, r), d in zip(hist.iterrows(), direct)]
 hist["amends_data"] = hist.kind.isin(AMENDING).map({True: "yes", False: ""})
 hist = hist[["date", "time", "commit", "kind", "amends_data", "iso3",
              "scope", "scope_zh", "before", "before_zh", "after", "after_zh",

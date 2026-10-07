@@ -24,6 +24,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import ext_lib as L                                    # noqa: E402
 import blib                                            # noqa: E402
+import audit_texts as AT                               # noqa: E402
 
 SITE = os.path.dirname(HERE)
 D = os.path.join(SITE, 'data')
@@ -117,7 +118,7 @@ print('country READMEs and manifests updated: %d countries' % won.iso3.nunique()
 
 # ------------------------------------------------------------------ 4. data_quality
 old_q = pd.read_csv(os.path.join(D, 'data_quality.csv'))
-COMP = old_q.drop_duplicates('variable').set_index('variable').comparability.to_dict()
+COMP = dict(AT.COMPARABILITY_EN)            # rewritten after the audit: no blanket date statements
 NY = panel.year.nunique()
 rows = []
 for iso, g in panel.groupby('iso3', sort=False):
@@ -127,25 +128,40 @@ for iso, g in panel.groupby('iso3', sort=False):
         if not len(s):
             rows.append(dict(iso3=iso, country=cname, variable=v, n_years=0, coverage='0/%d' % NY,
                              years='', modal_grade='', sources='', usable_for_trend='NO - no data',
-                             comparability=COMP[v]))
+                             continuity_detail='', comparability=COMP[v]))
             continue
         gr = s[v + '_grade'].mode()
         srcs = sorted({str(x)[:60] for x in s[v + '_source'].dropna()})
         yrs = sorted(s['year'].tolist())
-        gaps = len(yrs) < (max(yrs) - min(yrs) + 1)
+        span = list(range(min(yrs), max(yrs) + 1))
+        missing = [y for y in span if y not in yrs]
+        gaps = bool(missing)
         multi = len(srcs) > 1
+        # a publisher-flagged break in the series, where the source flags them (Eurostat)
+        fl = s[v + '_flag'].fillna('').astype(str) if v + '_flag' in s.columns else s[v].astype(str).str.slice(0, 0)
+        breaks = sorted(int(y) for y, f in zip(s['year'], fl) if 'break in time series' in f)
         if len(yrs) >= 10 and not multi:
-            use = 'YES - continuous single-source series'
+            if not gaps and not breaks:
+                use = 'YES - continuous single-source series'
+            elif gaps and breaks:
+                use = AT.USABLE_EN['both']
+            elif gaps:
+                use = AT.USABLE_EN['gaps']
+            else:
+                use = AT.USABLE_EN['break']
         elif len(yrs) >= 10 and multi:
             use = 'CAUTION - 10+ years but more than one source in the series'
         elif len(yrs) >= 5:
             use = 'CAUTION - partial coverage%s' % (', with gaps' if gaps else '')
         else:
             use = 'NO - too few years for a trend (use as a level only)'
+        detail = '; '.join(x for x in (
+            ('missing years inside %d-%d: %s' % (min(yrs), max(yrs), ', '.join(map(str, missing)))) if missing else '',
+            ('publisher flags a break in the series in %s' % ', '.join(map(str, breaks))) if breaks else '') if x)
         rows.append(dict(iso3=iso, country=cname, variable=v, n_years=len(yrs),
                          coverage='%d/%d' % (len(yrs), NY), years='%d-%d' % (min(yrs), max(yrs)),
                          modal_grade=gr.iloc[0] if len(gr) else '', sources=' | '.join(srcs),
-                         usable_for_trend=use, comparability=COMP[v]))
+                         usable_for_trend=use, continuity_detail=detail, comparability=COMP[v]))
 qual = pd.DataFrame(rows)
 qual.to_csv(os.path.join(D, 'data_quality.csv'), index=False, encoding='utf-8-sig')
 print('data_quality.csv: %d rows | usable_for_trend: %s'
@@ -368,6 +384,9 @@ ki.loc[mask, 'evidence'] = ('%d of %d country-years differ (2001-2022); %d by mo
 ki.loc[mask, 'evidence_zh'] = ('%d 個國家—年度中有 %d 個不一致（2001–2022）；其中 %d 個差異超過 3%%。'
                                '僅就 2010–2022：%d 個中有 %d 個不一致，其中 %d 個超過 3%%。'
                                % (len(_gap), _a, _b, len(_g10), _a10, _b10))
+_AT = AT.known_issues()
+_keys = {(r['scope'], r['variable']) for r in _AT}
+NEW = [r for r in NEW if (r['scope'], r['variable']) not in _keys] + _AT
 for r in NEW:
     ki = ki[~((ki.scope == r['scope']) & (ki.variable == r['variable']))]
 ki = pd.concat([ki, pd.DataFrame(NEW)], ignore_index=True)[list(ki.columns)]
@@ -458,6 +477,14 @@ ADD = [
   '數值蒐集之日期：2001 年延伸所新增之數值為 2026-10-07；於 2026-08-17 蒐集者則為空白。',
   '適用於 population、population_un_wpp2024、foreign_born 與 foreign_nationals。'),
 ]
+for name, ed in AT.CODEBOOK_EDITS.items():
+    i = cb.index[cb[cols[0]] == name]
+    assert len(i) == 1, name
+    for fld, col in (('definition', cols[1]), ('caution', cols[2]), ('definition_zh', 'definition_zh'),
+                     ('caution_zh', 'caution_zh')):
+        if fld in ed:
+            cb.loc[i, col] = ed[fld]
+ADD += [(n_, d_, c_, dz_, cz_) for (n_, d_, c_, dz_, cz_) in AT.CODEBOOK_NEW]
 cb = cb[~cb[cols[0]].isin([a[0] for a in ADD])]
 add = pd.DataFrame([{cols[0]: a[0], cols[1]: a[1], cols[2]: a[2], 'definition_zh': a[3],
                      'caution_zh': a[4]} for a in ADD])

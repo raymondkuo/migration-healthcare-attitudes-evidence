@@ -67,10 +67,16 @@ out['population_unwpp'] = p['population_un_wpp2024']
 out['population_gap_pct'] = p['population_wb_vs_unwpp_pct'].round(3)
 
 # ---------------------------------------------------------------- migrant stock
-out['foreign_born'] = p['foreign_born']
-out['foreign_born_pct_of_pop'] = (p['foreign_born_pct_pop'] * 100).round(3)
-out['foreign_born_source_type'] = p['foreign_born_source_type'].fillna('')
-out['foreign_born_flag'] = p['foreign_born_flag'].fillna('')
+# UN DESA declares citizenship (data type C), not birthplace, for some countries. Those cells are
+# not birthplace counts, so they sit in their own columns and foreign_born stays birthplace only
+# (audit finding F04); panel_final.csv keeps them in foreign_born with foreign_born_concept saying so.
+typec = p['foreign_born_concept'].fillna('').str.contains('citizenship basis')
+out['foreign_born'] = p['foreign_born'].where(~typec)
+out['foreign_born_pct_of_pop'] = (p['foreign_born_pct_pop'] * 100).round(3).where(~typec)
+out['foreign_born_source_type'] = p['foreign_born_source_type'].fillna('').where(~typec, '')
+out['foreign_born_flag'] = p['foreign_born_flag'].fillna('').where(~typec, '')
+out['un_stock_citizenship_basis'] = p['foreign_born'].where(typec)
+out['un_stock_citizenship_basis_pct_of_pop'] = (p['foreign_born_pct_pop'] * 100).round(3).where(typec)
 out['foreign_nationals'] = p['foreign_nationals']
 out['foreign_nationals_pct_of_pop'] = (p['foreign_nationals_pct_pop'] * 100).round(3)
 out['foreign_nationals_source_type'] = p['foreign_nationals_source_type'].fillna('')
@@ -98,6 +104,8 @@ GRADES = [('grade_population', 'population'),
 for new, src in GRADES:
     col = src + '_grade'
     out[new] = p[col].fillna('') if col in p.columns else ''
+out['grade_un_stock_citizenship_basis'] = out['grade_foreign_born'].where(typec, '')
+out['grade_foreign_born'] = out['grade_foreign_born'].where(~typec, '')
 
 out = out.sort_values(['country', 'year']).reset_index(drop=True)
 
@@ -115,7 +123,8 @@ worst_pos = p.loc[gap.idxmax()]
 n_wb = int((out.population.notna() & (out.iso3 != 'TWN')).sum())
 n_wb_post = int((out.population.notna() & (out.iso3 != 'TWN') & (out.year >= 2010)).sum())
 
-gcount = pd.Series([g for c, _ in GRADES for g in out[c] if str(g).strip()]).value_counts()
+gcount = pd.Series([g for c in [c for c, _ in GRADES] + ['grade_un_stock_citizenship_basis']
+                    for g in out[c] if str(g).strip()]).value_counts()
 gtot = int(gcount.sum())
 
 
@@ -145,8 +154,14 @@ NSPL = len(spl)
 LARGE = spl[spl.mean_gap_pct.abs() >= 5]
 worst_spl = spl.loc[spl.mean_gap_pct.abs().idxmax()]
 
-type_c = set(out[out.foreign_born_flag.str.contains('citizenship basis')].iso3)
-n_type_c = int(out.foreign_born_flag.str.contains('citizenship basis').sum())
+type_c = set(p[typec].iso3)
+n_type_c = int(typec.sum())
+_both = p[p.foreign_born.notna() & p.foreign_nationals.notna() & (p.foreign_born < p.foreign_nationals)]
+n_below = len(_both)
+below_out = _both[['iso3', 'country', 'year', 'foreign_born', 'foreign_nationals', 'foreign_born_source_type',
+                   'foreign_nationals_source_type', 'foreign_born_concept', 'foreign_born_flag',
+                   'foreign_nationals_flag']].copy()
+below_out['foreign_born_to_foreign_nationals'] = (below_out.foreign_born / below_out.foreign_nationals).round(3)
 st_fb = out[out.foreign_born.notna()].foreign_born_source_type.value_counts()
 st_fn = out[out.foreign_nationals.notna()].foreign_nationals_source_type.value_counts()
 
@@ -200,7 +215,10 @@ CODE = [
                 'countries; Taiwan is year-end registered population (Ministry of the Interior; '
                 '2001-2009 read from the National Development Council Statistical Data Book).',
   'All %s World Bank values come from the archived live API response; the %s for 2010-2022 '
-  'were also re-compared on 2026-10-07 and reproduced exactly.' % (n(n_wb), n(n_wb_post))),
+  'were also re-compared on 2026-10-07 and reproduced exactly. Taiwan is the registered '
+  '(household-registration) population, which excludes foreign residents, so its shares have a '
+  'different denominator from every other country; 2001-2009 is rounded to thousands, 2010-2022 '
+  'is exact.' % (n(n_wb), n(n_wb_post))),
  ('population_unwpp', 'Alternative total population, UN WPP 2024, 1 July, all %d countries.' % NC,
   'All %s values come from the archived UN WPP file. Pick ONE denominator and use it '
   'throughout.' % n(out.population_unwpp.notna().sum())),
@@ -210,9 +228,19 @@ CODE = [
   % (n(n_gap_any), n(len(gap)), n(n_gap_3))),
  ('foreign_born', 'Residents born outside the reporting country.',
   'Includes people who have since naturalised, so it exceeds foreign_nationals almost '
-  'everywhere. Missing entirely for %s. Before 2010 some values come from a census, a survey '
-  'or a UN estimate or were joined from a second source: read foreign_born_source_type and '
-  'foreign_born_flag before using them as a trend.' % codes(fb_none)),
+  'everywhere. BIRTHPLACE counts only: the %d UN DESA stocks that UN declares on a citizenship '
+  'basis are in un_stock_citizenship_basis. Missing entirely for %s. Before 2010 some values come '
+  'from a census, a survey or a UN estimate or were joined from a second source: read '
+  'foreign_born_source_type and foreign_born_flag before using them as a trend.'
+  % (n_type_c, codes(fb_none))),
+ ('un_stock_citizenship_basis', 'UN DESA international migrant stock for countries whose stock UN '
+                                  'declares on a CITIZENSHIP basis (data type C): China, India, '
+                                  'Philippines, Suriname, Thailand; 2005, 2010, 2015, 2020.',
+  'Not a birthplace count and not interchangeable with foreign_born. Not moved into '
+  'foreign_nationals either: its population universe and estimate status have not been checked '
+  'against national citizenship counts. A modelled UN benchmark, not a national statistic.'),
+ ('un_stock_citizenship_basis_pct_of_pop', 'un_stock_citizenship_basis as a PERCENTAGE of '
+                                          'population (0-100).', ''),
  ('foreign_born_pct_of_pop', 'foreign_born as a PERCENTAGE of population (0-100).',
   'Computed on the World Bank population column.'),
  ('foreign_born_source_type', 'Kind of source behind the foreign_born value: annual (register '
@@ -245,18 +273,29 @@ CODE = [
   'STOCK, register-based. Only %d countries. Counts those already recorded, not the whole '
   'unauthorised population.' % ovs_c),
  ('overstayers_pct_of_pop', 'overstayers as a PERCENTAGE of population (0-100).', ''),
- ('detections', 'Third-country nationals found to be illegally present during the year '
-                '(Eurostat migr_eipre).',
-  'FLOW of enforcement events, NOT people and NOT a stock: one person can be detected more '
-  'than once. Driven by enforcement intensity and position on a migration route.'),
+ ('detections', 'Persons found or apprehended as illegally present during the calendar year, as the '
+                'source counts them. Eurostat (migr_eipre): third-country nationals found to be illegally '
+                'present.',
+  'An annual FLOW of enforcement detections, NOT a stock and not an estimate of the unauthorised '
+  'population. The unit differs by source: Eurostat counts persons, each once within the reference '
+  'year, rounded to the nearest 5; Mexico counts EVENTS (a person can be recorded more than once); '
+  'Turkey counts irregular migrants apprehended, Syrians under temporary protection excluded. The '
+  'same person can appear in different years. Driven by enforcement intensity and position on a '
+  'migration route.'),
  ('detections_per_1000_pop', 'detections per 1,000 residents.',
-  'Provided because a flow count cannot be compared with a stock share.'),
+  'Provided because a flow count cannot be compared with a stock share; the unit differs by '
+  'source (see detections).'),
  ('absconded_workers_tw', 'Taiwan only: migrant workers recorded as having absconded '
                           '(失聯移工), Ministry of Labor.',
   'A SUBSET of overstayers. Kept in its own column so it is never read as the same series.'),
- ('grade_population', 'Evidence grade for the population value.', 'A / B / C - see README.'),
+ ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
+                       'official source; B: read from an archived document; C: published estimate or '
+                       'range; D: none published.',
+  'A grade says where a value was read from, not how precise it is (Taiwan 2001-2009 population is '
+  'rounded to thousands) or whether it is comparable across countries.'),
  ('grade_foreign_born', 'Evidence grade for foreign_born.', ''),
  ('grade_foreign_nationals', 'Evidence grade for foreign_nationals.', ''),
+ ('grade_un_stock_citizenship_basis', 'Evidence grade for un_stock_citizenship_basis.', ''),
  ('grade_irregular_stock', 'Evidence grade for irregular_stock.', ''),
  ('grade_overstayers', 'Evidence grade for overstayers.', ''),
  ('grade_detections', 'Evidence grade for detections.', ''),
@@ -269,7 +308,7 @@ assert not extra, 'codebook entries for columns that do not exist: %s' % extra
 
 # ---------------------------------------------------------------- coverage
 cov = []
-for c in ['population', 'population_unwpp', 'foreign_born', 'foreign_nationals',
+for c in ['population', 'population_unwpp', 'foreign_born', 'un_stock_citizenship_basis', 'foreign_nationals',
           'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw']:
     s = out[out[c].notna()]
     yrs = sorted(s.year.unique())
@@ -325,20 +364,30 @@ README = [
                    'verifiable source. Coverage by variable is on the Coverage sheet.'),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
- ('Value-by-value comparisons', '%s comparisons against live sources on 2026-08-17/18, across %d '
+ ('Value-by-value comparisons', 'These are the RECORDS of the first-release check, not a count of unique '
+                                 'current observations: %s comparisons against live sources on 2026-08-17/18, across %d '
                                 'sources. As received, %s matched exactly and %d did not; those '
                                 'were corrected, and %s corrected values were queried again and '
-                                'matched exactly.'
+                                'matched exactly. A per-observation table of the current panel is '
+                                'data/current_panel_verification.csv in the archive.'
                                 % (n(len(vlog)), n_src, n(len(as_rec) - bad_rec), bad_rec,
                                    n(ok_after))),
  ('Re-check on 2026-10-07', '%s of the values published before the extension were compared '
                             'with fresh responses from Eurostat, OECD, the World Bank and UN '
                             'WPP: %s reproduced exactly.' % (n(ovl_n), n(ovl_same))),
- ('Grade A', 'Re-derived from a machine-readable official source and matched exactly, or '
-             'corrected against one. %s.' % gline('A')),
- ('Grade B', 'Confirmed by reading the retrieved source document. %s.' % gline('B')),
- ('Grade C', 'Source retrieved, but the value is a modelled or range-based estimate that '
-             'cannot be mechanically re-derived. %s.' % gline('C')),
+ ('What a grade means', 'A grade says where a value was read from. It does not say how precise '
+                         'the value is (rounding is in the cell note), whether the quantity is '
+                         'comparable across countries or years (see the flags), or whether the '
+                         "source's own estimate is accurate. Grades of first-release values were "
+                         'assigned under an earlier wording; the audit of 2026-10-07 re-read the '
+                         '19 grade-A values that rest on documents: 18 were regraded B and one '
+                         '(Taiwan overstayers 2021) was deleted.'),
+ ('Grade A', 'Decoded from a machine-readable official source (API response, open-data file or '
+             'official workbook) and matched exactly. %s.' % gline('A')),
+ ('Grade B', 'Read from an archived source document (PDF, web page, printed table or chart) in '
+             'which the value appears, or summed from figures printed there. %s.' % gline('B')),
+ ('Grade C', 'A published estimate or range: the value is the point estimate or the midpoint of the '
+             'range. %s.' % gline('C')),
  ('Grade D', 'None. Values that could not be traced to an archived source were deleted, not '
              'published: %d value%s removed (%s).'
              % (len(dele), '' if len(dele) == 1 else 's',
@@ -363,17 +412,22 @@ README = [
                            'citizens as migrants.'),
  ('Do NOT pool the irregular columns', 'irregular_stock, overstayers and detections measure '
                                        'different things over different countries. detections is '
-                                       'a FLOW of enforcement events - one person can be counted '
-                                       'more than once - and is not a population. Adding or '
-                                       'substituting them produces a meaningless series.'),
+                                       'an annual FLOW of enforcement detections - Eurostat counts '
+                                       'persons once per year, Mexico counts events - and is not a '
+                                       'population. Adding or substituting them produces a '
+                                       'meaningless series.'),
  ('Irregular migration as a regressor', 'Not internationally comparable. Use as an ordinal '
                                         'salience signal at most; prefer '
                                         'foreign_nationals_pct_of_pop for a continuous '
                                         'cross-national term. These columns start in %d.'
                                         % irr_first),
- ('Reference dates', 'Eurostat and OECD stocks are measured at 1 January, so a row labelled '
-                     'year Y describes 31 December of Y-1. Census and survey values describe '
-                     'the census or survey date, which is in the archive workbook. Consider '
+ ('Reference dates', 'Dates differ by source and are recorded per value in the archive workbook '
+                     '(*_ref_date). Eurostat stocks are 1 January, so a row labelled year Y describes '
+                     '31 December of Y-1. OECD dates follow the national source: 30 June for '
+                     "Australia's foreign-born, 1 January for the foreign population of Japan, Turkey, "
+                     'the United Kingdom and Germany, no stated date for several survey- or '
+                     'census-based series. Census and survey values describe the census or survey '
+                     'date. Years are as the publisher labels them; nothing was shifted. Consider '
                      'lagging when matching to mid-year survey fieldwork.'),
  ('foreign_born vs foreign_nationals', 'Different concepts, never mix them in one series. UN '
                                        'DESA and OECD/Eurostat foreign-born also diverge sharply '
@@ -382,9 +436,15 @@ README = [
  ('UN DESA type C', 'UN DESA labels the stock of China, India, Japan, the Philippines, '
                     'Suriname, Thailand and Taiwan as based on CITIZENSHIP, yet the first '
                     'release put %s of them in foreign_born. Their %d cells (benchmark years '
-                    '2005 to 2020) carry the flag "un_estimate; declared citizenship basis" '
-                    'and are listed in the known issues. Do not read them as country of '
-                    'birth.' % (', '.join(sorted(type_c)), n_type_c)),
+                    '2005 to 2020) are therefore in the separate column un_stock_citizenship_basis here, '
+                    'and foreign_born holds birthplace counts only; panel_final.csv keeps them '
+                    'in foreign_born with foreign_born_concept saying so. They are not moved to '
+                    'foreign_nationals: their population universe has not been checked. See the known '
+                    'issues.' % (', '.join(sorted(type_c)), n_type_c)),
+ ('foreign_born below foreign_nationals', '%d country-years have foreign_born below foreign_nationals '
+                                          '(data/foreign_born_below_foreign_nationals.csv). That is not an error '
+                                          'rule: the two come from different sources, concepts, dates or '
+                                          'universes, and no ordering was forced.' % n_below),
  ('Series breaks', '%d country-series of more than ten years draw on more than one source. The '
                    'Data_quality sheet of the archive workbook flags which.' % brk),
  ('Genuine jumps', 'Large 2015 and 2021-22 movements in detections are real (migration crisis, '
@@ -420,6 +480,7 @@ for ws in (wb['README'], wb['Codebook']):
         ws.column_dimensions['C'].width = 62
 wb.save(xlsx)
 
+below_out.to_csv(os.path.join(D, 'foreign_born_below_foreign_nationals.csv'), index=False, encoding='utf-8-sig')
 csv = os.path.join(D, 'clean_country_year_panel_2010-2022.csv')
 out.to_csv(csv, index=False, encoding='utf-8-sig')
 

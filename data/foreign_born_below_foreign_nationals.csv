@@ -1,0 +1,25 @@
+﻿iso3,country,year,foreign_born,foreign_nationals,foreign_born_source_type,foreign_nationals_source_type,foreign_born_concept,foreign_born_flag,foreign_nationals_flag,foreign_born_to_foreign_nationals
+CHL,Chile,2017,746435.0,746465.0,annual,annual,born abroad (country of birth),,,1.0
+CHL,Chile,2019,1306859.0,1486810.0,annual,annual,born abroad (country of birth),,,0.879
+CHL,Chile,2020,1486810.0,1534813.0,annual,annual,born abroad (country of birth),,,0.969
+CHL,Chile,2021,1534813.0,1630812.0,annual,annual,born abroad (country of birth),,,0.941
+CHL,Chile,2022,1630812.0,1836137.0,annual,annual,born abroad (country of birth),,,0.888
+CZE,Czech Republic,2009,384161.0,407541.0,annual,annual,born abroad (country of birth),,,0.943
+CZE,Czech Republic,2010,398493.0,424419.0,annual,annual,born abroad (country of birth),,,0.939
+CZE,Czech Republic,2011,387971.0,416737.0,annual,annual,born abroad (country of birth),,,0.931
+CZE,Czech Republic,2012,390843.0,422966.0,annual,annual,born abroad (country of birth),,,0.924
+CZE,Czech Republic,2013,387337.0,422280.0,annual,annual,born abroad (country of birth),,,0.917
+CZE,Czech Republic,2014,396156.0,434581.0,annual,annual,born abroad (country of birth),,,0.912
+CZE,Czech Republic,2015,416454.0,457323.0,annual,annual,born abroad (country of birth),,,0.911
+CZE,Czech Republic,2016,433290.0,476345.0,annual,annual,born abroad (country of birth),,,0.91
+CZE,Czech Republic,2017,465056.0,510841.0,annual,annual,born abroad (country of birth),,,0.91
+CZE,Czech Republic,2018,467580.0,515422.0,annual,annual,born abroad (country of birth),,,0.907
+CZE,Czech Republic,2019,507051.0,557458.0,annual,annual,born abroad (country of birth),,,0.91
+CZE,Czech Republic,2020,533639.0,586646.0,annual,annual,born abroad (country of birth),,,0.91
+CZE,Czech Republic,2021,409220.0,488532.0,annual,annual,born abroad (country of birth),Eurostat flag: break in time series,Eurostat flag: break in time series,0.838
+KOR,Korea (South),2005,231744.0,491409.0,un_estimate,annual,born abroad (country of birth),un_estimate,,0.472
+KOR,Korea (South),2010,566098.0,1010020.0,un_estimate,annual,born abroad (country of birth),un_estimate,,0.56
+KOR,Korea (South),2015,1312172.0,1488882.0,un_estimate,annual,born abroad (country of birth),un_estimate,,0.881
+KOR,Korea (South),2020,1723389.0,2024578.0,un_estimate,annual,born abroad (country of birth),un_estimate,,0.851
+SVK,Slovak Republic,2010,64422.0,65894.0,annual,annual,born abroad (country of birth),,,0.978
+SVK,Slovak Republic,2011,68135.0,69607.0,annual,annual,born abroad (country of birth),,,0.979

@@ -50,7 +50,8 @@ for v in MIG:
                 [v + '_source_type', v + '_flag', v + '_collected_on']
     FAMILY[v] = list(dict.fromkeys(FAMILY[v]))
 NEWCOLS = ['population_collected_on', 'population_un_wpp2024_collected_on'] + \
-          [v + s for v in MIG for s in ('_source_type', '_flag', '_collected_on')]
+          [v + s for v in MIG for s in ('_source_type', '_flag', '_collected_on')] + \
+          ['foreign_born_concept']
 for c in NEWCOLS:
     if c not in panel.columns:
         panel[c] = np.nan
@@ -191,6 +192,16 @@ for v in MIG:
 print('flags attached to cells published earlier: %d (declared citizenship basis: %s)'
       % (n_flagged, sorted(DECLARED_C)))
 
+# 5c. the concept each foreign-born cell measures. UN DESA declares citizenship (data type C)
+#     for some countries; those cells are carried in foreign_born but are not birthplace counts
+#     (audit finding F04), so the concept is stated per cell and the analysis extract keeps them
+#     in separate columns.
+panel['foreign_born_concept'] = np.where(
+    panel.foreign_born.isna(), '',
+    np.where(panel.foreign_born_flag.fillna('').astype(str).str.contains('citizenship basis'),
+             'UN migrant stock on a citizenship basis (UN DESA data type C), not birthplace',
+             'born abroad (country of birth)'))
+
 # 6. the Taiwan note that said the series could not be extended
 OLD = 'Series on this basis begins in 2012; 2010 and 2011 are not available on a comparable basis.'
 NEW = ('The input workbook stated: "Series on this basis begins in 2012; 2010 and 2011 are not '
@@ -208,6 +219,26 @@ panel.loc[mt, 'foreign_nationals_note'] = panel.loc[mt, 'foreign_nationals_note'
 print('Taiwan notes amended: %d cells' % int(mt.sum()))
 
 # ------------------------------------------------------------------ the guarantee
+# Cells the audit of 2026-10-07 deliberately changed are exempt, and only those: they are listed
+# cell by cell, with old and new value and the reason, in audit_changes_2026-10-07.csv.
+EXEMPT = set()
+AUDIT = os.path.join(D, 'audit_changes_2026-10-07.csv')
+if os.path.exists(AUDIT):
+    EXEMPT = {(r.iso3, int(r.year), r.variable) for r in pd.read_csv(AUDIT).itertuples()}
+DENOM = ('_pct_pop', '_per_1000_pop')
+
+
+def exempt(col, key):
+    for (i, y, v) in EXEMPT:
+        if (i, y) != key:
+            continue
+        if col == v or col.startswith(v + '_'):
+            return True
+        if v == 'population' and (col.endswith(DENOM) or col == 'population_wb_vs_unwpp_pct'):
+            return True
+    return False
+
+
 a = base.set_index(['iso3', 'year'])
 b = panel.set_index(['iso3', 'year'])
 changed = []
@@ -218,7 +249,7 @@ for c in base.columns:
     nb = x.notna()
     same = (x[nb].astype(str) == y[nb].astype(str)) | (pd.to_numeric(x[nb], errors='coerce')
                                                        == pd.to_numeric(y[nb], errors='coerce'))
-    bad = same[~same].index.tolist()
+    bad = [k for k in same[~same].index.tolist() if not exempt(c, k)]
     if c.endswith('_note') and c.startswith('foreign_nationals') and all(k[0] == 'TWN' for k in bad):
         continue                                        # the deliberate Taiwan note amendment
     changed += [(c, k) for k in bad]
@@ -244,6 +275,13 @@ for r in lost.itertuples():
                       variable=r.variable, source=r.source_name, value=int(r.value),
                       used_in_panel='no',
                       diff_vs_used_pct=round((r.value - w.value) / w.value * 100, 3)))
+if os.path.exists(AUDIT):                         # alternatives recorded by the audit corrections
+    ac = pd.read_csv(AUDIT)
+    for r in ac[ac.alternative_value.notna() & ac.variable.isin(MIG)].itertuples():
+        extra.append(dict(country=first.loc[r.iso3, 'country'], iso3=r.iso3, year=int(r.year),
+                          variable=r.variable, source=r.alternative_label, value=int(r.alternative_value),
+                          used_in_panel='no',
+                          diff_vs_used_pct=round((r.alternative_value - r.new_value) / r.new_value * 100, 3)))
 alt = pd.concat([alt, pd.DataFrame(extra)], ignore_index=True)
 alt = alt.sort_values(['iso3', 'variable', 'year', 'used_in_panel'],
                       ascending=[True, True, True, False])

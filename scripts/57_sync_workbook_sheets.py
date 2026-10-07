@@ -24,6 +24,7 @@ SHEETS = {
     'Codebook': 'codebook.csv',
     'Deleted_values': 'deleted_values.csv',
     'Revision_history': 'revision_history.csv',
+    'Audit_changes': 'audit_changes_2026-10-07.csv',
 }
 
 # The sheet is written in plain ASCII, but the translation columns are Chinese by
@@ -79,6 +80,12 @@ for row in range(1, ws.max_row + 1):
     if str(ws.cell(row, 1).value or '') == 'Revision_history':
         ws.cell(row, 2).value = 'Every amendment to the data after first collection, dated.'
 labels = [str(ws.cell(r, 1).value or '') for r in range(1, ws.max_row + 1)]
+if 'Audit_changes' not in labels and 'Revision_history' in labels:
+    at = labels.index('Revision_history') + 2
+    ws.insert_rows(at)
+    ws.cell(at, 1).value = 'Audit_changes'
+    ws.cell(at, 2).value = 'Every cell changed after the audit of 2026-10-07: old and new value, grade, reason, evidence.'
+    print('README: Audit_changes added to the sheet list')
 if 'Revision_history' not in labels and 'Deleted_values' in labels:
     at = labels.index('Deleted_values') + 2          # 1-based row after Deleted_values
     ws.insert_rows(at)
@@ -119,10 +126,40 @@ n_der_ = int(sum((pan_[v + '_derived'].astype(str).str.strip() == 'yes').sum()
                  for v in ('foreign_born', 'foreign_nationals', 'irregular_stock')))
 gap_ = pan_.population_wb_vs_unwpp_pct.dropna()
 late_ = pan_[pan_.year >= 2010]
+dv_ = pd.read_csv(os.path.join(D, 'deleted_values.csv'))
+VAR_LABEL_ = {'irregular_stock': 'irregular stock', 'irregular_proxy_overstayers': 'overstayers'}
+dv_text_ = '%d (%s; see Deleted_values)' % (
+    len(dv_), '; '.join('%s %d %s' % (pan_.loc[pan_.iso3 == r.iso3, 'country'].iloc[0], r.year,
+                                       VAR_LABEL_.get(r.variable, r.variable)) for r in dv_.itertuples()))
+EVIDENCE_ROWS = {
+    'countries/<ISO3>_<Name>/': ('evidence/countries/<ISO3>/',
+                                 'One folder per country: README.md, data_from_source.csv, value_check.csv, '
+                                 'source_manifest.csv, and the downloaded documents, web captures and page '
+                                 'extracts themselves (there is no sources/ subfolder).'),
+    'data_raw/': ('evidence/api/',
+                  'The archived bulk and API payloads (World Bank, Eurostat, OECD, UN) and their rendered '
+                  'mirrors, each dated in its name or in data/api_snapshots.csv.'),
+    'scripts/': ('scripts/',
+                 'Every script used. Only the pipeline in REBUILD.md can be re-run safely; the first-release '
+                 'builders (numbered below 67) would undo later corrections.'),
+}
 FIXED = {
+    'Values deleted as untraceable': dv_text_,
     'Corrections applied': '%d values across %d countries: %s (see Corrections_applied)'
                            % (len(corr_), corr_.iso3.nunique(), ', '.join(sorted(corr_.iso3.unique()))),
     'Values flagged as derived': str(n_der_),
+    'Reference dates': ('Dates differ by source and are recorded per value (*_ref_date). Eurostat stocks are 1 '
+                        'January of the labelled year; OECD dates follow the national source (30 June for '
+                        "Australia's foreign-born, 1 January for the foreign population of Japan, Turkey, the "
+                        'United Kingdom and Germany, none stated for several survey- or census-based series). '
+                        'Years are as the publisher labels them and nothing was shifted. If the survey is '
+                        'fielded mid-year, either lag the covariate or state the convention explicitly.'),
+}
+GRADE_LABEL = {
+    'A': 'A - decoded from a machine-readable official source (API response, open-data file or official workbook) and matched exactly',
+    'B': 'B - read from an archived source document (PDF, web page, printed table or chart) in which the value appears, or summed from figures printed there',
+    'C': 'C - a published estimate or range: the point estimate, or the midpoint of the range',
+    'D': 'D - no archived source supports the value (none are published: such values are deleted)',
 }
 REGEX = {
     'Main regressor': (r'covers \d+ of 40 countries',
@@ -140,7 +177,10 @@ for r_ in range(1, ws.max_row + 1):
     lab = str(ws.cell(r_, 1).value or '')
     if lab in FIXED:
         ws.cell(r_, 2).value = FIXED[lab]
+    elif lab in EVIDENCE_ROWS:
+        ws.cell(r_, 1).value, ws.cell(r_, 2).value = EVIDENCE_ROWS[lab]
     elif lab[:4] in ('A - ', 'B - ', 'C - ', 'D - '):
+        ws.cell(r_, 1).value = GRADE_LABEL[lab[0]]
         ws.cell(r_, 2).value = int(gc_.get(lab[0], 0))
     elif lab in REGEX:
         pat, new_ = REGEX[lab]
@@ -150,10 +190,19 @@ for r_ in range(1, ws.max_row + 1):
 
 n_new_ = sum(int(pan_[v + '_collected_on'].notna().sum()) for v in
              ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals'))
+aud_ = pd.read_csv(os.path.join(D, 'audit_changes_2026-10-07.csv'))
 ROWS_ADD = [
+    ('Audit of 2026-10-07',
+     'The audit of 2026-10-07 (GitHub issues #1-#25) was checked finding by finding against the archived '
+     'sources. %d cell changes follow (Audit_changes sheet: %s); values changed are in Corrections_applied, the '
+     'deletion in Deleted_values, and the verdicts in verification/AUDIT_RESPONSE_2026-10-07.md. Grades mean '
+     'provenance only: A decoded from a machine-readable source, B read from an archived document, C a '
+     'published estimate or range.'
+     % (len(aud_), ', '.join('%d %s' % (v, k) for k, v in aud_.kind.value_counts().items()))),
     ('Extension to 2001',
-     'On 2026-10-07 the panel was extended from 2010-2022 back to 2001: %d rows, %s new values, '
-     'and no value published earlier changed. Every cell has a source_type and flag column; '
+     'On 2026-10-07 the panel was extended from 2010-2022 back to 2001: %d rows, %s new values. '
+     'The extension itself changed no value published earlier; the audit later the same day did change '
+     'some (see Audit of 2026-10-07). Every cell has a source_type and flag column; '
      '%d series needed a source change at the join and are flagged (see Source_register, '
      'data/extension_splice_summary.csv and the website). The file name is kept from the first '
      'release so that existing links still work.'

@@ -59,16 +59,20 @@ pages_each = val['pages_en']
 total_pages = val['pages_en'] + val['pages_zh']
 n_ext = int((sweep.status != 'OK').sum())
 n_bad_links = int((~sweep.status.isin(['OK', 'KNOWN'])).sum())
+n_retry_ok = int(((sweep.status == 'OK') & sweep.method.astype(str).str.startswith('curl')).sum())
+aud = pd.read_csv(os.path.join(D, 'audit_changes_2026-10-07.csv'))
+aud_kinds = ', '.join('%d %s' % (v, k) for k, v in aud.kind.value_counts().items())
+n_cur = len(pd.read_csv(os.path.join(D, 'current_panel_verification.csv')))
 
 # ---------------------------------------------------------------- README
 fp = os.path.join(SITE, 'README.md')
 s = open(fp, encoding='utf-8').read()
 
 
-def sub(pattern, repl, count=1, flags=0):
+def sub(pattern, repl, count=1, flags=0, required=True):
     global s
     s, k = re.subn(pattern, lambda m: repl, s, count=count, flags=flags)
-    assert k >= 1, 'README pattern not found: %s' % pattern[:60]
+    assert k >= 1 or not required, 'README pattern not found: %s' % pattern[:60]
 
 
 sub(r'\*\*40 countries, [0-9–-]+ · 40 國，[0-9–-]+ 年\*\*',
@@ -88,12 +92,31 @@ sub(r'\| `verification.html` \| All [\d,]+ value comparisons[^|]*\|',
     'corrections, the extension and the issues |' % (n(len(vlog)), n(ovl.cells_compared.sum())))
 sub(r'\| `evidence/extracts/` \| \d+ bilingual',
     '| `evidence/extracts/` | %d bilingual' % K.N_EVIDENCE)
-sub(r'build_evidence\.py         # \d+ evidence', 'build_evidence.py         # %d evidence' % K.N_EVIDENCE)
-sub(r'build_pdf_extracts\.py     # \d+ bilingual', 'build_pdf_extracts.py     # %d bilingual' % K.N_EVIDENCE)
+# the code block that held these two lines is replaced by a pointer to REBUILD.md (below), so a
+# second run no longer finds them
+sub(r'build_evidence\.py         # \d+ evidence', 'build_evidence.py         # %d evidence' % K.N_EVIDENCE, required=False)
+sub(r'build_pdf_extracts\.py     # \d+ bilingual', 'build_pdf_extracts.py     # %d bilingual' % K.N_EVIDENCE, required=False)
 sub(r'About [\d,]+ MB across ~?[\d,]+ files\. No single file exceeds \d+ MB; the largest is [^\n]*\n(?:  workbook at \d+ MB\.\n)?',
     'About %d MB across %s files. No single file exceeds %d MB; the largest is %s at %d MB.\n'
     % (round(ck.bytes.sum() / 1e6), n(len(ck)), int(ck.bytes.max() / 1e6) + 1,
        os.path.basename(ck.loc[ck.bytes.idxmax(), 'path']), round(ck.bytes.max() / 1e6)))
+
+# rows of the file table and the re-running section
+if '| `REBUILD.md`' not in s:
+    s = s.replace('| `VERIFICATION_REPORT.md` | The written verification report |\n',
+                  '| `VERIFICATION_REPORT.md` | The written verification report (first release; kept as written) |\n'
+                  '| `REBUILD.md` | The supported order for rebuilding this release, and what must not be re-run |\n'
+                  '| `verification/AUDIT_RESPONSE_2026-10-07.md` | The response to the audit of 2026-10-07, finding by finding |\n'
+                  '| `data/ANALYSIS_NOTES.md` | The construct, timing, universe and sensitivity choices that are the authors\' to make |\n', 1)
+s = re.sub(r'\| `AUDIT_report_site_vs_VERIFIED.md` \|[^\n]*\n', '', s)
+s = re.sub(r'\| `scripts/` \|[^\n]*\n',
+           '| `scripts/` | Every script used. Only the pipeline in `REBUILD.md` can be re-run safely; the first-release '
+           'builders (numbered below 67) would undo later corrections |\n', s)
+RERUN = ('## Re-running\n\nThe supported rebuild is in **[`REBUILD.md`](REBUILD.md)**: the order, what is pinned (commit '
+         '`0d64a1c` and the archived payloads), and which first-release scripts must not be re-run because they would '
+         'undo later corrections. Needs `pip install pandas openpyxl pymupdf pdfplumber pypdf`. After committing, '
+         '`python scripts/78_verify_checksums.py` compares `manifest/checksums.csv` with what git stored.\n\n')
+s = re.sub(r'## Re-running\n.*?(?=Translations live in)', lambda m: RERUN, s, flags=re.S)
 
 miss = K.N_CITES - K.N_CITES_HELD
 HEAD = '''<!-- headline:begin -->
@@ -107,9 +130,10 @@ HEAD = '''<!-- headline:begin -->
 - **%(n_corr)d** corrections across %(n_ctry)d countries, each itemised with its evidence
   (`data/corrections_applied.csv`).
 - **%(held)d of %(cites)d** distinct country-source document citations archived, across %(urls)d URLs%(missing)s.
-- **Every retained number is traceable to an archived source.** Each of the 116 values that were
-  not machine-verified at first release was checked against the archived source document: 102 were
-  found in it and regraded B, 13 are derived from a published range and are flagged ≈, and 1
+- **Every retained number cites an archived source.** Whether a source was read under the right year and
+  concept is a separate question, and the audit of 2026-10-07 found it was not always (below). At first
+  release each of the 116 values that were not machine-verified was checked against the archived source
+  document: 102 were found in it and regraded B, 13 are derived from a published range and are flagged ≈, and 1
   (Russia 2020 irregular stock) could not be traced to anything and was **deleted** — see
   `data/deleted_values.csv`.
 - **Every archived source file has a viewable mirror.** Every PDF, HTML page, raw JSON/CSV API
@@ -122,9 +146,17 @@ HEAD = '''<!-- headline:begin -->
 
 **Now (revised %(last)s)**
 
-- Quality grades on all %(gtot)s displayed values (%(y0)d–%(y1)d): **A** %(ga)s · **B** %(gb)s · **C** %(gc)s · **D** 0.
-- Live sweep of all **%(n_sweep)d** external URLs the site publishes, run %(sweep_date)s: **%(n_bad_links)d undocumented
-  failures** (`verification/link_sweep.csv`).
+- **Audit of 2026-10-07** (issues #1–#25): all 24 findings were re-checked against the archived sources and
+  confirmed; **%(n_aud)d cell changes** followed (%(aud_kinds)s). The response is in
+  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **%(n_cur)s** current observations are in
+  `data/current_panel_verification.csv`. The 2,454 / 2,737 figures above are comparison *records* of the first-release
+  check, not a count of unique current observations.
+- Quality grades on all %(gtot)s displayed values (%(y0)d–%(y1)d): **A** %(ga)s · **B** %(gb)s · **C** %(gc)s · **D** 0. A grade
+  says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
+  C a published estimate or range); it does not say how precise or comparable the value is.
+- Link sweep of %(sweep_date)s over **%(n_sweep)d** external URLs: %(n_ok)d reachable (%(n_retry_ok)d only on a curl retry,
+  after a failed first attempt), %(n_known)d blocked, moved or lost and documented with their archived copies,
+  **%(n_bad_links)d undocumented failures** (`verification/link_sweep.csv`, with the date and method of each check).
 
 ## Extension to %(y0)d · 延伸至 %(y0)d 年
 
@@ -156,7 +188,8 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            missing=('; the %d that could not be retrieved are named' % miss) if miss else '',
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
-           sweep_date='2026-10-07', n_bad_links=n_bad_links,
+           sweep_date='2026-10-07', n_bad_links=n_bad_links, n_aud=len(aud), aud_kinds=aud_kinds, n_cur=n(n_cur),
+           n_ok=int((sweep.status == 'OK').sum()), n_retry_ok=n_retry_ok, n_known=int((sweep.status == 'KNOWN').sum()),
            rows=n(len(panel)), n_fb=n(new['foreign_born']), n_fn=n(new['foreign_nationals']),
            n_pop=n(new['population'] + new['population_un_wpp2024']),
            rechecked=n(ovl.cells_compared.sum()), same=n(ovl.identical.sum()), n_spl=len(spl),
@@ -195,6 +228,11 @@ if 'extended back' not in c:
                   'earlier changed, and %s of them were re-compared with fresh source responses.\n'
                   % (LAST, Y0, n(ovl.cells_compared.sum())), 1)
     assert 'extended back' in c
+csub(r'(?:no value published earlier changed|the extension itself changed no value published earlier), and [\d,]+ of them were re-compared with fresh source responses\.[^\n]*',
+     'the extension itself changed no value published earlier, and %s of them were re-compared with fresh source '
+     'responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of '
+     'them; %d cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md).'
+     % (n(ovl.cells_compared.sum()), len(aud)))
 open(fp, 'w', encoding='utf-8').write(c)
 print('CITATION.cff refreshed')
 
@@ -205,7 +243,10 @@ NOTICE = ('> **This report records the first release (2010–2022, verified 2026
           'as written; its counts describe that release.** The panel was extended back to %d on '
           '2026-10-07: that extension, the re-check of every value published earlier, and the issues '
           'it raised are on the Verification page of the site, in `data/revision_history.csv`, '
-          '`data/known_issues.csv` and `data/extension_*.csv`.\n\n' % Y0)
+          '`data/known_issues.csv` and `data/extension_*.csv`. The audit of 2026-10-07 (24 findings, several of them about '
+          'this report\'s own statements, for example the detections unit, the source-reachability claims and the '
+          'first-release grade counts) is answered finding by finding in `verification/AUDIT_RESPONSE_2026-10-07.md`.\n\n'
+          % Y0)
 if 'This report records the first release' in r:
     r = re.sub(r'> \*\*This report records the first release.*?\n\n', lambda m: NOTICE, r, count=1,
                flags=re.S)

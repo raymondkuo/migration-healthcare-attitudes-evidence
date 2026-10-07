@@ -1,7 +1,7 @@
 ﻿iso3,country,variable,n_values,years,evidence_page,pdf_extract,artifacts
 AUS,Australia,population,22,2001-2022,evidence-pages/AUS__population.html,evidence/extracts/AUS/population.pdf,8
 AUS,Australia,foreign_born,22,2001-2022,evidence-pages/AUS__foreign_born.html,evidence/extracts/AUS/foreign_born.pdf,9
-AUS,Australia,irregular_proxy_overstayers,3,2010-2016,evidence-pages/AUS__irregular_proxy_overstayers.html,evidence/extracts/AUS/irregular_proxy_overstayers.pdf,7
+AUS,Australia,irregular_proxy_overstayers,4,2010-2016,evidence-pages/AUS__irregular_proxy_overstayers.html,evidence/extracts/AUS/irregular_proxy_overstayers.pdf,11
 AUT,Austria,population,22,2001-2022,evidence-pages/AUT__population.html,evidence/extracts/AUT/population.pdf,8
 AUT,Austria,foreign_born,22,2001-2022,evidence-pages/AUT__foreign_born.html,evidence/extracts/AUT/foreign_born.pdf,14
 AUT,Austria,foreign_nationals,22,2001-2022,evidence-pages/AUT__foreign_nationals.html,evidence/extracts/AUT/foreign_nationals.pdf,8
@@ -18,7 +18,7 @@ BGR,Bulgaria,irregular_proxy_detections,13,2010-2022,evidence-pages/BGR__irregul
 CHL,Chile,population,22,2001-2022,evidence-pages/CHL__population.html,evidence/extracts/CHL/population.pdf,8
 CHL,Chile,foreign_born,18,2003-2022,evidence-pages/CHL__foreign_born.html,evidence/extracts/CHL/foreign_born.pdf,12
 CHL,Chile,foreign_nationals,6,2017-2022,evidence-pages/CHL__foreign_nationals.html,evidence/extracts/CHL/foreign_nationals.pdf,9
-CHL,Chile,irregular_stock,5,2018-2022,evidence-pages/CHL__irregular_stock.html,evidence/extracts/CHL/irregular_stock.pdf,2
+CHL,Chile,irregular_stock,5,2018-2022,evidence-pages/CHL__irregular_stock.html,evidence/extracts/CHL/irregular_stock.pdf,4
 CHN,China,population,22,2001-2022,evidence-pages/CHN__population.html,evidence/extracts/CHN/population.pdf,8
 CHN,China,foreign_born,4,2005-2020,evidence-pages/CHN__foreign_born.html,evidence/extracts/CHN/foreign_born.pdf,8
 CHN,China,foreign_nationals,2,2010-2020,evidence-pages/CHN__foreign_nationals.html,evidence/extracts/CHN/foreign_nationals.pdf,10
@@ -56,9 +56,9 @@ HUN,Hungary,irregular_proxy_detections,13,2010-2022,evidence-pages/HUN__irregula
 ISL,Iceland,population,22,2001-2022,evidence-pages/ISL__population.html,evidence/extracts/ISL/population.pdf,8
 ISL,Iceland,foreign_born,22,2001-2022,evidence-pages/ISL__foreign_born.html,evidence/extracts/ISL/foreign_born.pdf,14
 ISL,Iceland,foreign_nationals,22,2001-2022,evidence-pages/ISL__foreign_nationals.html,evidence/extracts/ISL/foreign_nationals.pdf,14
-ISL,Iceland,irregular_proxy_detections,3,2016-2019,evidence-pages/ISL__irregular_proxy_detections.html,evidence/extracts/ISL/irregular_proxy_detections.pdf,2
+ISL,Iceland,irregular_proxy_detections,4,2016-2021,evidence-pages/ISL__irregular_proxy_detections.html,evidence/extracts/ISL/irregular_proxy_detections.pdf,2
 IND,India,population,22,2001-2022,evidence-pages/IND__population.html,evidence/extracts/IND/population.pdf,8
-IND,India,foreign_born,6,2001-2020,evidence-pages/IND__foreign_born.html,evidence/extracts/IND/foreign_born.pdf,15
+IND,India,foreign_born,6,2001-2020,evidence-pages/IND__foreign_born.html,evidence/extracts/IND/foreign_born.pdf,18
 ISR,Israel,population,22,2001-2022,evidence-pages/ISR__population.html,evidence/extracts/ISR/population.pdf,8
 ISR,Israel,foreign_born,22,2001-2022,evidence-pages/ISR__foreign_born.html,evidence/extracts/ISR/foreign_born.pdf,9
 ISR,Israel,irregular_stock,1,2022-2022,evidence-pages/ISR__irregular_stock.html,evidence/extracts/ISR/irregular_stock.pdf,2
@@ -70,7 +70,7 @@ ITA,Italy,irregular_stock,13,2010-2022,evidence-pages/ITA__irregular_stock.html,
 ITA,Italy,irregular_proxy_detections,13,2010-2022,evidence-pages/ITA__irregular_proxy_detections.html,evidence/extracts/ITA/irregular_proxy_detections.pdf,2
 JPN,Japan,population,22,2001-2022,evidence-pages/JPN__population.html,evidence/extracts/JPN/population.pdf,8
 JPN,Japan,foreign_nationals,22,2001-2022,evidence-pages/JPN__foreign_nationals.html,evidence/extracts/JPN/foreign_nationals.pdf,9
-JPN,Japan,irregular_proxy_overstayers,8,2011-2022,evidence-pages/JPN__irregular_proxy_overstayers.html,evidence/extracts/JPN/irregular_proxy_overstayers.pdf,11
+JPN,Japan,irregular_proxy_overstayers,12,2010-2022,evidence-pages/JPN__irregular_proxy_overstayers.html,evidence/extracts/JPN/irregular_proxy_overstayers.pdf,15
 KOR,Korea (South),population,22,2001-2022,evidence-pages/KOR__population.html,evidence/extracts/KOR/population.pdf,8
 KOR,Korea (South),foreign_born,4,2005-2020,evidence-pages/KOR__foreign_born.html,evidence/extracts/KOR/foreign_born.pdf,8
 KOR,Korea (South),foreign_nationals,22,2001-2022,evidence-pages/KOR__foreign_nationals.html,evidence/extracts/KOR/foreign_nationals.pdf,9
@@ -125,8 +125,8 @@ ESP,Spain,foreign_nationals,22,2001-2022,evidence-pages/ESP__foreign_nationals.h
 ESP,Spain,irregular_stock,6,2017-2022,evidence-pages/ESP__irregular_stock.html,evidence/extracts/ESP/irregular_stock.pdf,2
 ESP,Spain,irregular_proxy_detections,13,2010-2022,evidence-pages/ESP__irregular_proxy_detections.html,evidence/extracts/ESP/irregular_proxy_detections.pdf,2
 SUR,Suriname,population,22,2001-2022,evidence-pages/SUR__population.html,evidence/extracts/SUR/population.pdf,8
-SUR,Suriname,foreign_born,5,2005-2020,evidence-pages/SUR__foreign_born.html,evidence/extracts/SUR/foreign_born.pdf,10
-SUR,Suriname,foreign_nationals,1,2012-2012,evidence-pages/SUR__foreign_nationals.html,evidence/extracts/SUR/foreign_nationals.pdf,2
+SUR,Suriname,foreign_born,5,2005-2020,evidence-pages/SUR__foreign_born.html,evidence/extracts/SUR/foreign_born.pdf,12
+SUR,Suriname,foreign_nationals,1,2012-2012,evidence-pages/SUR__foreign_nationals.html,evidence/extracts/SUR/foreign_nationals.pdf,4
 SWE,Sweden,population,22,2001-2022,evidence-pages/SWE__population.html,evidence/extracts/SWE/population.pdf,8
 SWE,Sweden,foreign_born,22,2001-2022,evidence-pages/SWE__foreign_born.html,evidence/extracts/SWE/foreign_born.pdf,14
 SWE,Sweden,foreign_nationals,22,2001-2022,evidence-pages/SWE__foreign_nationals.html,evidence/extracts/SWE/foreign_nationals.pdf,8
@@ -136,10 +136,10 @@ CHE,Switzerland,foreign_born,13,2001-2022,evidence-pages/CHE__foreign_born.html,
 CHE,Switzerland,foreign_nationals,22,2001-2022,evidence-pages/CHE__foreign_nationals.html,evidence/extracts/CHE/foreign_nationals.pdf,8
 CHE,Switzerland,irregular_stock,2,2015-2017,evidence-pages/CHE__irregular_stock.html,evidence/extracts/CHE/irregular_stock.pdf,7
 CHE,Switzerland,irregular_proxy_detections,13,2010-2022,evidence-pages/CHE__irregular_proxy_detections.html,evidence/extracts/CHE/irregular_proxy_detections.pdf,2
-TWN,Taiwan,population,22,2001-2022,evidence-pages/TWN__population.html,evidence/extracts/TWN/population.pdf,8
+TWN,Taiwan,population,22,2001-2022,evidence-pages/TWN__population.html,evidence/extracts/TWN/population.pdf,10
 TWN,Taiwan,foreign_nationals,22,2001-2022,evidence-pages/TWN__foreign_nationals.html,evidence/extracts/TWN/foreign_nationals.pdf,9
-TWN,Taiwan,irregular_proxy_overstayers,10,2012-2021,evidence-pages/TWN__irregular_proxy_overstayers.html,evidence/extracts/TWN/irregular_proxy_overstayers.pdf,7
-TWN,Taiwan,irregular_proxy_absconded_workers,7,2011-2022,evidence-pages/TWN__irregular_proxy_absconded_workers.html,evidence/extracts/TWN/irregular_proxy_absconded_workers.pdf,7
+TWN,Taiwan,irregular_proxy_overstayers,9,2012-2020,evidence-pages/TWN__irregular_proxy_overstayers.html,evidence/extracts/TWN/irregular_proxy_overstayers.pdf,15
+TWN,Taiwan,irregular_proxy_absconded_workers,7,2011-2022,evidence-pages/TWN__irregular_proxy_absconded_workers.html,evidence/extracts/TWN/irregular_proxy_absconded_workers.pdf,2
 THA,Thailand,population,22,2001-2022,evidence-pages/THA__population.html,evidence/extracts/THA/population.pdf,8
 THA,Thailand,foreign_born,4,2005-2020,evidence-pages/THA__foreign_born.html,evidence/extracts/THA/foreign_born.pdf,8
 THA,Thailand,foreign_nationals,1,2018-2018,evidence-pages/THA__foreign_nationals.html,evidence/extracts/THA/foreign_nationals.pdf,2

@@ -3,7 +3,7 @@
 Joint work of [Prof. Raymond Kuo](https://raymond.cph.ntu.edu.tw/), National Taiwan University,
 and Claude (Anthropic).
 
-> **This report records the first release (2010–2022, verified 2026-08-17/18) and is kept as written; its counts describe that release.** The panel was extended back to 2001 on 2026-10-07: that extension, the re-check of every value published earlier, and the issues it raised are on the Verification page of the site, in `data/revision_history.csv`, `data/known_issues.csv` and `data/extension_*.csv`.
+> **This report records the first release (2010–2022, verified 2026-08-17/18) and is kept as written; its counts describe that release.** The panel was extended back to 2001 on 2026-10-07: that extension, the re-check of every value published earlier, and the issues it raised are on the Verification page of the site, in `data/revision_history.csv`, `data/known_issues.csv` and `data/extension_*.csv`. The audit of 2026-10-07 (24 findings, several of them about this report's own statements, for example the detections unit, the source-reachability claims and the first-release grade counts) is answered finding by finding in `verification/AUDIT_RESPONSE_2026-10-07.md`.
 
 **Scope** — the two supplied workbooks, `immigration_country_year_2010_2022.xlsx` (FILE 1) and
 `migration_population_panel_40countries_2010-2022.xlsx` (FILE 2).

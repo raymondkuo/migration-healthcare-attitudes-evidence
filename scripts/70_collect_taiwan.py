@@ -16,8 +16,10 @@ alone, and the cell notes say so.
 
 Population. MOI's query form needs a JavaScript session, so the year-end series is read from the
 National Development Council's Taiwan Statistical Data Book 2019, Table 2-2 (page 51), which
-cites MOI. It is published in thousands; the archive's 2010-2016 Taiwan values are the same
-figures x 1,000, and 2010-2012 are asserted equal below.
+cites MOI. It is published in thousands (rounded to the nearest 1,000). Until the audit of
+2026-10-07 the archive's 2010-2016 Taiwan values were those rounded figures x 1,000; they now
+hold the exact MOI totals printed in the Statistical Yearbook (page 151), and 2010-2012 are
+asserted below to equal those totals rounded to thousands.
 """
 import os
 import re
@@ -118,9 +120,9 @@ for line in text.split('\n'):
         thou[int(m.group(1))] = int(m.group(2).replace(',', ''))
 print('Table 2-2 years read: %s' % sorted(thou))
 for y in (2010, 2011, 2012):
-    assert thou[y] * 1000 == int(tw.loc[y, 'population']), \
+    assert abs(thou[y] * 1000 - int(tw.loc[y, 'population'])) <= 500, \
         'Table 2-2 %d = %s thousand but the panel holds %s' % (y, thou[y], tw.loc[y, 'population'])
-print('Taiwan 2010-2012 population in Table 2-2 equals the published values: yes')
+print('Taiwan 2010-2012 population in Table 2-2 equals the panel values rounded to thousands: yes')
 
 base = os.path.join(TW, 'SNAPSHOT__population__NDC_TaiwanStatisticalDataBook2019_p%d_table2-2' % PAGE)
 x_pdf, x_png = L.page_extract(os.path.join(TW, f_pdf), PAGE, base)
@@ -136,11 +138,11 @@ for y in range(2001, 2010):
         '(End of Year; source cited there: Ministry of the Interior)', NDC, f_pdf,
         '31 December', 'B', 'annual',
         'Year-end registered population, published in thousands (so rounded to the nearest '
-        '1,000), as the archive\'s existing 2010-2016 Taiwan values are. Page %d of the archived '
+        '1,000); the exact MOI totals are not printed in this table. Page %d of the archived '
         'PDF.' % PAGE,
-        verification='Confirmed in the archived source document (page %d, Table 2-2): the '
-                     '2010-2012 values in the same table equal the values already published.'
-                     % PAGE))
+        verification='Confirmed in the archived source document (page %d, Table 2-2); the '
+                     '2010-2012 values in the same table equal the exact MOI totals rounded to '
+                     'thousands.' % PAGE))
 
 out = L.write_stage('national_twn_cells.csv', rows)
 print('\ncells written: %d' % len(out))

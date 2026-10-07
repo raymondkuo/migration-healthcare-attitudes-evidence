@@ -45,28 +45,28 @@
 
 <section><div class="wrap">
   <h2>品質分級標準</h2>
-  <p class="sub">等級描述的是該數值「如何被查證」，而非其「看起來是否合理」。</p>
-  <div class="tablewrap"><table><thead><tr><th>等級</th><th>判準</th></tr></thead><tbody><tr><td><span class="g gA">A</span></td><td>自機器可讀之官方來源重新計算並完全一致，或於本次查證中以該來源之數值替換。</td></tr><tr><td><span class="g gB">B</span></td><td>經閱讀所取得之來源文件確認，包含須將公布之分項加總者。</td></tr><tr><td><span class="g gC">C</span></td><td>已取得並存檔來源文件，但該數值為模型推估或調查推估值，無法由該文件以機械方式重新導出。</td></tr><tr><td><span class="g gD">D</span></td><td>所引用之來源已無法以任何方式取得，故該數值僅能依賴原編製者的轉錄。</td></tr></tbody></table></div>
+  <p class="sub">等級描述的是數值「讀自何處」（出處），並不表示其精確程度（四捨五入見各筆備註）、該量是否可跨國或跨年度比較（見旗標與備註），也不表示來源本身之估計是否準確。首次發布之數值係依較早之文字標準評級；2026-10-07 之稽核重新檢視 19 筆依賴文件之 A 級數值，其中 18 筆改評為 B 級，1 筆（臺灣 2021 年逾期停留）已刪除。</p>
+  <div class="tablewrap"><table><thead><tr><th>等級</th><th>判準</th></tr></thead><tbody><tr><td><span class="g gA">A</span></td><td>自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致。</td></tr><tr><td><span class="g gB">B</span></td><td>自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，或由文件中所印之分項加總（以 ≈ 標示）。</td></tr><tr><td><span class="g gC">C</span></td><td>來源公布之模型或調查推估值，或公布之區間：取其點估計，或區間之中點（以 ≈ 標示）。</td></tr><tr><td><span class="g gD">D</span></td><td>無任何存檔來源支持該數值。現無此類數值：依可追溯原則，此類數值一律刪除，不予發布。</td></tr></tbody></table></div>
 </div></section>
 
 <section><div class="wrap">
   <h2>各變項可承載的推論重量</h2>
-  <div class="tablewrap"><table><thead><tr><th>變項</th><th class="num">國家—年度</th><th class="num">國家數</th><th>評斷</th></tr></thead><tbody><tr><td>總人口</td><td class="num">880 / 880</td><td class="num">40 / 40</td><td>強。可放心使用。</td></tr><tr><td>外國出生人口</td><td class="num">589 / 880</td><td class="num">38 / 40</td><td>強，但已包含歸化取得公民身分者。</td></tr><tr><td>外國籍人口</td><td class="num">611 / 880</td><td class="num">35 / 40</td><td>強，且在概念上正是本研究所需之變項。</td></tr><tr><td>無證移民存量</td><td class="num">57 / 880</td><td class="num">12 / 40</td><td>弱。不可跨國比較。</td></tr><tr><td>逾期停留・居留</td><td class="num">39 / 880</td><td class="num">6 / 40</td><td>弱。屬登記數，會低估實際人數。</td></tr><tr><td>查獲人次</td><td class="num">297 / 880</td><td class="num">25 / 40</td><td>最弱。屬執法事件之流量，而非人口存量。</td></tr></tbody></table></div>
-  <div class="note"><strong>建議。</strong>以 <code>foreign_nationals_pct_pop</code> 作為跨國分析的主要自變項。它正是調查題目所指涉的人口，涵蓋 40 國中的 34 國，且每一筆數值均為 A 或 B 級。可用 <code>foreign_born_pct_pop</code> 進行穩健性檢驗，但須注意其已包含歸化者，而這些人<em>本身即為本國籍</em>。</div>
-  <div class="note warn"><strong>請勿將任何無證移民變項作為跨國連續型自變項。</strong>存量僅涵蓋 10.6% 的國家—年度，各國推估方法不可比較；查獲人次則屬流量，受查緝強度與該國在移民路線上的位置驅動。若論證確實需要無證移民，請將其視為順序尺度的議題顯著性指標，或僅利用國家內部的變異。</div>
+  <div class="tablewrap"><table><thead><tr><th>變項</th><th class="num">國家—年度</th><th class="num">國家數</th><th>評斷</th></tr></thead><tbody><tr><td>總人口</td><td class="num">880 / 880</td><td class="num">40 / 40</td><td>強。可放心使用。</td></tr><tr><td>外國出生人口</td><td class="num">589 / 880</td><td class="num">38 / 40</td><td>強，但已包含歸化取得公民身分者。</td></tr><tr><td>外國籍人口</td><td class="num">611 / 880</td><td class="num">35 / 40</td><td>強，且在概念上正是本研究所需之變項。</td></tr><tr><td>無證移民存量</td><td class="num">57 / 880</td><td class="num">12 / 40</td><td>弱。不可跨國比較。</td></tr><tr><td>逾期停留・居留</td><td class="num">43 / 880</td><td class="num">6 / 40</td><td>弱。屬登記數，會低估實際人數。</td></tr><tr><td>查獲人數</td><td class="num">298 / 880</td><td class="num">25 / 40</td><td>最弱。屬執法查獲之年度流量，而非人口存量；各來源之計量單位不同。</td></tr></tbody></table></div>
+  <div class="note"><strong>建議。</strong>以 <code>foreign_nationals_pct_pop</code> 作為跨國分析的主要自變項。它正是調查題目所指涉的人口，涵蓋 40 國中的 35 國，且每一筆數值均為 A 或 B 級。可用 <code>foreign_born_pct_pop</code> 進行穩健性檢驗，但須注意其已包含歸化者，而這些人<em>本身即為本國籍</em>。此為方法上之判斷，並非調查題目已被驗證之性質：請見研究使用說明。</div>
+  <div class="note warn"><strong>請勿將任何無證移民變項作為跨國連續型自變項。</strong>存量僅涵蓋 2010–2022 年國家—年度之 11.0%（更早年度未蒐集），各國推估方法不可比較；查獲人數則屬年度流量，受查緝強度與該國在移民路線上的位置驅動。若論證確實需要無證移民，請將其視為順序尺度的議題顯著性指標，或僅利用國家內部的變異。</div>
 </div></section>
 
 <section><div class="wrap">
   <h2>分析時須留意的兩點</h2>
   <ul class="clean">
-   <li><strong>基準日不一致。</strong>Eurostat 與 OECD 之存量以 1 月 1 日為準，故標示為 <em>Y</em> 年的列，描述的是 <em>Y&minus;1</em> 年 12 月 31 日的狀態。臺灣與南韓為年底；日本為 1 月 1 日。各數值之基準日載於 <code>*_ref_date</code> 欄位。</li>
-   <li><strong>請擇一人口分母。</strong>因兩份原始工作表不一致，本站同時提供世界銀行（<code>population</code>）與 UN WPP 2024（<code>population_un_wpp2024</code>）兩組序列。其中 26 個國家—年度差異超過 3%（以色列達 4.1%）。請擇一使用並貫徹於所有國家。</li>
+   <li><strong>基準日因來源而異。</strong>Eurostat 之存量以 1 月 1 日為準，故標示為 <em>Y</em> 年的列，描述的是 <em>Y&minus;1</em> 年 12 月 31 日的狀態。OECD 之日期依各國來源：澳洲外國出生人口為 6 月 30 日，日本、土耳其、英國與德國之外國人口為 1 月 1 日，若干以調查或普查為基礎之序列則未載明日期。臺灣與南韓之登記數為年底。年度一律依出版機構之標示，未將任何數值移至其他年度。各數值之基準日載於 <code>*_ref_date</code> 欄位。</li>
+   <li><strong>請擇一人口分母。</strong>因兩份原始工作表不一致，本站同時提供世界銀行（<code>population</code>）與 UN WPP 2024（<code>population_un_wpp2024</code>）兩組序列。2001–2022 年有 30 個國家—年度差異超過 3%（其中 2010–2022 年 25 個；保加利亞 -5.5%、以色列 +5.0%）。請擇一使用並貫徹於所有國家。</li>
   </ul>
 </div></section>
 
 <section><div class="wrap">
   <h2>本存檔的限制</h2>
-  <p>本存檔更正了所有能被證明有誤之處，並載明無法更正者。它並未使無證移民變項變得可跨國比較——因為沒有任何來源做得到。有 6 筆數值所依據的來源已完全無法取得，這些數值評為 D 級並明確標示，而非默默刪除。另有 5 個來源遭封鎖或已更動網址，均以同等來源替代且確認了原數值&mdash;&mdash;各項替代均逐筆載明於<a href="verification.zh.html">查證了什麼，以及改動了什麼</a>頁面。</p>
+  <p>本存檔更正了所有能被證明有誤之處，並載明無法更正者。它並未使無證移民變項變得可跨國比較——因為沒有任何來源做得到。目前沒有評為 D 級的數值：來源無法取得者已改採其他來源或刪除。其後遭封鎖、更動網址或失效之來源連結，均載明每次檢查之日期與方法，以及取代它們之存檔副本，見<a href="verification.zh.html">查證了什麼，以及改動了什麼</a>頁面。</p>
   <p>本站鏡像僅供查證之用。各來源文件之著作權仍屬其原出版機構所有，每筆條目均附原始網址連結。</p>
 </div></section>
 

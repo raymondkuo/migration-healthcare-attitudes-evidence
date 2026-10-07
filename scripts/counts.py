@@ -21,3 +21,24 @@ N_CITES = len(_docs)                                    # country-source documen
 N_CITES_HELD = int((~_docs.outcome.astype(str).str.startswith('NOT_RETRIEVED')).sum())
 N_CHECKS = len(_vlog)
 N_RECHECKED = int(_ovl.cells_compared.sum())
+
+# ---------------------------------------------------------------- statements about the panel itself
+_panel = pd.read_csv(os.path.join(_D, 'panel_final.csv'))
+N_ROWS = len(_panel)
+N_FN_COUNTRIES = int(_panel[_panel.foreign_nationals.notna()].iso3.nunique())
+N_FB_COUNTRIES = int(_panel[_panel.foreign_born.notna()].iso3.nunique())
+_late = _panel[_panel.year >= 2010]
+IRR_STOCK_PCT = 100.0 * float(_late.irregular_stock.notna().mean())          # 2010-2022 denominator
+_gap = _panel.dropna(subset=['population_wb_vs_unwpp_pct'])
+GAP3_ALL = int((_gap.population_wb_vs_unwpp_pct.abs() > 3).sum())
+GAP3_LATE = int((_gap[_gap.year >= 2010].population_wb_vs_unwpp_pct.abs() > 3).sum())
+_neg = _gap.loc[_gap.population_wb_vs_unwpp_pct.idxmin()]
+_pos = _gap.loc[_gap.population_wb_vs_unwpp_pct.idxmax()]
+GAP_NEG = (_neg.country, float(_neg.population_wb_vs_unwpp_pct), int(_neg.year))
+GAP_POS = (_pos.country, float(_pos.population_wb_vs_unwpp_pct), int(_pos.year))
+N_WB = int((_panel.population.notna() & (_panel.iso3 != 'TWN')).sum())
+N_IRR_C = int(_panel[_panel.irregular_stock.notna()].iso3.nunique())
+N_OVS_C = int(_panel[_panel.irregular_proxy_overstayers.notna()].iso3.nunique())
+N_DET_C = int(_panel[_panel.irregular_proxy_detections.notna()].iso3.nunique())
+N_BELOW = int((_panel.foreign_born.notna() & _panel.foreign_nationals.notna()
+               & (_panel.foreign_born < _panel.foreign_nationals)).sum())

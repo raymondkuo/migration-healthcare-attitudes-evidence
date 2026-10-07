@@ -232,6 +232,42 @@ def build_data(lang):
        'the source type and flag on both sides. Nothing was adjusted; the file shows where to look.',
        '凡涉及延伸所新增年度、相鄰年度間變動達 25% 以上者，逐筆列出變動前後兩端之來源類型與旗標。'
        '未作任何調整；本檔僅指出應檢視之處。')),
+     ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit of 2026-10-07', '對 2026-10-07 稽核之回應'),
+      ('All 24 findings re-checked against the archived sources: verdict, what was checked, what changed, and what stays '
+       'with the authors.',
+       '24 項發現均對照存檔來源重新查核：判定、查核內容、變更內容，以及留待作者決定者。')),
+     ('data/audit_changes_2026-10-07.csv', ('Every cell changed by the audit', '稽核所致之每一儲存格變更'),
+      ('Old and new value and grade, reason and evidence for each corrected, regraded, relabelled, added or deleted cell.',
+       '每一更正、改評、改標、新增或刪除之儲存格：新舊數值與等級、理由與佐證。')),
+     ('data/current_panel_verification.csv', ('Current panel: one row per observation', '現行 panel：每筆觀測值一列'),
+      ('Source, year, unit, concept, grade, how it was checked and what the audit found for every value in the panel. '
+       'The 2,737-row verification log is a record of comparisons, not this.',
+       'panel 中每個數值之來源、年度、單位、概念、等級、查核方式與稽核結果。2,737 列之查證紀錄是比對紀錄，並非此表。')),
+     ('data/ANALYSIS_NOTES.md', ('Research-use notes', '研究使用說明'),
+      ('The construct, timing, universe, denominator and sensitivity choices that source verification does not settle, with '
+       'the numbers behind each. Marked for the authors to complete.',
+       '來源查證無法決定之概念、時間對齊、母體、分母與敏感度選擇，及各項背後之數字。標示留待作者填定。')),
+     ('data/foreign_born_below_foreign_nationals.csv', ('Where foreign-born is below foreign nationals', '外國出生低於外國籍之案例'),
+      ('The country-years in which foreign_born is below foreign_nationals. Not an error rule: nothing was forced into order.',
+       '外國出生人口低於外國籍人口之國家—年度。並非錯誤判準：未強行排序。')),
+     ('data/secondary_workbook_differences.csv', ('Secondary workbook: every difference', '次要活頁簿：每項差異'),
+      ('Each number the historical secondary workbook holds that differs from the current panel, with its disposition.',
+       '歷史性次要活頁簿中與現行 panel 不同之每個數值及其處置。')),
+     ('data/ABOUT_THE_TWO_WORKBOOKS.md', ('About the two workbooks', '關於兩份活頁簿'),
+      ('Which workbook to use, and why the second is a historical compilation.',
+       '應使用哪一份活頁簿，以及第二份何以屬歷史彙編。')),
+     ('data/deleted_values.csv', ('Deleted values', '已刪除之數值'),
+      ('Every value removed as untraceable, with the reason.', '每一因無法追溯而移除之數值及其理由。')),
+     ('verification/link_sweep.csv', ('Link sweep', '連結掃描'),
+      ('Every external URL the site publishes, with the date, method and first result of each check; failures retried with '
+       'curl; dead links beside their archived copy.',
+       '本站發布之每個外部網址，載明每次檢查之日期、方法與首次結果；失敗者以 curl 重試；失效連結旁附存檔副本。')),
+     ('verification/source_chart_checks.csv', ('Source-chart check', '來源圖表檢查'),
+      ('The Chile chart read from the PDF\'s own coordinates: series, year, printed value, marker height and whether the panel agrees.',
+       '由 PDF 自身座標讀取之智利圖表：序列、年度、所印數值、標記高度，以及 panel 是否一致。')),
+     ('REBUILD.md', ('How to rebuild this release', '如何重建本版本'),
+      ('The supported order, the first-release builders that must not be re-run, and the pinned baseline.',
+       '受支援之順序、不得重跑之首次發布建置程式，與固定之基準。')),
      ('data/extension_overlap_check.csv', ('Re-check of published values', '已發布數值之重新查核'),
       ('Each source re-queried on 2026-10-07 and compared with the values the archive already '
        'published: cells compared, identical, different.',
@@ -242,11 +278,11 @@ def build_data(lang):
        '即上述 Country_year 工作表之 UTF-8 CSV 版本。')),
      ('data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx',
       ('The verified panel, all sheets', '已查證之 panel 資料（全部工作表）'),
-      ('Excel workbook, eleven sheets: README, Revision_history, Panel_final, Data_quality, '
+      ('Excel workbook, twelve sheets: README, Revision_history, Audit_changes, Panel_final, Data_quality, '
        'Corrections_applied, Known_issues, Verification_log, Source_register, '
        'Irregular_estimates_all, Codebook and Deleted_values. The sheets now cover 2001-2022; the '
        'file name is kept from the first release so that existing links still work.',
-       'Excel 活頁簿，共十一個工作表：README、Revision_history、Panel_final、Data_quality、'
+       'Excel 活頁簿，共十二個工作表：README、Revision_history、Audit_changes、Panel_final、Data_quality、'
        'Corrections_applied、Known_issues、Verification_log、Source_register、'
        'Irregular_estimates_all、Codebook 與 Deleted_values。工作表現涵蓋 2001–2022 年；'
        '檔名沿用首次發布者，以免既有連結失效。')),
@@ -432,6 +468,24 @@ def build_verification(lang):
               + filelink('data/extension_overlap_check.csv', 'extension_overlap_check.csv')
               + filelink('data/extension_large_changes.csv', 'extension_large_changes.csv')
               + '</p>\n</div></section>\n\n')
+    # the audit of 2026-10-07: one row per finding
+    aud = pd.read_csv(os.path.join(D, 'audit_response_2026-10-07.csv')).fillna('')
+    asuf = '' if lang == 'en' else '_zh'
+    arows = ''.join(
+        '<tr><td><strong>%s</strong> <span style="color:var(--muted)">#%d</span></td><td>%s</td><td>%s</td><td>%s</td></tr>'
+        % (E(r['finding']), int(r['issue']), E(r['title' + asuf]), E(r['verdict' + asuf]),
+           E(r['resolution' + asuf]) + '<br><span style="color:var(--muted);font-size:13px">' + E(r['status' + asuf]) + '</span>')
+        for _, r in aud.iterrows())
+    audsec = ('<section id="audit"><div class="wrap">\n  <h2>' + L(V['aud_h'], lang) + '</h2>\n  <p class="sub">'
+              + (L(V['aud_sub'], lang) % (len(aud), int(aud.verdict.str.contains('qualification|保留').sum())))
+              + '</p>\n  <div class="tablewrap"><table><thead><tr><th>' + L(V['aud_c1'], lang) + '</th><th>'
+              + L(V['aud_c2'], lang) + '</th><th>' + L(V['aud_c3'], lang) + '</th><th>' + L(V['aud_c4'], lang)
+              + '</th></tr></thead><tbody>' + arows + '</tbody></table></div>\n  <p style="margin-top:12px">'
+              + filelink('verification/AUDIT_RESPONSE_2026-10-07.md', 'AUDIT_RESPONSE_2026-10-07.md')
+              + filelink('data/audit_changes_2026-10-07.csv', 'audit_changes_2026-10-07.csv')
+              + filelink('data/current_panel_verification.csv', 'current_panel_verification.csv')
+              + filelink('data/audit_response_2026-10-07.csv', 'audit_response_2026-10-07.csv')
+              + '</p>\n</div></section>\n\n')
     # one row per source: its most recent verification and the date that test ran
     by = pd.read_csv(os.path.join(D, 'reproduction_rate_latest.csv'))
     by['rate'] = (by.exact / by.n * 100).round(1)
@@ -494,7 +548,7 @@ def build_verification(lang):
      '<div class="hero"><div class="wrap">\n  <p class="eyebrow">' + L(V['eyebrow'], lang)
      + '</p>\n  <h1>' + L(V['h1'], lang) + '</h1>\n  <p class="lede">'
      + L(V['lede'], lang).replace('ACCESS', ACCESS) + '</p>\n</div></div>\n\n'
-     + revsec + extsec +
+     + revsec + extsec + audsec +
      '<section><div class="wrap">\n  <div class="stats">\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'

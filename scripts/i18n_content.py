@@ -6,7 +6,8 @@ in data/known_issues.csv and data/codebook.csv, one row carrying both languages,
 the two cannot drift apart or be mis-keyed by row index."""
 
 from counts import (N_EVIDENCE, N_ALL_URLS, N_CITES, N_CITES_HELD, N_CHECKS,  # noqa: E402
-                    N_RECHECKED)
+                    N_RECHECKED, N_FN_COUNTRIES, IRR_STOCK_PCT, GAP3_ALL, GAP3_LATE, GAP_NEG,
+                    GAP_POS)
 
 
 # ---------------------------------------------------------------- known issues
@@ -162,7 +163,7 @@ P['data'] = {
               'zh': '本網站所有內容——每一項統計、等級與更正——均指向 '
                     '<strong>FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx</strong>。'
                     '其中每一個數值都可追溯至本存檔內的來源檔案。'},
- 'alt_h': {'en': 'A second workbook, included for completeness', 'zh': '第二份工作表（為求完整而附上）'},
+ 'alt_h': {'en': 'A second workbook, kept as a historical compilation', 'zh': '第二份活頁簿（作為歷史彙編保留）'},
  'alt_note': {'en': '<strong>This file is not the one the website documents.</strong> It was '
                     'produced by a separate compilation run. Its <em>Verification</em> sheet '
                     'reports 203 source rows, 192 of 203 snapshots and 750 of 750 values matched; '
@@ -173,7 +174,10 @@ P['data'] = {
                     '<em>Folder Index</em> sheets also point at a folder layout '
                     '(<code>country_sources\\…</code>) that does not exist in this repository. Its '
                     'substantive conclusions agree with this archive’s; its counts are not '
-                    'interchangeable with them.',
+                    'interchangeable with them. <strong>It is a compilation of the first release (2010&ndash;2022) '
+                    'and not an equivalent current dataset:</strong> it differs from the current panel in several '
+                    'values, each with a disposition in <code>data/secondary_workbook_differences.csv</code>. Do not '
+                    'use it as an analysis file.',
               'zh': '<strong>本檔案並非本網站所記載的那一份。</strong>'
                     '它由另一次獨立的彙編作業產生。其 <em>Verification</em> 工作表記載 203 筆來源、'
                     '192／203 份快照、750／750 筆數值一致；而本存檔的對應數字為 ' + str(N_ALL_URLS)
@@ -214,11 +218,17 @@ P['verification'] = {
                 'was compared against it. This page reports the result in full, including the '
                 'values that did not match. Everything done to the data after that day - '
                 'every correction, deletion, re-classification, re-citation and re-check - '
-                'is dated in the revision history below.',
+                'is dated in the revision history below. The comparison counts on this page are the records '
+                'of that first-release check and of the re-check after correction; they are not a count of '
+                'unique current observations, and a generated evidence page agreeing with the panel is not '
+                'independent confirmation of how the original source was read. The per-observation '
+                'disposition of the current panel is in <code>data/current_panel_verification.csv</code>.',
           'zh': '所有資料來源均於 ACCESS 重新取得，並將原始工作表中的每一筆數值與之比對。'
                 '本頁完整呈現結果，包含未能一致的數值。'
                 '此後對資料所做之一切處理——每一項更正、刪除、重新歸類、改引來源與重新查證——'
-                '均於下方修訂紀錄中載明日期。'},
+                '均於下方修訂紀錄中載明日期。本頁之比對筆數，是首次發布之查核及更正後複查之紀錄，'
+                '並非現行不重複觀測值之筆數；自動產生之佐證頁與 panel 一致，亦不能獨立證明原始來源之年度或概念被正確解讀。'
+                '現行 panel 逐筆之處置見 <code>data/current_panel_verification.csv</code>。'},
  'rev_h': {'en': 'Revision history', 'zh': '修訂紀錄'},
  'rev_sub': {'en': 'Every change to the data after sources were first retrieved on ACCESS, '
                    'taken from the version history of this archive (Taipei time). Rows '
@@ -230,6 +240,16 @@ P['verification'] = {
                    '取自本存檔之版本紀錄（臺北時間）。標示<strong>資料</strong>者，'
                    '變更了數值、其歸類或其引用來源；其餘為查證與新增佐證，數值未變。'
                    '文字、翻譯與版面之修改不屬資料修訂，不予列入。'},
+ 'aud_h': {'en': 'The audit of 2026-10-07', 'zh': '2026-10-07 稽核'},
+ 'aud_sub': {'en': 'Twenty-four findings (GitHub issues #1&ndash;#24) were each re-checked against the archived source, or the '
+                   'publisher&rsquo;s own page, before anything was changed. All %d were confirmed (%d with a qualification). '
+                   'The table gives the verdict, what changed, and what stays with the authors; every changed cell is in '
+                   '<code>audit_changes_2026-10-07.csv</code>.',
+             'zh': '24 項發現（GitHub issues #1–#24）均先對照存檔來源或出版機構自身頁面重新查核，再行變更。%d 項全部屬實'
+                   '（其中 %d 項附有保留）。下表列出判定、變更內容，以及留待作者決定者；每一變更之儲存格載於 '
+                   '<code>audit_changes_2026-10-07.csv</code>。'},
+ 'aud_c1': {'en': 'Finding', 'zh': '發現'}, 'aud_c2': {'en': 'Subject', 'zh': '主題'},
+ 'aud_c3': {'en': 'Verdict', 'zh': '判定'}, 'aud_c4': {'en': 'What changed', 'zh': '變更內容'},
  'ext_h': {'en': 'The extension back to 2001', 'zh': '向前延伸至 2001 年'},
  'ext_sub': {'en': 'On 2026-10-07 the panel was extended from 2010&ndash;2022 back to 2001. This '
                    'section shows what was added, how it relates to the series already published, '
@@ -287,7 +307,9 @@ P['verification'] = {
                           'evidence added': '新增佐證', 'value reclassified': '數值重新歸類',
                           'note amended': '備註修訂', 'range extended': '期間延伸',
                           'collection attempted, not obtained': '嘗試蒐集而未取得',
-                          'manifest corrected': '雜湊清單更正'}},
+                          'manifest corrected': '雜湊清單更正',
+                          'values added': '補增數值', 'grade changed': '等級變更',
+                          'flag changed': '旗標變更'}},
  'rate_h': {'en': 'Reproduction rate by source, as verified to date',
             'zh': '各來源之重現率（截至最近查證日）'},
  'rate_sub': {'en': 'Each row shows the most recent verification of that source and the date it '
@@ -445,24 +467,30 @@ P['methods'] = {
                  '每個國家 Panel 資料表中的每一筆數值，均連結至其專屬佐證。',
                  '<strong>校驗碼。</strong>為每一份檔案記錄 SHA-256 雜湊值。']},
  'grade_h': {'en': 'Grading scheme', 'zh': '品質分級標準'},
- 'grade_sub': {'en': 'Grades describe how a value was checked, not how plausible it looks.',
-               'zh': '等級描述的是該數值「如何被查證」，而非其「看起來是否合理」。'},
- 'grade_full': {'en': {'A': 'Recomputed from a machine-readable official source and matched '
-                            'exactly, or replaced during this verification with a value taken from '
-                            'one.',
-                       'B': 'Confirmed by reading the retrieved source document, including cases '
-                            'where the published components had to be summed.',
-                       'C': 'Source document retrieved and archived, but the value is a modelled or '
-                            'survey-based estimate that cannot be mechanically re-derived from it.',
-                       'D': 'The cited source could not be retrieved by any means, so the value '
-                            'rests on the original compiler’s transcription alone.'},
-                'zh': {'A': '自機器可讀之官方來源重新計算並完全一致，'
-                            '或於本次查證中以該來源之數值替換。',
-                       'B': '經閱讀所取得之來源文件確認，包含須將公布之分項加總者。',
-                       'C': '已取得並存檔來源文件，但該數值為模型推估或調查推估值，'
-                            '無法由該文件以機械方式重新導出。',
-                       'D': '所引用之來源已無法以任何方式取得，故該數值僅能依賴'
-                            '原編製者的轉錄。'}},
+ 'grade_sub': {'en': 'A grade describes where a value was read from (its provenance). It does not say '
+                       'how precise the value is (rounding is stated in the cell note), whether the quantity is '
+                       'comparable across countries or years (see the flags and notes), or whether the source&rsquo;s '
+                       'own estimate is accurate. Grades of first-release values were assigned under an earlier '
+                       'wording; the audit of 2026-10-07 re-read the 19 grade-A values that rest on documents: '
+                       '18 were regraded B and one (Taiwan overstayers 2021) was deleted.',
+               'zh': '等級描述的是數值「讀自何處」（出處），並不表示其精確程度（四捨五入見各筆備註）、'
+                     '該量是否可跨國或跨年度比較（見旗標與備註），也不表示來源本身之估計是否準確。'
+                     '首次發布之數值係依較早之文字標準評級；2026-10-07 之稽核重新檢視 19 筆依賴文件之 A 級數值，'
+                     '其中 18 筆改評為 B 級，1 筆（臺灣 2021 年逾期停留）已刪除。'},
+ 'grade_full': {'en': {'A': 'Decoded from a machine-readable official source (API response, open-data '
+                            'file or official workbook) and matched exactly.',
+                       'B': 'Read from an archived source document (PDF, web page, printed table or '
+                            'chart) in which the value appears, or summed from figures printed there '
+                            '(marked &asymp;).',
+                       'C': 'A modelled or survey-based estimate, or a published range: the value is '
+                            'the published point estimate, or the midpoint of the range (marked &asymp;).',
+                       'D': 'No archived source supports the value. None are published: under the '
+                            'traceability rule such values are deleted.'},
+                'zh': {'A': '自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致。',
+                       'B': '自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，'
+                            '或由文件中所印之分項加總（以 ≈ 標示）。',
+                       'C': '來源公布之模型或調查推估值，或公布之區間：取其點估計，或區間之中點（以 ≈ 標示）。',
+                       'D': '無任何存檔來源支持該數值。現無此類數值：依可追溯原則，此類數值一律刪除，不予發布。'}},
  'col_crit': {'en': 'Criterion', 'zh': '判準'},
  'weight_h': {'en': 'How much weight each variable can carry', 'zh': '各變項可承載的推論重量'},
  'col_cy': {'en': 'Country-years', 'zh': '國家—年度'},
@@ -473,64 +501,76 @@ P['methods'] = {
                     'foreign_nationals': 'Strong, and conceptually the right variable for this study.',
                     'irregular_stock': 'Weak. Not comparable across countries.',
                     'irregular_proxy_overstayers': 'Weak. Register counts; they understate the true figure.',
-                    'irregular_proxy_detections': 'Weakest. A flow of enforcement events, not a stock.'},
+                    'irregular_proxy_detections': 'Weakest. An annual flow of enforcement detections, not a '
+                                                  'stock; units differ by source.'},
              'zh': {'population': '強。可放心使用。',
                     'foreign_born': '強，但已包含歸化取得公民身分者。',
                     'foreign_nationals': '強，且在概念上正是本研究所需之變項。',
                     'irregular_stock': '弱。不可跨國比較。',
                     'irregular_proxy_overstayers': '弱。屬登記數，會低估實際人數。',
-                    'irregular_proxy_detections': '最弱。屬執法事件之流量，而非人口存量。'}},
+                    'irregular_proxy_detections': '最弱。屬執法查獲之年度流量，而非人口存量；各來源之計量單位不同。'}},
  'rec_note': {'en': '<strong>Recommendation.</strong> Use <code>foreign_nationals_pct_pop</code> as '
                     'the main cross-national regressor. It is the population the survey question is '
-                    'actually about, it covers 34 of 40 countries, and every value is graded A or '
-                    'B. Use <code>foreign_born_pct_pop</code> as a robustness check, noting that it '
-                    'includes naturalised citizens, who <em>are</em> nationals.',
+                    'actually about, it covers ' + str(N_FN_COUNTRIES) + ' of 40 countries, and every value is '
+                    'graded A or B. Use <code>foreign_born_pct_pop</code> as a robustness check, noting that it '
+                    'includes naturalised citizens, who <em>are</em> nationals. This is a methodological '
+                    'judgement, not a verified property of the survey item: see the research-use notes.',
               'zh': '<strong>建議。</strong>以 <code>foreign_nationals_pct_pop</code> '
-                    '作為跨國分析的主要自變項。它正是調查題目所指涉的人口，涵蓋 40 國中的 34 國，'
+                    '作為跨國分析的主要自變項。它正是調查題目所指涉的人口，涵蓋 40 國中的 ' + str(N_FN_COUNTRIES) + ' 國，'
                     '且每一筆數值均為 A 或 B 級。可用 <code>foreign_born_pct_pop</code> '
-                    '進行穩健性檢驗，但須注意其已包含歸化者，而這些人<em>本身即為本國籍</em>。'},
+                    '進行穩健性檢驗，但須注意其已包含歸化者，而這些人<em>本身即為本國籍</em>。'
+                    '此為方法上之判斷，並非調查題目已被驗證之性質：請見研究使用說明。'},
  'warn_note': {'en': '<strong>Do not use any irregular-migration variable as a continuous '
-                     'cross-national regressor.</strong> Stocks cover 10.6% of country-years, the '
+                     'cross-national regressor.</strong> Stocks cover ' + ('%.1f%%' % IRR_STOCK_PCT) + ' of the '
+                     '2010&ndash;2022 country-years (nothing earlier was collected), the '
                      'estimation methods are not comparable between countries, and detections are a '
-                     'flow driven by enforcement intensity and by a country’s position on '
+                     'flow driven by enforcement intensity and by a country&rsquo;s position on '
                      'migration routes. If irregular migration matters to the argument, treat it as '
                      'an ordinal salience indicator or exploit within-country variation only.',
                'zh': '<strong>請勿將任何無證移民變項作為跨國連續型自變項。</strong>'
-                     '存量僅涵蓋 10.6% 的國家—年度，各國推估方法不可比較；'
-                     '查獲人次則屬流量，受查緝強度與該國在移民路線上的位置驅動。'
+                     '存量僅涵蓋 2010–2022 年國家—年度之 ' + ('%.1f%%' % IRR_STOCK_PCT) + '（更早年度未蒐集），'
+                     '各國推估方法不可比較；查獲人數則屬年度流量，受查緝強度與該國在移民路線上的位置驅動。'
                      '若論證確實需要無證移民，請將其視為順序尺度的議題顯著性指標，'
                      '或僅利用國家內部的變異。'},
  'caut_h': {'en': 'Two cautions to carry into the analysis', 'zh': '分析時須留意的兩點'},
- 'caut': {'en': ['<strong>Reference dates differ.</strong> Eurostat and OECD stocks are measured at '
+ 'caut': {'en': ['<strong>Reference dates differ by source.</strong> Eurostat stocks are measured at '
                  '1 January, so the row labelled year <em>Y</em> describes 31 December of '
-                 '<em>Y&minus;1</em>. Taiwan and Korea are year-end; Japan is 1 January. The '
-                 '<code>*_ref_date</code> columns carry this per value.',
+                 '<em>Y&minus;1</em>. OECD dates follow the national source: 30 June for Australia&rsquo;s '
+                 'foreign-born, 1 January for the foreign population of Japan, T&uuml;rkiye, the United '
+                 'Kingdom and Germany, and no stated date for several survey- or census-based series. '
+                 'Registers in Taiwan and Korea are year-end. Years are kept as the publisher labels them; '
+                 'no value was shifted to another year. The <code>*_ref_date</code> columns carry the date '
+                 'per value.',
                  '<strong>Choose one population denominator.</strong> Both World Bank '
                  '(<code>population</code>) and UN WPP 2024 (<code>population_un_wpp2024</code>) '
                  'are supplied because the two input workbooks disagreed. They differ by more than '
-                 '3% for 26 country-years &mdash; Israel by 4.1%. Pick one and keep it for every '
-                 'country.'],
-          'zh': ['<strong>基準日不一致。</strong>Eurostat 與 OECD 之存量以 1 月 1 日為準，'
+                 '3% for ' + str(GAP3_ALL) + ' country-years in 2001&ndash;2022 (' + str(GAP3_LATE) + ' in '
+                 '2010&ndash;2022) &mdash; ' + GAP_NEG[0] + ' ' + ('%+.1f%%' % GAP_NEG[1]) + ', ' + GAP_POS[0]
+                 + ' ' + ('%+.1f%%' % GAP_POS[1]) + '. Pick one and keep it for every country.'],
+          'zh': ['<strong>基準日因來源而異。</strong>Eurostat 之存量以 1 月 1 日為準，'
                  '故標示為 <em>Y</em> 年的列，描述的是 <em>Y&minus;1</em> 年 12 月 31 日的狀態。'
-                 '臺灣與南韓為年底；日本為 1 月 1 日。各數值之基準日載於 '
+                 'OECD 之日期依各國來源：澳洲外國出生人口為 6 月 30 日，日本、土耳其、英國與德國之外國人口為 1 月 1 日，'
+                 '若干以調查或普查為基礎之序列則未載明日期。臺灣與南韓之登記數為年底。'
+                 '年度一律依出版機構之標示，未將任何數值移至其他年度。各數值之基準日載於 '
                  '<code>*_ref_date</code> 欄位。',
                  '<strong>請擇一人口分母。</strong>因兩份原始工作表不一致，'
                  '本站同時提供世界銀行（<code>population</code>）與 UN WPP 2024'
                  '（<code>population_un_wpp2024</code>）兩組序列。'
-                 '其中 26 個國家—年度差異超過 3%（以色列達 4.1%）。'
+                 '2001–2022 年有 ' + str(GAP3_ALL) + ' 個國家—年度差異超過 3%（其中 2010–2022 年 ' + str(GAP3_LATE) + ' 個；'
+                 '保加利亞 ' + ('%+.1f%%' % GAP_NEG[1]) + '、以色列 ' + ('%+.1f%%' % GAP_POS[1]) + '）。'
                  '請擇一使用並貫徹於所有國家。']},
  'lim_h': {'en': 'Limits of this archive', 'zh': '本存檔的限制'},
  'lim1': {'en': 'The archive fixes what could be demonstrated wrong and documents what could not be '
                 'fixed. It does not make the irregular-migration variables comparable across '
-                'countries, because no source does. Six values rest on a source that no longer '
-                'exists anywhere reachable; they are graded D and named rather than quietly '
-                'dropped. Five sources block or have moved, and were replaced by equivalents that '
-                'confirmed the values &mdash; the substitutions are itemised on the ',
+                'countries, because no source does. No value is graded D: a value whose source could '
+                'not be retrieved was re-sourced or deleted. Source links that have since been blocked, '
+                'moved or lost are recorded with the date and method of each check and the archived copy '
+                'that stands in for them, on the ',
           'zh': '本存檔更正了所有能被證明有誤之處，並載明無法更正者。'
                 '它並未使無證移民變項變得可跨國比較——因為沒有任何來源做得到。'
-                '有 6 筆數值所依據的來源已完全無法取得，這些數值評為 D 級並明確標示，'
-                '而非默默刪除。另有 5 個來源遭封鎖或已更動網址，'
-                '均以同等來源替代且確認了原數值&mdash;&mdash;各項替代均逐筆載明於'},
+                '目前沒有評為 D 級的數值：來源無法取得者已改採其他來源或刪除。'
+                '其後遭封鎖、更動網址或失效之來源連結，均載明每次檢查之日期與方法，'
+                '以及取代它們之存檔副本，見'},
  'lim2': {'en': ' page.', 'zh': '頁面。'},
  'lim3': {'en': 'Mirrors are held for verification only. Copyright in each source document remains '
                 'with its publisher, and every entry links to the original URL.',
