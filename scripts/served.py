@@ -15,8 +15,12 @@ TEXT_EXT = {'.csv', '.html', '.md', '.py', '.json', '.txt', '.yml', '.yaml', '.c
 LONE_CR = re.compile(rb'\r(?!\n)')
 
 
+TEXT_NAMES = {'.gitignore', '.gitattributes'}      # dotfiles have no extension but are text
+
+
 def is_text_ext(path):
-    return os.path.splitext(path)[1].lower() in TEXT_EXT
+    return (os.path.splitext(path)[1].lower() in TEXT_EXT
+            or os.path.basename(path) in TEXT_NAMES)
 
 
 def text_unset(site, rels):

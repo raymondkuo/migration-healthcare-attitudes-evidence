@@ -74,5 +74,8 @@ tell whether a source was read under the right year or concept. For that:
 
 ## Tested
 
-The order in section 3 was run (steps 1-10 and the page build) in a fresh clone of the repository on 2026-10-07 and the
-committed data files were reproduced byte for byte (see `verification/AUDIT_RESPONSE_2026-10-07.md`, finding F21).
+On 2026-10-07, steps 1-11 of section 3 (everything except the Chrome render of the PDF extracts) were run in a fresh
+`git clone` of the commit that contains this file, and every tracked file came out identical. The two `.xlsx` files differ
+in their zip container (it embeds a timestamp) but not in a single cell: they were compared sheet by sheet. Not repeated in
+that test: the PDF extract render (step 12), the link sweep, and the network collectors of section 4. See
+`verification/AUDIT_RESPONSE_2026-10-07.md`, finding F21.

@@ -245,17 +245,19 @@ add('F21', 21, 'Reproducibility and source-artifact routing', '可重現性與�
     'for the build-site.mjs the old report names (not in the archive).',
     '清點來源清冊中 data_raw/ 之佔位符（232 筆）、查找各 README 所述 sources/ 資料夾（不存在），以及舊報告所稱 build-site.mjs（不在本存檔）。',
     'REBUILD.md gives the supported order, names the first-release builders that must not be re-run, and pins the baseline; '
-    'all placeholders now name exact files; README text corrected; the supported pipeline was run in an isolated clone '
-    'and reproduced the committed files.',
+    'all placeholders now name exact files; README text corrected; steps 1-11 of the supported order (all but the Chrome '
+    'render of the PDF extracts) were run in a fresh clone of the commit and reproduced every tracked file, the two .xlsx '
+    'files cell for cell (their zip container embeds a timestamp).',
     'REBUILD.md 載明受支援之順序、不得重跑之首次發布建置程式，並固定基準；佔位符現皆指向確切檔案；README 文字已更正；'
-    '受支援之流程已在隔離之複本中執行並重現所提交之檔案。',
+    '受支援順序之步驟 1–11（除以 Chrome 轉製 PDF 摘錄外）已在該提交之全新複本中執行，並重現每一已追蹤檔案；兩個 .xlsx 檔逐格一致（其壓縮容器內嵌時間戳記）。',
     RES, RESZ)
 add('F22', 22, 'Source reachability claims', '來源可連線性之說法', CQ, CQZ,
     'Re-tested the failures with curl and valid TLS: three URLs return 404 (porCausa, Nisshinkyo, SEM), several block automated '
     'clients (403), two hosts did not answer; the two INE pages that my sweep of the same day had recorded as unreachable '
-    'answer on retry. The audit and the archive used different URL sets (193 vs 194), so the counts differ.',
+    'answer on retry. The audit and the archive used different URL sets (193 vs 194 at the time; the archive\'s sweep now covers every URL '
+    'the rebuilt site publishes), so the counts differ.',
     '以 curl 並啟用有效 TLS 重測失敗者：三個網址回 404（porCausa、Nisshinkyo、SEM），數個封鎖自動化用戶端（403），兩個主機未回應；'
-    '本存檔當日掃描曾記為無法連線之兩個 INE 頁面，重試後可連線。稽核與本存檔所用網址集不同（193 對 194），故筆數不同。',
+    '本存檔當日掃描曾記為無法連線之兩個 INE 頁面，重試後可連線。稽核與本存檔所用網址集不同（當時 193 對 194；本存檔之掃描現涵蓋重建後網站所發布之全部網址），故筆數不同。',
     'link_sweep.csv now records the date, the method and the first result of each check; failures are retried with curl and '
     'a transport failure is not called a dead link; each dead URL sits beside its archived copy; no grade D follows from a moved URL.',
     'link_sweep.csv 現記錄每次檢查之日期、方法與首次結果；失敗者以 curl 重試，傳輸失敗不稱為失效連結；每個失效網址旁列有存檔副本；'
