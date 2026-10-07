@@ -1,47 +1,53 @@
 ﻿Item,Detail
 "FINAL verified migration and population panel, 40 countries, 2010-2022",
 ,
-Built,Compiled and verified 2026-08-17 from the two supplied workbooks.
+Built,Sources first retrieved and verified 2026-08-17. Data last revised 2026-10-07. Every amendment after first collection is dated on the Revision_history sheet.
 Inputs,immigration_country_year_2010_2022.xlsx  and  migration_population_panel_40countries_2010-2022.xlsx
 Base,"migration_population_panel_40countries_2010-2022.xlsx. It was chosen because it keeps the three irregular-migration measures in separate columns, carries a full audit trail, is internally consistent with that trail, and 2,415 of its values reproduced exactly from the live sources."
 ,
 WHAT WAS VERIFIED,
-Values re-derived from live sources,2454
-  matched exactly,2415 (98.4%)
-  discrepancies found,39
+Values re-derived from live sources,"2737 comparisons in two rounds: 2454 as received (2026-08-17), 283 re-checked after correction (2026-08-18)"
+  matched exactly,2415 of 2454 as received (98.4%); 283 of 283 after correction (100.0%)
+  discrepancies found,"39, all corrected and re-verified against the live source on 2026-08-18"
 Sources re-queried live,"World Bank WDI (SP.POP.TOTL, SM.POP.TOTL); Eurostat migr_pop3ctb, migr_pop1ctz, migr_eipre; OECD International Migration Database (13 series); UN WPP 2024; UN DESA International Migrant Stock 2024."
-Document source citations,78 distinct country-source citations across 72 URLs
-  archived in the country folders,76 of 78
-  not retrievable by any means,2 (see Known_issues)
-Corrections applied,49 values across 5 countries (see Corrections_applied)
+Document source citations,503 source rows across 171 distinct URLs
+  archived in the country folders,"503 of 503 (402 verified live via API, 101 archived as documents)"
+  not retrievable by any means,0 - every citation relied on is archived here. 7 original citations had gone dead and were replaced by a live source carrying the same figure; each original is kept in superseded_source_url.
+Corrections applied,"67 values across 10 countries: CHE, CHL, IND, ISR, ITA, KOR, PRT, SUR, SWE, TWN (see Corrections_applied)"
+Audit of 2026-10-07,"The audit of 2026-10-07 (GitHub issues #1-#25) was checked finding by finding against the archived sources. 45 cell changes follow (Audit_changes sheet: 15 corrected, 7 regraded, 6 relabelled, 6 added, 4 source corrected, 4 flag added, 2 metadata cleared, 1 deleted); values changed are in Corrections_applied, the deletion in Deleted_values, and the verdicts in verification/AUDIT_RESPONSE_2026-10-07.md. Grades mean provenance only: A decoded from a machine-readable source, B read from an archived document, C the midpoint of a published range computed by the archive."
+Extension to 2001,"On 2026-10-07 the panel was extended from 2010-2022 back to 2001: 880 rows, 1,142 new values. The extension itself changed no value published earlier; the audit later the same day did change some (see Audit of 2026-10-07). Every cell has a source_type and flag column; 28 series needed a source change at the join and are flagged (see Source_register, data/extension_splice_summary.csv and the website). The file name is kept from the first release so that existing links still work."
+Re-check on 2026-10-07,"1,777 values published before the extension were compared with fresh responses from Eurostat, OECD, the World Bank and UN WPP: 1,777 reproduced exactly."
 ,
 CELL GRADES,
-"A - re-derived from a machine-readable official source, exact match",1573
-B - the published figure appears in the retrieved source document,112
-"C - derived from the source (midpoint of a published range), flagged",13
-D - not traceable to an archived source; such values were deleted,0
+"A - decoded from a machine-readable official source (API response, open-data file or official workbook) and matched exactly",2323
+"B - read from an archived source document (PDF, web page, printed table or chart) in which the value appears, or summed from figures printed there",142
+C - computed by the archive as the midpoint of a published range (the source prints no single figure); a single-number estimate a source publishes is A or B,13
+D - no archived source supports the value (none are published: such values are deleted),0
 ,
 HOW TO USE THIS FOR THE HEALTHCARE-ATTITUDES STUDY,
-Main regressor,"foreign_nationals_pct_pop - the share of residents who are non-nationals. This is the population actually at issue in ""publicly funded healthcare for non-nationals"", it covers 34 of 40 countries, and every value is graded A or B."
+Main regressor,"foreign_nationals_pct_pop - the share of residents who are non-nationals. This is the population actually at issue in ""publicly funded healthcare for non-nationals"", it covers 35 of 40 countries, and every value is graded A or B."
 Second choice,"foreign_born_pct_pop - wider coverage (38 countries) but it includes naturalised citizens, who are nationals and therefore not the group the survey question is about."
-Irregular migration,"Do NOT use as a continuous cross-national regressor. Coverage is 10.6% of country-years for stocks, the methods are not comparable, and detections are a flow driven by enforcement intensity. Use at most as an ordinal salience indicator, or restrict to within-country variation."
-Reference dates,"Eurostat and OECD stocks are 1 January of the labelled year. If the survey is fielded mid-year, either lag the covariate or state the convention explicitly."
-Population denominator,population (World Bank) and population_un_wpp2024 are both supplied. Choose one and use it throughout; they differ by more than 3% for 26 country-years.
+Irregular migration,"Do NOT use as a continuous cross-national regressor. Coverage is 11.0% of the 2010-2022 country-years for stocks (not collected earlier), the methods are not comparable, and detections are a flow driven by enforcement intensity. Use at most as an ordinal salience indicator, or restrict to within-country variation."
+Reference dates,"Dates differ by source and are recorded per value (*_ref_date). Eurostat stocks are 1 January of the labelled year; OECD dates follow the national source (30 June for Australia's foreign-born, 1 January for the foreign population of Japan, Turkey, the United Kingdom and Germany, none stated for several survey- or census-based series). Years are as the publisher labels them and nothing was shifted. If the survey is fielded mid-year, either lag the covariate or state the convention explicitly."
+Population denominator,population (World Bank) and population_un_wpp2024 are both supplied. Choose one and use it throughout; they differ by more than 3% for 30 country-years.
 ,
 SHEETS,
 Panel_final,"The recommended panel: one row per country-year, corrected, with a quality grade on every value."
 Data_quality,"Country x variable: coverage, modal grade, sources, and whether the series can carry a trend."
 Corrections_applied,"Every value changed from the input workbooks, with the reason and the evidence."
 Known_issues,"Everything found, resolved and unresolved."
-Verification_log,All 2454 value-by-value comparisons against live sources.
+Verification_log,"All 2737 value-by-value comparisons against live sources, each stamped with the stage and the date it was performed."
 Source_register,"Every cited source, how it was retrieved, and the local file."
 Irregular_estimates_all,"Every competing irregular-migration estimate, kept side by side."
 Codebook,Variable definitions and cautions.
+Deleted_values,"Every value removed as untraceable, with the reason. Nothing is deleted silently."
+Revision_history,"Every amendment to the data after first collection, dated."
+Audit_changes,"Every cell changed after the audit of 2026-10-07: old and new value, grade, reason, evidence."
 ,
 EVIDENCE ON DISK,
-countries/<ISO3>_<Name>/,"One folder per country: README.md, data_from_source.csv, value_check.csv, source_manifest.csv, and sources/ holding the downloaded documents and screenshots."
-data_raw/,"The bulk source downloads (World Bank, Eurostat, OECD, UN) used for verification."
+evidence/countries/<ISO3>/,"One folder per country: README.md, data_from_source.csv, value_check.csv, source_manifest.csv, and the downloaded documents, web captures and page extracts themselves (there is no sources/ subfolder)."
+evidence/api/,"The archived bulk and API payloads (World Bank, Eurostat, OECD, UN) and their rendered mirrors, each dated in its name or in data/api_snapshots.csv."
 verification/,The full machine-readable verification output.
-scripts/,"Every script used, so the whole check can be re-run."
-Values flagged as derived,13
-Values deleted as untraceable,1 (Russia 2020 irregular stock; see Deleted_values)
+scripts/,Every script used. Only the pipeline in REBUILD.md can be re-run safely; the first-release builders (numbered below 67) would undo later corrections.
+Values flagged as derived,17
+Values deleted as untraceable,2 (Russia 2020 irregular stock; Taiwan 2021 overstayers; see Deleted_values)

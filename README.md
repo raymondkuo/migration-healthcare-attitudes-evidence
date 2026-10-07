@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**406 pages** — 203 per language. Validated: 26,824 internal links, 0 broken.
+**406 pages** — 203 per language. Validated: 26,830 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -49,7 +49,7 @@ Not translated, by design: **source names and citations** (a source is cited as 
 titled it), **URLs, file names, column names and variable codes** (`foreign_nationals_pct_pop` is
 identical in both languages so code, CSVs and text agree), **the data itself**, and **workbook
 sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國籍人口、外國出生人口、
-逾期停留・居留、查獲人次、失聯移工、內政部移民署、勞動部。
+逾期停留・居留、查獲人數、失聯移工、內政部移民署、勞動部。
 
 ---
 
@@ -81,14 +81,14 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 <!-- headline:begin -->
 ## Headline results
 
-**At first release (2026-08-17 / 08-18)**
+**At first release (2026-08-17 / 08-18; the figures in this block are frozen as published in commit `0d64a1c`)**
 
 - **2,454** values re-derived from live sources; **2,415 (98.4%)** matched exactly.
 - **39** discrepancies found — all one error: the Eurostat irregular-migration detections
   series for **Switzerland, Portugal and Sweden** was offset by one year in one input workbook.
-- **67** corrections across 10 countries, each itemised with its evidence
+- **49** corrections across 5 countries, each itemised with its evidence
   (`data/corrections_applied.csv`).
-- **88 of 88** distinct country-source document citations archived, across 78 URLs.
+- **76 of 78** distinct country-source document citations archived, across 72 URLs; the 2 that could not be retrieved are named.
 - **Every retained number cites an archived source.** Whether a source was read under the right year and
   concept is a separate question, and the audit of 2026-10-07 found it was not always (below). At first
   release each of the 116 values that were not machine-verified was checked against the archived source
@@ -106,13 +106,21 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 **Now (revised 2026-10-07)**
 
 - **Audit of 2026-10-07** (issues #1–#25): all 24 findings were re-checked against the archived sources and
-  confirmed; **40 cell changes** followed (15 corrected, 7 regraded, 6 added, 5 relabelled, 4 source corrected, 2 metadata cleared, 1 deleted). The response is in
+  confirmed; **45 cell changes** followed, counting the audit and the re-audit below (15 corrected, 7 regraded, 6 relabelled, 6 added, 4 source corrected, 4 flag added, 2 metadata cleared, 1 deleted). The response is in
   `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **3,365** current observations are in
   `data/current_panel_verification.csv`. The 2,454 / 2,737 figures above are comparison *records* of the first-release
   check, not a count of unique current observations.
-- Quality grades on all 2,478 displayed values (2001–2022): **A** 2,323 · **B** 142 · **C** 13 · **D** 0. A grade
-  says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
-  C a published estimate or range); it does not say how precise or comparable the value is.
+- **Re-audit of 2026-10-07**, an independent re-check of commit `30d6cb1` (issues #5, #11, #12, #13, #17, #20 and #21
+  reopened, #27–#30 opened): all **11** findings were confirmed and are answered in the same response file. 5 of the
+  cell changes above belong to it (a detection break flag, a derived flag; no value changed).
+- **67** value corrections across 10 countries are itemised in `data/corrections_applied.csv`
+  (the 49 of the first release, later amendments, and 15 from the audit of 2026-10-07), and 2 deletions in
+  `data/deleted_values.csv`.
+- Quality grades on the 2,478 displayed values of the six headline variables (2001–2022): **A** 2,323 · **B** 142 · **C** 13 · **D** 0.
+  With the 7 Taiwan absconded-worker values (all grade B) the displayed total is 2,485: **A** 2,323 · **B** 149 · **C** 13.
+  A grade says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
+  C the midpoint of a published range computed by the archive; a single-number estimate a source publishes is A or B);
+  it does not say how precise or comparable the value is.
 - Link sweep of 2026-10-07 over **195** external URLs: 184 reachable (0 only on a curl retry,
   after a failed first attempt), 11 blocked, moved or lost and documented with their archived copies,
   **0 undocumented failures** (`verification/link_sweep.csv`, with the date and method of each check).
@@ -129,7 +137,7 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 - Each foreign-born / foreign-national value now states its **source type** (annual, census,
   survey, UN estimate) and carries a **flag**. Where an earlier year had to come from a different
   source than the 2010–2022 series (**28 series**), the gap between the two sources over the
-  overlapping years was measured; **7 series differ by 5% or more** and are flagged as a
+  overlapping years was measured; **8 series differ by 5% or more** and are flagged as a
   break in the series (largest: Slovakia and Denmark foreign-born).
 - Not everything could be found. Australia's foreign nationals and Chile's 2002 foreign-born count were
   searched for and not obtained; several countries have only census years; nothing was
@@ -166,7 +174,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 385 MB across 1,353 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
+- About 386 MB across 1,357 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the

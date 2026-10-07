@@ -10,9 +10,10 @@
                                             the authors' to make, with the numbers behind each
   REBUILD.md                                F21: the supported, safe order for rebuilding this release
 
-Numbers in the documents are computed here, not typed. The per-observation audit statuses come from the
-audit's result tables if they are present beside the archive (../comprehensive_audit); the rest of the table
-does not depend on them.
+Numbers in the documents are computed here, not typed. The per-observation audit statuses and the check
+method of every observation come from the independent audit's result tables, which are committed in
+data/audit_inputs/ (README there). The build stops with a message if they are missing: a rebuild must not
+silently replace a completed audit by "not in the audited revision".
 """
 import os
 import sys
@@ -26,7 +27,7 @@ import counts as K                                                 # noqa: E402
 
 SITE = os.path.dirname(HERE)
 D = os.path.join(SITE, 'data')
-AUD = os.path.join(os.path.dirname(SITE), 'comprehensive_audit')
+AUD = os.path.join(D, 'audit_inputs')
 WHEN = '2026-10-07'
 panel = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 pi = panel.set_index(['iso3', 'year'])
@@ -91,24 +92,37 @@ print('secondary_workbook_differences.csv: %d rows (%d still differ, %d resolved
 VAR = [('population', 'total resident population'), ('population_un_wpp2024', 'total population, UN WPP 2024 (alternative denominator)'),
        ('foreign_born', None), ('foreign_nationals', 'residents holding a foreign nationality'),
        ('irregular_stock', 'estimated stock of irregular residents'),
-       ('irregular_proxy_overstayers', 'persons recorded as overstaying (register count)'),
+       ('irregular_proxy_overstayers', 'persons staying beyond their authorised stay (the kind of measure differs by country)'),
        ('irregular_proxy_detections', None), ('irregular_proxy_absconded_workers', 'migrant workers recorded as absconded (stock)')]
-src_audit, doc_audit = None, None
-if os.path.exists(os.path.join(AUD, 'source_value_checks.csv')):
-    src_audit = pd.read_csv(os.path.join(AUD, 'source_value_checks.csv')).set_index(['iso3', 'year', 'variable']).status
-    doc_audit = pd.read_csv(os.path.join(AUD, 'document_value_review.csv')).set_index(['iso3', 'year', 'variable'])
+for f_ in ('source_value_checks.csv', 'document_value_review.csv'):
+    if not os.path.exists(os.path.join(AUD, f_)):
+        sys.exit('82_audit_documents.py: %s is missing from data/audit_inputs/. These result tables of the independent '
+                 'audit are inputs of the build (see data/audit_inputs/README.md); restore them from the repository '
+                 'rather than rebuilding without them.' % f_)
+_src = pd.read_csv(os.path.join(AUD, 'source_value_checks.csv'))
+_src['year'] = _src.year.astype(int)
+src_family = {(r.iso3, r.year, r.variable): r.family for r in _src.itertuples()}
+doc_audit = pd.read_csv(os.path.join(AUD, 'document_value_review.csv')).set_index(['iso3', 'year', 'variable'])
 chg_idx = {(r.iso3, int(r.year), r.variable): r for r in chg.itertuples()}
+unaudited = []
+# the machine-readable family each observation was decoded from (the audit's own record, not a guess from prose)
+FAMILY = {'Eurostat': 'Eurostat JSON-stat API', 'WB': 'World Bank API', 'WPP': 'UN WPP 2024 workbook',
+          'OECD': 'OECD SDMX API', 'TWN MOI': 'Taiwan MOI resident-certificate CSV',
+          'KOR MOJ': 'Korea MOJ illegal-stay CSV', 'ISMU': 'ISMU Italy XLS'}
+# the kind of measure behind each overstayer series (the column is a heterogeneous stock proxy)
+OVS_CONCEPT = {
+    'AUS': ("departmental estimate of unlawful non-citizens in the Australian community (visa overstayers and others; "
+            "broader than an overstayer-only count)"),
+    'ISR': 'one component only: tourists from less-developed countries who stayed on without a valid permit',
+    'JPN': 'estimated number of foreign nationals staying beyond the authorised period (Ministry of Justice / Immigration Services Agency)',
+    'KOR': 'foreigners in illegal residence, administrative register count (Ministry of Justice)',
+    'NZL': 'estimated overstayer population, register-derived estimate (Immigration New Zealand)',
+}
 
 
-def basis(ver, grade, derived, derivation, v):
-    ver = '' if pd.isna(ver) else str(ver)
-    if ver.startswith(('Read directly from the archived API', 'Read directly from the archived CSV',
-                       'Read directly from the official')):
-        b = 'decoded from an archived machine-readable source'
-    elif ver:
-        b = 'read from an archived source document'
-    elif grade == 'A':
-        b = 'reproduced from the archived payload in the first-release comparison (verification_log.csv)'
+def basis(family, derived, derivation):
+    if family is not None:
+        b = 'decoded from an archived machine-readable source (%s)' % FAMILY.get(family, family)
     else:
         b = 'read from an archived source document'
     if isinstance(derived, str) and derived.strip() == 'yes':
@@ -131,6 +145,9 @@ for r in panel.itertuples():
         else:
             source, ref, grade, ver, note = g('_source'), g('_ref_date'), g('_grade'), g('_verification'), g('_note')
             stype, flag, coll = g('_source_type'), g('_flag'), g('_collected_on')
+            if v == 'population':       # no per-value date column: the declared convention of each source, no finer
+                ref = ('31 December (registered population, year-end)' if iso == 'TWN'
+                       else 'Mid-year (World Bank convention; no finer date is claimed)')
         unit = 'persons'
         if v == 'foreign_born':
             concept = getattr(r, 'foreign_born_concept')
@@ -143,6 +160,8 @@ for r in panel.itertuples():
                 concept = 'third-country nationals found to be illegally present in the year (each person once per year)'
             if v in ('irregular_proxy_detections',):
                 unit = unit + ' per calendar year (flow)'
+        if v == 'irregular_proxy_overstayers' and iso in OVS_CONCEPT:
+            concept = OVS_CONCEPT[iso]
         if v in ('foreign_nationals',) and iso == 'TWN':
             concept = 'registered foreign residents holding a resident certificate (excl. mainland Chinese, Hong Kong, Macao)'
         if v == 'foreign_nationals' and iso == 'RUS':
@@ -157,21 +176,25 @@ for r in panel.itertuples():
         if key in chg_idx:
             c_ = chg_idx[key]
             audit = '%s on %s (%s)' % (c_.kind, WHEN, c_.finding)
-        elif src_audit is not None and key in src_audit.index:
-            audit = 'matched the machine-readable source (audit %s)' % WHEN
-        elif doc_audit is not None and key in doc_audit.index:
+        elif key in src_family:
+            audit = 'matched the machine-readable source (independent audit, %s)' % WHEN
+        elif key in doc_audit.index:
             d_ = doc_audit.loc[key]
-            audit = '%s%s (audit %s)' % (str(d_.audit_status).lower().replace('_', ' '),
-                                        '; ' + str(d_.finding) if pd.notna(d_.finding) else '', WHEN)
+            audit = '%s%s (independent audit, %s)' % (str(d_.review_status).lower().replace('_', ' '),
+                                                      '; ' + str(d_.note) if pd.notna(d_.note) else '', WHEN)
         else:
             audit = 'not in the audited revision'
+            unaudited.append(key)
         out.append(dict(iso3=iso, country=r.country, year=y, variable=v, value=int(round(float(val))), unit=unit,
                         concept=concept, source=str(source)[:150], source_type=stype if isinstance(stype, str) else '',
                         reference_date=ref if isinstance(ref, str) else '', grade=grade if isinstance(grade, str) else '',
-                        how_checked=basis(ver, grade, g('_derived'), g('_derivation'), v),
+                        how_checked=basis(src_family.get(key), g('_derived'), g('_derivation')),
                         flag=flag if isinstance(flag, str) else '',
                         first_collected=(coll if isinstance(coll, str) and coll else '2026-08-17'),
                         audit_2026_10_07=audit))
+if unaudited:
+    sys.exit('82_audit_documents.py: %d current observations are not covered by data/audit_inputs/ (first: %s). '
+             'Extend the audit inputs before publishing the ledger.' % (len(unaudited), unaudited[:3]))
 ver = pd.DataFrame(out)
 ver.to_csv(os.path.join(D, 'current_panel_verification.csv'), index=False, encoding='utf-8-sig')
 print('current_panel_verification.csv: %d observations | how checked: %s'
@@ -187,6 +210,8 @@ reg = pd.read_csv(os.path.join(D, 'source_register.csv'))
 below = pd.read_csv(os.path.join(D, 'foreign_born_below_foreign_nationals.csv'))
 G = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock', 'irregular_proxy_overstayers', 'irregular_proxy_detections']
 gr = pd.Series([x for v in G for x in panel[v + '_grade'].dropna() if str(x).strip()]).value_counts()
+gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers'] for x in panel[v + '_grade'].dropna()
+                 if str(x).strip()]).value_counts()
 sec_total = pd.read_csv(os.path.join(D, 'secondary_workbook_differences.csv'))
 
 # ================================================================== ABOUT_THE_TWO_WORKBOOKS.md
@@ -208,8 +233,9 @@ Sheets: `README`, `Revision_history`, `Audit_changes`, `Panel_final`, `Data_qual
 
 Current figures (computed from the data files on %(when)s):
 
-- Grades over the six graded variables: **A %(ga)s, B %(gb)s, C %(gc)s, D 0** (%(gtot)s values). Grades say where a
-  value was read from, not how precise or comparable it is.
+- Grades over the six headline variables: **A %(ga)s, B %(gb)s, C %(gc)s, D 0** (%(gtot)s values). The seven
+  Taiwan absconded-worker values are also displayed and are all grade B: with them, %(gtot7)s values, A %(ga)s,
+  B %(gb7)s, C %(gc)s. Grades say where a value was read from, not how precise or comparable it is.
 - %(ncorr)d value corrections and %(ndel)d deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   %(when)s is in `Audit_changes`.
@@ -243,9 +269,10 @@ compiled from the first-release inputs, covers 2010-2022 only, and has not been 
   URLs in the register and %(nlog)s value comparisons. Neither set is wrong; they are different runs.
 - Its `Source Audit` and `Folder Index` sheets point to a folder layout (`country_sources\\...`, `sources\\001_...`)
   that does not exist here; the evidence lives under `evidence/countries/<ISO3>/`.
-- It differs from the current panel in **%(nsec)d of %(ncmp)s compared primary values**; %(nres)d of these were
-  omissions that have since been added to the panel, and the other %(nopen)d are corrected, rejected, reclassified,
-  superseded or deleted input values. Every one has a disposition in `data/secondary_workbook_differences.csv`.
+- It differs from the current panel in **%(nopen)d of %(ncmp)s compared primary values** (corrected, rejected,
+  reclassified, superseded or deleted input values). `data/secondary_workbook_differences.csv` holds **%(nsec)d
+  disposition records**: those %(nopen)d present differences plus %(nres)d first-release omissions that have since
+  been added to the panel and now agree. The two numbers answer different questions and are not interchangeable.
 
 Its substantive conclusions agree with this archive's: population is sound as a denominator, the foreign-national
 stock is the variable closest to the survey question, and the irregular-migration measures are too sparse and too
@@ -260,7 +287,7 @@ For the manuscript and for any claim a reviewer might check, use
 `CLEAN_country_year_panel_2010-2022.xlsx` built from it. The original, unmodified input workbooks are preserved in
 `data/original_inputs/` so that every correction can be checked against what was supplied.
 ''' % dict(when=WHEN, rows=n(len(panel)), ga=n(gr.get('A', 0)), gb=n(gr.get('B', 0)), gc=n(gr.get('C', 0)),
-           gtot=n(gr.sum()), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
+           gtot=n(gr.sum()), gtot7=n(gr7.sum()), gb7=n(gr7.get('B', 0)), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
            ndel=len(pd.read_csv(os.path.join(D, 'deleted_values.csv'))), nlog=n(len(vlog)),
            nurls=reg.source_url.nunique(), nsec=len(sec_total), ncmp=n(n_cmp),
            nres=int((sec_total.status_now != 'in secondary workbook only').sum()),
@@ -309,16 +336,21 @@ verified property of the survey question: it fails if the item is about birthpla
 | foreign_nationals | residents holding a foreign nationality (stateless where reported) | %(nfn)d (%(yfn)s) | falls with naturalisation; no annual series for AUS, IND, ISR, NZL, ZAF |
 | foreign_born | residents born abroad | %(nfb)d (%(yfb)s) | includes naturalised citizens; %(ntc)d UN citizenship-basis cells are excluded from the extract |
 | irregular_stock | estimated unauthorised residents | %(nir)d (2010-2022) | methods differ by country; not comparable |
-| irregular_proxy_overstayers | register count of overstayers | %(nov)d (2010-2022) | register-based; universe differs (Taiwan: all categories) |
+| irregular_proxy_overstayers | stock proxy for persons staying beyond authorised stay: register counts (Korea; Taiwan, all categories), official estimates (Japan, New Zealand; Australia's unlawful non-citizens, a broader group) and one component (Israel) | %(nov)d (2010-2022) | heterogeneous; neither a modelled stock of all irregular residents nor an exact count |
 | irregular_proxy_detections | annual enforcement detections | %(nde)d (2010-2022) | a flow; unit differs by source (persons / events) |
 
 ## 2. Timing: survey year versus stock date [AUTHORS]
 
-Pick one rule and apply it to every country, then test the other.
+Pick one rule and apply it to every country, then test the others.
 
-1. Same year (survey year Y with the row labelled Y);
-2. One-year lag (row Y-1), which matches a 1 January stock to a mid-year survey better;
-3. Nearest reference date, using `*_ref_date` per value.
+1. Same row year (survey year Y with the row labelled Y);
+2. The latest stock dated on or before the start of fieldwork: row Y for a 1 January stock, row Y-1 for a
+   31 December stock, and for a 30 June stock row Y-1 if fieldwork starts before 30 June, row Y if after;
+3. The nearest stock to the fieldwork date, using `*_ref_date` per value.
+
+A one-year lag (row Y-1 for every source) is not a rule that suits a 1 January stock: labelled Y it is six months
+before a mid-year survey in Y, labelled Y-1 eighteen months before. A lag is the nearest row only for 31 December
+stocks (and only when fieldwork is in the first half of the year). This corrects the earlier wording of this note.
 
 Reference dates differ by source and are not harmonised: years are as the publisher labels them.
 
@@ -358,8 +390,8 @@ Run the models on the full panel and again after removing, in turn:
 - the OECD-only series in `data/migrant_stock_alternatives.csv` instead of the Eurostat/OECD splice;
 - country-years flagged `Eurostat flag: break in time series` or `comparability caution` (Taiwan 2001-2011).
 
-| Series | Mean gap | Mean absolute gap | Overlap years |
-|---|---|---|---|
+| Country (ISO3) | Variable | Signed mean gap | Mean absolute gap | Overlap years |
+|---|---|---|---|---|
 %(splice)s
 
 ## 6. Where foreign-born is below foreign-nationals

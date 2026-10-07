@@ -54,13 +54,18 @@ ys = panel.year
 Y0, Y1 = int(ys.min()), int(ys.max())
 new = {v: int(panel[v + '_collected_on'].notna().sum())
        for v in ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals')}
-n_large = int((spl.mean_gap_pct.abs() >= 5).sum())
+n_large = int((spl.mean_abs_gap_pct >= 5).sum())          # the declared rule: mean ABSOLUTE gap (re-audit R03)
+grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers'] for g in panel[v + '_grade'].dropna()
+                     if str(g).strip()]).value_counts()
+n_abs = int(panel.irregular_proxy_absconded_workers.notna().sum())
+n_corr_aud = int((corr.corrected_on.astype(str) == '2026-10-07').sum())
 pages_each = val['pages_en']
 total_pages = val['pages_en'] + val['pages_zh']
 n_ext = int((sweep.status != 'OK').sum())
 n_bad_links = int((~sweep.status.isin(['OK', 'KNOWN'])).sum())
 n_retry_ok = int(((sweep.status == 'OK') & sweep.method.astype(str).str.startswith('curl')).sum())
 aud = pd.read_csv(os.path.join(D, 'audit_changes_2026-10-07.csv'))
+n_re = int(aud.finding.astype(str).str.startswith('R').sum())
 aud_kinds = ', '.join('%d %s' % (v, k) for k, v in aud.kind.value_counts().items())
 n_cur = len(pd.read_csv(os.path.join(D, 'current_panel_verification.csv')))
 
@@ -122,7 +127,7 @@ miss = K.N_CITES - K.N_CITES_HELD
 HEAD = '''<!-- headline:begin -->
 ## Headline results
 
-**At first release (2026-08-17 / 08-18)**
+**At first release (2026-08-17 / 08-18; the figures in this block are frozen as published in commit `0d64a1c`)**
 
 - **%(n_as)s** values re-derived from live sources; **%(n_exact)s (%(pct).1f%%)** matched exactly.
 - **%(n_bad)d** discrepancies found — all one error: the Eurostat irregular-migration detections
@@ -147,13 +152,21 @@ HEAD = '''<!-- headline:begin -->
 **Now (revised %(last)s)**
 
 - **Audit of 2026-10-07** (issues #1–#25): all 24 findings were re-checked against the archived sources and
-  confirmed; **%(n_aud)d cell changes** followed (%(aud_kinds)s). The response is in
+  confirmed; **%(n_aud)d cell changes** followed, counting the audit and the re-audit below (%(aud_kinds)s). The response is in
   `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **%(n_cur)s** current observations are in
   `data/current_panel_verification.csv`. The 2,454 / 2,737 figures above are comparison *records* of the first-release
   check, not a count of unique current observations.
-- Quality grades on all %(gtot)s displayed values (%(y0)d–%(y1)d): **A** %(ga)s · **B** %(gb)s · **C** %(gc)s · **D** 0. A grade
-  says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
-  C a published estimate or range); it does not say how precise or comparable the value is.
+- **Re-audit of 2026-10-07**, an independent re-check of commit `30d6cb1` (issues #5, #11, #12, #13, #17, #20 and #21
+  reopened, #27–#30 opened): all **11** findings were confirmed and are answered in the same response file. %(n_re)d of the
+  cell changes above belong to it (a detection break flag, a derived flag; no value changed).
+- **%(n_corr_now)d** value corrections across %(n_ctry_now)d countries are itemised in `data/corrections_applied.csv`
+  (the 49 of the first release, later amendments, and %(n_corr_aud)d from the audit of 2026-10-07), and %(n_del)d deletion%(s_del)s in
+  `data/deleted_values.csv`.
+- Quality grades on the %(gtot)s displayed values of the six headline variables (%(y0)d–%(y1)d): **A** %(ga)s · **B** %(gb)s · **C** %(gc)s · **D** 0.
+  With the %(n_abs)d Taiwan absconded-worker values (all grade B) the displayed total is %(gtot7)s: **A** %(ga)s · **B** %(gb7)s · **C** %(gc)s.
+  A grade says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
+  C the midpoint of a published range computed by the archive; a single-number estimate a source publishes is A or B);
+  it does not say how precise or comparable the value is.
 - Link sweep of %(sweep_date)s over **%(n_sweep)d** external URLs: %(n_ok)d reachable (%(n_retry_ok)d only on a curl retry,
   after a failed first attempt), %(n_known)d blocked, moved or lost and documented with their archived copies,
   **%(n_bad_links)d undocumented failures** (`verification/link_sweep.csv`, with the date and method of each check).
@@ -183,9 +196,12 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 <!-- headline:end -->
 
 ''' % dict(n_as=n(n_as), n_exact=n(n_exact), pct=100 * n_exact / n_as, n_bad=n_bad,
-           n_corr=len(corr), n_ctry=corr.iso3.nunique(), held=K.N_CITES_HELD, cites=K.N_CITES,
-           urls=K.N_DOC_URLS,
-           missing=('; the %d that could not be retrieved are named' % miss) if miss else '',
+           # frozen first-release figures (README of commit 0d64a1c); the current ones are in the next block
+           n_corr=49, n_ctry=5, held=76, cites=78, urls=72,
+           missing='; the 2 that could not be retrieved are named',
+           n_re=n_re, n_corr_now=len(corr), n_ctry_now=corr.iso3.nunique(), n_corr_aud=n_corr_aud,
+           n_del=len(dele), s_del='' if len(dele) == 1 else 's',
+           gtot7=n(grades7.sum()), gb7=n(grades7.get('B', 0)), n_abs=n_abs,
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
            sweep_date='2026-10-07', n_bad_links=n_bad_links, n_aud=len(aud), aud_kinds=aud_kinds, n_cur=n(n_cur),
@@ -200,6 +216,7 @@ if '<!-- headline:begin -->' in s:
 else:
     s = re.sub(r'## Headline results\n.*?(?=## How sources were preserved)', lambda m: HEAD, s,
                flags=re.S)
+s = s.replace('查獲人次', '查獲人數')            # Eurostat counts persons; Mexico's events are named in the codebook
 open(fp, 'w', encoding='utf-8').write(s)
 print('README.md refreshed')
 

@@ -25,6 +25,7 @@ ver = pd.read_csv(os.path.join(D, 'current_panel_verification.csv'))
 sec = pd.read_csv(os.path.join(D, 'secondary_workbook_differences.csv'))
 below = pd.read_csv(os.path.join(D, 'foreign_born_below_foreign_nationals.csv'))
 n_large = int((spl.mean_abs_gap_pct >= 5).sum())
+n_large_cells = int(spl[spl.mean_abs_gap_pct >= 5].cells.sum())
 n_cautioned = int(dq.usable_for_trend.str.contains('single source').sum())
 n_added = int((chg.kind == 'added').sum())
 
@@ -235,9 +236,9 @@ add('F20', 20, 'Grades and the criteria they state', '等級與其所述之判�
     'overstay, UK foreign-born 2020).',
     '列出驗證並非機器可讀解出之 A 級格：恰為 19 格（臺灣人口 13、臺灣逾期停留 5、英國外國出生 2020）。',
     'Grades are defined by provenance (A decoded from a machine-readable source; B read from an archived document; C '
-    'published estimate or range; D none, deleted); precision and comparability are kept apart; the 19 were regraded B '
+    'the midpoint of a published range, computed by the archive; D none, deleted); precision and comparability are kept apart; the 19 were regraded B '
     '(one of the five Taiwan overstay values has since been deleted).',
-    '等級依出處定義（A：由機器可讀來源解出；B：讀自已存檔文件；C：公布之推估值或區間；D：無，已刪除）；精確度與可比較性另行處理；'
+    '等級依出處定義（A：由機器可讀來源解出；B：讀自已存檔文件；C：本存檔計算之已公布區間中點；D：無，已刪除）；精確度與可比較性另行處理；'
     '該 19 格已改評 B 級（五筆臺灣逾期停留中有一筆其後已刪除）。',
     RES, RESZ)
 add('F21', 21, 'Reproducibility and source-artifact routing', '可重現性與來源檔案之指向', C, CZ,
@@ -245,11 +246,13 @@ add('F21', 21, 'Reproducibility and source-artifact routing', '可重現性與�
     'for the build-site.mjs the old report names (not in the archive).',
     '清點來源清冊中 data_raw/ 之佔位符（232 筆）、查找各 README 所述 sources/ 資料夾（不存在），以及舊報告所稱 build-site.mjs（不在本存檔）。',
     'REBUILD.md gives the supported order, names the first-release builders that must not be re-run, and pins the baseline; '
-    'all placeholders now name exact files; README text corrected; steps 1-11 of the supported order (all but the Chrome '
-    'render of the PDF extracts) were run in a fresh clone of the commit and reproduced every tracked file, the two .xlsx '
-    'files cell for cell (their zip container embeds a timestamp).',
+    'all placeholders now name exact files; README text corrected. The first rebuild test was run beside the audit '
+    'folder and so could not show that the verification ledger depended on it (re-audit R01); the audit\'s result tables '
+    'are now committed (data/audit_inputs/) and the test was repeated in a clone with no sibling folders (REBUILD.md, '
+    '"Tested").',
     'REBUILD.md 載明受支援之順序、不得重跑之首次發布建置程式，並固定基準；佔位符現皆指向確切檔案；README 文字已更正；'
-    '受支援順序之步驟 1–11（除以 Chrome 轉製 PDF 摘錄外）已在該提交之全新複本中執行，並重現每一已追蹤檔案；兩個 .xlsx 檔逐格一致（其壓縮容器內嵌時間戳記）。',
+    '首次重建測試係在稽核資料夾旁進行，故未能顯現驗證表依賴該資料夾（再稽核 R01）；稽核之結果表現已納入存放庫（data/audit_inputs/），'
+    '並於無任何同層資料夾之複本中重做測試（REBUILD.md「Tested」）。',
     RES, RESZ)
 add('F22', 22, 'Source reachability claims', '來源可連線性之說法', CQ, CQZ,
     'Re-tested the failures with curl and valid TLS: three URLs return 404 (porCausa, Nisshinkyo, SEM), several block automated '
@@ -281,9 +284,155 @@ add('F24', 24, 'Research construct, timing and comparability', '研究概念、�
     'data/ANALYSIS_NOTES.md 列出各項選擇（概念、時間對齊、母體、分母、來源類型、斷裂）與敏感度分析及其數字；選擇本身由作者決定。',
     OPEN, OPENZ)
 
+RA = {
+    'F05': ('Re-audit R11: the Chinese definition of detections per 1,000 residents and the README term list still said 人次; '
+            'now 查獲數 with the unit named per source (人數 for Eurostat, 人次 for Mexico), and the Eurostat texts say 人數.',
+            '再稽核 R11：每千名居民查獲數之中文定義與 README 詞彙表仍用「人次」；現為「查獲數」並依來源載明單位（Eurostat 為人數、墨西哥為人次），'
+            'Eurostat 相關文字一律為「人數」。'),
+    'F11': ('Re-audit R02: the same blanket rule survived in the known-issues row for Eurostat / OECD; now source-specific.',
+            '再稽核 R02：同一種一律基準之說法仍留在 Eurostat／OECD 之已知問題列；現已改依來源。'),
+    'F12': ('Re-audit R03: the known-issues summary, the extract notes, the README and the Verification table still selected on '
+            'the signed mean; all now use the mean absolute gap (%d series, %d cells) and show both statistics.' % (n_large, n_large_cells),
+            '再稽核 R03：已知問題摘要、分析用資料集說明、README 與查證紀錄頁之表格仍以有號平均篩選；現一律採平均絕對差距'
+            '（%d 組序列、%d 筆數值），並同時列出兩項統計。' % (n_large, n_large_cells)),
+    'F13': ('Re-audit R04: four publisher break flags on Eurostat detections (France 2014, Netherlands 2015, Sweden 2014 and 2015) '
+            'were not carried; they are now a flag column and the three series are no longer rated continuous.',
+            '再稽核 R04：Eurostat 查獲數有四筆出版機構之斷裂旗標（法國 2014、荷蘭 2015、瑞典 2014 與 2015）未被帶入；'
+            '現已成為旗標欄，且這三組序列不再評為連續。'),
+    'F17': ('Re-audit R09: the guide now separates the %d present differences from the %d disposition records, and the README '
+            'freezes its first-release block.' % (int((sec.status_now == 'in secondary workbook only').sum()), len(sec)),
+            '再稽核 R09：說明現區分 %d 項現存差異與 %d 筆處置紀錄，README 之首次發布區塊亦已凍結。'
+            % (int((sec.status_now == 'in secondary workbook only').sum()), len(sec))),
+    'F20': ('Re-audit R05: grade C overlapped A and B; the grades are now mutually exclusive and C is only a midpoint the archive computed.',
+            '再稽核 R05：等級 C 與 A、B 重疊；現各等級互斥，C 級僅限本存檔計算之中點。'),
+}
+for r_ in R:
+    if r_['finding'] in RA:
+        r_['resolution'] = r_['resolution'] + ' ' + RA[r_['finding']][0]
+        r_['resolution_zh'] = r_['resolution_zh'] + RA[r_['finding']][1]
 resp = pd.DataFrame(R)
 assert len(resp) == 24
 resp.to_csv(os.path.join(D, 'audit_response_%s.csv' % WHEN), index=False, encoding='utf-8-sig')
+
+# ------------------------------------------------------------------ the re-audit of commit 30d6cb1
+RR = []
+n = lambda x: format(int(x), ',')
+
+
+def radd(f, no, title, title_zh, checked, checked_zh, result, result_zh):
+    RR.append(dict(finding=f, issue=no, title=title, title_zh=title_zh, verdict=C, verdict_zh=CZ, checked=checked,
+                   checked_zh=checked_zh, resolution=result, resolution_zh=result_zh, status=RES, status_zh=RESZ))
+
+
+ledger = pd.read_csv(os.path.join(D, 'current_panel_verification.csv'))
+n_led = len(ledger)
+radd('R01', 21, 'Isolated rebuild loses the audit statuses', '獨立重建遺失稽核結果',
+     'Ran step 82 in a clone of the commit placed in an otherwise empty folder: 3,328 of the 3,365 audit statuses became "not in '
+     'the audited revision". The earlier rebuild test had been run beside the audit folder, which is why it did not show this.',
+     '於僅含該 commit 複本之空資料夾中執行步驟 82：3,365 筆稽核結果中有 3,328 筆變為「not in the audited revision」。'
+     '先前之重建測試係在稽核資料夾旁進行，故未顯現此問題。',
+     'The independent audit\'s result tables, which cover all %s observations, are committed in data/audit_inputs/ and read from '
+     'there; step 82 stops with a message if they are missing or do not cover an observation. The rebuild test was repeated in a '
+     'clone with no sibling folders (REBUILD.md, "Tested"), and the F21 disposition says what was tested.' % n(n_led),
+     '稽核之結果表（涵蓋全部 %s 筆觀測值）已納入 data/audit_inputs/ 並由該處讀取；若缺漏或未涵蓋某筆觀測值，步驟 82 即停止並說明。'
+     '已於無任何同層資料夾之複本中重做重建測試（REBUILD.md「Tested」），F21 之處置亦已改為載明實際測試之內容。' % n(n_led))
+radd('R02', 11, 'Blanket 1 January rule left in the known issues', '已知問題中仍有一律以 1 月 1 日為基準之說法',
+     'The INFO row "Eurostat / OECD countries" of known_issues.csv (and its copies in the workbook and on the Verification '
+     'pages) said that Eurostat and OECD stocks are measured at 1 January. All 22 Australian foreign-born cells are 30 June.',
+     'known_issues.csv 之 INFO 列「Eurostat / OECD countries」（及其於活頁簿與查證紀錄頁之副本）稱 Eurostat 與 OECD 存量均以 1 月 1 日為基準。'
+     '澳洲 22 筆外國出生人口格均為 6 月 30 日。',
+     'The row now states the source-specific rule in both languages (Eurostat 1 January; OECD by national source; Taiwan and Korea '
+     'year-end). No value was shifted.',
+     '該列現以兩種語言載明依來源之規則（Eurostat 為 1 月 1 日；OECD 依各國來源；臺灣與南韓為年底）。未移動任何數值。')
+radd('R03', 12, 'Signed mean still used in known-issue summaries', '已知問題摘要仍採有號平均',
+     'scripts/75 selected on the signed mean: 7 series and 15 cells in the known-issues row. Recomputed from the splice summary: '
+     '%d series and %d cells by the mean absolute gap (Germany foreign-born: signed +1.6%%, mean absolute 7.4%%). The same selection '
+     'was in the extract notes, the README, the extension entry of the revision history and the Verification table.' % (n_large, n_large_cells),
+     'scripts/75 以有號平均篩選：已知問題列為 7 組序列、15 筆數值。依接合摘要重算，以平均絕對差距計為 %d 組序列、%d 筆數值'
+     '（德國外國出生：有號 +1.6%%、平均絕對 7.4%%）。分析用資料集說明、README、修訂紀錄之延伸條目與查證紀錄頁之表格亦有相同之篩選。' % (n_large, n_large_cells),
+     'Every current summary and flag definition uses the mean absolute gap (%d series, %d cells, Germany included); the signed mean is '
+     'reported beside it and named as such. The extension\'s own revision-history entry keeps its original wording (7 flagged at that time).' % (n_large, n_large_cells),
+     '所有現行摘要與旗標定義均採平均絕對差距（%d 組序列、%d 筆數值，含德國）；有號平均並列且標明。延伸之修訂紀錄條目維持原敘述（當時標示 7 組）。' % (n_large, n_large_cells))
+radd('R04', 13, 'Publisher break flags on detections not carried', '查獲數之出版機構斷裂旗標未帶入',
+     'Decoded the status flags of the archived Eurostat migr_eipre payload: "b" (break in time series) on FR 2014 (96,375), NL 2015 '
+     '(3,150), SE 2014 (72,835) and SE 2015 (1,445). All four values match the publisher. The three "d" flags are on the EU27 '
+     'aggregate, which the panel does not hold.',
+     '解碼所存檔 Eurostat migr_eipre 之狀態旗標：FR 2014（96,375）、NL 2015（3,150）、SE 2014（72,835）、SE 2015（1,445）標示「b」'
+     '（時間序列斷裂）。四筆數值與出版機構一致。三個「d」旗標屬 EU27 彙總，panel 未持有。',
+     'New column irregular_proxy_detections_flag carries the Eurostat flag on those four cells (values unchanged); it reaches the '
+     'analysis extract (detections_flag), the ledger and the evidence pages. data_quality.csv now rates the France, Netherlands and '
+     'Sweden detection series "single source, but the publisher flags a break" and lists the years; a known-issue row explains it.',
+     '新增 irregular_proxy_detections_flag 欄，於該四格載明 Eurostat 旗標（數值不變）；旗標進入分析用資料集（detections_flag）、驗證表與佐證頁。'
+     'data_quality.csv 現將法國、荷蘭、瑞典之查獲數序列評為「單一來源，但出版機構標示序列有斷裂」並列出年度；已知問題另有一列說明。')
+radd('R05', 20, 'Grade C overlaps A and B', '等級 C 與 A、B 重疊',
+     'Counted: 38 UN migrant-stock estimates are graded A, and 44 irregular-stock estimates other than range midpoints are A (5) or B '
+     '(39); only the 13 range midpoints are C. The stated criterion for C ("a published estimate or range") did not separate them.',
+     '清點：38 筆 UN 移民存量推估為 A 級；44 筆非區間中點之無證存量推估為 A（5）或 B（39）；僅 13 筆區間中點為 C。'
+     '所述 C 級判準（「公布之推估值或區間」）無法區分它們。',
+     'The grades are mutually exclusive provenance classes: A decoded from a machine-readable source, B read from an archived document '
+     '(both may hold publisher estimates, which the cell note and the source type identify), C only the midpoint of a published range '
+     'that the archive computed, D none. Rewritten in the methods page, both codebooks, the workbook README, the README and the '
+     'extract. No grade changed.',
+     '各等級為互斥之出處類別：A＝自機器可讀來源解出、B＝自已存檔文件讀取（兩者皆可能是出版機構之推估值，由各格備註與來源類型標明）、'
+     'C＝僅限本存檔計算之已公布區間中點、D＝無。已改寫於研究方法頁、兩份變數說明書、活頁簿 README、README 與分析用資料集。未變更任何等級。')
+radd('R06', 27, 'Verification ledger: check methods and population dates', '驗證表：查核方式與人口日期',
+     'Of the %s ledger rows, 905 observations decoded from machine-readable files (880 UN WPP, 11 Taiwan MOI, 9 Korea MOJ, 5 ISMU) '
+     'were described as read from an archived document, and all 880 population rows had an empty reference date.' % n(n_led),
+     '於 %s 列驗證表中，905 筆實為自機器可讀檔解出之觀測值（UN WPP 880、臺灣內政部 11、南韓法務部 9、ISMU 5）被描述為自存檔文件讀取，'
+     '且 880 筆人口列之參照日期為空白。' % n(n_led),
+     'The check method now comes from the audit\'s record of the source family; the population date follows the declared convention '
+     '(World Bank mid-year, Taiwan registered year-end) and claims no finer day. All %s keys and values are unchanged.' % n(n_led),
+     '查核方式現取自稽核對來源類別之記錄；人口日期依所宣告之慣例（世界銀行為年中、臺灣為戶籍登記年底），不主張更精確之日期。'
+     '全部 %s 筆鍵與數值不變。' % n(n_led))
+radd('R07', 28, 'Croatia 2011 derivation unflagged; derived categories wrong', '克羅埃西亞 2011 推導值未標示；推導類別有誤',
+     'The census table prints foreign citizens (22,527) and stateless persons (749) separately; 23,276 is their sum and was not marked '
+     'derived. The codebook counted 16 derived values as 13 midpoints and 3 UK subtractions; there are 2 UK subtractions, and Suriname '
+     '2012 is a sum.',
+     '普查表分別列出外國公民（22,527）與無國籍者（749）；23,276 為其加總，原未標示為推導值。變數說明書將 16 筆推導值記為 13 筆中點與 '
+     '3 筆英國減法；實際英國減法為 2 筆，蘇利南 2012 為加總。',
+     'Croatia 2011 is flagged derived with its derivation (value unchanged). The codebook classifies from the data: 17 derived values, '
+     '13 midpoints, 2 differences and 2 sums. Russia 2002 and India 2001 stay unflagged because their totals are printed.',
+     '克羅埃西亞 2011 已標示為推導值並載明推導方式（數值不變）。變數說明書依資料分類：17 筆推導值，13 筆中點、2 筆差、2 筆加總。'
+     '俄羅斯 2002 與印度 2001 因其總數為直接印出，維持未標示。')
+radd('R08', 29, 'Splice table in the analysis notes has the wrong columns', '分析說明之接合表欄位錯誤',
+     'The Markdown table has four header cells and five cells in each of its eight rows, so GitHub shows the variable under "Mean gap" '
+     'and drops the overlap count.',
+     'Markdown 表標頭為四欄，但八列資料各為五格，GitHub 因此將變項顯示於「Mean gap」之下並捨棄重疊年數。',
+     'The generator writes five columns (country, variable, signed mean gap, mean absolute gap, overlap years) and five separators; '
+     'the table lists the %d series of the corrected rule.' % n_large,
+     '產生程式現輸出五欄（國家、變項、有號平均差距、平均絕對差距、重疊年數）及五個分隔線；表列依更正後之規則共 %d 組序列。' % n_large)
+radd('R09', 17, 'Present differences and historical counts conflated', '現存差異與歷史計數混用',
+     'The workbook guide said the secondary workbook differs in 31 of 1,696 values; 25 differ now and 6 more records are first-release '
+     'omissions since added. The README\'s first-release block quoted the current 67 corrections and 88 citations, and "2,478 displayed '
+     'values" counted six variables only.',
+     '活頁簿說明稱次要活頁簿於 1,696 個數值中有 31 項差異；現存差異為 25 項，另 6 筆為首次發布時遺漏而後已補入者。'
+     'README 之首次發布區塊引用了現行之 67 筆更正與 88 筆文件引用，且「2,478 個顯示數值」僅計六個變項。',
+     'The guide says 25 present differences plus 6 resolved omissions (31 disposition records). The README freezes the first-release block at '
+     'the published figures (49 corrections in 5 countries; 76 of 78 citations) and gives the current figures separately, with the grade '
+     'totals labelled (six variables 2,478; with the seven Taiwan absconded-worker values 2,485).',
+     '說明現載明 25 項現存差異加 6 筆已解決之遺漏（共 31 筆處置紀錄）。README 將首次發布區塊凍結於當時所發布之數字'
+     '（5 國 49 筆更正；78 筆引用中 76 筆），現況數字另列，並標明等級合計（六個變項 2,478；加計七筆臺灣失聯移工數值為 2,485）。')
+radd('R10', 30, 'Overstayer definitions: estimates and a broader Australian measure', '逾期停留之定義：推估數與範圍較廣之澳洲指標',
+     'Read the sources: Australia 2015 (62,000) and 2016 (64,600) are departmental estimates of unlawful non-citizens in the community, '
+     'a broader group than overstayers; Japan Table 21 gives an estimated number; New Zealand is a register-derived estimate; Korea and '
+     'Taiwan are register counts; Israel is one component.',
+     '查閱來源：澳洲 2015（62,000）與 2016（64,600）為移民部對社區內非法非公民之估計，範圍較逾期停留者為廣；日本表 21 為估計數；'
+     '紐西蘭為依登記資料之推估；南韓與臺灣為登記數；以色列僅為一個組成部分。',
+     'The codebooks, methods page, analysis notes and ledger now call the column a heterogeneous stock proxy and state, per country, '
+     'whether a cell is a register count, an estimate, a broader group or a component. No value changed.',
+     '變數說明書、研究方法頁、分析說明與驗證表現將此欄稱為異質之存量代理指標，並逐國載明各格屬登記數、推估數、較廣之群體或組成部分。'
+     '未變更任何數值。')
+radd('R11', 5, 'Chinese per-1,000 detections label kept 人次', '每千名居民查獲數之中文標籤仍用「人次」',
+     'The Chinese definition of detections per 1,000 residents read 每千名居民之查獲人次, applied to Eurostat person counts as well as '
+     'Mexican event counts; the README term list and four Chinese texts about the Eurostat series kept 人次.',
+     '每千名居民查獲數之中文定義為「每千名居民之查獲人次」，同時適用於 Eurostat 之人數與墨西哥之事件數；README 詞彙表與四處關於 Eurostat '
+     '序列之中文敘述仍用「人次」。',
+     'Source-neutral label 每千名居民之查獲數 with the unit per source (人數 for Eurostat, 人次 for Mexico); the Eurostat texts say '
+     '人數. The F05 response above now says what was changed and when.',
+     '改為不分來源之標籤「每千名居民之查獲數」並依來源載明單位（Eurostat 為人數、墨西哥為人次）；Eurostat 相關敘述一律為「人數」。上列 F05 之回覆亦已載明更動內容。')
+rresp = pd.DataFrame(RR)
+assert len(rresp) == 11
+rresp.to_csv(os.path.join(D, 'reaudit_response_%s.csv' % WHEN), index=False, encoding='utf-8-sig')
 
 # ------------------------------------------------------------------ the markdown record
 extra = [
@@ -301,6 +450,14 @@ md = ['# Response to the audit of %s' % WHEN, '',
 for r in R:
     md.append('| **%s** %s (#%d) | %s | %s | %s | %s |' % (r['finding'], r['title'], r['issue'], r['verdict'], r['status'],
                                                           r['checked'].replace('|', '/'), r['resolution'].replace('|', '/')))
+md += ['', '## Re-audit of commit 30d6cb1 (%s)' % WHEN, '',
+       'An independent re-audit of the revision that contained the response above found %d further defects. Each was checked '
+       'against the archived source, the data files or a clean rebuild before anything was changed; **all %d were confirmed**. '
+       'Seven earlier issues were reopened and four were opened (#27-#30).' % (len(rresp), len(rresp)), '',
+       '| Finding | Verdict | Status | What was checked | What changed |', '|---|---|---|---|---|']
+for r in RR:
+    md.append('| **%s** %s (#%d) | %s | %s | %s | %s |' % (r['finding'], r['title'], r['issue'], r['verdict'], r['status'],
+                                                          r['checked'].replace('|', '/'), r['resolution'].replace('|', '/')))
 md += ['', '## Found while checking, not in the audit', ''] + ['- **%s.** %s' % e for e in extra]
 md += ['', '## What stays with the authors', '',
        '- the Chile methodology (the 2023 methodology was chosen for every year; the 2022 series is the alternative);',
@@ -309,4 +466,4 @@ md += ['', '## What stays with the authors', '',
        '- whether to add the Australian 2021 and South African 2011 census citizenship counts, and under which universe;',
        '- the research construct and timing rules (`data/ANALYSIS_NOTES.md`).', '']
 open(os.path.join(SITE, 'verification', 'AUDIT_RESPONSE_%s.md' % WHEN), 'w', encoding='utf-8', newline='\n').write('\n'.join(md))
-print('audit response written: %d findings; %s' % (len(resp), resp.status.value_counts().to_dict()))
+print('audit response written: %d findings; %s; re-audit: %d findings' % (len(resp), resp.status.value_counts().to_dict(), len(rresp)))

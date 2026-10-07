@@ -440,17 +440,17 @@ def build_verification(lang):
                   format(int(og.identical.sum()), ','))
                + '</tbody></table></div>')
     spl = pd.read_csv(os.path.join(D, 'extension_splice_summary.csv'))
-    bigs = spl[spl.mean_gap_pct.abs() >= 5].sort_values('mean_gap_pct', key=abs, ascending=False)
+    bigs = spl[spl.mean_abs_gap_pct >= 5].sort_values('mean_abs_gap_pct', ascending=False)
     spltab = ('<div class="tablewrap"><table><thead><tr><th>' + t('col_country', lang)
               + '</th><th>' + t('col_var', lang) + '</th><th class="num">' + L(V['ext_col_gap'], lang)
-              + '</th><th class="num">' + L(V['ext_col_range'], lang) + '</th><th class="num">'
+              + '</th><th class="num">' + L(V['ext_col_abs'], lang) + '</th><th class="num">' + L(V['ext_col_range'], lang) + '</th><th class="num">'
               + L(V['ext_col_ov'], lang) + '</th><th class="num">' + L(V['ext_col_ext'], lang)
               + '</th></tr></thead><tbody>'
               + ''.join('<tr><td><a href="countries/%s">%s</a></td><td>%s</td>'
-                        '<td class="num">%+.1f%%</td><td class="num">%+.1f%% to %+.1f%%</td>'
+                        '<td class="num">%+.1f%%</td><td class="num">%.1f%%</td><td class="num">%+.1f%% to %+.1f%%</td>'
                         '<td class="num">%d</td><td class="num">%d&ndash;%d</td></tr>'
                         % (os.path.basename(fname('countries/' + r_['iso3'], lang)), r_['iso3'],
-                           E(vlab(r_['variable'], lang)), r_['mean_gap_pct'], r_['min_gap_pct'],
+                           E(vlab(r_['variable'], lang)), r_['mean_gap_pct'], r_['mean_abs_gap_pct'], r_['min_gap_pct'],
                            r_['max_gap_pct'], r_['overlap_years'], r_['first_year_extended'],
                            r_['last_year_extended']) for _, r_ in bigs.iterrows())
               + '</tbody></table></div>')
@@ -486,6 +486,21 @@ def build_verification(lang):
               + filelink('data/current_panel_verification.csv', 'current_panel_verification.csv')
               + filelink('data/audit_response_2026-10-07.csv', 'audit_response_2026-10-07.csv')
               + '</p>\n</div></section>\n\n')
+    # the re-audit of commit 30d6cb1: one row per finding
+    rea = pd.read_csv(os.path.join(D, 'reaudit_response_2026-10-07.csv')).fillna('')
+    rrows = ''.join(
+        '<tr><td><strong>%s</strong> <span style="color:var(--muted)">#%d</span></td><td>%s</td><td>%s</td><td>%s</td></tr>'
+        % (E(r['finding']), int(r['issue']), E(r['title' + asuf]), E(r['verdict' + asuf]),
+           E(r['resolution' + asuf]) + '<br><span style="color:var(--muted);font-size:13px">' + E(r['status' + asuf]) + '</span>')
+        for _, r in rea.iterrows())
+    reaudsec = ('<section id="reaudit"><div class="wrap">\n  <h2>' + L(V['reaud_h'], lang) + '</h2>\n  <p class="sub">'
+                + (L(V['reaud_sub'], lang) % (len(rea), len(rea)))
+                + '</p>\n  <div class="tablewrap"><table><thead><tr><th>' + L(V['aud_c1'], lang) + '</th><th>'
+                + L(V['aud_c2'], lang) + '</th><th>' + L(V['aud_c3'], lang) + '</th><th>' + L(V['aud_c4'], lang)
+                + '</th></tr></thead><tbody>' + rrows + '</tbody></table></div>\n  <p style="margin-top:12px">'
+                + filelink('data/reaudit_response_2026-10-07.csv', 'reaudit_response_2026-10-07.csv')
+                + filelink('data/audit_inputs/README.md', 'audit_inputs/README.md')
+                + '</p>\n</div></section>\n\n')
     # one row per source: its most recent verification and the date that test ran
     by = pd.read_csv(os.path.join(D, 'reproduction_rate_latest.csv'))
     by['rate'] = (by.exact / by.n * 100).round(1)
@@ -548,7 +563,7 @@ def build_verification(lang):
      '<div class="hero"><div class="wrap">\n  <p class="eyebrow">' + L(V['eyebrow'], lang)
      + '</p>\n  <h1>' + L(V['h1'], lang) + '</h1>\n  <p class="lede">'
      + L(V['lede'], lang).replace('ACCESS', ACCESS) + '</p>\n</div></div>\n\n'
-     + revsec + extsec + audsec +
+     + revsec + extsec + audsec + reaudsec +
      '<section><div class="wrap">\n  <div class="stats">\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'
      '    <div class="stat"><span class="n">%s</span><span class="l">%s</span></div>\n'

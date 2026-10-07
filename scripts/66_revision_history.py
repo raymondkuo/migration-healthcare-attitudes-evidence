@@ -61,7 +61,7 @@ H = [
       change="Values unchanged by this step. Every detection value re-queried live and compared "
              "with the corrected panel; all 283 matched. The 86.2% first result reflected the "
              "input workbook's one-year offset, corrected before publication.",
-      change_zh="此步驟未變更數值。所有查獲人次數值皆即時重新查詢，並與更正後之 panel 比對，"
+      change_zh="此步驟未變更數值。所有查獲人數數值皆即時重新查詢，並與更正後之 panel 比對，"
                 "283 筆全數一致。首次測試之 86.2% 係反映原始工作表之一年位移，該位移已於發布前更正。"),
  dict(date="2026-08-18", time="11:11", commit="f9d7ae3", kind="source re-cited",
       iso3="CHE;ITA;JPN;KOR",
@@ -326,6 +326,50 @@ H += [
              "check recorded (verification/link_sweep.csv). Audit findings F22, F23.",
       change_zh="每項發現均先對照存檔來源或出版機構自身頁面查核，再行變更（verification/AUDIT_RESPONSE_2026-10-07.md）。來源連結已重新測試，"
                 "失敗者以 curl 重試，並記錄每次檢查之日期與方法（verification/link_sweep.csv）。稽核發現 F22、F23。"),
+]
+
+# ---------------------------------------------------------------- the re-audit of commit 30d6cb1
+rp = os.path.join(D, "extension_staging", "commit_stamp_reaudit.json")
+rstamp = json.load(open(rp, encoding="utf-8")) if os.path.exists(rp) else {}
+B = dict(date="2026-10-07", time=rstamp.get("time", ""), commit=rstamp.get("commit", ""))
+H += [
+ dict(B, kind="flagged as derived", iso3="HRV", scope="Croatia - foreign nationals - 2011", scope_zh="克羅埃西亞 · 外國籍人口 · 2011",
+      before="23,276 (not marked derived)", before_zh="23,276（未標示為推導值）",
+      after="23,276 (derived: sum of two printed categories)", after_zh="23,276（推導值：兩個印出分項之加總）",
+      change="The value is the sum of foreign citizens (22,527) and stateless persons (749), which the census table prints separately; "
+             "it was not marked derived. Value unchanged. The codebook now counts 17 derived values (13 range midpoints, 2 differences, "
+             "2 sums), not 16. Re-audit R07.",
+      change_zh="該數值為外國公民（22,527）與無國籍者（749）之加總，普查表分別列出此兩項；原未標示為推導值。數值不變。"
+                "變數說明書現計 17 筆推導值（13 筆區間中點、2 筆差、2 筆加總），而非 16 筆。再稽核 R07。"),
+ dict(B, kind="flag changed", iso3="FRA;NLD;SWE", scope="Detections: Eurostat break-in-series flags on France 2014, Netherlands 2015, Sweden 2014 and 2015",
+      scope_zh="查獲數：Eurostat 對法國 2014、荷蘭 2015、瑞典 2014 與 2015 標示之時間序列斷裂旗標",
+      before="no flag", before_zh="無旗標", after="Eurostat flag: break in time series", after_zh="Eurostat flag: break in time series",
+      change="Eurostat marks these four values \"b\" (break in time series). Values unchanged. A new column irregular_proxy_detections_flag "
+             "carries the flag; the data-quality table no longer rates the three detection series as continuous. Re-audit R04.",
+      change_zh="Eurostat 對這四筆數值標示「b」（時間序列斷裂）。數值不變。新增 irregular_proxy_detections_flag 欄位載明旗標；"
+                "資料品質表不再將這三組查獲數序列評為連續。再稽核 R04。"),
+ dict(B, kind="re-verified", iso3="", scope="Independent re-audit of commit 30d6cb1: 11 findings",
+      scope_zh="獨立再稽核 commit 30d6cb1：11 項發現",
+      before="24 of 24 audit findings confirmed", before_zh="稽核 24 項發現全部屬實",
+      after="11 of 11 re-audit findings confirmed", after_zh="再稽核 11 項發現全部屬實",
+      change="Each was re-checked against the archived source, the data files or a clean rebuild before anything was changed "
+             "(verification/AUDIT_RESPONSE_2026-10-07.md, re-audit section). One was a build defect: the ledger needed audit results "
+             "kept outside the repository, which an earlier rebuild test, run beside them, could not show. Re-audit R01-R11.",
+      change_zh="每項均先對照存檔來源、資料檔或乾淨重建查核，再行變更（verification/AUDIT_RESPONSE_2026-10-07.md 再稽核一節）。"
+                "其中一項為建置缺失：驗證表所需之稽核結果存放於存放庫之外，先前於其旁進行之重建測試無法顯現。再稽核 R01–R11。"),
+ dict(B, kind="documentation corrected", iso3="", scope="Descriptions, verification ledger and build inputs",
+      scope_zh="說明文字、驗證表與建置輸入",
+      before="see the response file", before_zh="見回覆檔案", after="corrected; values unchanged", after_zh="已更正；數值不變",
+      change="Grade definitions made mutually exclusive (C only for midpoints the archive computed); overstayer definitions state the mix of "
+             "register counts, estimates, a broader Australian group and one component; the large-gap rule reads the mean absolute gap in "
+             "every summary; the Eurostat/OECD date row is source-specific; the verification ledger gives each check method and the "
+             "population date convention, with its audit inputs committed (data/audit_inputs/); the analysis-notes splice table has "
+             "five columns and its lag-rule sentence is corrected; workbook-guide and README counts separate present from first-release "
+             "figures; the Chinese label for Eurostat detections says persons. Re-audit R01-R03, R05, R06, R08-R11.",
+      change_zh="等級定義改為互斥（C 級僅限本存檔計算之中點）；逾期停留者之定義載明登記數、推估數、範圍較廣之澳洲群體與單一組成部分並存；"
+                "各項摘要一律以平均絕對差距判定大幅差距；Eurostat／OECD 之日期列改依來源；驗證表載明每筆查核方式與母體人口日期，"
+                "並將其稽核輸入納入存放庫（data/audit_inputs/）；分析說明之接合表改為五欄，並更正其落後規則之敘述；"
+                "活頁簿說明與 README 之計數區分現況與首次發布之數字；Eurostat 查獲數之中文標籤改為「人數」。再稽核 R01–R03、R05、R06、R08–R11。"),
 ]
 
 # A correction to the published record itself, not to a value (so not in AMENDING). It has no

@@ -35,6 +35,7 @@ reads so that its "no published value changed" assertion exempts exactly these c
 """
 import glob
 import html
+import json
 import os
 import re
 import sys
@@ -465,10 +466,47 @@ put('ISL', 2021, 'irregular_proxy_detections', 'F16', 'added',
     verification='Read directly from the archived API response (evidence/api/'
                  'eurostat_migr_eipre_REVERIFY_2026-08-18.json); retrieved 2026-08-18.')
 
+# ================================================================== re-audit R04: publisher break flags on detections
+# Eurostat's migr_eipre payload marks four retained values "b" (break in time series). The flag columns
+# existed only for foreign_born and foreign_nationals, so the breaks were not carried anywhere (data quality,
+# ledger, evidence pages). The values are unchanged; the flag is new metadata on them.
+if 'irregular_proxy_detections_flag' not in panel.columns:
+    panel['irregular_proxy_detections_flag'] = pd.Series([np.nan] * len(panel), dtype=object)
+panel['irregular_proxy_detections_flag'] = panel['irregular_proxy_detections_flag'].astype(object)
+_EUR = os.path.join(API, 'eurostat_migr_eipre_REVERIFY_2026-08-18.json')
+_j = json.load(open(_EUR, encoding='utf-8'))
+_dims, _size = _j['id'], _j['size']
+_lab = {d: {v: k for k, v in _j['dimension'][d]['category']['index'].items()} for d in _dims}
+_str = [int(np.prod(_size[i + 1:])) for i in range(len(_size))]
+GEO2ISO = {'FR': 'FRA', 'NL': 'NLD', 'SE': 'SWE'}
+for _k, _f in sorted(_j['status'].items(), key=lambda kv: int(kv[0])):
+    _q = {d: _lab[d][(int(_k) // s) % sz] for d, s, sz in zip(_dims, _str, _size)}
+    _iso = GEO2ISO.get(_q['geo'])
+    if _iso is None or 'b' not in _f:          # only the countries of the panel; only the break flag
+        continue
+    _yr = int(_q['time'])
+    _i = ix(_iso, _yr)
+    assert panel.at[_i, 'irregular_proxy_detections'] == float(_j['value'][_k]), (_iso, _yr)
+    put(_iso, _yr, 'irregular_proxy_detections', 'R04', 'flag added',
+        'The archived Eurostat payload carries status "b" (break in time series) on this value; the value matches the '
+        'publisher but the break was not carried into the flag, the data-quality table or the evidence page.',
+        'evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-18.json, status b at %s %d' % (_q['geo'], _yr),
+        flag=L.eurostat_flag_text(_f))
+
+# ================================================================== re-audit R07: Croatia 2011 is a sum of two printed categories
+put('HRV', 2011, 'foreign_nationals', 'R07', 'relabelled',
+    'The cell is the sum of two categories the source prints separately (foreign citizens 22,527 and stateless '
+    'persons 749); no 23,276 subtotal is printed. It was not marked derived, contrary to the codebook rule.',
+    'evidence/countries/HRV/foreign_nationals__f43cbc3a6d__web.dzs.hr.html (Croatian Census 2011, citizenship table)',
+    derived='yes',
+    derivation='Sum of the two printed categories foreign citizens (22,527) and stateless persons (749); the source '
+               'prints no subtotal, and 2,137 persons of unknown citizenship are excluded')
+
 # ================================================================== shares follow the counts
 # Only the rows this script touched are recomputed: recomputing every row would move the last
 # digit of untouched values and make them look changed.
-chg_keys = {(r['iso3'], int(r['year']), r['variable']) for r in log}
+# R04 and R07 only add metadata (a flag, a derived marker); their values and shares must stay as they were
+chg_keys = {(r['iso3'], int(r['year']), r['variable']) for r in log if r['finding'] not in ('R04', 'R07')}
 pop_rows = panel.index.isin([ix(i, y) for (i, y, v) in chg_keys if v == 'population'])
 den = panel.population
 

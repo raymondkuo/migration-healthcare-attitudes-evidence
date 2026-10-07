@@ -158,7 +158,7 @@ FIXED = {
 GRADE_LABEL = {
     'A': 'A - decoded from a machine-readable official source (API response, open-data file or official workbook) and matched exactly',
     'B': 'B - read from an archived source document (PDF, web page, printed table or chart) in which the value appears, or summed from figures printed there',
-    'C': 'C - a published estimate or range: the point estimate, or the midpoint of the range',
+    'C': 'C - computed by the archive as the midpoint of a published range (the source prints no single figure); a single-number estimate a source publishes is A or B',
     'D': 'D - no archived source supports the value (none are published: such values are deleted)',
 }
 REGEX = {
@@ -196,8 +196,8 @@ ROWS_ADD = [
      'The audit of 2026-10-07 (GitHub issues #1-#25) was checked finding by finding against the archived '
      'sources. %d cell changes follow (Audit_changes sheet: %s); values changed are in Corrections_applied, the '
      'deletion in Deleted_values, and the verdicts in verification/AUDIT_RESPONSE_2026-10-07.md. Grades mean '
-     'provenance only: A decoded from a machine-readable source, B read from an archived document, C a '
-     'published estimate or range.'
+     'provenance only: A decoded from a machine-readable source, B read from an archived document, C the midpoint '
+     'of a published range computed by the archive.'
      % (len(aud_), ', '.join('%d %s' % (v, k) for k, v in aud_.kind.value_counts().items()))),
     ('Extension to 2001',
      'On 2026-10-07 the panel was extended from 2010-2022 back to 2001: %d rows, %s new values. '
@@ -223,6 +223,9 @@ for lab, text in ROWS_ADD:
         ws.cell(anchor + 1, 1).value, ws.cell(anchor + 1, 2).value = lab, text
         anchor += 1
 wb.save(XLSX)
+# the README sheet is also published as data/readme.csv: re-export it so that the two cannot drift apart again
+# (the CSV still carried the first-release reference-date, coverage and grade statements; re-audit R02)
+pd.read_excel(XLSX, sheet_name='README').to_csv(os.path.join(D, 'readme.csv'), index=False, encoding='utf-8-sig')
 
 chk = openpyxl.load_workbook(XLSX, read_only=True)
 print()

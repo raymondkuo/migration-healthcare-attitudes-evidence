@@ -45,11 +45,11 @@ FIND = {
         'mixed two methods, and the two input workbooks disagreed on population because they used '
         'different publishers. ', 'All %d corrections are itemised, with evidence.'),
  'zh': ('<strong>三個國家的序列整體位移一年。</strong>在原始工作表中，'
-        '<strong>瑞士、葡萄牙與瑞典</strong>的 Eurostat 非常規移民查獲人次序列被位移一年：'
+        '<strong>瑞士、葡萄牙與瑞典</strong>的 Eurostat 非常規移民查獲人數序列被位移一年：'
         'Eurostat 公布之 <em>Y+1</em> 年數值被置於 <em>Y</em> 年。'
         '真正的 2010 年數值付之闕如，而 2022 年欄位實際上放的是 2023 年數字。'
         '39 筆數值已全部替換為年度對齊之 Eurostat 資料。',
-        '值得一提的後果：原始變項說明書警告瑞典查獲人次序列在 2013 年（72,835）'
+        '值得一提的後果：原始變項說明書警告瑞典查獲人數序列在 2013 年（72,835）'
         '與 2014 年（1,445）之間出現斷點。該斷點正是位移所造成的假象；'
         '在真實的 Eurostat 資料中，斷點落在 <strong>2014 與 2015 年</strong>之間。'
         '佐證已存檔為',

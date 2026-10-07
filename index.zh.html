@@ -45,15 +45,15 @@
 <section><div class="wrap">
   <h2>每個數值的可靠程度如何？</h2>
   <p class="sub">Panel 中全部 2,485 筆數值均標註品質等級。等級係逐值給定，而非逐國給定。</p>
-  <div class="tablewrap"><table><thead><tr><th>等級</th><th>定義</th><th class="num">數值數</th><th class="num">占比</th></tr></thead><tbody><tr><td><span class="g gA">A</span></td><td>自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致</td><td class="num">2,323</td><td class="num">93.5%</td></tr><tr><td><span class="g gB">B</span></td><td>自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，或由文件中所印數字加總</td><td class="num">149</td><td class="num">6.0%</td></tr><tr><td><span class="g gC">C</span></td><td>來源公布之推估值或區間：取其點估計，或區間之中點</td><td class="num">13</td><td class="num">0.5%</td></tr><tr><td><span class="g gD">D</span></td><td>無任何存檔來源支持該數值（現無此類數值：此類數值一律刪除）</td><td class="num">0</td><td class="num">0.0%</td></tr></tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>等級</th><th>定義</th><th class="num">數值數</th><th class="num">占比</th></tr></thead><tbody><tr><td><span class="g gA">A</span></td><td>自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致；該數字本身可能是出版機構之推估或模型輸出，各格備註載明</td><td class="num">2,323</td><td class="num">93.5%</td></tr><tr><td><span class="g gB">B</span></td><td>自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，或由文件中所印數字加總；該數字可能是出版機構之計數或推估，各格備註載明</td><td class="num">149</td><td class="num">6.0%</td></tr><tr><td><span class="g gC">C</span></td><td>本存檔自已公布之區間取中點而得（因來源未印出單一數字；以 ≈ 標示）；來源所公布之單一數字推估值，依其讀取來源評為 A 或 B，不評為 C</td><td class="num">13</td><td class="num">0.5%</td></tr><tr><td><span class="g gD">D</span></td><td>無任何存檔來源支持該數值（現無此類數值：此類數值一律刪除）</td><td class="num">0</td><td class="num">0.0%</td></tr></tbody></table></div>
   <div class="note"><strong>目前已無評為 D 級的數值。</strong>原先的 6 筆&mdash;&mdash;南韓 2010–2015 年逾期停留人數，其唯一來源已離線&mdash;&mdash;已改採法務部《出入國·外國人政策統計年報》與政府開放資料之官方序列。其中 5 筆完全一致；2015 年該筆經查為 8 月 31 日之時點數，與其餘年度之年底數不一致，已更正為官方年底數 214,168。</div>
 </div></section>
 
 <section><div class="wrap">
   <h2>實質發現</h2>
   <p class="sub">查證並非形式作業，它實際改動了資料。</p>
-  <div class="note bad"><strong>三個國家的序列整體位移一年。</strong>在原始工作表中，<strong>瑞士、葡萄牙與瑞典</strong>的 Eurostat 非常規移民查獲人次序列被位移一年：Eurostat 公布之 <em>Y+1</em> 年數值被置於 <em>Y</em> 年。真正的 2010 年數值付之闕如，而 2022 年欄位實際上放的是 2023 年數字。39 筆數值已全部替換為年度對齊之 Eurostat 資料。</div>
-  <p>值得一提的後果：原始變項說明書警告瑞典查獲人次序列在 2013 年（72,835）與 2014 年（1,445）之間出現斷點。該斷點正是位移所造成的假象；在真實的 Eurostat 資料中，斷點落在 <strong>2014 與 2015 年</strong>之間。佐證已存檔為<a href="evidence/api/eurostat_migr_eipre_CH_PT_SE_2010_2023.json">涵蓋 2010&ndash;2023 年之 Eurostat API 原始回應</a>.</p>
+  <div class="note bad"><strong>三個國家的序列整體位移一年。</strong>在原始工作表中，<strong>瑞士、葡萄牙與瑞典</strong>的 Eurostat 非常規移民查獲人數序列被位移一年：Eurostat 公布之 <em>Y+1</em> 年數值被置於 <em>Y</em> 年。真正的 2010 年數值付之闕如，而 2022 年欄位實際上放的是 2023 年數字。39 筆數值已全部替換為年度對齊之 Eurostat 資料。</div>
+  <p>值得一提的後果：原始變項說明書警告瑞典查獲人數序列在 2013 年（72,835）與 2014 年（1,445）之間出現斷點。該斷點正是位移所造成的假象；在真實的 Eurostat 資料中，斷點落在 <strong>2014 與 2015 年</strong>之間。佐證已存檔為<a href="evidence/api/eurostat_migr_eipre_CH_PT_SE_2010_2023.json">涵蓋 2010&ndash;2023 年之 Eurostat API 原始回應</a>.</p>
   <p>另有三處更正&mdash;&mdash;臺灣的逾期停留欄位混用兩種不相容的國內統計；義大利的無證移民序列缺漏四年且混用兩種方法；兩份原始工作表因採用不同發布機構而在人口數上不一致。<a href="verification.zh.html">全部 67 筆更正均逐項載明並附佐證。</a></p>
 </div></section>
 

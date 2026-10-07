@@ -248,6 +248,14 @@ P['verification'] = {
              'zh': '24 項發現（GitHub issues #1–#24）均先對照存檔來源或出版機構自身頁面重新查核，再行變更。%d 項全部屬實'
                    '（其中 %d 項附有保留）。下表列出判定、變更內容，以及留待作者決定者；每一變更之儲存格載於 '
                    '<code>audit_changes_2026-10-07.csv</code>。'},
+ 'reaud_h': {'en': 'The re-audit of 2026-10-07', 'zh': '2026-10-07 再稽核'},
+ 'reaud_sub': {'en': 'An independent re-audit of commit <code>30d6cb1</code> found %d further defects (GitHub issues #5, #11, #12, '
+                     '#13, #17, #20, #21 reopened; #27&ndash;#30 opened). Each was checked against the archived source, the data '
+                     'files or a clean rebuild before anything was changed; all %d were confirmed. The audit&rsquo;s own result '
+                     'tables are now committed in <code>data/audit_inputs/</code> so that the verification ledger rebuilds.',
+               'zh': '對 commit <code>30d6cb1</code> 之獨立再稽核另發現 %d 項缺失（重新開啟 GitHub issues #5、#11、#12、#13、#17、'
+                     '#20、#21；新開 #27–#30）。每項均先對照存檔來源、資料檔或乾淨重建查核，再行變更；%d 項全部屬實。稽核自身之結果表現已納入 '
+                     '<code>data/audit_inputs/</code>，使驗證表得以重建。'},
  'aud_c1': {'en': 'Finding', 'zh': '發現'}, 'aud_c2': {'en': 'Subject', 'zh': '主題'},
  'aud_c3': {'en': 'Verdict', 'zh': '判定'}, 'aud_c4': {'en': 'What changed', 'zh': '變更內容'},
  'ext_h': {'en': 'The extension back to 2001', 'zh': '向前延伸至 2001 年'},
@@ -278,13 +286,14 @@ P['verification'] = {
  'ext_splice_h': {'en': 'Where the source changes at the join', 'zh': '於接合處更換來源者'},
  'ext_splice_sub': {'en': 'Where the source of the earlier years differs from the one already used '
                           'for 2010&ndash;2022, the two were compared over the years they share. '
-                          '%d series needed a change; %d differ by 5%% or more and are shown here. A '
+                          '%d series needed a change; %d differ by 5%% or more on the mean absolute gap and are shown here. A '
                           'step of that size at the join is a source effect, not a change in '
                           'migration. The rest are listed in the file below.',
                     'zh': '若較早年度所用之來源與 2010–2022 年已使用者不同，則於兩者共有之年度加以比較。'
-                          '共有 %d 組序列須更換來源，其中 %d 組相差 5%% 以上，列於下表。接合處如此幅度之變動'
+                          '共有 %d 組序列須更換來源，其中 %d 組之平均絕對差距達 5%% 以上，列於下表。接合處如此幅度之變動'
                           '屬來源效應，並非移民之實際變化。其餘序列見下方檔案。'},
- 'ext_col_gap': {'en': 'Mean gap', 'zh': '平均差距'},
+ 'ext_col_gap': {'en': 'Signed mean gap', 'zh': '有號平均差距'},
+ 'ext_col_abs': {'en': 'Mean absolute gap', 'zh': '平均絕對差距'},
  'ext_col_range': {'en': 'Range over the overlap', 'zh': '重疊年度之範圍'},
  'ext_col_ext': {'en': 'Years extended', 'zh': '延伸之年度'},
  'ext_col_ov': {'en': 'Overlap (years)', 'zh': '重疊年數'},
@@ -309,7 +318,7 @@ P['verification'] = {
                           'collection attempted, not obtained': '嘗試蒐集而未取得',
                           'manifest corrected': '雜湊清單更正',
                           'values added': '補增數值', 'grade changed': '等級變更',
-                          'flag changed': '旗標變更'}},
+                          'flag changed': '旗標變更', 'documentation corrected': '說明文字更正'}},
  'rate_h': {'en': 'Reproduction rate by source, as verified to date',
             'zh': '各來源之重現率（截至最近查證日）'},
  'rate_sub': {'en': 'Each row shows the most recent verification of that source and the date it '
@@ -327,7 +336,7 @@ P['verification'] = {
                      'column, and the corrections are itemised below.',
                'zh': '<strong>Eurostat migr_eipre 起初並非 100%。</strong>'
                      '於 2026-08-17 查證時，283 筆中有 244 筆一致（86.2%）：'
-                     '其中一份原始工作表的瑞士、葡萄牙、瑞典查獲人次序列整體位移一年。'
+                     '其中一份原始工作表的瑞士、葡萄牙、瑞典查獲人數序列整體位移一年。'
                      '該 39 筆全部更正後，已於 2026-08-18 重新向 Eurostat 查詢並重測，'
                      '283 筆全部一致（100%）。兩次測試均保留於查證紀錄的 '
                      '<code>stage</code> 欄位，更正內容逐項列於下方。'},
@@ -380,7 +389,7 @@ P['verification'] = {
                  '139 筆 OECD 國際移民資料庫數值（2010–2022 年）全部完全重現。',
                  '2026-10-07 對照全新取得之回應，延伸至 2001 年之前已發布之 1,777 筆數值再次全數完全重現'
                  '（見上方修訂紀錄）。',
-                 '原始工作表 1 之 274 筆 Eurostat 查獲人次全部完全重現'
+                 '原始工作表 1 之 274 筆 Eurostat 查獲人數全部完全重現'
                  '&mdash;&mdash;包含工作表 2 記載錯誤的那三個國家。',
                  '工作表 2 的 Panel 分頁與其自身稽核軌跡完全一致：1,690 筆數值、'
                  '零筆不符，且所有百分比欄位重新計算後均達浮點精度一致。',
@@ -404,7 +413,7 @@ P['methods'] = {
                     'and used only as a cross-check, because its '
                     '<code>Illegal_immigrants_number</code> column pools five conceptually '
                     'different measures — annual enforcement detections, which are a flow, '
-                    'together with overstayer register counts and modelled unauthorised-population '
+                    'together with overstayer counts and estimates and modelled unauthorised-population '
                     'estimates, which are stocks. Pooled that way the column cannot be read as a '
                     'series, so this archive keeps the three measures in three separate columns '
                     'and no published value is taken from the pooled column. Where a figure was '
@@ -470,11 +479,16 @@ P['methods'] = {
  'grade_sub': {'en': 'A grade describes where a value was read from (its provenance). It does not say '
                        'how precise the value is (rounding is stated in the cell note), whether the quantity is '
                        'comparable across countries or years (see the flags and notes), or whether the source&rsquo;s '
-                       'own estimate is accurate. Grades of first-release values were assigned under an earlier '
-                       'wording; the audit of 2026-10-07 re-read the 19 grade-A values that rest on documents: '
-                       '18 were regraded B and one (Taiwan overstayers 2021) was deleted.',
+                       'own estimate is accurate. Grades A and B cover publisher estimates and model outputs as well as '
+                       'counts: the cell note and the source type say which, and the grades are mutually exclusive. '
+                       'Grade C is kept for the midpoints of published ranges that the archive computed. Grades of '
+                       'first-release values were assigned under an earlier wording; the audit of 2026-10-07 re-read the '
+                       '19 grade-A values that rest on documents: 18 were regraded B and one (Taiwan overstayers 2021) '
+                       'was deleted.',
                'zh': '等級描述的是數值「讀自何處」（出處），並不表示其精確程度（四捨五入見各筆備註）、'
                      '該量是否可跨國或跨年度比較（見旗標與備註），也不表示來源本身之估計是否準確。'
+                     'A 與 B 同樣涵蓋出版機構之推估值與模型輸出，不限於計數：各格備註與來源類型載明其屬何者，各等級互斥；'
+                     'C 級僅留給本存檔所計算之已公布區間中點。'
                      '首次發布之數值係依較早之文字標準評級；2026-10-07 之稽核重新檢視 19 筆依賴文件之 A 級數值，'
                      '其中 18 筆改評為 B 級，1 筆（臺灣 2021 年逾期停留）已刪除。'},
  'grade_full': {'en': {'A': 'Decoded from a machine-readable official source (API response, open-data '
@@ -482,14 +496,16 @@ P['methods'] = {
                        'B': 'Read from an archived source document (PDF, web page, printed table or '
                             'chart) in which the value appears, or summed from figures printed there '
                             '(marked &asymp;).',
-                       'C': 'A modelled or survey-based estimate, or a published range: the value is '
-                            'the published point estimate, or the midpoint of the range (marked &asymp;).',
+                       'C': 'Computed by the archive as the midpoint of a published range, because the '
+                            'source prints no single figure (marked &asymp;). A single-number estimate that the '
+                            'source publishes is graded A or B by where it was read from, not C.',
                        'D': 'No archived source supports the value. None are published: under the '
                             'traceability rule such values are deleted.'},
                 'zh': {'A': '自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致。',
                        'B': '自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，'
                             '或由文件中所印之分項加總（以 ≈ 標示）。',
-                       'C': '來源公布之模型或調查推估值，或公布之區間：取其點估計，或區間之中點（以 ≈ 標示）。',
+                       'C': '本存檔自已公布之區間取中點而得（因來源未印出單一數字；以 ≈ 標示）。來源所公布之單一數字推估值，'
+                            '依其讀取來源評為 A 或 B，不評為 C。',
                        'D': '無任何存檔來源支持該數值。現無此類數值：依可追溯原則，此類數值一律刪除，不予發布。'}},
  'col_crit': {'en': 'Criterion', 'zh': '判準'},
  'weight_h': {'en': 'How much weight each variable can carry', 'zh': '各變項可承載的推論重量'},
@@ -500,14 +516,15 @@ P['methods'] = {
                     'foreign_born': 'Strong, but includes naturalised citizens.',
                     'foreign_nationals': 'Strong, and conceptually the right variable for this study.',
                     'irregular_stock': 'Weak. Not comparable across countries.',
-                    'irregular_proxy_overstayers': 'Weak. Register counts; they understate the true figure.',
+                    'irregular_proxy_overstayers': 'Weak. Counts and estimates of different kinds; none is a complete '
+                                                   'count of irregular residents.',
                     'irregular_proxy_detections': 'Weakest. An annual flow of enforcement detections, not a '
                                                   'stock; units differ by source.'},
              'zh': {'population': '強。可放心使用。',
                     'foreign_born': '強，但已包含歸化取得公民身分者。',
                     'foreign_nationals': '強，且在概念上正是本研究所需之變項。',
                     'irregular_stock': '弱。不可跨國比較。',
-                    'irregular_proxy_overstayers': '弱。屬登記數，會低估實際人數。',
+                    'irregular_proxy_overstayers': '弱。各國所報為不同性質之計數或推估；皆非對非常規居民之完整計數。',
                     'irregular_proxy_detections': '最弱。屬執法查獲之年度流量，而非人口存量；各來源之計量單位不同。'}},
  'rec_note': {'en': '<strong>Recommendation.</strong> Use <code>foreign_nationals_pct_pop</code> as '
                     'the main cross-national regressor. It is the population the survey question is '

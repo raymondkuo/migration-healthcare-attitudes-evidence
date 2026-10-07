@@ -195,9 +195,23 @@ n_sp = len(splice)
 n_fb = int((splice.variable == 'foreign_born').sum())
 n_fn = int((splice.variable == 'foreign_nationals').sum())
 n_cells = int(splice.cells.sum())
-med = float(splice.mean_gap_pct.abs().median())
-big = splice[splice.mean_gap_pct.abs() >= 5]
+# the declared rule is the mean ABSOLUTE gap of 5% or more; the signed mean is a separate statistic (re-audit R03)
+med = float(splice.mean_abs_gap_pct.median())
+big = splice[splice.mean_abs_gap_pct >= 5].sort_values('mean_abs_gap_pct', ascending=False)
 n_big, n_big_cells = len(big), int(big.cells.sum())
+import i18n as _i18n                                                         # noqa: E402
+_CN = panel.drop_duplicates('iso3').set_index('iso3').country.to_dict()
+_ZN = lambda iso: _i18n.COUNTRY.get(_CN[iso], _CN[iso])
+_VZ = {'foreign_born': '外國出生', 'foreign_nationals': '外國籍'}
+big_txt = '; '.join('%s %s %+.1f%% signed, %.1f%% mean absolute, %d overlap year%s'
+                    % (_CN[r.iso3], r.variable.replace('_', '-'), r.mean_gap_pct, r.mean_abs_gap_pct, r.overlap_years,
+                       '' if r.overlap_years == 1 else 's') for r in big.itertuples())
+big_txt_zh = '；'.join('%s%s 有號 %+.1f%%、平均絕對 %.1f%%、重疊 %d 年'
+                      % (_ZN(r.iso3), _VZ[r.variable], r.mean_gap_pct, r.mean_abs_gap_pct, r.overlap_years)
+                      for r in big.itertuples())
+big_scope = ', '.join(sorted({_CN[i] for i in big.iso3}))
+thin = ' and '.join('%s %s' % (_CN[r.iso3], r.variable.replace('_', '-')) for r in big[big.overlap_years <= 2].itertuples())
+thin_zh = '與'.join('%s%s' % (_ZN(r.iso3), _VZ[r.variable]) for r in big[big.overlap_years <= 2].itertuples())
 
 NEW = [
  dict(severity='MEDIUM', scope='Spliced series (OECD values extend a Eurostat series)',
@@ -205,12 +219,12 @@ NEW = [
       issue='For %d country-series (%d foreign-born, %d foreign-national) the 2001-2009 values come '
             'from OECD while the 2010-2022 values published earlier come from Eurostat, because '
             'Eurostat\'s tables start later. The two sources do not count exactly the same thing: '
-            'where both exist, the median difference between the series is %.1f%%, and %d of the %d '
-            'differ by 5%% or more (next row).' % (n_sp, n_fb, n_fn, med, n_big, n_sp),
+            'where both exist, the median of the mean absolute difference between the series is %.1f%%, and %d of '
+            'the %d differ by 5%% or more on that measure (next row).' % (n_sp, n_fb, n_fn, med, n_big, n_sp),
       issue_zh='有 %d 組國家序列（外國出生 %d 組、外國籍 %d 組）之 2001–2009 年數值取自 OECD，'
                '而先前發布之 2010–2022 年數值取自 Eurostat，原因是 Eurostat 之表格起始較晚。'
-               '兩個來源所計並不完全相同：兩者並存之年度，序列間差異之中位數為 %.1f%%，'
-               '其中 %d 組差異達 5%% 以上（見下一列）。' % (n_sp, n_fb, n_fn, med, n_big),
+               '兩個來源所計並不完全相同：兩者並存之年度，序列間平均絕對差距之中位數為 %.1f%%，'
+               '其中 %d 組以此衡量達 5%% 以上（見下一列）。' % (n_sp, n_fb, n_fn, med, n_big),
       evidence='data/extension_splice_summary.csv lists, for every spliced series, the years of '
                'overlap and the mean, minimum and maximum difference; data/migrant_stock_alternatives.csv '
                'holds the OECD values for every year so that a single-source series can be built.',
@@ -222,33 +236,17 @@ NEW = [
       action_zh='每一筆接續之數值均標示為「splice」，備註載明實測之差距，且未作任何縮放或調整。'
                 '若趨勢分析不容許來源變動，請改用 migrant_stock_alternatives.csv 中 OECD '
                 '2001–2022 年之數值，或自 2010 年起算。'),
- dict(severity='MEDIUM', scope='Denmark, Slovakia, Czechia, Lithuania, Poland, Portugal',
+ dict(severity='MEDIUM', scope=big_scope,
       variable='foreign_born / foreign_nationals',
-      issue='%d spliced series differ from the series they were joined to by 5%% or more: Denmark '
-            'foreign-born %.1f%% (every year between %.0f%% and %.0f%%), Slovakia %+.1f%%, Czechia '
-            '%+.1f%%, Lithuania %+.1f%%, Portugal foreign-nationals %+.1f%%, and Poland and Portugal '
-            'foreign-born on one or two overlapping years only.'
-            % (n_big, big[(big.iso3 == 'DNK')].mean_gap_pct.iloc[0],
-               abs(big[(big.iso3 == 'DNK')].max_gap_pct.iloc[0]),
-               abs(big[(big.iso3 == 'DNK')].min_gap_pct.iloc[0]),
-               big[(big.iso3 == 'SVK')].mean_gap_pct.iloc[0],
-               big[(big.iso3 == 'CZE')].mean_gap_pct.iloc[0],
-               big[(big.iso3 == 'LTU')].mean_gap_pct.iloc[0],
-               big[(big.iso3 == 'PRT') & (big.variable == 'foreign_nationals')].mean_gap_pct.iloc[0]),
-      issue_zh='有 %d 組接續序列與其所銜接之序列相差 5%% 以上：丹麥外國出生 %.1f%%（各年介於 %.0f%% 至 %.0f%%）、'
-               '斯洛伐克 %+.1f%%、捷克 %+.1f%%、立陶宛 %+.1f%%、葡萄牙外國籍 %+.1f%%，'
-               '另有波蘭與葡萄牙之外國出生序列僅憑一至兩個重疊年度。'
-               % (n_big, big[(big.iso3 == 'DNK')].mean_gap_pct.iloc[0],
-                  abs(big[(big.iso3 == 'DNK')].max_gap_pct.iloc[0]),
-                  abs(big[(big.iso3 == 'DNK')].min_gap_pct.iloc[0]),
-                  big[(big.iso3 == 'SVK')].mean_gap_pct.iloc[0],
-                  big[(big.iso3 == 'CZE')].mean_gap_pct.iloc[0],
-                  big[(big.iso3 == 'LTU')].mean_gap_pct.iloc[0],
-                  big[(big.iso3 == 'PRT') & (big.variable == 'foreign_nationals')].mean_gap_pct.iloc[0]),
+      issue='%d spliced series (%d cells) have a mean ABSOLUTE gap of 5%% or more against the series they were joined to: %s. '
+            'The signed mean can hide a gap of this size when differences of opposite sign cancel. %s rest on one or two '
+            'overlapping years only.' % (n_big, n_big_cells, big_txt, thin),
+      issue_zh='有 %d 組接續序列（%d 筆數值）與其所銜接之序列的平均絕對差距達 5%% 以上：%s。若正負相反之差異相互抵銷，'
+               '有號平均數會掩蓋此一幅度之差距。%s之序列僅憑一至兩個重疊年度。' % (n_big, n_big_cells, big_txt_zh, thin_zh),
       evidence='Measured over the years where both sources publish a value for the country '
-               '(data/extension_splice_summary.csv). The Danish gap is systematic, so it is a '
-               'difference in what the two sources count, not noise.',
-      evidence_zh='差距係以兩個來源均有發布該國數值之年度計算（data/extension_splice_summary.csv）。'
+               '(data/extension_splice_summary.csv, which holds both the signed mean and the mean absolute gap). The Danish '
+               'gap is systematic, so it is a difference in what the two sources count, not noise.',
+      evidence_zh='差距係以兩個來源均有發布該國數值之年度計算（data/extension_splice_summary.csv，同時載有有號平均與平均絕對差距）。'
                   '丹麥之差距具系統性，反映兩個來源所計內容之不同，並非隨機誤差。',
       action='The %d affected cells are flagged "splice (large gap)". A step of this size at the join '
              'is a source effect, not a change in migration; do not difference across it. The OECD '
@@ -384,9 +382,25 @@ ki.loc[mask, 'evidence'] = ('%d of %d country-years differ (2001-2022); %d by mo
 ki.loc[mask, 'evidence_zh'] = ('%d 個國家—年度中有 %d 個不一致（2001–2022）；其中 %d 個差異超過 3%%。'
                                '僅就 2010–2022：%d 個中有 %d 個不一致，其中 %d 個超過 3%%。'
                                % (len(_gap), _a, _b, len(_g10), _a10, _b10))
+mask = ki.scope == 'Eurostat / OECD countries'
+assert mask.sum() == 1
+ki.loc[mask, 'issue'] = ("Eurostat stocks are measured at 1 January, so the row labelled year Y describes 31 December of Y-1. "
+                         "OECD dates follow the national source: 30 June for Australia's foreign-born, 1 January for the "
+                         "foreign population of Japan, Turkey, the United Kingdom and Germany, and no stated date for "
+                         "several survey- or census-based series. Taiwan and Korea registers are year-end. The per-value "
+                         "*_ref_date column carries the date; no value was shifted.")
+ki.loc[mask, 'issue_zh'] = ("Eurostat 之存量統計係以 1 月 1 日為基準，因此標示為 Y 年的列，描述的是 Y−1 年 12 月 31 日的狀態。"
+                            "OECD 之日期依各國來源：澳洲外國出生人口為 6 月 30 日，日本、土耳其、英國與德國之外國人口為 1 月 1 日，"
+                            "若干以調查或普查為基礎之序列未載明日期。臺灣與南韓之登記數為年底。逐值之 *_ref_date 欄載明日期，"
+                            "未將任何數值移位。")
+ki.loc[mask, 'evidence'] = ("Eurostat migr_pop1ctz / migr_pop3ctb metadata; OECD International Migration Outlook 2024, "
+                            "statistical annex (reference dates by country).")
+ki.loc[mask, 'evidence_zh'] = ("Eurostat migr_pop1ctz／migr_pop3ctb 之後設資料；OECD《International Migration Outlook 2024》"
+                               "統計附錄（各國參照日期）。")
 _AT = AT.known_issues()
 _keys = {(r['scope'], r['variable']) for r in _AT}
 NEW = [r for r in NEW if (r['scope'], r['variable']) not in _keys] + _AT
+ki = ki[ki.scope != 'Denmark, Slovakia, Czechia, Lithuania, Poland, Portugal']   # replaced by the row keyed on the full list
 for r in NEW:
     ki = ki[~((ki.scope == r['scope']) & (ki.variable == r['variable']))]
 ki = pd.concat([ki, pd.DataFrame(NEW)], ignore_index=True)[list(ki.columns)]
@@ -400,21 +414,37 @@ yr = cb.index[cb[cols[0]] == 'year']
 assert len(yr) == 1
 cb.loc[yr, cols[1]] = 'Calendar year, 2001-2022.'
 cb.loc[yr, 'definition_zh'] = '曆年，2001–2022。'
-# the "derived" flag no longer means only "midpoint of a published range"
-n_mid = n_sub = 0
+# the "derived" flag no longer means only "midpoint of a published range": say which kinds there are
+KINDS = {'midpoint': [], 'subtraction': [], 'sum': []}
 for v in ('foreign_born', 'foreign_nationals', 'irregular_stock'):
     if v + '_derived' in panel.columns:
-        d = panel[panel[v + '_derived'].astype(str).str.strip() == 'yes']
-        rng = d[v + '_published_range'].fillna('').astype(str).str.strip().ne('')
-        n_mid += int(rng.sum())
-        n_sub += int((~rng).sum())
+        for r_ in panel[panel[v + '_derived'].astype(str).str.strip() == 'yes'].itertuples():
+            rng = getattr(r_, v + '_published_range')
+            dv = str(getattr(r_, v + '_derivation') or '')
+            kind = ('midpoint' if pd.notna(rng) and str(rng).strip() else
+                    'sum' if dv.lower().startswith('sum') else 'subtraction')
+            KINDS[kind].append((r_.country, int(r_.year)))
+
+
+def _grp(items, zh=False):
+    by = {}
+    for c_, y_ in items:
+        by.setdefault(c_, []).append(y_)
+    return ('、' if zh else '; ').join('%s %s' % (_i18n.COUNTRY.get(c_, c_) if zh else c_,
+                                                 ', '.join(str(y) for y in sorted(ys))) for c_, ys in sorted(by.items()))
+
+
+n_mid, n_dif, n_sum = len(KINDS['midpoint']), len(KINDS['subtraction']), len(KINDS['sum'])
 dr = cb.index[cb[cols[0]] == '*_derived']
 assert len(dr) == 1
-cb.loc[dr, cols[2]] = ('Marked with ≈ on the website. %d such values: %d are midpoints of '
-                       'published ranges and %d are the difference of two published rows (UK '
-                       'foreign-born 2004-2005).' % (n_mid + n_sub, n_mid, n_sub))
-cb.loc[dr, 'caution_zh'] = ('網站上以 ≈ 標示。共 %d 筆：%d 筆為已公布區間之中點，%d 筆為兩個已公布列之差'
-                            '（英國外國出生 2004–2005 年）。' % (n_mid + n_sub, n_mid, n_sub))
+cb.loc[dr, cols[2]] = ('Marked with ≈ on the website. %d such values: %d are midpoints of published ranges (irregular '
+                       'stock), %d are the difference of two published figures (%s) and %d are sums of published '
+                       'categories (%s). A subtotal the source prints itself is not a derivation.'
+                       % (n_mid + n_dif + n_sum, n_mid, n_dif, _grp(KINDS['subtraction']), n_sum, _grp(KINDS['sum'])))
+cb.loc[dr, 'caution_zh'] = ('網站上以 ≈ 標示。共 %d 筆：%d 筆為已公布區間之中點（無證移民存量）、%d 筆為兩個已公布數字之差（%s）、'
+                            '%d 筆為已公布分項之加總（%s）。來源自行印出之小計不屬推導。'
+                            % (n_mid + n_dif + n_sum, n_mid, n_dif, _grp(KINDS['subtraction'], True), n_sum,
+                               _grp(KINDS['sum'], True)))
 # counts the first release typed in (and that later went stale) are recomputed from the panel
 def set_caution(name, en, zh):
     i = cb.index[cb[cols[0]] == name]
@@ -444,10 +474,7 @@ set_caution('irregular_stock',
             'WEAK. %d/%d countries. Methods not comparable across countries. Not extended before 2010.'
             % (_irr, _NC),
             '薄弱。%d／%d 國。各國方法不可比。2010 年以前未延伸。' % (_irr, _NC))
-set_caution('irregular_proxy_overstayers',
-            'WEAK. %d/%d countries. A register count, not a modelled stock. Not extended before 2010.'
-            % (_ovs, _NC),
-            '薄弱。%d／%d 國。為登記統計數，並非模型推估之存量。2010 年以前未延伸。' % (_ovs, _NC))
+set_caution('irregular_proxy_overstayers', AT.OVS_CAUTION_EN % (_ovs, _NC), AT.OVS_CAUTION_ZH % (_ovs, _NC))
 
 ADD = [
  ('*_source_type', 'Kind of source behind a foreign_born or foreign_nationals value: annual '
@@ -457,18 +484,20 @@ ADD = [
   '外國出生或外國籍人口數值所依據之來源類型：annual（Eurostat、OECD、內政部等官方逐年序列）、census（普查）、'
   'survey（家戶調查估計）、un_estimate（UN DESA 模型估計）或 other。',
   '依此欄篩選即可僅保留逐年序列。'),
- ('*_flag', 'Comparability flags on a foreign_born or foreign_nationals value, separated by '
-  'semicolons: splice (source differs from the one used for the rest of the series), splice '
-  '(large gap) (and the two sources differ by 5% or more where they overlap), un_estimate, declared '
-  'citizenship basis, comparability caution, includes former-USSR births, derived by subtraction, '
-  'and the publisher\'s own flags (Eurostat: break in time series, estimated, provisional).',
+ ('*_flag', 'Comparability flags on a foreign_born, foreign_nationals or irregular_proxy_detections value, '
+  'separated by semicolons. foreign_born and foreign_nationals: splice (source differs from the one used for the rest '
+  'of the series), splice (large gap) (the mean ABSOLUTE gap between the two sources over the overlapping years is '
+  '5% or more; the signed mean is reported separately), un_estimate, declared citizenship basis, comparability '
+  'caution, includes former-USSR births, derived by subtraction, and the publisher\'s own flags (Eurostat: break in '
+  'time series, estimated, provisional). irregular_proxy_detections: only the publisher\'s own Eurostat flag '
+  '(break in time series).',
   'Blank means no flag. Attached to every cell, including those published before the '
   'extension (UN DESA estimates and the flags Eurostat itself attached). See the cell note and '
   'data/extension_splice_summary.csv.',
-  '外國出生或外國籍人口數值之可比性旗標，以分號分隔：splice（來源與序列其餘部分不同）、splice (large gap)'
-  '（且兩來源於重疊年度相差 5% 以上）、un_estimate、declared citizenship basis、comparability caution、'
-  'includes former-USSR births、derived by subtraction，以及發布機構自身之旗標'
-  '（Eurostat：時間序列斷裂、估計值、暫定值）。',
+  '外國出生、外國籍人口或查獲人數數值之可比性旗標，以分號分隔。外國出生與外國籍人口：splice（來源與序列其餘部分不同）、'
+  'splice (large gap)（兩來源於重疊年度之「平均絕對差距」達 5% 以上；有號平均另行報告）、un_estimate、'
+  'declared citizenship basis、comparability caution、includes former-USSR births、derived by subtraction，'
+  '以及發布機構自身之旗標（Eurostat：時間序列斷裂、估計值、暫定值）。查獲人數：僅 Eurostat 自身之旗標（時間序列斷裂）。',
   '空白表示無旗標。適用於每一格，包括延伸前已發布者（UN DESA 估計值與 Eurostat 自身之旗標）。'
   '請參閱各筆備註與 data/extension_splice_summary.csv。'),
  ('*_collected_on', 'Date a value was collected, for values added in the 2001 extension '

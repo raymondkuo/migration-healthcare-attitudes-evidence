@@ -87,23 +87,29 @@ FOOTER = {
 # ---------------------------------------------------------------- grades
 GRADE_DESC = {
  'en': {'A': 'Decoded from a machine-readable official source (API response, open-data file or official '
-             'workbook) and matched exactly',
+             'workbook) and matched exactly. The number can itself be a publisher estimate or model output; the cell '
+             'note says so',
         'B': 'Read from an archived source document (PDF, web page, printed table or chart) in which the '
-             'value appears, or summed from figures printed there',
-        'C': 'A published estimate or range: the value is the point estimate, or the midpoint of the range',
+             'value appears, or summed from figures printed there. The number can be a publisher count or estimate; '
+             'the cell note says which',
+        'C': 'Computed by the archive as the midpoint of a published range, because the source prints no single '
+             'figure (marked \u2248). A single-number estimate that the source publishes is graded A or B by where '
+             'it was read from, not C',
         'D': 'No archived source supports the value (none are published: such values are deleted)'},
- 'zh': {'A': '自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致',
-        'B': '自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，或由文件中所印數字加總',
-        'C': '來源公布之推估值或區間：取其點估計，或區間之中點',
+ 'zh': {'A': '自機器可讀之官方來源（API 回應、開放資料檔或官方活頁簿）解出並完全一致；該數字本身可能是出版機構之推估或模型輸出，'
+              '各格備註載明',
+        'B': '自已存檔之來源文件（PDF、網頁、印刷表格或圖表）讀取，或由文件中所印數字加總；該數字可能是出版機構之計數或推估，各格備註載明',
+        'C': '本存檔自已公布之區間取中點而得（因來源未印出單一數字；以 \u2248 標示）；來源所公布之單一數字推估值，'
+             '依其讀取來源評為 A 或 B，不評為 C',
         'D': '無任何存檔來源支持該數值（現無此類數值：此類數值一律刪除）'},
 }
 
 GRADE_SHORT = {
  'en': {'A': 'decoded from a machine-readable official source',
         'B': 'read from the archived source document',
-        'C': 'published estimate or range', 'D': 'no archived source'},
+        'C': 'midpoint of a published range (computed here)', 'D': 'no archived source'},
  'zh': {'A': '自機器可讀之官方來源解出',
-        'B': '自已存檔之來源文件讀取', 'C': '公布之推估值或區間', 'D': '無存檔來源'},
+        'B': '自已存檔之來源文件讀取', 'C': '已公布區間之中點（本存檔計算）', 'D': '無存檔來源'},
 }
 
 # ---------------------------------------------------------------- verification tags
@@ -133,7 +139,7 @@ COMPARABILITY = {
  'foreign_nationals': '最接近「非本國籍」之定義。採出生地主義之國家不編製此統計；'
                       '亦受歸化率影響，故非純粹之移民指標。',
  'irregular_stock': '不可跨國比較。各國推估方法、年度與定義均不相同。',
- 'irregular_proxy_overstayers': '不可跨國比較。屬行政登記數，僅涵蓋已被登錄之逾期停留者。',
+ 'irregular_proxy_overstayers': '不可跨國比較。為異質之存量代理指標：登記數、官方推估數與單一組成部分並存。',
  'irregular_proxy_detections': '不可跨國比較，且屬執法事件之「流量」而非人口「存量」。'
                                '數值受查緝強度與該國在移民路線上的位置影響。',
 }

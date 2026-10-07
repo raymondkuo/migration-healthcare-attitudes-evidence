@@ -16,8 +16,9 @@ Sheets: `README`, `Revision_history`, `Audit_changes`, `Panel_final`, `Data_qual
 
 Current figures (computed from the data files on 2026-10-07):
 
-- Grades over the six graded variables: **A 2,323, B 142, C 13, D 0** (2,478 values). Grades say where a
-  value was read from, not how precise or comparable it is.
+- Grades over the six headline variables: **A 2,323, B 142, C 13, D 0** (2,478 values). The seven
+  Taiwan absconded-worker values are also displayed and are all grade B: with them, 2,485 values, A 2,323,
+  B 149, C 13. Grades say where a value was read from, not how precise or comparable it is.
 - 67 value corrections and 2 deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   2026-10-07 is in `Audit_changes`.
@@ -51,9 +52,10 @@ compiled from the first-release inputs, covers 2010-2022 only, and has not been 
   URLs in the register and 2,737 value comparisons. Neither set is wrong; they are different runs.
 - Its `Source Audit` and `Folder Index` sheets point to a folder layout (`country_sources\...`, `sources\001_...`)
   that does not exist here; the evidence lives under `evidence/countries/<ISO3>/`.
-- It differs from the current panel in **31 of 1,696 compared primary values**; 6 of these were
-  omissions that have since been added to the panel, and the other 25 are corrected, rejected, reclassified,
-  superseded or deleted input values. Every one has a disposition in `data/secondary_workbook_differences.csv`.
+- It differs from the current panel in **25 of 1,696 compared primary values** (corrected, rejected,
+  reclassified, superseded or deleted input values). `data/secondary_workbook_differences.csv` holds **31
+  disposition records**: those 25 present differences plus 6 first-release omissions that have since
+  been added to the panel and now agree. The two numbers answer different questions and are not interchangeable.
 
 Its substantive conclusions agree with this archive's: population is sound as a denominator, the foreign-national
 stock is the variable closest to the survey question, and the irregular-migration measures are too sparse and too

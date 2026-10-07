@@ -92,6 +92,7 @@ out['overstayers'] = p['irregular_proxy_overstayers']
 out['overstayers_pct_of_pop'] = (p['irregular_proxy_overstayers_pct_pop'] * 100).round(3)
 out['detections'] = p['irregular_proxy_detections']
 out['detections_per_1000_pop'] = p['irregular_proxy_detections_per_1000_pop'].round(4)
+out['detections_flag'] = p['irregular_proxy_detections_flag'].fillna('')
 out['absconded_workers_tw'] = p['irregular_proxy_absconded_workers']
 
 # ---------------------------------------------------------------- quality grades
@@ -151,8 +152,8 @@ ok_after = int((after.status == 'EXACT').sum())
 
 ovl_n, ovl_same = int(ovl.cells_compared.sum()), int(ovl.identical.sum())
 NSPL = len(spl)
-LARGE = spl[spl.mean_gap_pct.abs() >= 5]
-worst_spl = spl.loc[spl.mean_gap_pct.abs().idxmax()]
+LARGE = spl[spl.mean_abs_gap_pct >= 5]                      # the rule is the mean ABSOLUTE gap (re-audit R03)
+worst_spl = spl.loc[spl.mean_abs_gap_pct.idxmax()]
 
 type_c = set(p[typec].iso3)
 n_type_c = int(typec.sum())
@@ -176,9 +177,10 @@ new_cells = {v: int(p[v + '_collected_on'].notna().sum()) for v in
 # ---------------------------------------------------------------- codebook
 FLAGS = {
  'splice': "Filled from a different source family than the country's 2010-2022 series; the "
-           'mean gap on the overlapping years is under 5% (extension_splice_summary.csv).',
- 'splice (large gap)': 'Same, but the mean gap on the overlapping years is 5% or more: treat '
-                       'the join as a break in the series.',
+           'mean absolute gap on the overlapping years is under 5% (extension_splice_summary.csv).',
+ 'splice (large gap)': 'Same, but the mean ABSOLUTE gap on the overlapping years is 5% or more (the signed '
+                       'mean can hide it when differences of opposite sign cancel): treat the join as a '
+                       'break in the series.',
  'splice; derived by subtraction': 'United Kingdom only: total population minus UK-born (ONS '
                                    'Annual Population Survey), not a published foreign-born '
                                    'count; also a splice.',
@@ -196,7 +198,7 @@ FLAGS = {
                        'in time series, estimated or provisional. Recorded for every Eurostat '
                        'cell, including those published before the extension.',
 }
-used = set(out.foreign_born_flag) | set(out.foreign_nationals_flag)
+used = set(out.foreign_born_flag) | set(out.foreign_nationals_flag) | set(out.detections_flag)
 unknown = {f for f in used if f and f not in FLAGS and not f.startswith('Eurostat flag: ')}
 assert not unknown, 'flag values with no codebook text: %s' % sorted(unknown)
 flag_text = ' | '.join('%s: %s' % (k, v) for k, v in FLAGS.items())
@@ -269,9 +271,12 @@ CODE = [
   'about level.' % mid_n),
  ('irregular_stock_published_range', 'The range the source actually published, where it '
                                      'published a range rather than a point estimate.', ''),
- ('overstayers', 'Administrative count of people recorded as overstaying a permit.',
-  'STOCK, register-based. Only %d countries. Counts those already recorded, not the whole '
-  'unauthorised population.' % ovs_c),
+ ('overstayers', 'Stock proxy for persons staying beyond their authorised stay. The kind of measure differs by '
+                  'country: register counts (Korea; Taiwan, all categories), official estimates (Japan, New '
+                  "Zealand; Australia's unlawful non-citizens, a broader group than overstayers) and one component "
+                  '(Israel). The cell note says which.',
+  'STOCK, heterogeneous. Only %d countries. Neither a modelled stock of all irregular residents nor an exact '
+  'count: register counts record only those already recorded, and the estimates are the publishers\' own.' % ovs_c),
  ('overstayers_pct_of_pop', 'overstayers as a PERCENTAGE of population (0-100).', ''),
  ('detections', 'Persons found or apprehended as illegally present during the calendar year, as the '
                 'source counts them. Eurostat (migr_eipre): third-country nationals found to be illegally '
@@ -282,15 +287,20 @@ CODE = [
   'Turkey counts irregular migrants apprehended, Syrians under temporary protection excluded. The '
   'same person can appear in different years. Driven by enforcement intensity and position on a '
   'migration route.'),
- ('detections_per_1000_pop', 'detections per 1,000 residents.',
+ ('detections_per_1000_pop', 'detections per 1,000 residents: persons for Eurostat, events for Mexico.',
   'Provided because a flow count cannot be compared with a stock share; the unit differs by '
   'source (see detections).'),
+ ('detections_flag', 'The publisher\'s own flag on the detections value, blank where there is none. '
+                     'Eurostat marks France 2014, the Netherlands 2015 and Sweden 2014 and 2015 as a break in '
+                     'time series.',
+  'A value at a flagged year is exactly what the publisher printed, but a change across it can reflect a '
+  'change in how detections are counted. Do not read it as a change in enforcement without checking.'),
  ('absconded_workers_tw', 'Taiwan only: migrant workers recorded as having absconded '
                           '(失聯移工), Ministry of Labor.',
   'A SUBSET of overstayers. Kept in its own column so it is never read as the same series.'),
  ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
-                       'official source; B: read from an archived document; C: published estimate or '
-                       'range; D: none published.',
+                       'official source; B: read from an archived document; C: midpoint of a published range, '
+                       'computed by the archive; D: none published.',
   'A grade says where a value was read from, not how precise it is (Taiwan 2001-2009 population is '
   'rounded to thousands) or whether it is comparable across countries.'),
  ('grade_foreign_born', 'Evidence grade for foreign_born.', ''),
@@ -351,11 +361,11 @@ README = [
  ('Joins between sources', '%d country-series needed a different source from the one behind '
                            'their 2010-2022 values; every such cell carries the flag "splice". '
                            'The gap between the two sources on the overlapping years was '
-                           'measured: %d series have a mean gap of 5%% or more (largest: %s %s, '
-                           '%+.1f%%) and those cells carry "splice (large gap)". Treat each '
+                           'measured: %d series have a mean ABSOLUTE gap of 5%% or more (largest: %s %s, '
+                           '%.1f%%) and those cells carry "splice (large gap)". Treat each '
                            'as a break in the series, not as a continuation.'
                            % (NSPL, len(LARGE), name_of[worst_spl.iso3],
-                              worst_spl.variable.replace('_', ' '), worst_spl.mean_gap_pct)),
+                              worst_spl.variable.replace('_', ' '), worst_spl.mean_abs_gap_pct)),
  ('Large year-on-year changes', '%d changes of 25%% or more between consecutive years involve '
                                  'a year added in the extension. Some may be real, others breaks '
                                  'inside a source; nothing was adjusted. They are listed in '
@@ -386,8 +396,10 @@ README = [
              'official workbook) and matched exactly. %s.' % gline('A')),
  ('Grade B', 'Read from an archived source document (PDF, web page, printed table or chart) in '
              'which the value appears, or summed from figures printed there. %s.' % gline('B')),
- ('Grade C', 'A published estimate or range: the value is the point estimate or the midpoint of the '
-             'range. %s.' % gline('C')),
+ ('Grade C', 'Computed by the archive as the midpoint of a published range, because the source prints no '
+             'single figure (marked with an approximation sign). A single-number estimate that the source publishes '
+             'is graded A or B by where it was read from, not C: grades A and B cover publisher estimates and '
+             'model outputs as well as counts, and the notes and source types say which. %s.' % gline('C')),
  ('Grade D', 'None. Values that could not be traced to an archived source were deleted, not '
              'published: %d value%s removed (%s).'
              % (len(dele), '' if len(dele) == 1 else 's',

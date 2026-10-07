@@ -19,8 +19,10 @@ COMPARABILITY_EN = {
                          'affected by naturalisation rates, so not a pure migration indicator. Some countries '
                          'have census years only.',
     'irregular_stock': 'Not comparable across countries. Estimation method, year and definition differ.',
-    'irregular_proxy_overstayers': 'Not comparable across countries. Administrative register count; counts only '
-                                   'those already recorded, and the universe differs by country.',
+    'irregular_proxy_overstayers': 'Not comparable across countries. A heterogeneous stock proxy: register counts '
+                                   '(Korea; Taiwan, all categories), official estimates (Japan, New Zealand; '
+                                   "Australia's unlawful non-citizens, a broader group than overstayers) and one "
+                                   'component (Israel). The universe differs by country.',
     'irregular_proxy_detections': 'Not comparable across countries, and an annual FLOW of detections, not a stock. '
                                   'Unit differs by source (Eurostat: persons, once per year; Mexico: events). '
                                   'Driven by enforcement intensity and position on migration routes.',
@@ -32,7 +34,9 @@ COMPARABILITY_ZH = {
     'foreign_nationals': '最接近「非本國籍」之定義。並非每個國家都編製逐年序列；亦受歸化率影響，'
                          '故非純粹之移民指標。部分國家僅有普查年度。',
     'irregular_stock': '不可跨國比較。各國推估方法、年度與定義均不相同。',
-    'irregular_proxy_overstayers': '不可跨國比較。屬行政登記數，僅涵蓋已被登錄者，且各國涵蓋之母體不同。',
+    'irregular_proxy_overstayers': '不可跨國比較。為異質之存量代理指標：行政登記數（韓國；臺灣為全部類別）、官方推估數'
+                                   '（日本、紐西蘭；澳洲為非法非公民，範圍較逾期停留者為廣）與單一組成部分（以色列）。'
+                                   '各國涵蓋之母體不同。',
     'irregular_proxy_detections': '不可跨國比較，且屬執法查獲之年度「流量」而非「存量」。'
                                   '計量單位因來源而異（Eurostat：人數，同年內每人僅計一次；墨西哥：事件數）。'
                                   '數值受查緝強度與該國在移民路線上的位置影響。',
@@ -51,7 +55,27 @@ USABLE_ZH = {
 }
 
 # ---------------------------------------------------------------- codebook edits: (name, field, en, zh)
+OVS_DEF_EN = ('Stock proxy for persons staying beyond their authorised period of stay. The countries report different '
+              'things: administrative register counts (Korea; Taiwan, all categories of overstaying persons), official '
+              'register-derived estimates (Japan, New Zealand), the Australian departmental estimate of unlawful '
+              'non-citizens in the community (a broader group than overstayers alone), and, for Israel, one component '
+              '(tourists who stayed on). Each cell note says which.')
+OVS_DEF_ZH = ('逾期停留者之存量代理指標，並非單一測量。各國所報不同：行政登記數（韓國；臺灣為全部逾期類別）、官方依登記資料之推估數'
+              '（日本、紐西蘭）、澳洲移民部對社區內非法非公民之估計（範圍較僅含逾期停留者為廣），以及僅屬一個組成部分者'
+              '（以色列：以觀光客身分入境後逾期者）。各格備註載明其屬何者。')
+OVS_CAUTION_EN = ('WEAK. %d/%d countries. A heterogeneous stock proxy: neither a modelled stock of all irregular residents '
+                  'nor an exact count. Register counts record only those already recorded; the estimates are the '
+                  "publishers' own. Not extended before 2010.")
+OVS_CAUTION_ZH = ('薄弱。%d／%d 國。為異質之存量代理指標：既非涵蓋全體非常規居民之模型存量，亦非確切計數。'
+                  '登記數僅記錄已被登錄者；推估數為出版機構自身之估計。2010 年以前未延伸。')
+GRADE_C_EN = ('C = computed by the archive as the midpoint of a published range, because the source prints no single '
+              'figure (marked ≈); a single-number estimate that the source publishes is graded A or B by where it was '
+              'read from, not C')
+GRADE_C_ZH = ('C＝本存檔自已公布之區間取中點而得（因來源未印出單一數字；以 ≈ 標示）；來源所公布之單一數字推估值，'
+              '依其讀取來源評為 A 或 B，不評為 C')
+
 CODEBOOK_EDITS = {
+    'irregular_proxy_overstayers': dict(definition=OVS_DEF_EN, definition_zh=OVS_DEF_ZH),
     'irregular_proxy_detections': dict(
         definition='Persons found or apprehended as illegally present during the calendar year, as the source '
                    'counts them. Eurostat (migr_eipre): third-country nationals found to be illegally present.',
@@ -66,6 +90,8 @@ CODEBOOK_EDITS = {
                    '墨西哥計「事件數」（同一人可被重複記錄）；土耳其計被逮捕之非常規移民，不含受臨時保護之敘利亞人。'
                    '同一人可出現於不同年度。'),
     'irregular_proxy_detections_per_1000_pop': dict(
+        definition='Detections per 1,000 residents: persons for Eurostat, events for Mexico (see irregular_proxy_detections).',
+        definition_zh='每千名居民之查獲數：Eurostat 為人數，墨西哥為人次（事件數）；見 irregular_proxy_detections。',
         caution='Provided because a raw flow is not comparable to a stock share; the unit differs by source (see '
                 'irregular_proxy_detections).',
         caution_zh='因原始流量無法與存量占比比較而提供；計量單位因來源而異（見 irregular_proxy_detections）。'),
@@ -79,12 +105,14 @@ CODEBOOK_EDITS = {
                    '日本、土耳其、英國與德國之外國人口為 1 月 1 日，若干以調查或普查為基礎之序列未載明日期。'
                    '臺灣與南韓之登記數為年底。年度一律依出版機構之標示，未將任何數值移至其他年度。'),
     '*_grade': dict(
-        definition='Provenance grade for that cell. A = decoded from a machine-readable official source and '
-                   'matched exactly; B = read from an archived document in which the value appears, or summed '
-                   'from figures printed there; C = published estimate or range (point estimate or midpoint); '
-                   'D = no archived source (none are published).',
-        definition_zh='該格之出處等級。A＝自機器可讀之官方來源解出並完全一致；B＝自已存檔之文件讀取，或由文件中所印數字加總；'
-                      'C＝公布之推估值或區間（點估計或中點）；D＝無存檔來源（現無此類數值）。',
+        definition='Provenance grade for that cell; the grades are mutually exclusive. A = decoded from a '
+                   'machine-readable official source and matched exactly; B = read from an archived document in which '
+                   'the value appears, or summed from figures printed there; ' + GRADE_C_EN + '; D = no archived '
+                   'source (none are published). A and B cover publisher estimates and model outputs as well as counts: '
+                   'the cell note and the source type say which.',
+        definition_zh='該格之出處等級；各等級互斥。A＝自機器可讀之官方來源解出並完全一致；B＝自已存檔之文件讀取，或由文件中所印數字加總；'
+                      + GRADE_C_ZH + '；D＝無存檔來源（現無此類數值）。A 與 B 同樣涵蓋出版機構之推估值與模型輸出，不限於計數：'
+                      '該格備註與來源類型載明其屬何者。',
         caution='A grade says where a value was read from. It does not say how precise it is, whether the quantity '
                 'is comparable across countries or years, or whether the source\'s own estimate is accurate. '
                 'Grades of first-release values were assigned under an earlier wording; of the 19 grade-A values that '
@@ -301,6 +329,41 @@ def known_issues():
              action='Added on 2026-10-07 with their sources. Every other difference is an input value that was corrected, '
                     'rejected, reclassified, superseded or deleted; each has a disposition in the same file.',
              action_zh='已於 2026-10-07 連同來源加入。其餘差異均為已更正、否決、重新歸類、被取代或刪除之原始輸入值，各項處置見同一檔案。'),
+        dict(severity='MEDIUM', scope='France, Netherlands, Sweden', variable='irregular_proxy_detections',
+             issue='Eurostat flags four detection values as a break in the time series: France 2014, the Netherlands 2015, '
+                   'and Sweden 2014 and 2015. The values match the publisher, but a jump or fall across these years can '
+                   'reflect a change in how detections are counted rather than a change in enforcement or migration '
+                   '(re-audit R04).',
+             issue_zh='Eurostat 對四筆查獲數值標示為時間序列斷裂：法國 2014、荷蘭 2015，以及瑞典 2014 與 2015。數值與出版機構一致，'
+                      '但跨越這些年度的升降，可能反映計算方式之改變，而非執法或移民之變化（再稽核 R04）。',
+             evidence='evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-18.json, status "b" on FR 2014, NL 2015, SE 2014 and '
+                      'SE 2015; Eurostat defines b as a break in time series. The flag is in irregular_proxy_detections_flag.',
+             evidence_zh='evidence/api/eurostat_migr_eipre_REVERIFY_2026-08-18.json，FR 2014、NL 2015、SE 2014、SE 2015 之狀態為 b；'
+                         'Eurostat 將 b 定義為時間序列斷裂。旗標見 irregular_proxy_detections_flag。',
+             action='The three series are no longer rated continuous in data_quality.csv (continuity_detail names the years). '
+                    'Do not read a change across a flagged year as a change in enforcement without checking what changed '
+                    'in the source.',
+             action_zh='這三組序列於 data_quality.csv 不再評為連續（continuity_detail 載明年度）。未查明來源有何改變之前，'
+                       '請勿將跨越旗標年度之變動解讀為執法之變動。'),
+        dict(severity='RESOLVED', scope='all', variable='documentation and build (re-audit R01-R11)',
+             issue='The independent re-audit of commit 30d6cb1 found eleven defects in descriptions, metadata and the build: '
+                   'the audit results the ledger needs were outside the repository (R01); a blanket 1 January rule survived '
+                   'in this table (R02); known-issue and flag texts still used the signed mean (R03); detection break flags '
+                   'were not carried (R04); grade C overlapped A and B (R05); the ledger misdescribed 905 checks and gave no '
+                   'population date (R06); Croatia 2011 was an unflagged sum and the derived count was wrong (R07); the '
+                   'splice table in the analysis notes had the wrong columns (R08); current and historical counts were '
+                   'mixed (R09); overstayers were described as register counts only (R10); one Chinese label kept 人次 (R11).',
+             issue_zh='獨立再稽核對 commit 30d6cb1 發現描述、後設資料與建置之十一項缺失：驗證表所需之稽核結果在存放庫之外（R01）；'
+                      '本表仍有一律以 1 月 1 日為基準之說法（R02）；已知問題與旗標說明仍採有號平均（R03）；查獲數之斷裂旗標未帶入（R04）；'
+                      '等級 C 與 A、B 重疊（R05）；驗證表誤述 905 筆查核方式且未載母體人口日期（R06）；克羅埃西亞 2011 為未標示之加總，'
+                      '且推導值之計數有誤（R07）；分析說明中之接合表欄位錯誤（R08）；現況與歷史計數混用（R09）；'
+                      '逾期停留者僅被描述為登記數（R10）；一處中文標籤仍用「人次」（R11）。',
+             evidence='verification/AUDIT_RESPONSE_2026-10-07.md (re-audit section); data/audit_inputs/; '
+                      'data/audit_changes_2026-10-07.csv.',
+             evidence_zh='verification/AUDIT_RESPONSE_2026-10-07.md（再稽核一節）；data/audit_inputs/；'
+                         'data/audit_changes_2026-10-07.csv。',
+             action='Corrected on 2026-10-07; each finding is answered in the response file.',
+             action_zh='已於 2026-10-07 更正；各項於回覆檔案中逐一回應。'),
         dict(severity='MEDIUM', scope='all', variable='research use',
              issue='Source correctness does not settle research suitability. The questionnaire construct, the alignment '
                    'between survey year and stock year, the nationality / citizenship / stateless universes and the '
@@ -320,8 +383,10 @@ def known_issues():
 SCOPE_ZH = {
     'Germany and seven other spliced series': '德國及另外七組接續序列',
     'Australia, Japan, Iceland': '澳洲、日本、冰島',
+    'France, Netherlands, Sweden': '法國、荷蘭、瑞典',
     'Chile': '智利', 'India': '印度', 'Suriname': '蘇利南', 'Taiwan': '臺灣',
     'all': '全部',
 }
 VARIABLE_ZH = {'research use': '研究使用',
+               'documentation and build (re-audit R01-R11)': '文件與建置（再稽核 R01–R11）',
                'irregular_proxy_overstayers / detections': '逾期停留・居留／查獲人數'}

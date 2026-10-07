@@ -27,7 +27,7 @@ abstract: >-
   reproduced exactly; the 39 discrepancies were corrected and re-verified against
   the live source on 2026-08-18, when all 21 sources reproduced at 100%. In total
   2,737 value-by-value comparisons are recorded, and 67 values were corrected,
-  each itemised with its evidence. On 2026-10-07 the panel was extended back from 2010 to 2001 for the foreign-born, foreign-national and population series; the extension itself changed no value published earlier, and 1,777 of them were re-compared with fresh source responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of them; 40 cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md).
+  each itemised with its evidence. On 2026-10-07 the panel was extended back from 2010 to 2001 for the foreign-born, foreign-national and population series; the extension itself changed no value published earlier, and 1,777 of them were re-compared with fresh source responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of them; 45 cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md).
 
 keywords:
   - migration

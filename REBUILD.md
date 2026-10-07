@@ -30,6 +30,10 @@ There is no `build-site.mjs` in this archive; older reports that name one descri
   The 2001-2022 payloads are dated 2026-10-07.
 - **The collector outputs** (`data/extension_staging/*.csv`) are committed, so the build does not need the
   network.
+- **The audit's result tables are committed** in `data/audit_inputs/` (README there). Step 7 reads them to fill the
+  check method and the audit result of every observation in `data/current_panel_verification.csv`. They are inputs,
+  not products: step 7 stops with a message if they are missing or do not cover an observation, rather than writing
+  "not in the audited revision" over a completed audit.
 
 ## 3. The supported order
 
@@ -43,8 +47,8 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 4 | `python scripts/75_build_derived_tables.py` | Source register rows for the extension, per-country manifests, data quality, evidence index, known issues, codebook |
 | 5 | `python scripts/66_revision_history.py` | The dated revision history (reads the commit stamp files for the commit and time) |
 | 6 | `python scripts/63_export_clean_panel.py` | The analysis extract (xlsx and csv) and `foreign_born_below_foreign_nationals.csv`, which the next two steps read |
-| 7 | `python scripts/82_audit_documents.py` | `current_panel_verification.csv`, `secondary_workbook_differences.csv`, `ABOUT_THE_TWO_WORKBOOKS.md`, `ANALYSIS_NOTES.md` |
-| 8 | `python scripts/83_audit_response.py` | The response to the audit |
+| 7 | `python scripts/82_audit_documents.py` | `current_panel_verification.csv` (reads `data/audit_inputs/`), `secondary_workbook_differences.csv`, `ABOUT_THE_TWO_WORKBOOKS.md`, `ANALYSIS_NOTES.md` |
+| 8 | `python scripts/83_audit_response.py` | The response to the audit and to the re-audit (`audit_response_*.csv`, `reaudit_response_*.csv`, `verification/AUDIT_RESPONSE_*.md`) |
 | 9 | `python scripts/57_sync_workbook_sheets.py` | Rewrites the main workbook's sheets from the CSVs |
 | 10 | `python scripts/80_check_source_charts.py` | Source-label check: the Chile chart is read from the PDF's coordinates and compared with the panel |
 | 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 406 pages, both languages |
@@ -74,8 +78,13 @@ tell whether a source was read under the right year or concept. For that:
 
 ## Tested
 
-On 2026-10-07, steps 1-11 of section 3 (everything except the Chrome render of the PDF extracts) were run in a fresh
-`git clone` of the commit that contains this file, and every tracked file came out identical. The two `.xlsx` files differ
-in their zip container (it embeds a timestamp) but not in a single cell: they were compared sheet by sheet. Not repeated in
-that test: the PDF extract render (step 12), the link sweep, and the network collectors of section 4. See
-`verification/AUDIT_RESPONSE_2026-10-07.md`, finding F21.
+On 2026-10-07 steps 1-11 of section 3 (everything except the Chrome render of the PDF extracts) were run in a fresh
+`git clone` of the commit that contains this file, placed in an otherwise empty folder: no sibling folder, no audit folder,
+no local inputs. Every tracked file came out identical, including `data/current_panel_verification.csv` with all 3,365 audit
+results. The two `.xlsx` files differ in their zip container (it embeds a timestamp) but not in a single cell: they were
+compared sheet by sheet. Not repeated in that test: the PDF extract render (step 12), the link sweep, and the network
+collectors of section 4.
+
+An earlier test of this kind, run in a folder next to the audit's working folders, passed without showing that step 7 depended
+on them: in an isolated clone it lost 3,328 of the 3,365 audit results (re-audit finding R01). Those result tables are now
+committed in `data/audit_inputs/`. See `verification/AUDIT_RESPONSE_2026-10-07.md`, findings F21 and R01.

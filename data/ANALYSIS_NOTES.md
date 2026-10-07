@@ -24,16 +24,21 @@ verified property of the survey question: it fails if the item is about birthpla
 | foreign_nationals | residents holding a foreign nationality (stateless where reported) | 35 (2001-2022) | falls with naturalisation; no annual series for AUS, IND, ISR, NZL, ZAF |
 | foreign_born | residents born abroad | 38 (2001-2022) | includes naturalised citizens; 20 UN citizenship-basis cells are excluded from the extract |
 | irregular_stock | estimated unauthorised residents | 12 (2010-2022) | methods differ by country; not comparable |
-| irregular_proxy_overstayers | register count of overstayers | 6 (2010-2022) | register-based; universe differs (Taiwan: all categories) |
+| irregular_proxy_overstayers | stock proxy for persons staying beyond authorised stay: register counts (Korea; Taiwan, all categories), official estimates (Japan, New Zealand; Australia's unlawful non-citizens, a broader group) and one component (Israel) | 6 (2010-2022) | heterogeneous; neither a modelled stock of all irregular residents nor an exact count |
 | irregular_proxy_detections | annual enforcement detections | 25 (2010-2022) | a flow; unit differs by source (persons / events) |
 
 ## 2. Timing: survey year versus stock date [AUTHORS]
 
-Pick one rule and apply it to every country, then test the other.
+Pick one rule and apply it to every country, then test the others.
 
-1. Same year (survey year Y with the row labelled Y);
-2. One-year lag (row Y-1), which matches a 1 January stock to a mid-year survey better;
-3. Nearest reference date, using `*_ref_date` per value.
+1. Same row year (survey year Y with the row labelled Y);
+2. The latest stock dated on or before the start of fieldwork: row Y for a 1 January stock, row Y-1 for a
+   31 December stock, and for a 30 June stock row Y-1 if fieldwork starts before 30 June, row Y if after;
+3. The nearest stock to the fieldwork date, using `*_ref_date` per value.
+
+A one-year lag (row Y-1 for every source) is not a rule that suits a 1 January stock: labelled Y it is six months
+before a mid-year survey in Y, labelled Y-1 eighteen months before. A lag is the nearest row only for 31 December
+stocks (and only when fieldwork is in the first half of the year). This corrects the earlier wording of this note.
 
 Reference dates differ by source and are not harmonised: years are as the publisher labels them.
 
@@ -84,8 +89,8 @@ Run the models on the full panel and again after removing, in turn:
 - the OECD-only series in `data/migrant_stock_alternatives.csv` instead of the Eurostat/OECD splice;
 - country-years flagged `Eurostat flag: break in time series` or `comparability caution` (Taiwan 2001-2011).
 
-| Series | Mean gap | Mean absolute gap | Overlap years |
-|---|---|---|---|
+| Country (ISO3) | Variable | Signed mean gap | Mean absolute gap | Overlap years |
+|---|---|---|---|---|
 | CZE | foreign_born | +10.9% | 10.9% | 12 |
 | DEU | foreign_born | +1.6% | 7.4% | 13 |
 | DNK | foreign_born | -15.5% | 15.5% | 13 |
