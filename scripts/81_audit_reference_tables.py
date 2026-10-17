@@ -199,7 +199,9 @@ total_added = total_off = 0
 for f in sorted(os.path.join(EV, i, 'data_from_source.csv') for i in sorted(os.listdir(EV))
                 if os.path.exists(os.path.join(EV, i, 'data_from_source.csv'))):
     iso = os.path.basename(os.path.dirname(f))
-    d = pd.read_csv(f)
+    # read the values as text so whole-number counts are written back unchanged now that the
+    # health-expenditure rows (percentages with decimals) share the column
+    d = pd.read_csv(f, dtype={'value': str})
     if 'historical_status' in d.columns:
         d = d.drop(columns='historical_status')
     d = d[d.get('source_name', '').astype(str) != '__current_panel_row__']

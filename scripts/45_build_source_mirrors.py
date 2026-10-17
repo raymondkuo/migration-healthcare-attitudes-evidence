@@ -62,6 +62,12 @@ def shell(dst_pdf, dst_png, src_url):
         except Exception:
             pass
         if os.path.exists(dst) and os.path.getsize(dst) > 4000:
+            if dst == dst_pdf:
+                # links of a page opened from disk resolve to the build machine's path, which
+                # names a co-author; they are removed (see ext_lib.scrub_local_links)
+                sys.path.insert(0, _here)
+                import ext_lib
+                ext_lib.scrub_local_links(dst)
             ok += 1
     return ok
 

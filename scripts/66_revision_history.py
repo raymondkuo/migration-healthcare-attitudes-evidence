@@ -395,6 +395,35 @@ H.append(dict(
               "（其伺服器以 CRLF 傳送）現已逐位元組依所存內容保存（.gitattributes），不再轉換換行字元。"))
 ZH[("", "manifest corrected")] = ("manifest/checksums.csv · 文字檔與 24 個原始擷取檔",
                                  "依 Windows 工作資料夾計算之雜湊值", "依網站實際提供之位元組計算之雜湊值")
+# ---------------------------------------------------------------- health expenditure, 2026-10-17
+# A new variable for every country and year; no existing value changed. Its commit is stamped
+# after committing, like the extension's (commit_stamp_health.json).
+import health_texts as HT                                         # noqa: E402
+hp = os.path.join(D, "extension_staging", "commit_stamp_health.json")
+hstamp = json.load(open(hp, encoding="utf-8")) if os.path.exists(hp) else {}
+AMENDING.add("variable added")
+H.append(dict(date=HT.WHEN, time=hstamp.get("time", ""), commit=hstamp.get("commit", ""),
+              kind="variable added", iso3=ALL40, **HT.revision()))
+# Not a data amendment: link targets inside PDF mirrors (scripts/86_scrub_pdf_local_links.py)
+H.append(dict(date=HT.WHEN, time=hstamp.get("time", ""), commit=hstamp.get("commit", ""),
+              kind="evidence files corrected", iso3="",
+              scope="Link annotations in 39 PDF mirrors of archived web pages",
+              scope_zh="39 個已存檔網頁之 PDF 鏡像中的連結註記",
+              before="links pointing at the build machine's local folder",
+              before_zh="指向建置電腦本機資料夾之連結",
+              after="removed; every page renders exactly as before",
+              after_zh="已移除；每一頁之呈現與先前完全相同",
+              change="Values unchanged. The PDF mirrors of archived web pages were rendered from the copy on disk, and the "
+                     "browser resolved each page's relative links against that folder, so their link annotations held "
+                     "absolute local file paths: dead for any reader, and naming the workspace folder, which the text "
+                     "files had already been cleared of (scripts/62_scrub_local_paths.py). The links were deleted and the "
+                     "files rewritten without them; each page was compared with the previous version as an image and is "
+                     "identical. Rendering now removes such links itself.",
+              change_zh="數值不變。已存檔網頁之 PDF 鏡像係由磁碟上之副本轉製，瀏覽器將頁面中的相對連結解析至該資料夾，"
+                        "故其連結註記載有本機之絕對檔案路徑：對任何讀者皆無法開啟，且含有工作資料夾之名稱；文字檔中之此類路徑"
+                        "先前已移除（scripts/62_scrub_local_paths.py）。現已刪除這些連結並重寫檔案；每一頁均已以影像與前一版比對，"
+                        "完全相同。轉製程序今後會自行移除此類連結。"))
+
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):
     if col not in hist.columns:

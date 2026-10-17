@@ -232,6 +232,12 @@ def build_data(lang):
        'the source type and flag on both sides. Nothing was adjusted; the file shows where to look.',
        '凡涉及延伸所新增年度、相鄰年度間變動達 25% 以上者，逐筆列出變動前後兩端之來源類型與旗標。'
        '未作任何調整；本檔僅指出應檢視之處。')),
+     ('data/health_expenditure_wb_vs_who.csv', ('Health expenditure: World Bank against WHO', '醫療保健支出：世界銀行與世界衛生組織之比對'),
+      ('Every World Bank value of health_expenditure_pct_gdp (WDI SH.XPD.CHEX.GD.ZS) beside the value in WHO&rsquo;s own '
+       'Global Health Observatory API for the same country and year, and whether they are identical. Taiwan is not in '
+       'either source and is not listed.',
+       'health_expenditure_pct_gdp 之每一筆世界銀行數值（WDI SH.XPD.CHEX.GD.ZS），並列世界衛生組織 Global Health '
+       'Observatory API 同一國家與年度之數值，以及兩者是否相同。臺灣不在任一來源之內，故未列出。')),
      ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit and the re-audit of 2026-10-07', '對 2026-10-07 稽核與再稽核之回應'),
       ('All 24 audit findings and all 11 re-audit findings re-checked against the archived sources: verdict, what was '
        'checked, what changed, and what stays with the authors.',

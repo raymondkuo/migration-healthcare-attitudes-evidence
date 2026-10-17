@@ -6,7 +6,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, EV, D, ACCESS, revised_note, panel, vlog, reg, corr, snaps, apis, pubs,
                   artifacts as blib_artifacts,
-                  ALLVARS, E, num, pill, filelink, page, table, cname, vlab, fname, t,
+                  ALLVARS, E, num, vnum, pill, filelink, page, table, cname, vlab, fname, t,
                   reason_zh)
 import i18n_content as C
 
@@ -22,6 +22,7 @@ pub_by_key = {r['key']: r for _, r in pubs.iterrows()}
 RAWFILE = {
  'worldbank_SP_POP_TOTL': 'evidence/api/wb_SP_POP_TOTL.json',
  'worldbank_SM_POP_TOTL': 'evidence/api/wb_SM_POP_TOTL.json',
+ 'worldbank_SH_XPD_CHEX_GD_ZS': 'evidence/api/wb_SH_XPD_CHEX_GD_ZS_2001-2022_retrieved_2026-10-17.json',
  'eurostat_migr_pop3ctb': 'evidence/api/eurostat_migr_pop3ctb.json',
  'eurostat_migr_pop1ctz': 'evidence/api/eurostat_migr_pop1ctz.json',
  'eurostat_migr_eipre': 'evidence/api/eurostat_migr_eipre.json',
@@ -37,6 +38,8 @@ def publisher_for(u):
         return 'worldbank_SP_POP_TOTL'
     if 'api.worldbank.org' in u and 'SM.POP.TOTL' in u:
         return 'worldbank_SM_POP_TOTL'
+    if 'api.worldbank.org' in u and 'SH.XPD.CHEX.GD.ZS' in u:
+        return 'worldbank_SH_XPD_CHEX_GD_ZS'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -129,7 +132,11 @@ def build(iso3, en_name, v, lang):
                'Eurostat flag: break in time series': 'Eurostat 旗標：時間序列斷裂',
                'Eurostat flag: estimated': 'Eurostat 旗標：估計值',
                'Eurostat flag: provisional': 'Eurostat 旗標：暫定值',
-               'Eurostat flag: estimated, provisional': 'Eurostat 旗標：估計值、暫定值'}
+               'Eurostat flag: estimated, provisional': 'Eurostat 旗標：估計值、暫定值',
+               'narrower scope: excludes long-term care services (included from 2007)':
+                   '範圍較窄：不含長期照顧服務（自 2007 年起納入）',
+               'break in time series: long-term care services included from 2007':
+                   '時間序列斷裂：自 2007 年起納入長期照顧服務'}
 
     def flag_html(r):
         f = str(r.get(v + '_flag') or '').strip()
@@ -166,7 +173,7 @@ def build(iso3, en_name, v, lang):
         ref = str(r.get(v + '_ref_date') or '') if (v + '_ref_date') in r else ''
         rows.append('<tr id="y%d"><td class="num">%d</td><td class="num"><strong>%s</strong></td>'
                     '<td>%s</td><td>%s</td><td class="wrap-any">%s</td><td>%s</td>%s</tr>'
-                    % (y, y, num(r[v]), pill(r.get(v + '_grade', '')), ver, srccell, E(ref),
+                    % (y, y, vnum(v, r[v]), pill(r.get(v + '_grade', '')), ver, srccell, E(ref),
                        ('<td class="wrap-any">%s</td>' % flag_html(r)) if has_flags else ''))
 
     def yrs_label(ys):
@@ -232,7 +239,7 @@ def build(iso3, en_name, v, lang):
     def supports(years):
         if not years:
             return '<span style="color:var(--faint)">&mdash;</span>'
-        return ' &middot; '.join('%d&nbsp;<strong>%s</strong>' % (y, num(yv[y]))
+        return ' &middot; '.join('%d&nbsp;<strong>%s</strong>' % (y, vnum(v, yv[y]))
                                  for y in sorted(years))
 
     def srcname(u):

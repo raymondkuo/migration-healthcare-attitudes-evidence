@@ -7,7 +7,7 @@ from counts import N_EVIDENCE
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, EV, D, ACCESS, LAST_REVISED, revised_note, panel, qual, corr, vlog, reg, apis, snaps,
                   artifact_links,
-                  VARS, ALLVARS, E, num, pill, filelink, page, table, cname, vlab,
+                  VARS, ALLVARS, E, num, vnum, pill, filelink, page, table, cname, vlab,
                   fname, usable_zh, T, t, GRADE_DESC, GRADE_SHORT, VERTAG, COMPARABILITY,
                   reason_zh)
 import i18n_content as C
@@ -274,9 +274,12 @@ def build_country(iso, en_name, lang):
                     flg += '<abbr class="flg" title="%s">!</abbr>' % E(t('flag_caution', lang))
                 if flg:
                     has_marks = True
+            if v == 'health_expenditure_pct_gdp' and _s(r.get(v + '_flag')):
+                flg += '<abbr class="flg" title="%s">!</abbr>' % E(t('flag_caution', lang))
+                has_marks = True
             cells.append('<td class="num"><a class="cell" href="%s" title="%s">%s</a>'
                          '<a class="cellg" href="%s" title="%s">%s</a>%s%s</td>'
-                         % (href, E(tip), num(val), href, E(tip),
+                         % (href, E(tip), vnum(v, val), href, E(tip),
                             pill(r.get(v + '_grade', '')), der, flg))
         rows.append('<tr>' + ''.join(cells) + '</tr>')
     dtable = ('<div class="tablewrap"><table><thead><tr>' + head + '</tr></thead><tbody>'

@@ -10,7 +10,7 @@ def _psq(s):
     return "'" + str(s).replace("'", "''") + "'"
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from blib import (SITE, D, ACCESS, revised_on, panel, vlog, reg, corr, snaps, apis, pubs,
+from blib import (SITE, D, ACCESS, DEC, revised_on, panel, vlog, reg, corr, snaps, apis, pubs,
                   ALLVARS, cname, vlab, reason_zh)
 from i18n import VERTAG, COUNTRY, VLAB
 
@@ -117,7 +117,7 @@ for _, ci in cinfo.iterrows():
                 ver = '%s／%s' % (VERTAG['en']['nomach'], VERTAG['zh']['nomach'])
             trs += ('<tr><td class="n">%d</td><td class="n"><b>%s</b></td><td>%s</td><td>%s</td>'
                     '<td>%s</td><td>%s</td></tr>'
-                    % (y, '{:,.0f}'.format(r[v]), esc(r.get(v + '_grade') or '—'),
+                    % (y, ('{:,.%df}' % DEC.get(v, 0)).format(r[v]), esc(r.get(v + '_grade') or '—'),
                        esc(ver), esc(str(r.get(v + '_source') or '')[:88]),
                        esc(str(r.get(v + '_ref_date') or '') if (v + '_ref_date') in r else '')))
 

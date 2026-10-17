@@ -163,6 +163,50 @@ def cell(iso3, year, variable, value, source_id, source_name, source_url, local_
                 verification=verification, collected_on=collected_on)
 
 
+def _is_local_link(target):
+    """True for a link target that points into the build machine rather than the web: a file:
+    URL, or one that carries the workspace path (some pages wrap their own URL in share links, so
+    the path can arrive percent-encoded once or twice)."""
+    import re as _re
+    import urllib.parse
+    s = str(target or '')
+    for _ in range(3):
+        if (s.lower().startswith('file:') or 'file:///' in s.lower() or 'claude-work' in s
+                or _re.match(r'^[A-Za-z]:[/\\]', s)):          # PyMuPDF reports file:///D:/x as D:/x
+            return True
+        s = urllib.parse.unquote(s)
+    return False
+
+
+def scrub_local_links(pdf_path):
+    """Delete the link annotations of a rendered PDF that point at local files. Chrome resolves the
+    relative links of an archived page against the folder it was opened from, so a PDF rendered
+    from a file:/// URL carries the absolute path of the build machine - and the workspace folder
+    is named after a co-author, which must not appear in anything this archive publishes. The
+    links never worked for a reader; the visible page is unchanged. The file is rewritten without
+    the old objects (garbage collection), so the removed targets do not survive in it. Returns the
+    number of links removed."""
+    import fitz
+    doc = fitz.open(pdf_path)
+    n = 0
+    for page in doc:
+        for ln in page.get_links():
+            # the raw /URI of the annotation, as written; PyMuPDF's own reading of a file:/// URI
+            # turns it into a path such as /D:/x
+            raw = doc.xref_get_key(ln['xref'], 'A/URI')[1] if ln.get('xref') else ''
+            if any(_is_local_link(x) for x in (raw, ln.get('uri'), ln.get('file'))):
+                page.delete_link(ln)
+                n += 1
+    if n:
+        tmp = pdf_path + '.scrub'
+        doc.save(tmp, garbage=4, deflate=True)
+        doc.close()
+        os.replace(tmp, pdf_path)
+    else:
+        doc.close()
+    return n
+
+
 def chrome_render(url, pdf=None, png=None, wait_ms=15000):
     """Render a URL (file:/// or https://) to PDF and/or PNG with headless Chrome.
 
@@ -191,6 +235,8 @@ def chrome_render(url, pdf=None, png=None, wait_ms=15000):
         except Exception:
             pass
         if os.path.exists(dst) and os.path.getsize(dst) > 3000:
+            if dst.lower().endswith('.pdf'):
+                scrub_local_links(dst)
             made.append(dst)
     return made
 
@@ -236,11 +282,13 @@ def baseline_panel():
     return pd.read_csv(io.BytesIO(out))
 
 
-def grid_mirror(title, source_line, grid, years, out_base, note=''):
+def grid_mirror(title, source_line, grid, years, out_base, note='', fmt=None):
     """Render a country x year grid of the values read from a payload as PDF + PNG, A3
     landscape. grid is {iso3: {year: value}}; empty cells show a dash. This is the visual
-    companion of a raw API payload: it shows the numbers the panel actually takes from it."""
+    companion of a raw API payload: it shows the numbers the panel actually takes from it.
+    fmt formats one value (default: a whole number with thousands separators)."""
     import html as _h
+    fmt = fmt or (lambda v: format(int(v), ','))
     css = ('@page{size:A3 landscape;margin:8mm}body{font:10px/1.35 "Segoe UI","Noto Sans TC",'
            'sans-serif;margin:10px;color:#1a1a18}h1{font-size:15px;margin:0 0 3px}.s{color:#5f5f5a;'
            'font-size:10.5px;margin:0 0 8px}table{border-collapse:collapse;width:100%}'
@@ -251,7 +299,7 @@ def grid_mirror(title, source_line, grid, years, out_base, note=''):
     head = '<th class="c">ISO3</th>' + ''.join('<th>%d</th>' % y for y in years)
     body = ''
     for iso in sorted(grid):
-        cells = ''.join('<td>%s</td>' % (format(int(grid[iso][y]), ',') if y in grid[iso] else '&ndash;')
+        cells = ''.join('<td>%s</td>' % (fmt(grid[iso][y]) if y in grid[iso] else '&ndash;')
                         for y in years)
         body += '<tr><td class="c">%s</td>%s</tr>' % (_h.escape(iso), cells)
     doc = ('<!doctype html><meta charset="utf-8"><style>%s</style><h1>%s</h1><p class="s">%s</p>'

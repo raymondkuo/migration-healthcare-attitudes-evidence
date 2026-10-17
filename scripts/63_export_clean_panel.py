@@ -31,6 +31,7 @@ SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(SITE, 'scripts'))
 D = os.path.join(SITE, 'data')
 from i18n import COUNTRY                                            # noqa: E402
+import health_texts as HT                                           # noqa: E402
 
 p = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 hist = pd.read_csv(os.path.join(D, 'revision_history.csv')).fillna('')
@@ -95,13 +96,21 @@ out['detections_per_1000_pop'] = p['irregular_proxy_detections_per_1000_pop'].ro
 out['detections_flag'] = p['irregular_proxy_detections_flag'].fillna('')
 out['absconded_workers_tw'] = p['irregular_proxy_absconded_workers']
 
+# ---------------------------------------------------------------- health expenditure (added 2026-10-17)
+# read at full precision (the default parser can drop the last digit of a 16-digit value)
+_he = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', HT.VAR],
+                  float_precision='round_trip').set_index(['iso3', 'year'])[HT.VAR]
+out['health_expenditure_pct_gdp'] = [_he.get((i, y)) for i, y in zip(p.iso3, p.year)]
+out['health_expenditure_flag'] = p[HT.VAR + '_flag'].fillna('')
+
 # ---------------------------------------------------------------- quality grades
 GRADES = [('grade_population', 'population'),
           ('grade_foreign_born', 'foreign_born'),
           ('grade_foreign_nationals', 'foreign_nationals'),
           ('grade_irregular_stock', 'irregular_stock'),
           ('grade_overstayers', 'irregular_proxy_overstayers'),
-          ('grade_detections', 'irregular_proxy_detections')]
+          ('grade_detections', 'irregular_proxy_detections'),
+          ('grade_health_expenditure', HT.VAR)]
 for new, src in GRADES:
     col = src + '_grade'
     out[new] = p[col].fillna('') if col in p.columns else ''
@@ -198,6 +207,14 @@ FLAGS = {
                        'in time series, estimated or provisional. Recorded for every Eurostat '
                        'cell, including those published before the extension.',
 }
+HFLAGS = {
+ 'narrower scope: excludes long-term care services (included from 2007)':
+     'Taiwan 2001-2006 health expenditure: the Ministry of Health and Welfare includes long-term '
+     'care services only from 2007, so these years cover less than the later ones.',
+ 'break in time series: long-term care services included from 2007':
+     'Taiwan 2007 health expenditure: the first year that includes long-term care services.',
+}
+assert set(out.health_expenditure_flag) - {''} <= set(HFLAGS), set(out.health_expenditure_flag)
 used = set(out.foreign_born_flag) | set(out.foreign_nationals_flag) | set(out.detections_flag)
 unknown = {f for f in used if f and f not in FLAGS and not f.startswith('Eurostat flag: ')}
 assert not unknown, 'flag values with no codebook text: %s' % sorted(unknown)
@@ -298,6 +315,16 @@ CODE = [
  ('absconded_workers_tw', 'Taiwan only: migrant workers recorded as having absconded '
                           '(失聯移工), Ministry of Labor.',
   'A SUBSET of overstayers. Kept in its own column so it is never read as the same series.'),
+ ('health_expenditure_pct_gdp', 'Current health expenditure as a PERCENTAGE of GDP (0-100): health care goods '
+                                'and services consumed during the year, without capital spending. %d countries: '
+                                'WHO Global Health Expenditure Database via the World Bank (WDI SH.XPD.CHEX.GD.ZS); '
+                                'Taiwan: Ministry of Health and Welfare, National Health Expenditure 2024, Table 1. '
+                                'Added 2026-10-17, every country and year.' % (NC - 1),
+  "All %s World Bank values are identical to WHO's own GHO API (data/health_expenditure_wb_vs_who.csv in the "
+  'archive). A share of GDP, so it moves with GDP as well as with spending. Taiwan includes long-term care only '
+  'from 2007 (see health_expenditure_flag).' % n(int((out.iso3 != 'TWN').sum()))),
+ ('health_expenditure_flag', 'Why the health-expenditure value needs a caution, blank where nothing does. '
+                             + ' | '.join('%s: %s' % (k, v) for k, v in HFLAGS.items()), ''),
  ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
                        'official source; B: read from an archived document; C: midpoint of a published range, '
                        'computed by the archive; D: none published.',
@@ -309,6 +336,7 @@ CODE = [
  ('grade_irregular_stock', 'Evidence grade for irregular_stock.', ''),
  ('grade_overstayers', 'Evidence grade for overstayers.', ''),
  ('grade_detections', 'Evidence grade for detections.', ''),
+ ('grade_health_expenditure', 'Evidence grade for health_expenditure_pct_gdp.', ''),
 ]
 codebook = pd.DataFrame(CODE, columns=['column', 'definition', 'caution'])
 missing = [c for c in out.columns if c not in set(codebook.column)]
@@ -319,7 +347,8 @@ assert not extra, 'codebook entries for columns that do not exist: %s' % extra
 # ---------------------------------------------------------------- coverage
 cov = []
 for c in ['population', 'population_unwpp', 'foreign_born', 'un_stock_citizenship_basis', 'foreign_nationals',
-          'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw']:
+          'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw',
+          'health_expenditure_pct_gdp']:
     s = out[out[c].notna()]
     yrs = sorted(s.year.unique())
     cov.append(dict(variable=c, observations=len(s), pct_of_rows=round(100 * len(s) / NR, 1),
@@ -372,6 +401,12 @@ README = [
                                  'data/extension_large_changes.csv of the archive.' % len(lchg)),
  ('Not collected', 'No value was found for some cells and none was invented; blank means no '
                    'verifiable source. Coverage by variable is on the Coverage sheet.'),
+ ('', ''),
+ ('WHAT WAS ADDED ON 2026-10-17', ''),
+ ('Health expenditure', 'health_expenditure_pct_gdp: current health expenditure as a percentage of GDP for '
+                        'all %d countries and all %d years (%s values), with health_expenditure_flag and '
+                        'grade_health_expenditure. No other value changed.'
+                        % (NC, NY, n(out.health_expenditure_pct_gdp.notna().sum()))),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
  ('Value-by-value comparisons', 'These are the RECORDS of the first-release check, not a count of unique '
@@ -461,6 +496,11 @@ README = [
                    'Data_quality sheet of the archive workbook flags which.' % brk),
  ('Genuine jumps', 'Large 2015 and 2021-22 movements in detections are real (migration crisis, '
                    'Balkan route, Ukraine), not data errors.'),
+ ('Health expenditure', 'A share of GDP (0-100), not a share of population. One concept for every country; '
+                        'one source for %d of them. Taiwan is from its own national health accounts and '
+                        'includes long-term care only from 2007: start Taiwan in 2007 for a trend across that '
+                        'year. WHO revises past years when it updates its database; the values are those '
+                        'published when retrieved (2026-10-17).' % (NC - 1)),
 ]
 readme = pd.DataFrame(README, columns=['Item', 'Detail'])
 

@@ -53,10 +53,12 @@ P['sources'] = {
                 '個別文件與網頁則直接下載，若來源為網頁，另製作 PDF 與整頁截圖。'
                 '擷取始於 '},
  'api_h': {'en': 'Bulk statistical sources (API snapshots)', 'zh': '批次統計來源（API 快照）'},
- 'api_sub': {'en': 'These %d payloads are the evidence behind %s of the %s verified values. Each '
-                   'file is exactly what the publisher’s server returned; the query URL that '
-                   'produced it is given so the request can be repeated.',
-             'zh': '這 %d 份回應內容即為 %s／%s 筆已查證數值的佐證。'
+ 'api_sub': {'en': 'These %d payloads are the evidence behind every value read from an API: %s of the %s '
+                   'values verified at first release, and the years and the health-expenditure variable '
+                   'added since. Each file is exactly what the publisher’s server returned; the query URL '
+                   'that produced it is given so the request can be repeated.',
+             'zh': '這 %d 份回應內容即為所有取自 API 之數值的佐證：首次發布時已查證之 %s／%s 筆數值，'
+                   '以及其後新增之年度與醫療保健支出變項。'
                    '每份檔案均為發布機構伺服器回傳的原始內容；並附上產生該回應的查詢網址，以便重複驗證。'},
  'pub_h': {'en': 'Publisher pages for the bulk sources', 'zh': '批次來源之發布機構頁面'},
  'pub_sub': {'en': 'A raw JSON payload is precise but not readable. So the publishers’ own '
@@ -594,3 +596,10 @@ P['methods'] = {
           'zh': '本站鏡像僅供查證之用。各來源文件之著作權仍屬其原出版機構所有，'
                 '每筆條目均附原始網址連結。'},
 }
+
+# ---- health expenditure (added 2026-10-17): its line in the methods page's table of variables
+import health_texts as _HT                                   # noqa: E402
+for _l, _v in _HT.verdict().items():
+    P['methods']['verdict'][_l][_HT.VAR] = _v
+P['verification']['kind']['zh']['variable added'] = '新增變項'
+P['verification']['kind']['zh']['evidence files corrected'] = '佐證檔案更正'

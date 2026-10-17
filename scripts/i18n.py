@@ -36,6 +36,7 @@ VLAB = {
         'irregular_proxy_overstayers': 'Overstayers',
         'irregular_proxy_detections': 'Detections',
         'irregular_proxy_absconded_workers': 'Absconded workers (TW)',
+        'health_expenditure_pct_gdp': 'Health expenditure (% GDP)',
         'irregular_detections': 'Detections', 'irregular': 'Irregular migration',
         'foreign_workers': 'Foreign workers'},
  'zh': {'population': '總人口', 'foreign_born': '外國出生人口',
@@ -43,6 +44,7 @@ VLAB = {
         'irregular_proxy_overstayers': '逾期停留・居留',
         'irregular_proxy_detections': '查獲人數',
         'irregular_proxy_absconded_workers': '失聯移工（臺灣）',
+        'health_expenditure_pct_gdp': '醫療保健支出（占 GDP %）',
         'irregular_detections': '查獲人數', 'irregular': '非常規移民',
         'foreign_workers': '外籍移工'},
 }
@@ -147,6 +149,8 @@ COMPARABILITY = {
 import audit_texts as _AT                                    # noqa: E402
 USABLE.update(_AT.USABLE_ZH)
 COMPARABILITY.update(_AT.COMPARABILITY_ZH)
+import health_texts as _HT                                   # noqa: E402
+COMPARABILITY.update(_HT.COMPARABILITY_ZH)
 
 # ---------------------------------------------------------------- correction reasons
 REASON = {
@@ -386,6 +390,10 @@ T = {
  'art_doc': {'en': 'Archived source document (%s, %s)', 'zh': '存檔來源文件（%s，%s）'},
  'art_pdfmirror': {'en': 'PDF mirror of source page', 'zh': '來源頁面 PDF 鏡像'},
  'art_screenshot': {'en': 'Screenshot of source page', 'zh': '來源頁面截圖'},
+ 'art_wbmeta': {'en': 'Indicator definition (World Bank API)', 'zh': '指標定義（世界銀行 API）'},
+ 'art_who': {'en': 'Independent check: WHO GHO API response', 'zh': '獨立核對：WHO GHO API 原始回應'},
+ 'art_whopdf': {'en': 'WHO indicator page (PDF)', 'zh': 'WHO 指標頁面（PDF）'},
+ 'art_whopng': {'en': 'WHO indicator page (screenshot)', 'zh': 'WHO 指標頁面（截圖）'},
 }
 
 

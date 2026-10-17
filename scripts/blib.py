@@ -65,8 +65,15 @@ irrall = pd.read_csv(os.path.join(D, 'irregular_estimates_all.csv'))
 pubs = pd.read_csv(os.path.join(D, 'api_publisher_snapshots.csv'))
 
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
-        'irregular_proxy_overstayers', 'irregular_proxy_detections']
+        'irregular_proxy_overstayers', 'irregular_proxy_detections', 'health_expenditure_pct_gdp']
 ALLVARS = VARS + ['irregular_proxy_absconded_workers']
+# decimals shown for a variable's values (counts are whole numbers; shares of GDP are not)
+DEC = {'health_expenditure_pct_gdp': 2}
+
+
+def vnum(v, val):
+    """A panel value formatted for display with the decimals its variable needs."""
+    return num(val, DEC.get(v, 0))
 
 
 def E(s):
@@ -223,6 +230,8 @@ def publisher_key(url):
         return 'worldbank_SP_POP_TOTL'
     if 'api.worldbank.org' in u and 'SM.POP.TOTL' in u:
         return 'worldbank_SM_POP_TOTL'
+    if 'api.worldbank.org' in u and 'SH.XPD.CHEX.GD.ZS' in u:
+        return 'worldbank_SH_XPD_CHEX_GD_ZS'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -291,6 +300,24 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
                 add(t('art_sdmx', lang) % os.path.basename(ap), ap)
                 for lab, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
                     add(lab, rel)
+        # health expenditure: the World Bank values were checked cell by cell against WHO's own
+        # API, so WHO's response, its mirror and WHO's indicator page are evidence for them too
+        if k == 'worldbank_SH_XPD_CHEX_GD_ZS':
+            for _, a in _apis[_apis.path.astype(str).str.contains('SH_XPD_CHEX_GD_ZS_indicator_metadata', na=False)].iterrows():
+                ap = str(a['path'])
+                add(t('art_wbmeta', lang), ap)
+                for lab, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab, rel)
+            for _, a in _apis[_apis.path.astype(str).str.contains('who_GHED_CHEGDP', na=False)].iterrows():
+                ap = str(a['path'])
+                add(t('art_who', lang), ap)
+                for lab, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab, rel)
+            pw = _pub_by_key.get('who_ghed_che_pct_gdp')
+            if pw is not None:
+                for col, lab in (('pdf', 'art_whopdf'), ('png', 'art_whopng')):
+                    if isinstance(pw.get(col), str) and pw[col]:
+                        add(t(lab, lang), pw[col])
 
     # 4. snapshots of the source web page
     for s in _snap_by.get((iso3, url), []):

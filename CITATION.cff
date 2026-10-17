@@ -2,11 +2,11 @@ cff-version: 1.2.0
 title: "Migration and population data archive, 40 countries, 2001-2022"
 message: >-
   If you use this archive, please cite the accompanying study and state the
-  archive version (first freeze 2026-08-17; extended to 2001 on 2026-10-07). The archive is joint work of Prof. Raymond
+  archive version (first freeze 2026-08-17; extended to 2001 on 2026-10-07; health expenditure added on 2026-10-17). The archive is joint work of Prof. Raymond
   Kuo (郭年真), National Taiwan University, and Claude (Anthropic).
 type: dataset
-version: "2026-10-07"
-date-released: 2026-10-07
+version: "2026-10-17"
+date-released: 2026-10-17
 
 authors:
   - family-names: "Kuo"
@@ -27,7 +27,7 @@ abstract: >-
   reproduced exactly; the 39 discrepancies were corrected and re-verified against
   the live source on 2026-08-18, when all 21 sources reproduced at 100%. In total
   2,737 value-by-value comparisons are recorded, and 67 values were corrected,
-  each itemised with its evidence. On 2026-10-07 the panel was extended back from 2010 to 2001 for the foreign-born, foreign-national and population series; the extension itself changed no value published earlier, and 1,777 of them were re-compared with fresh source responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of them; 45 cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md).
+  each itemised with its evidence. On 2026-10-07 the panel was extended back from 2010 to 2001 for the foreign-born, foreign-national and population series; the extension itself changed no value published earlier, and 1,777 of them were re-compared with fresh source responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of them; 45 cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md). On 2026-10-17 a health-expenditure variable (current health expenditure as a percentage of GDP) was added for all 40 countries and years, from the WHO Global Health Expenditure Database via the World Bank, checked against WHO's own API, and for Taiwan from the Ministry of Health and Welfare; no other value changed.
 
 keywords:
   - migration

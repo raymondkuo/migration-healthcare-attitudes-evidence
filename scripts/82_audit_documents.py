@@ -210,7 +210,8 @@ reg = pd.read_csv(os.path.join(D, 'source_register.csv'))
 below = pd.read_csv(os.path.join(D, 'foreign_born_below_foreign_nationals.csv'))
 G = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock', 'irregular_proxy_overstayers', 'irregular_proxy_detections']
 gr = pd.Series([x for v in G for x in panel[v + '_grade'].dropna() if str(x).strip()]).value_counts()
-gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers'] for x in panel[v + '_grade'].dropna()
+gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp']
+                 for x in panel[v + '_grade'].dropna()
                  if str(x).strip()]).value_counts()
 sec_total = pd.read_csv(os.path.join(D, 'secondary_workbook_differences.csv'))
 
@@ -234,8 +235,9 @@ Sheets: `README`, `Revision_history`, `Audit_changes`, `Panel_final`, `Data_qual
 Current figures (computed from the data files on %(when)s):
 
 - Grades over the six headline variables: **A %(ga)s, B %(gb)s, C %(gc)s, D 0** (%(gtot)s values). The seven
-  Taiwan absconded-worker values are also displayed and are all grade B: with them, %(gtot7)s values, A %(ga)s,
-  B %(gb7)s, C %(gc)s. Grades say where a value was read from, not how precise or comparable it is.
+  Taiwan absconded-worker values (all grade B) and the %(nhe)s health-expenditure values added on 2026-10-17 (all
+  grade A) are also displayed: with them, %(gtot7)s values, A %(ga7)s, B %(gb7)s, C %(gc)s. Grades say where a value
+  was read from, not how precise or comparable it is.
 - %(ncorr)d value corrections and %(ndel)d deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   %(when)s is in `Audit_changes`.
@@ -287,7 +289,8 @@ For the manuscript and for any claim a reviewer might check, use
 `CLEAN_country_year_panel_2010-2022.xlsx` built from it. The original, unmodified input workbooks are preserved in
 `data/original_inputs/` so that every correction can be checked against what was supplied.
 ''' % dict(when=WHEN, rows=n(len(panel)), ga=n(gr.get('A', 0)), gb=n(gr.get('B', 0)), gc=n(gr.get('C', 0)),
-           gtot=n(gr.sum()), gtot7=n(gr7.sum()), gb7=n(gr7.get('B', 0)), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
+           gtot=n(gr.sum()), gtot7=n(gr7.sum()), gb7=n(gr7.get('B', 0)), ga7=n(gr7.get('A', 0)),
+           nhe=n(panel.health_expenditure_pct_gdp.notna().sum()), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
            ndel=len(pd.read_csv(os.path.join(D, 'deleted_values.csv'))), nlog=n(len(vlog)),
            nurls=reg.source_url.nunique(), nsec=len(sec_total), ncmp=n(n_cmp),
            nres=int((sec_total.status_now != 'in secondary workbook only').sum()),
@@ -338,6 +341,13 @@ verified property of the survey question: it fails if the item is about birthpla
 | irregular_stock | estimated unauthorised residents | %(nir)d (2010-2022) | methods differ by country; not comparable |
 | irregular_proxy_overstayers | stock proxy for persons staying beyond authorised stay: register counts (Korea; Taiwan, all categories), official estimates (Japan, New Zealand; Australia's unlawful non-citizens, a broader group) and one component (Israel) | %(nov)d (2010-2022) | heterogeneous; neither a modelled stock of all irregular residents nor an exact count |
 | irregular_proxy_detections | annual enforcement detections | %(nde)d (2010-2022) | a flow; unit differs by source (persons / events) |
+
+`health_expenditure_pct_gdp`, added on 2026-10-17, is a context variable, not a measure of the group the item
+names: current health expenditure as a percentage of GDP for all 40 countries, 2001-2022 (WHO Global Health
+Expenditure Database via the World Bank, checked against WHO's own API; Taiwan from the Ministry of Health and
+Welfare, long-term care included only from 2007). It is a spending flow over the year as published, so the stock
+date rules in section 2 do not apply to it: use the fieldwork year, or the year before if spending should precede
+the attitude, and state which. [AUTHORS]
 
 ## 2. Timing: survey year versus stock date [AUTHORS]
 

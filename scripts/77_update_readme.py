@@ -55,9 +55,13 @@ Y0, Y1 = int(ys.min()), int(ys.max())
 new = {v: int(panel[v + '_collected_on'].notna().sum())
        for v in ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals')}
 n_large = int((spl.mean_abs_gap_pct >= 5).sum())          # the declared rule: mean ABSOLUTE gap (re-audit R03)
-grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers'] for g in panel[v + '_grade'].dropna()
+grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp']
+                     for g in panel[v + '_grade'].dropna()
                      if str(g).strip()]).value_counts()
 n_abs = int(panel.irregular_proxy_absconded_workers.notna().sum())
+n_he = int(panel.health_expenditure_pct_gdp.notna().sum())
+import health_texts as HT                                          # noqa: E402
+_hk = HT.counts()
 n_corr_aud = int((corr.corrected_on.astype(str) == '2026-10-07').sum())
 pages_each = val['pages_en']
 total_pages = val['pages_en'] + val['pages_zh']
@@ -163,7 +167,8 @@ HEAD = '''<!-- headline:begin -->
   (the 49 of the first release, later amendments, and %(n_corr_aud)d from the audit of 2026-10-07), and %(n_del)d deletion%(s_del)s in
   `data/deleted_values.csv`.
 - Quality grades on the %(gtot)s displayed values of the six headline variables (%(y0)d–%(y1)d): **A** %(ga)s · **B** %(gb)s · **C** %(gc)s · **D** 0.
-  With the %(n_abs)d Taiwan absconded-worker values (all grade B) the displayed total is %(gtot7)s: **A** %(ga)s · **B** %(gb7)s · **C** %(gc)s.
+  With the %(n_abs)d Taiwan absconded-worker values (all grade B) and the %(n_he)s health-expenditure values (all grade A,
+  added 2026-10-17) the displayed total is %(gtot7)s: **A** %(ga7)s · **B** %(gb7)s · **C** %(gc)s.
   A grade says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
   C the midpoint of a published range computed by the archive; a single-number estimate a source publishes is A or B);
   it does not say how precise or comparable the value is.
@@ -193,6 +198,19 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 - Unresolved, for the authors: UN DESA labels the migrant stock of China, India, the Philippines,
   Suriname and Thailand as based on citizenship although the panel carries it as foreign-born
   (`data/known_issues.csv`).
+
+## Health expenditure · 醫療保健支出 (added %(he_when)s)
+
+- New variable **`health_expenditure_pct_gdp`**: current health expenditure as a percentage of GDP for **all %(he_nc)d
+  countries and all years %(y0)d–%(y1)d** (%(n_he)s values), the years of the population and migrant series, with source,
+  reference period, grade, verification text and flag on every value. No other value changed.
+- %(he_nwb)d countries: the WHO Global Health Expenditure Database as published by the World Bank (WDI
+  `SH.XPD.CHEX.GD.ZS`); all %(he_ncmp)s values are identical to full precision to WHO's own API
+  (`data/health_expenditure_wb_vs_who.csv`). Taiwan, which neither covers: the Ministry of Health and Welfare's
+  National Health Expenditure 2024, Table 1, read from the official workbook and identical to the published report;
+  long-term care is included only from 2007 and the earlier years are flagged.
+- Raw API responses, the workbook, the report and the publishers' own pages are archived with PDF/PNG mirrors in
+  `evidence/api/` and `evidence/countries/TWN/`.
 <!-- headline:end -->
 
 ''' % dict(n_as=n(n_as), n_exact=n(n_exact), pct=100 * n_exact / n_as, n_bad=n_bad,
@@ -202,6 +220,8 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            n_re=n_re, n_corr_now=len(corr), n_ctry_now=corr.iso3.nunique(), n_corr_aud=n_corr_aud,
            n_del=len(dele), s_del='' if len(dele) == 1 else 's',
            gtot7=n(grades7.sum()), gb7=n(grades7.get('B', 0)), n_abs=n_abs,
+           ga7=n(grades7.get('A', 0)), n_he=n(n_he), he_when=HT.WHEN, he_nc=_hk['n_countries'],
+           he_nwb=_hk['n_countries'] - 1, he_ncmp=n(_hk['n_cmp']),
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
            sweep_date='2026-10-07', n_bad_links=n_bad_links, n_aud=len(aud), aud_kinds=aud_kinds, n_cur=n(n_cur),
@@ -235,7 +255,8 @@ csub(r'title: "[^"]*"', 'title: "Migration and population data archive, 40 count
 csub(r'version: "[^"]*"', 'version: "%s"' % LAST)
 csub(r'date-released: [\d-]+', 'date-released: %s' % LAST)
 csub(r'state the\n  archive (?:freeze date, 2026-08-17\.|version \([^)]*\)\.)',
-     'state the\n  archive version (first freeze 2026-08-17; extended to %d on %s).' % (Y0, LAST))
+     'state the\n  archive version (first freeze 2026-08-17; extended to %d on 2026-10-07; health expenditure added '
+     'on %s).' % (Y0, HT.WHEN))       # the extension date is fixed; LAST moves with every later amendment
 csub(r'and \d+ values were corrected,', 'and %d values were corrected,' % len(corr))
 csub(r'covering 40 countries for [\d-]+\.', 'covering 40 countries for %d-%d.' % (Y0, Y1))
 if 'extended back' not in c:
@@ -243,13 +264,16 @@ if 'extended back' not in c:
                   '  each itemised with its evidence. On %s the panel was extended back from 2010 to %d '
                   'for the foreign-born, foreign-national and population series; no value published '
                   'earlier changed, and %s of them were re-compared with fresh source responses.\n'
-                  % (LAST, Y0, n(ovl.cells_compared.sum())), 1)
+                  % ('2026-10-07', Y0, n(ovl.cells_compared.sum())), 1)
     assert 'extended back' in c
 csub(r'(?:no value published earlier changed|the extension itself changed no value published earlier), and [\d,]+ of them were re-compared with fresh source responses\.[^\n]*',
      'the extension itself changed no value published earlier, and %s of them were re-compared with fresh source '
      'responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of '
-     'them; %d cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md).'
-     % (n(ovl.cells_compared.sum()), len(aud)))
+     'them; %d cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md). '
+     'On %s a health-expenditure variable (current health expenditure as a percentage of GDP) was added for all %d '
+     "countries and years, from the WHO Global Health Expenditure Database via the World Bank, checked against WHO's "
+     'own API, and for Taiwan from the Ministry of Health and Welfare; no other value changed.'
+     % (n(ovl.cells_compared.sum()), len(aud), HT.WHEN, _hk['n_countries']))
 open(fp, 'w', encoding='utf-8').write(c)
 print('CITATION.cff refreshed')
 

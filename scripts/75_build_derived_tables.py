@@ -25,6 +25,7 @@ sys.path.insert(0, HERE)
 import ext_lib as L                                    # noqa: E402
 import blib                                            # noqa: E402
 import audit_texts as AT                               # noqa: E402
+import health_texts as HT                              # noqa: E402
 
 SITE = os.path.dirname(HERE)
 D = os.path.join(SITE, 'data')
@@ -36,7 +37,7 @@ panel = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 won = pd.read_csv(os.path.join(STAGE, 'assembled_winners.txt'))
 splice = pd.read_csv(os.path.join(D, 'extension_splice_summary.csv'))
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
-        'irregular_proxy_overstayers', 'irregular_proxy_detections']
+        'irregular_proxy_overstayers', 'irregular_proxy_detections', HT.VAR]
 
 # ------------------------------------------------------------------ 0. snapshot rows must point at files that exist
 ws = pd.read_csv(os.path.join(D, 'web_snapshots.csv')).fillna('')
@@ -119,6 +120,7 @@ print('country READMEs and manifests updated: %d countries' % won.iso3.nunique()
 # ------------------------------------------------------------------ 4. data_quality
 old_q = pd.read_csv(os.path.join(D, 'data_quality.csv'))
 COMP = dict(AT.COMPARABILITY_EN)            # rewritten after the audit: no blanket date statements
+COMP.update(HT.COMPARABILITY_EN)            # health expenditure, added 2026-10-17
 NY = panel.year.nunique()
 rows = []
 for iso, g in panel.groupby('iso3', sort=False):
@@ -397,7 +399,7 @@ ki.loc[mask, 'evidence'] = ("Eurostat migr_pop1ctz / migr_pop3ctb metadata; OECD
                             "statistical annex (reference dates by country).")
 ki.loc[mask, 'evidence_zh'] = ("Eurostat migr_pop1ctz／migr_pop3ctb 之後設資料；OECD《International Migration Outlook 2024》"
                                "統計附錄（各國參照日期）。")
-_AT = AT.known_issues()
+_AT = AT.known_issues() + [HT.known_issue()]
 _keys = {(r['scope'], r['variable']) for r in _AT}
 NEW = [r for r in NEW if (r['scope'], r['variable']) not in _keys] + _AT
 ki = ki[ki.scope != 'Denmark, Slovakia, Czechia, Lithuania, Poland, Portugal']   # replaced by the row keyed on the full list
@@ -479,10 +481,10 @@ set_caution('irregular_proxy_overstayers', AT.OVS_CAUTION_EN % (_ovs, _NC), AT.O
 ADD = [
  ('*_source_type', 'Kind of source behind a foreign_born or foreign_nationals value: annual '
   '(official annual series such as Eurostat, OECD, MOI), census, survey (household-survey '
-  'estimate), un_estimate (UN DESA model estimate) or other.',
+  'estimate), un_estimate (UN DESA model estimate) or other.' + HT.SOURCE_TYPE_EN,
   'Filter on this to keep only annual series.',
   '外國出生或外國籍人口數值所依據之來源類型：annual（Eurostat、OECD、內政部等官方逐年序列）、census（普查）、'
-  'survey（家戶調查估計）、un_estimate（UN DESA 模型估計）或 other。',
+  'survey（家戶調查估計）、un_estimate（UN DESA 模型估計）或 other。' + HT.SOURCE_TYPE_ZH,
   '依此欄篩選即可僅保留逐年序列。'),
  ('*_flag', 'Comparability flags on a foreign_born, foreign_nationals or irregular_proxy_detections value, '
   'separated by semicolons. foreign_born and foreign_nationals: splice (source differs from the one used for the rest '
@@ -490,21 +492,22 @@ ADD = [
   '5% or more; the signed mean is reported separately), un_estimate, declared citizenship basis, comparability '
   'caution, includes former-USSR births, derived by subtraction, and the publisher\'s own flags (Eurostat: break in '
   'time series, estimated, provisional). irregular_proxy_detections: only the publisher\'s own Eurostat flag '
-  '(break in time series).',
+  '(break in time series).' + HT.FLAG_EN,
   'Blank means no flag. Attached to every cell, including those published before the '
   'extension (UN DESA estimates and the flags Eurostat itself attached). See the cell note and '
   'data/extension_splice_summary.csv.',
   '外國出生、外國籍人口或查獲人數數值之可比性旗標，以分號分隔。外國出生與外國籍人口：splice（來源與序列其餘部分不同）、'
   'splice (large gap)（兩來源於重疊年度之「平均絕對差距」達 5% 以上；有號平均另行報告）、un_estimate、'
   'declared citizenship basis、comparability caution、includes former-USSR births、derived by subtraction，'
-  '以及發布機構自身之旗標（Eurostat：時間序列斷裂、估計值、暫定值）。查獲人數：僅 Eurostat 自身之旗標（時間序列斷裂）。',
+  '以及發布機構自身之旗標（Eurostat：時間序列斷裂、估計值、暫定值）。查獲人數：僅 Eurostat 自身之旗標（時間序列斷裂）。'
+  + HT.FLAG_ZH,
   '空白表示無旗標。適用於每一格，包括延伸前已發布者（UN DESA 估計值與 Eurostat 自身之旗標）。'
   '請參閱各筆備註與 data/extension_splice_summary.csv。'),
  ('*_collected_on', 'Date a value was collected, for values added in the 2001 extension '
   '(2026-10-07); blank for values collected on 2026-08-17.',
-  'Present for population, population_un_wpp2024, foreign_born and foreign_nationals.',
+  'Present for population, population_un_wpp2024, foreign_born and foreign_nationals.' + HT.COLLECTED_EN,
   '數值蒐集之日期：2001 年延伸所新增之數值為 2026-10-07；於 2026-08-17 蒐集者則為空白。',
-  '適用於 population、population_un_wpp2024、foreign_born 與 foreign_nationals。'),
+  '適用於 population、population_un_wpp2024、foreign_born 與 foreign_nationals。' + HT.COLLECTED_ZH),
 ]
 for name, ed in AT.CODEBOOK_EDITS.items():
     i = cb.index[cb[cols[0]] == name]
@@ -514,6 +517,7 @@ for name, ed in AT.CODEBOOK_EDITS.items():
         if fld in ed:
             cb.loc[i, col] = ed[fld]
 ADD += [(n_, d_, c_, dz_, cz_) for (n_, d_, c_, dz_, cz_) in AT.CODEBOOK_NEW]
+ADD += HT.codebook_rows()
 cb = cb[~cb[cols[0]].isin([a[0] for a in ADD])]
 add = pd.DataFrame([{cols[0]: a[0], cols[1]: a[1], cols[2]: a[2], 'definition_zh': a[3],
                      'caution_zh': a[4]} for a in ADD])

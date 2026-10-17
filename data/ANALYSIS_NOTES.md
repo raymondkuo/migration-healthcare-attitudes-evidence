@@ -27,6 +27,13 @@ verified property of the survey question: it fails if the item is about birthpla
 | irregular_proxy_overstayers | stock proxy for persons staying beyond authorised stay: register counts (Korea; Taiwan, all categories), official estimates (Japan, New Zealand; Australia's unlawful non-citizens, a broader group) and one component (Israel) | 6 (2010-2022) | heterogeneous; neither a modelled stock of all irregular residents nor an exact count |
 | irregular_proxy_detections | annual enforcement detections | 25 (2010-2022) | a flow; unit differs by source (persons / events) |
 
+`health_expenditure_pct_gdp`, added on 2026-10-17, is a context variable, not a measure of the group the item
+names: current health expenditure as a percentage of GDP for all 40 countries, 2001-2022 (WHO Global Health
+Expenditure Database via the World Bank, checked against WHO's own API; Taiwan from the Ministry of Health and
+Welfare, long-term care included only from 2007). It is a spending flow over the year as published, so the stock
+date rules in section 2 do not apply to it: use the fieldwork year, or the year before if spending should precede
+the attitude, and state which. [AUTHORS]
+
 ## 2. Timing: survey year versus stock date [AUTHORS]
 
 Pick one rule and apply it to every country, then test the others.

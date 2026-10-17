@@ -27,7 +27,8 @@ There is no `build-site.mjs` in this archive; older reports that name one descri
   afterwards, except the cells listed one by one in `data/audit_changes_2026-10-07.csv`.
 - **The source payloads and documents are the archived files** under `evidence/api/` and `evidence/countries/`,
   each with its retrieval date in its name or in `data/api_snapshots.csv` / `data/source_register.csv`.
-  The 2001-2022 payloads are dated 2026-10-07.
+  The 2001-2022 payloads are dated 2026-10-07; the health-expenditure files (World Bank, WHO and the Taiwan
+  Ministry of Health and Welfare workbook and report) are dated 2026-10-17.
 - **The collector outputs** (`data/extension_staging/*.csv`) are committed, so the build does not need the
   network.
 - **The audit's result tables are committed** in `data/audit_inputs/` (README there). Step 7 reads them to fill the
@@ -43,6 +44,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 |---|---|---|
 | 1 | `python scripts/74_assemble_panel.py` | Merges the staged 2001-2009 cells into `panel_final.csv`; marks the concept of each foreign-born cell; fails if a first-release value changed outside the audit list |
 | 2 | `python scripts/79_apply_audit_corrections.py` | Applies the corrections, additions, deletion and regrades of the audit of 2026-10-07; writes `audit_changes_2026-10-07.csv`, `corrections_applied.csv`, `deleted_values.csv` |
+| 2a | `python scripts/85_add_health_expenditure.py` | Appends the ten `health_expenditure_pct_gdp*` columns from `data/extension_staging/health_expenditure_cells.csv` (step 1 writes only the columns it knows, so this must follow it); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 3 | `python scripts/81_audit_reference_tables.py` | Status of every irregular-estimate record; `data_from_source.csv` for every country; source-register routing; country READMEs |
 | 4 | `python scripts/75_build_derived_tables.py` | Source register rows for the extension, per-country manifests, data quality, evidence index, known issues, codebook |
 | 5 | `python scripts/66_revision_history.py` | The dated revision history (reads the commit stamp files for the commit and time) |
@@ -51,15 +53,22 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 8 | `python scripts/83_audit_response.py` | The response to the audit and to the re-audit (`audit_response_*.csv`, `reaudit_response_*.csv`, `verification/AUDIT_RESPONSE_*.md`) |
 | 9 | `python scripts/57_sync_workbook_sheets.py` | Rewrites the main workbook's sheets from the CSVs |
 | 10 | `python scripts/80_check_source_charts.py` | Source-label check: the Chile chart is read from the PDF's coordinates and compared with the panel |
-| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 406 pages, both languages |
+| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 486 pages, both languages |
 | 12 | `python scripts/build_pdf_extracts.py` | The PDF extracts (needs Windows and Chrome; about 8 minutes) |
 | 13 | `python scripts/28_checksums.py`, `29_website_manifest.py`, `27_validate_site.py`, `validate_bilingual.py`, `77_update_readme.py`, then `28_checksums.py` again | Checksums, manifest, validators, README and CITATION numbers |
 | 14 | after committing: `python scripts/78_verify_checksums.py` | Compares the manifest with what git stored |
 
-Every step is idempotent. `45_build_source_mirrors.py` creates the `MIRROR__` renderings of newly archived files;
+Every step is idempotent. `45_build_source_mirrors.py` creates the `MIRROR__` renderings of newly archived files
+(it, like every render through `ext_lib.chrome_render`, deletes link targets that point at the local disk, and
+`86_scrub_pdf_local_links.py` checks every PDF of the archive for them, raw and inside compressed streams);
 `41_link_sweep.py` re-tests every external URL (`--retry-only` re-tests just the failures with curl).
 
 ## 4. Re-collecting the sources (needs the network)
+
+`84_collect_health_expenditure.py` re-reads the archived health-expenditure files and rewrites its staging file and
+`data/health_expenditure_wb_vs_who.csv` without the network; with `--fetch` it downloads them again under new dated names
+only if the date constant in the script is changed first (otherwise it overwrites the 2026-10-17 files), and renders the
+mirrors and publisher pages.
 
 `67` (bulk payloads) and `68`-`73` (Eurostat/OECD cells, population and UN DESA, Taiwan, census documents, Russia, UK)
 re-collect the 2001-2009 extension and rewrite `data/extension_staging/`. Run `68` and `69` together: `69` appends its
@@ -84,6 +93,12 @@ no local inputs. Every tracked file came out identical, including `data/current_
 results. The two `.xlsx` files differ in their zip container (it embeds a timestamp) but not in a single cell: they were
 compared sheet by sheet. Not repeated in that test: the PDF extract render (step 12), the link sweep, and the network
 collectors of section 4.
+
+On 2026-10-17, when step 2a was added for the health-expenditure variable, steps 1-14 were run in order in a working
+clone of the previous commit (a full clone, not the empty-folder test above). Steps 1 and 2 reproduced the committed panel
+exactly; step 2a appended its ten columns with every other cell byte-identical; every derived table, workbook sheet and
+country file changed only by the new variable's rows; the validators reported 0 errors. The PDF extracts were re-rendered,
+because every country's "last amended" date changed.
 
 An earlier test of this kind, run in a folder next to the audit's working folders, passed without showing that step 7 depended
 on them: in an isolated clone it lost 3,328 of the 3,365 audit results (re-audit finding R01). Those result tables are now

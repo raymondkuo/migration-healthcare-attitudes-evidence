@@ -211,6 +211,15 @@ ROWS_ADD = [
      '%s values published before the extension were compared with fresh responses from '
      'Eurostat, OECD, the World Bank and UN WPP: %s reproduced exactly.'
      % (format(int(ovl_.cells_compared.sum()), ','), format(int(ovl_.identical.sum()), ','))),
+    ('Health expenditure (2026-10-17)',
+     'health_expenditure_pct_gdp: current health expenditure as a percentage of GDP (0-100), %s values, every country '
+     'and year %d-%d, with source, reference period, grade, verification text and flag on each (Panel_final, last ten '
+     'columns). %d countries from the World Bank (WDI SH.XPD.CHEX.GD.ZS, the WHO Global Health Expenditure Database), '
+     "all identical to WHO's own API (data/health_expenditure_wb_vs_who.csv); Taiwan from the Ministry of Health and "
+     'Welfare, National Health Expenditure 2024, Table 1, long-term care included only from 2007 (flagged). No other '
+     'value changed.'
+     % (format(int(pan_.health_expenditure_pct_gdp.notna().sum()), ','), int(pan_.year.min()), int(pan_.year.max()),
+        pan_[pan_.health_expenditure_pct_gdp.notna() & (pan_.iso3 != 'TWN')].iso3.nunique())),
 ]
 labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
 anchor = labels_.index('Corrections applied') + 1 if 'Corrections applied' in labels_ else None

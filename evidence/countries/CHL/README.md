@@ -26,6 +26,20 @@ ISO3: **CHL**   First verified: 2026-08-17 (first release; the counts below are 
 - `source_manifest.csv` — every cited source and how it was retrieved
 - the downloaded source documents sit directly in this folder (there is no `sources/` subfolder); each has a viewable `MIRROR__` PDF/PNG, and a `SNAPSHOT__` page extract where one was cut out
 
+<!-- health-expenditure:begin -->
+
+## Health expenditure (collected 2026-10-17)
+
+`health_expenditure_pct_gdp`: current health expenditure as a percentage of GDP, 2001-2022 (22 values). A new variable; no other value in this folder or in the panel changed.
+
+| years | source | file |
+|---|---|---|
+| 2001-2022 | World Bank, World Development Indicators (SH.XPD.CHEX.GD.ZS, current health expenditure % of GDP), sourced fro | `wb_SH_XPD_CHEX_GD_ZS_2001-2022_retrieved_2026-10-17.json` |
+
+Each value carries its source, reference period, grade, verification text and any flag in `data/panel_final.csv`; the revision history on the Verification page dates the addition.
+
+<!-- health-expenditure:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)
