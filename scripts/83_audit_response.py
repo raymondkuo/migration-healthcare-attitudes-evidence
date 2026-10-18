@@ -310,6 +310,28 @@ for r_ in R:
     if r_['finding'] in RA:
         r_['resolution'] = r_['resolution'] + ' ' + RA[r_['finding']][0]
         r_['resolution_zh'] = r_['resolution_zh'] + RA[r_['finding']][1]
+# the three findings left to the authors were decided on 2026-10-18; the answers above stay as written on 2026-10-07
+DECIDED = {
+    'F09': ('Decided by the authors on 2026-10-18: the 2021 Census count, read from the official ABS workbook (Cultural '
+            'diversity data summary 2021, Table 2), is in a separate column non_citizens_census; foreign_nationals stays an '
+            'annual series.',
+            '作者於 2026-10-18 決定：2021 年普查數讀自澳洲統計局官方試算表（Cultural diversity data summary 2021，表 2），'
+            '另列於 non_citizens_census 欄；foreign_nationals 維持為逐年序列。'),
+    'F10': ('Decided by the authors on 2026-10-18: not added, because South Africa\'s ISSP 2021 interviews were in 2021, ten '
+            'years after the census; recorded in the known issues.',
+            '作者於 2026-10-18 決定：不加入，因南非之 ISSP 2021 訪問在 2021 年，晚於普查十年；記載於已知問題。'),
+    'F24': ('Decided by the authors on 2026-10-18 from the ISSP 2021 item Q6a: main regressor foreign_nationals_pct_pop, '
+            'foreign_born_pct_pop as robustness; timing = the latest stock on or before the first interview '
+            '(ANALYSIS_NOTES sections 1-2; the documentation quoted is in evidence/survey/).',
+            '作者於 2026-10-18 依 ISSP 2021 題目 Q6a 決定：主要自變項為 foreign_nationals_pct_pop，以 foreign_born_pct_pop 作穩健性檢驗；'
+            '時間規則為首次訪問當日或之前之最近一筆存量（研究使用說明第 1–2 節；所引用之文件見 evidence/survey/）。'),
+}
+for r_ in R:
+    if r_['finding'] in DECIDED:
+        assert r_['status'] == OPEN
+        r_['resolution'] = r_['resolution'] + ' ' + DECIDED[r_['finding']][0]
+        r_['resolution_zh'] = r_['resolution_zh'] + DECIDED[r_['finding']][1]
+        r_['status'], r_['status_zh'] = 'Resolved: decided by the authors on 2026-10-18', '已解決：作者於 2026-10-18 決定'
 resp = pd.DataFrame(R)
 assert len(resp) == 24
 resp.to_csv(os.path.join(D, 'audit_response_%s.csv' % WHEN), index=False, encoding='utf-8-sig')
@@ -325,9 +347,11 @@ def radd(f, no, title, title_zh, checked, checked_zh, result, result_zh):
 
 
 ledger = pd.read_csv(os.path.join(D, 'current_panel_verification.csv'))
-# the re-audit's ledger: the observations its result tables cover. Rows added later (health expenditure, 2026-10-17,
-# audited separately) are not part of what these dated answers describe.
-n_led = int((ledger.variable != 'health_expenditure_pct_gdp').sum())
+# the re-audit's ledger: the observations its result tables cover. Rows added later (health expenditure on 2026-10-17,
+# audited separately; the census value of 2026-10-18) say so in audit_2026_10_07 and are not part of what these dated
+# answers describe.
+n_led = int((~ledger.audit_2026_10_07.astype(str).str.startswith('not ')).sum())
+assert n_led == 3365, n_led
 radd('R01', 21, 'Isolated rebuild loses the audit statuses', '獨立重建遺失稽核結果',
      'Ran step 82 in a clone of the commit placed in an otherwise empty folder: 3,328 of the 3,365 audit statuses became "not in '
      'the audited revision". The earlier rebuild test had been run beside the audit folder, which is why it did not show this.',

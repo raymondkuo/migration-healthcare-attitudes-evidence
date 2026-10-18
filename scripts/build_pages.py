@@ -259,8 +259,10 @@ def build_data(lang):
        '等級、查核方式與稽核結果。2,737 列之查證紀錄是比對紀錄，並非此表。')),
      ('data/ANALYSIS_NOTES.md', ('Research-use notes', '研究使用說明'),
       ('The construct, timing, universe, denominator and sensitivity choices that source verification does not settle, with '
-       'the numbers behind each. Marked for the authors to complete.',
-       '來源查證無法決定之概念、時間對齊、母體、分母與敏感度選擇，及各項背後之數字。標示留待作者填定。')),
+       'the numbers behind each. The construct and the timing rule were decided by the authors on 2026-10-18 from the ISSP '
+       '2021 item (sections 1-2); the remaining choices are marked for them.',
+       '來源查證無法決定之概念、時間對齊、母體、分母與敏感度選擇，及各項背後之數字。概念與時間規則已由作者於 2026-10-18 '
+       '依 ISSP 2021 題目決定（第 1–2 節）；其餘選擇標示留待作者填定。')),
      ('data/foreign_born_below_foreign_nationals.csv', ('Where foreign-born is below foreign nationals', '外國出生低於外國籍之案例'),
       ('The country-years in which foreign_born is below foreign_nationals. Not an error rule: nothing was forced into order.',
        '外國出生人口低於外國籍人口之國家—年度。並非錯誤判準：未強行排序。')),
