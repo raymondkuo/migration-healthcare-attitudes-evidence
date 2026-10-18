@@ -66,7 +66,7 @@ for p in zh:
 panel = pd.read_csv(os.path.join(SITE, 'data', 'panel_final.csv'))
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections',
-        'irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp']
+        'irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census']
 cells = unlinked = 0
 for lang, sfx in (('en', ''), ('zh', '.zh')):
     for iso in sorted(panel.iso3.unique()):

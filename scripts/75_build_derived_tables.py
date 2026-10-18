@@ -26,6 +26,8 @@ import ext_lib as L                                    # noqa: E402
 import blib                                            # noqa: E402
 import audit_texts as AT                               # noqa: E402
 import health_texts as HT                              # noqa: E402
+import decision_texts as DT                            # noqa: E402
+import counts as _K                                    # noqa: E402
 
 SITE = os.path.dirname(HERE)
 D = os.path.join(SITE, 'data')
@@ -399,7 +401,9 @@ ki.loc[mask, 'evidence'] = ("Eurostat migr_pop1ctz / migr_pop3ctb metadata; OECD
                             "statistical annex (reference dates by country).")
 ki.loc[mask, 'evidence_zh'] = ("Eurostat migr_pop1ctz／migr_pop3ctb 之後設資料；OECD《International Migration Outlook 2024》"
                                "統計附錄（各國參照日期）。")
-_AT = AT.known_issues() + [HT.known_issue()]
+# the audit's row on countries with no foreign-national series is superseded by the authors' decisions of 2026-10-18
+_AT = [DT.known_issue(_K.N_FN_COUNTRIES) if (r['scope'], r['variable']) == (DT.SCOPE, 'foreign_nationals') else r
+       for r in AT.known_issues()] + [HT.known_issue()]
 _keys = {(r['scope'], r['variable']) for r in _AT}
 NEW = [r for r in NEW if (r['scope'], r['variable']) not in _keys] + _AT
 ki = ki[ki.scope != 'Denmark, Slovakia, Czechia, Lithuania, Poland, Portugal']   # replaced by the row keyed on the full list
@@ -518,6 +522,7 @@ for name, ed in AT.CODEBOOK_EDITS.items():
             cb.loc[i, col] = ed[fld]
 ADD += [(n_, d_, c_, dz_, cz_) for (n_, d_, c_, dz_, cz_) in AT.CODEBOOK_NEW]
 ADD += HT.codebook_rows()
+ADD += DT.codebook_rows()
 cb = cb[~cb[cols[0]].isin([a[0] for a in ADD])]
 add = pd.DataFrame([{cols[0]: a[0], cols[1]: a[1], cols[2]: a[2], 'definition_zh': a[3],
                      'caution_zh': a[4]} for a in ADD])

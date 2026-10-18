@@ -1,28 +1,39 @@
 # Research-use notes: constructs, timing, universes and sensitivity
 
-*Written 2026-10-07 after audit finding F24. These are the choices that source verification does not settle.
-They are **not decisions**: the places marked [AUTHORS] are for the study's authors to fill in before the final
-analysis. No manuscript result was recalculated in preparing this file.*
+*Written 2026-10-07 after audit finding F24. Sections 1 and 2 record the authors' decisions of 2026-10-18 (issue #24).
+The rest sets out choices that source verification does not settle; the places still marked [AUTHORS] are for the
+study's authors. No manuscript result was recalculated in preparing this file.*
 
-## 1. The construct [AUTHORS]
+## 1. The construct (decided 2026-10-18)
 
-The study asks about **attitudes toward publicly funded healthcare for non-nationals**. Which stock best
-matches the survey item depends on the item itself, which this archive does not hold.
+The study analyses the ISSP 2021 item **Q6a** (variable v8), quoted from the ZA8000 Variable Report, PDF page 51
+(archived in `evidence/survey/`, with an image of the page):
 
-- Paste the questionnaire wording and response scale here: [AUTHORS]
-- Whom does the item name - foreigners / non-citizens in general, legally resident foreigners, migrants, or
-  irregular migrants? [AUTHORS]
-- Is the entitlement question about people who are *present* (a stock), people who *arrive* (a flow), or a
-  policy position? [AUTHORS]
+> How much do you agree or disagree with the following statements? [...] People should have access to publicly
+> funded health care even if they do not hold citizenship of [country].
 
-The archive recommends `foreign_nationals_pct_pop` as the main regressor because it counts residents without
-the country's nationality, the closest match to "non-nationals". That is a methodological judgement, not a
-verified property of the survey question: it fails if the item is about birthplace or about irregular status.
+Answers run from 1 strongly agree to 5 strongly disagree (-8 can't choose, -9 no answer). The Taiwan questionnaire
+(D2a, page 6) asks: 住在台灣的每個人，就算沒有台灣的身分證，都應該可以使用公共醫療保健服務（例如：健保）. The companion item
+**Q7d** (v13, page 61) asks whether access to health care is easier or harder "for citizens of [country] than for
+people who do not hold [country's] citizenship".
+
+- **Whom the item names:** people who do not hold the country's citizenship - non-citizens, whatever their legal
+  status. Naturalised citizens hold the citizenship and are not named; irregular migrants are not named as a group.
+- **Stock, flow or position:** a position on an entitlement. The context that matches it is the size of the group
+  named, a stock, never a flow.
+- **Main regressor: `foreign_nationals_pct_pop`.** Robustness: `foreign_born_pct_pop`, which also counts naturalised
+  citizens. The irregular-migration series are not regressors for this item.
+- **Australia** has no annual foreign-national series; its 2021 Census count is in `non_citizens_census` (issue #9),
+  for a single-year level or a sensitivity run. **South Africa**'s 2011 census count was not added (issue #10): its
+  interviews were in 2021.
+- **Taiwan:** "沒有台灣的身分證" (without a Taiwan identity card) may be wider than the register series, which excludes
+  people from Mainland China, Hong Kong and Macau; whether to add them in a sensitivity run is open. [AUTHORS]
 
 | Variable | What it counts | Countries (years) | Main caution |
 |---|---|---|---|
 | foreign_nationals | residents holding a foreign nationality (stateless where reported) | 35 (2001-2022) | falls with naturalisation; no annual series for AUS, IND, ISR, NZL, ZAF |
 | foreign_born | residents born abroad | 38 (2001-2022) | includes naturalised citizens; 20 UN citizenship-basis cells are excluded from the extract |
+| non_citizens_census | persons who are not citizens, census count, where no annual series exists | 1 (Australia 2021) | a single year, not a series; 5.1% did not state their citizenship |
 | irregular_stock | estimated unauthorised residents | 12 (2010-2022) | methods differ by country; not comparable |
 | irregular_proxy_overstayers | stock proxy for persons staying beyond authorised stay: register counts (Korea; Taiwan, all categories), official estimates (Japan, New Zealand; Australia's unlawful non-citizens, a broader group) and one component (Israel) | 6 (2010-2022) | heterogeneous; neither a modelled stock of all irregular residents nor an exact count |
 | irregular_proxy_detections | annual enforcement detections | 25 (2010-2022) | a flow; unit differs by source (persons / events) |
@@ -34,9 +45,13 @@ Welfare, long-term care included only from 2007). It is a spending flow over the
 date rules in section 2 do not apply to it: use the fieldwork year, or the year before if spending should precede
 the attitude, and state which. [AUTHORS]
 
-## 2. Timing: survey year versus stock date [AUTHORS]
+## 2. Timing: survey year versus stock date (decided 2026-10-18)
 
-Pick one rule and apply it to every country, then test the others.
+**The primary rule is rule 2 below: the latest stock dated on or before the first interview in the country.** Rules 1
+and 3 are the sensitivity checks. The year and month of every interview are in the ISSP data (DATEYR, DATEMO), and
+the Variable Report tabulates the year of interview by country (PDF page 778; the month on page 779). The panel ends
+in 2022, so for a country interviewed in 2023 or 2024 the rule takes the latest row that exists, and the lag is stated
+with the result.
 
 1. Same row year (survey year Y with the row labelled Y);
 2. The latest stock dated on or before the start of fieldwork: row Y for a 1 January stock, row Y-1 for a

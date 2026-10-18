@@ -1,7 +1,7 @@
 ﻿Item,Detail
 "FINAL verified migration and population panel, 40 countries, 2010-2022",
 ,
-Built,Sources first retrieved and verified 2026-08-17. Data last revised 2026-10-17. Every amendment after first collection is dated on the Revision_history sheet.
+Built,Sources first retrieved and verified 2026-08-17. Data last revised 2026-10-18. Every amendment after first collection is dated on the Revision_history sheet.
 Inputs,immigration_country_year_2010_2022.xlsx  and  migration_population_panel_40countries_2010-2022.xlsx
 Base,"migration_population_panel_40countries_2010-2022.xlsx. It was chosen because it keeps the three irregular-migration measures in separate columns, carries a full audit trail, is internally consistent with that trail, and 2,415 of its values reproduced exactly from the live sources."
 ,
@@ -10,8 +10,8 @@ Values re-derived from live sources,"2737 comparisons in two rounds: 2454 as rec
   matched exactly,2415 of 2454 as received (98.4%); 283 of 283 after correction (100.0%)
   discrepancies found,"39, all corrected and re-verified against the live source on 2026-08-18"
 Sources re-queried live,"World Bank WDI (SP.POP.TOTL, SM.POP.TOTL); Eurostat migr_pop3ctb, migr_pop1ctz, migr_eipre; OECD International Migration Database (13 series); UN WPP 2024; UN DESA International Migrant Stock 2024."
-Document source citations,545 source rows across 173 distinct URLs
-  archived in the country folders,"545 of 545 (441 verified live via API, 104 archived as documents)"
+Document source citations,548 source rows across 174 distinct URLs
+  archived in the country folders,"548 of 548 (441 verified live via API, 107 archived as documents)"
   not retrievable by any means,0 - every citation relied on is archived here. 7 original citations had gone dead and were replaced by a live source carrying the same figure; each original is kept in superseded_source_url.
 Corrections applied,"67 values across 10 countries: CHE, CHL, IND, ISR, ITA, KOR, PRT, SUR, SWE, TWN (see Corrections_applied)"
 Health expenditure (2026-10-17),"health_expenditure_pct_gdp: current health expenditure as a percentage of GDP (0-100), 880 values, every country and year 2001-2022, with source, reference period, grade, verification text and flag on each (Panel_final, last ten columns). 39 countries from the World Bank (WDI SH.XPD.CHEX.GD.ZS, the WHO Global Health Expenditure Database), all identical to WHO's own API (data/health_expenditure_wb_vs_who.csv); Taiwan from the Ministry of Health and Welfare, National Health Expenditure 2024, Table 1, long-term care included only from 2007 (flagged). No other value changed."

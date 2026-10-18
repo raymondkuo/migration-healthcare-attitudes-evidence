@@ -325,7 +325,9 @@ def radd(f, no, title, title_zh, checked, checked_zh, result, result_zh):
 
 
 ledger = pd.read_csv(os.path.join(D, 'current_panel_verification.csv'))
-n_led = len(ledger)
+# the re-audit's ledger: the observations its result tables cover. Rows added later (health expenditure, 2026-10-17,
+# audited separately) are not part of what these dated answers describe.
+n_led = int((ledger.variable != 'health_expenditure_pct_gdp').sum())
 radd('R01', 21, 'Isolated rebuild loses the audit statuses', '獨立重建遺失稽核結果',
      'Ran step 82 in a clone of the commit placed in an otherwise empty folder: 3,328 of the 3,365 audit statuses became "not in '
      'the audited revision". The earlier rebuild test had been run beside the audit folder, which is why it did not show this.',

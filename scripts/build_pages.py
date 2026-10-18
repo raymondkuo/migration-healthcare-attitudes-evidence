@@ -243,16 +243,20 @@ def build_data(lang):
        'checked, what changed, and what stays with the authors.',
        '24 項稽核發現與 11 項再稽核發現均對照存檔來源重新查核：判定、查核內容、變更內容，以及留待作者決定者。')),
      ('data/audit_inputs/README.md', ('Audit inputs of the build', '建置所用之稽核輸入'),
-      ('The independent audit’s own result tables (3,365 observations) that the verification ledger is built from; '
-       'committed so that a clean clone reproduces the ledger. The tables are in the same folder.',
-       '獨立稽核自身之結果表（3,365 筆觀測值），驗證表即據以建置；納入存放庫，使乾淨之複本即可重現驗證表。結果表位於同一資料夾。')),
+      ('The independent audits’ own result tables that the verification ledger is built from: the re-audit of 7 October '
+       '(3,365 observations) and the health-expenditure audit of 17 October (880); committed so that a clean clone '
+       'reproduces the ledger. The tables are in the same folder.',
+       '獨立稽核自身之結果表，驗證表即據以建置：10 月 7 日之再稽核（3,365 筆觀測值）與 10 月 17 日之醫療保健支出稽核（880 筆）；'
+       '納入存放庫，使乾淨之複本即可重現驗證表。結果表位於同一資料夾。')),
      ('data/audit_changes_2026-10-07.csv', ('Every cell changed by the audit', '稽核所致之每一儲存格變更'),
       ('Old and new value and grade, reason and evidence for each corrected, regraded, relabelled, added or deleted cell.',
        '每一更正、改評、改標、新增或刪除之儲存格：新舊數值與等級、理由與佐證。')),
      ('data/current_panel_verification.csv', ('Current panel: one row per observation', '現行 panel：每筆觀測值一列'),
-      ('Source, year, unit, concept, grade, how it was checked and what the audit found for every value in the panel. '
-       'The 2,737-row verification log is a record of comparisons, not this.',
-       'panel 中每個數值之來源、年度、單位、概念、等級、查核方式與稽核結果。2,737 列之查證紀錄是比對紀錄，並非此表。')),
+      ('Source, year, unit, concept, grade, how it was checked and what the audits found for every value in the panel, '
+       'including the alternative UN WPP population and health expenditure (in % of GDP, not rounded). The 2,737-row '
+       'verification log is a record of comparisons, not this.',
+       'panel 中每個數值（含 UN WPP 替代人口與醫療保健支出；後者以占 GDP 百分比列示，未經四捨五入）之來源、年度、單位、概念、'
+       '等級、查核方式與稽核結果。2,737 列之查證紀錄是比對紀錄，並非此表。')),
      ('data/ANALYSIS_NOTES.md', ('Research-use notes', '研究使用說明'),
       ('The construct, timing, universe, denominator and sensitivity choices that source verification does not settle, with '
        'the numbers behind each. Marked for the authors to complete.',

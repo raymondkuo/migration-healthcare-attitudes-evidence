@@ -55,7 +55,7 @@ Y0, Y1 = int(ys.min()), int(ys.max())
 new = {v: int(panel[v + '_collected_on'].notna().sum())
        for v in ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals')}
 n_large = int((spl.mean_abs_gap_pct >= 5).sum())          # the declared rule: mean ABSOLUTE gap (re-audit R03)
-grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp']
+grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census']
                      for g in panel[v + '_grade'].dropna()
                      if str(g).strip()]).value_counts()
 n_abs = int(panel.irregular_proxy_absconded_workers.notna().sum())
@@ -167,8 +167,9 @@ HEAD = '''<!-- headline:begin -->
   (the 49 of the first release, later amendments, and %(n_corr_aud)d from the audit of 2026-10-07), and %(n_del)d deletion%(s_del)s in
   `data/deleted_values.csv`.
 - Quality grades on the %(gtot)s displayed values of the six headline variables (%(y0)d–%(y1)d): **A** %(ga)s · **B** %(gb)s · **C** %(gc)s · **D** 0.
-  With the %(n_abs)d Taiwan absconded-worker values (all grade B) and the %(n_he)s health-expenditure values (all grade A,
-  added 2026-10-17) the displayed total is %(gtot7)s: **A** %(ga7)s · **B** %(gb7)s · **C** %(gc)s.
+  With the %(n_abs)d Taiwan absconded-worker values (all grade B), the %(n_he)s health-expenditure values (all grade A,
+  added 2026-10-17) and Australia's 2021 census count of non-citizens (grade A, added 2026-10-18) the displayed total
+  is %(gtot7)s: **A** %(ga7)s · **B** %(gb7)s · **C** %(gc)s.
   A grade says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
   C the midpoint of a published range computed by the archive; a single-number estimate a source publishes is A or B);
   it does not say how precise or comparable the value is.
@@ -211,6 +212,19 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
   long-term care is included only from 2007 and the earlier years are flagged.
 - Raw API responses, the workbook, the report and the publishers' own pages are archived with PDF/PNG mirrors in
   `evidence/api/` and `evidence/countries/TWN/`.
+
+## Decisions of 2026-10-18 · 2026-10-18 之決定
+
+- **Construct and timing (issue #24).** From the ISSP 2021 item the study analyses (Q6a: access to publicly funded
+  health care "even if they do not hold citizenship of [country]"), the main regressor is `foreign_nationals_pct_pop`,
+  with `foreign_born_pct_pop` as a robustness check; the primary timing rule is the latest stock dated on or before the
+  first interview. `data/ANALYSIS_NOTES.md`, sections 1-2; the ISSP documentation quoted is in `evidence/survey/`.
+- **Australia (issue #9).** The 2021 Census count of non-citizens (%(aus_v)s) is in a separate column,
+  `non_citizens_census`, read from the official ABS workbook; `foreign_nationals` stays an annual series.
+- **South Africa (issue #10).** The 2011 Census count was assessed and not added: ten years before the 2021 interviews.
+- The independent audit of the health-expenditure variable (issues #31 and #32) found every value correct; the
+  verification ledger now covers it, and the evidence labels and retrieval dates follow each value's check method and
+  collection date.
 <!-- headline:end -->
 
 ''' % dict(n_as=n(n_as), n_exact=n(n_exact), pct=100 * n_exact / n_as, n_bad=n_bad,
@@ -222,6 +236,7 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            gtot7=n(grades7.sum()), gb7=n(grades7.get('B', 0)), n_abs=n_abs,
            ga7=n(grades7.get('A', 0)), n_he=n(n_he), he_when=HT.WHEN, he_nc=_hk['n_countries'],
            he_nwb=_hk['n_countries'] - 1, he_ncmp=n(_hk['n_cmp']),
+           aus_v=n(panel.non_citizens_census.dropna().iloc[0]),
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
            sweep_date='2026-10-07', n_bad_links=n_bad_links, n_aud=len(aud), aud_kinds=aud_kinds, n_cur=n(n_cur),

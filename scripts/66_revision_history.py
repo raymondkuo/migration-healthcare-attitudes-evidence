@@ -424,6 +424,47 @@ H.append(dict(date=HT.WHEN, time=hstamp.get("time", ""), commit=hstamp.get("comm
                         "先前已移除（scripts/62_scrub_local_paths.py）。現已刪除這些連結並重寫檔案；每一頁均已以影像與前一版比對，"
                         "完全相同。轉製程序今後會自行移除此類連結。"))
 
+# ---------------------------------------------------------------- 2026-10-18: the health-expenditure audit of commit
+# be71262 (GitHub issues #31 H01 and #32 H02, and one sentence of its report; no value changed) and the authors'
+# decisions on issues #9, #10 and #24. One commit, stamped after committing (commit_stamp_2026-10-18.json).
+import decision_texts as DT                                       # noqa: E402
+hap = os.path.join(D, "extension_staging", "commit_stamp_2026-10-18.json")
+hastamp = json.load(open(hap, encoding="utf-8")) if os.path.exists(hap) else {}
+HA = dict(date=DT.WHEN, time=hastamp.get("time", ""), commit=hastamp.get("commit", ""))
+_he39 = ";".join(sorted(set(panel.iso3) - {"TWN"}))
+H += [
+ dict(HA, kind="note amended", iso3=_he39,
+      scope="Health expenditure, 39 countries: the WHO date in the verification note",
+      scope_zh="醫療保健支出，39 國：查證說明中之世界衛生組織日期",
+      before="\"WHO data dated 2026-04-10\"", before_zh="「WHO data dated 2026-04-10」",
+      after="\"WHO record dated 2025-12-05\"", after_zh="「WHO record dated 2025-12-05」",
+      change="Values unchanged. The note quoted the latest date anywhere in WHO's response, which belongs to other countries' "
+             "records; each of the 858 records used is dated 2025-12-05, and the note now quotes the record's own date. Found "
+             "by the independent health-expenditure audit of 2026-10-17.",
+      change_zh="數值不變。原說明引用世界衛生組織回應中任一記錄之最新日期，該日期屬其他國家之記錄；所用 858 筆記錄之日期均為 "
+                "2025-12-05，說明現改引各記錄自身之日期。由 2026-10-17 之醫療保健支出獨立稽核發現。"),
+ dict(HA, kind="documentation corrected", iso3="",
+      scope="Health-expenditure audit of 2026-10-17: verification ledger, evidence labels and retrieval dates",
+      scope_zh="2026-10-17 醫療保健支出稽核：驗證表、佐證標籤與取得日期",
+      before="ledger 3,365 rows without health expenditure; labels and dates from first-release rules",
+      before_zh="驗證表 3,365 列，不含醫療保健支出；標籤與日期沿用首次發布之規則",
+      after="ledger covers the 880 health values (4,245 audited rows); labels from its check method; dates from each value's collection",
+      after_zh="驗證表涵蓋 880 筆醫療保健支出（4,245 列經稽核）；標籤依其查核方式；日期依各數值之蒐集日",
+      change="Values unchanged. data/current_panel_verification.csv now holds all 880 health-expenditure observations, unrounded, "
+             "in % of GDP, with the health audit's own result tables committed as inputs (data/audit_inputs/) and a column "
+             "health_audit_2026_10_17 kept apart from the 2026-10-07 audit. Every verification label on the evidence pages and "
+             "PDF extracts is now read from the ledger's check method (raw API response, official data file, archived "
+             "document), which also corrects values decoded from APIs or official files that the extracts had called "
+             "\"confirmed in document\"; the \"first retrieved\" date of each series is that of its values (2026-10-17 for "
+             "health expenditure). Issues #31 (H01) and #32 (H02).",
+      change_zh="數值不變。data/current_panel_verification.csv 現納入全部 880 筆醫療保健支出觀測值（未經四捨五入、以占 GDP 百分比列示），"
+                "醫療保健支出稽核自身之結果表已納入建置輸入（data/audit_inputs/），並以 health_audit_2026_10_17 欄與 2026-10-07 稽核分開。"
+                "佐證頁與 PDF 摘錄之每一查證標籤現依驗證表之查核方式（API 原始回應、官方資料檔、存檔文件）標示，"
+                "亦更正原於摘錄中被標為「經文件確認」、實為自 API 或官方資料檔解讀之數值；各序列之「首次取得」日期改依其數值"
+                "（醫療保健支出為 2026-10-17）。議題 #31（H01）與 #32（H02）。"),
+]
+H += [dict(HA, **e) for e in DT.revision()]
+
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):
     if col not in hist.columns:

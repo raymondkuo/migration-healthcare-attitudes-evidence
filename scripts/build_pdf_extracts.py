@@ -10,7 +10,7 @@ def _psq(s):
     return "'" + str(s).replace("'", "''") + "'"
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from blib import (SITE, D, ACCESS, DEC, revised_on, panel, vlog, reg, corr, snaps, apis, pubs,
+from blib import (SITE, D, ACCESS, DEC, vcategory, first_retrieved, revised_on, panel, vlog, reg, corr, snaps, apis, pubs,
                   ALLVARS, cname, vlab, reason_zh)
 from i18n import VERTAG, COUNTRY, VLAB
 
@@ -107,14 +107,8 @@ for _, ci in cinfo.iterrows():
         for _, r in sub.iterrows():
             y = int(r['year'])
             c = chk.get(y)
-            if y in corrected:
-                ver = '%s／%s' % (VERTAG['en']['corrected'], VERTAG['zh']['corrected'])
-            elif c is not None and c['status'] == 'EXACT':
-                ver = '%s／%s' % (VERTAG['en']['exact'], VERTAG['zh']['exact'])
-            elif str(r.get(v + '_verification') or '') not in ('', 'nan'):
-                ver = '%s／%s' % (VERTAG['en']['doc'], VERTAG['zh']['doc'])
-            else:
-                ver = '%s／%s' % (VERTAG['en']['nomach'], VERTAG['zh']['nomach'])
+            cat = vcategory(iso, y, v, r.get(v + '_verification'), c, y in corrected)
+            ver = '%s／%s' % (VERTAG['en'][cat], VERTAG['zh'][cat])
             trs += ('<tr><td class="n">%d</td><td class="n"><b>%s</b></td><td>%s</td><td>%s</td>'
                     '<td>%s</td><td>%s</td></tr>'
                     % (y, ('{:,.%df}' % DEC.get(v, 0)).format(r[v]), esc(r.get(v + '_grade') or '—'),
@@ -137,7 +131,7 @@ for _, ci in cinfo.iterrows():
         doc = (TPL.replace('TITLE_ATTR', esc('%s %s extract' % (iso, v)))
                   .replace('TITLE_EN', esc('%s — %s' % (en, VLAB['en'].get(v, v))))
                   .replace('TITLE_ZH', esc('%s — %s' % (COUNTRY.get(en, en), VLAB['zh'].get(v, v))))
-                  .replace('ACCESSDATE', ACCESS)
+                  .replace('ACCESSDATE', first_retrieved(sub, v))
                   .replace('REVDATEZH', ('· 本國條目最近修訂 %s ' % revised_on(iso))
                            if revised_on(iso) else '')
                   .replace('REVDATE', ('· entries for this country last amended %s '

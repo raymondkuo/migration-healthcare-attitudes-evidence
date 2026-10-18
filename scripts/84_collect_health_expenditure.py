@@ -150,12 +150,13 @@ wbj = load_json(WB_FILE)
 wb_updated = wbj[0].get('lastupdated', '')
 wb = {(r['countryiso3code'], int(r['date'])): float(r['value'])
       for r in wbj[1] if r.get('value') is not None}
-who, who_dates = {}, set()
+# each WHO record carries its own date; the one quoted for a cell is that cell's record date (the latest date in the
+# whole response belongs to other countries' records and says nothing about the values used here)
+who, who_date = {}, {}
 for r in load_json(WHO_FILE)['value']:
     if r.get('SpatialDimType') == 'COUNTRY' and r.get('NumericValue') is not None:
         who[(r['SpatialDim'], int(r['TimeDim']))] = float(r['NumericValue'])
-        who_dates.add(str(r.get('Date', ''))[:10])
-who_date = max(who_dates) if who_dates else ''
+        who_date[(r['SpatialDim'], int(r['TimeDim']))] = str(r.get('Date', ''))[:10]
 
 rows, compared, identical, mismatch = [], 0, 0, []
 for iso in ISO:
@@ -180,8 +181,8 @@ for iso in ISO:
             'annual', note='', flag='',
             verification=('Read directly from the archived API response (evidence/api/%s, World '
                           'Bank data last updated %s); identical to full precision to the WHO GHO '
-                          'API value (evidence/api/%s, WHO data dated %s). Retrieved %s.'
-                          % (WB_FILE, wb_updated, WHO_FILE, who_date, COLLECTED)),
+                          'API value (evidence/api/%s, WHO record dated %s). Retrieved %s.'
+                          % (WB_FILE, wb_updated, WHO_FILE, who_date[(iso, y)], COLLECTED)),
             collected_on=COLLECTED))
 print('World Bank vs WHO GHO: %d cells compared, %d identical, %d different'
       % (compared, identical, len(mismatch)))

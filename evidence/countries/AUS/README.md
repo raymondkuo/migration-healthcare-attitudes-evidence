@@ -41,6 +41,20 @@ Each value carries its source, reference period, grade, verification text and an
 
 <!-- health-expenditure:end -->
 
+<!-- census-non-citizens:begin -->
+
+## Census count of non-citizens (added 2026-10-18)
+
+`non_citizens_census`: 2,808,214 persons who are not Australian citizens, 2021 census (Census night, 10 August 2021). A separate column, not part of `foreign_nationals`; no other value changed.
+
+| file | what it is |
+|---|---|
+| `non_citizens_census__ABS_Census2021_cultural_diversity_page__retrieved_2026-10-18.html` | The ABS release page that links the workbook. Retrieved 2026-10-18. |
+| `non_citizens_census__ABS_Census2021_cultural_diversity_summary__retrieved_2026-10-18.xlsx` | Official ABS workbook "Cultural diversity data summary, 2021", Table 2: the value used. Retrieved 2026-10-18. |
+| `non_citizens_census__ABS_about_census__retrieved_2026-10-18.html` | The ABS page stating the census date (Tuesday 10 August 2021). Retrieved 2026-10-18. |
+
+<!-- census-non-citizens:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)

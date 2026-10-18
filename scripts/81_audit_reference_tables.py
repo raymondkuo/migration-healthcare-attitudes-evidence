@@ -32,7 +32,7 @@ pi = panel.set_index(['iso3', 'year'])
 audit = pd.read_csv(os.path.join(D, 'audit_changes_%s.csv' % WHEN))
 name_of = dict(zip(panel.iso3, panel.country))
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock', 'irregular_proxy_overstayers',
-        'irregular_proxy_detections', 'irregular_proxy_absconded_workers']
+        'irregular_proxy_detections', 'irregular_proxy_absconded_workers', 'non_citizens_census']
 
 # ================================================================== F14  irregular_estimates_all.csv
 alt = pd.read_csv(os.path.join(D, 'irregular_estimates_all.csv'))

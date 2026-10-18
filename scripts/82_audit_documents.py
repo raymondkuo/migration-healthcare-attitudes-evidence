@@ -93,8 +93,20 @@ VAR = [('population', 'total resident population'), ('population_un_wpp2024', 't
        ('foreign_born', None), ('foreign_nationals', 'residents holding a foreign nationality'),
        ('irregular_stock', 'estimated stock of irregular residents'),
        ('irregular_proxy_overstayers', 'persons staying beyond their authorised stay (the kind of measure differs by country)'),
-       ('irregular_proxy_detections', None), ('irregular_proxy_absconded_workers', 'migrant workers recorded as absconded (stock)')]
-for f_ in ('source_value_checks.csv', 'document_value_review.csv'):
+       ('irregular_proxy_detections', None), ('irregular_proxy_absconded_workers', 'migrant workers recorded as absconded (stock)'),
+       ('health_expenditure_pct_gdp', 'current health expenditure (CHE) as a percentage of GDP; excludes capital spending'),
+       ('non_citizens_census', 'persons who are not citizens of the country, census count (place of usual residence, '
+                               'excluding overseas visitors)')]
+HEALTH = 'health_expenditure_pct_gdp'
+HWHEN = '2026-10-17'
+# Observations added after both independent audits. They are listed one variable at a time, with the date and how the
+# archive itself checked them, and the ledger says that no independent audit covered them; any other uncovered
+# observation still stops the build.
+POST_AUDIT = {'non_citizens_census': (
+    '2026-10-18', 'decoded from an archived machine-readable source (ABS official workbook)',
+    'read by the archive from the official ABS workbook (Table 2, national total); census date from the archived ABS page')}
+for f_ in ('source_value_checks.csv', 'document_value_review.csv', 'health_wb_who_checks_%s.csv' % HWHEN,
+           'health_taiwan_checks_%s.csv' % HWHEN):
     if not os.path.exists(os.path.join(AUD, f_)):
         sys.exit('82_audit_documents.py: %s is missing from data/audit_inputs/. These result tables of the independent '
                  'audit are inputs of the build (see data/audit_inputs/README.md); restore them from the repository '
@@ -104,6 +116,23 @@ _src['year'] = _src.year.astype(int)
 src_family = {(r.iso3, r.year, r.variable): r.family for r in _src.itertuples()}
 doc_audit = pd.read_csv(os.path.join(AUD, 'document_value_review.csv')).set_index(['iso3', 'year', 'variable'])
 chg_idx = {(r.iso3, int(r.year), r.variable): r for r in chg.itertuples()}
+# the independent audit of the health-expenditure variable (2026-10-17): World Bank against WHO for 39 countries, the
+# official MOHW workbook against the published report and the CHE/GDP arithmetic for Taiwan. Read as text so that the
+# values are compared digit for digit, not as rounded floats.
+_hw = pd.read_csv(os.path.join(AUD, 'health_wb_who_checks_%s.csv' % HWHEN), dtype=str)
+_ht = pd.read_csv(os.path.join(AUD, 'health_taiwan_checks_%s.csv' % HWHEN), dtype=str)
+health_audit = {}
+for r in _hw.itertuples():
+    ok = r.exact_panel_source == 'True' and r.exact_wb_who == 'True' and r.exact_stage == 'True'
+    health_audit[(r.iso3, int(r.year), HEALTH)] = (
+        'API', r.world_bank, ok,
+        'World Bank value = WHO GHO value = panel value, to full precision' if ok else 'MISMATCH in the audit table')
+for r in _ht.itertuples():
+    ok = r.exact == 'True' and r.components_equal == 'True' and r.rounds_to_published == 'True'
+    health_audit[(r.iso3, int(r.year), HEALTH)] = (
+        'WORKBOOK', r.workbook, ok,
+        ('workbook value (%s) = report Table 1 = panel value; CHE %s / GDP %s recomputes to it' % (r.source_cell, r.CHE, r.GDP))
+        if ok else 'MISMATCH in the audit table')
 unaudited = []
 # the machine-readable family each observation was decoded from (the audit's own record, not a guess from prose)
 FAMILY = {'Eurostat': 'Eurostat JSON-stat API', 'WB': 'World Bank API', 'WPP': 'UN WPP 2024 workbook',
@@ -131,6 +160,10 @@ def basis(family, derived, derivation):
 
 
 out = []
+# health expenditure is a share with up to eight decimals: its value is carried as written in the panel, never rounded
+_htext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', HEALTH],
+                     dtype={HEALTH: str}).set_index(['iso3', 'year'])[HEALTH]
+bad_health = []
 for r in panel.itertuples():
     iso, y = r.iso3, int(r.year)
     for v, concept in VAR:
@@ -173,7 +206,30 @@ for r in panel.itertuples():
         if v == 'population' and iso == 'TWN':
             concept = 'registered (household-registration) population; excludes foreign residents'
         key = (iso, y, v)
-        if key in chg_idx:
+        value, haudit = str(int(round(float(val)))), ''
+        how = basis(src_family.get(key), g('_derived'), g('_derivation'))
+        if v == HEALTH:
+            from decimal import Decimal
+            value, unit = _htext[(iso, y)], '% of GDP (percentage points, 0-100)'
+            if iso == 'TWN':
+                concept += '; Taiwan national health accounts (MOHW), long-term care included only from 2007'
+            if key not in health_audit:
+                unaudited.append(key)
+                continue
+            kind, aval, ok, detail = health_audit[key]
+            if not ok or Decimal(aval) != Decimal(value):
+                bad_health.append((key, value, aval))
+            how = ('decoded from an archived machine-readable source (World Bank API), checked against the WHO GHO API'
+                   if kind == 'API' else
+                   'decoded from an archived machine-readable source (Taiwan MOHW official workbook), checked against '
+                   'the published report')
+            audit = 'not part of the %s audit (variable added %s)' % (WHEN, HWHEN)
+            haudit = 'matched the source (independent health audit, %s): %s' % (HWHEN, detail)
+        elif v in POST_AUDIT:
+            added, how, checked = POST_AUDIT[v]
+            audit = ('not independently audited: added %s, after the audits of %s and %s; %s'
+                     % (added, WHEN, HWHEN, checked))
+        elif key in chg_idx:
             c_ = chg_idx[key]
             audit = '%s on %s (%s)' % (c_.kind, WHEN, c_.finding)
         elif key in src_family:
@@ -185,16 +241,20 @@ for r in panel.itertuples():
         else:
             audit = 'not in the audited revision'
             unaudited.append(key)
-        out.append(dict(iso3=iso, country=r.country, year=y, variable=v, value=int(round(float(val))), unit=unit,
+        out.append(dict(iso3=iso, country=r.country, year=y, variable=v, value=value, unit=unit,
                         concept=concept, source=str(source)[:150], source_type=stype if isinstance(stype, str) else '',
                         reference_date=ref if isinstance(ref, str) else '', grade=grade if isinstance(grade, str) else '',
-                        how_checked=basis(src_family.get(key), g('_derived'), g('_derivation')),
+                        how_checked=how,
                         flag=flag if isinstance(flag, str) else '',
                         first_collected=(coll if isinstance(coll, str) and coll else '2026-08-17'),
-                        audit_2026_10_07=audit))
+                        audit_2026_10_07=audit, health_audit_2026_10_17=haudit))
 if unaudited:
     sys.exit('82_audit_documents.py: %d current observations are not covered by data/audit_inputs/ (first: %s). '
              'Extend the audit inputs before publishing the ledger.' % (len(unaudited), unaudited[:3]))
+if bad_health:
+    sys.exit('82_audit_documents.py: %d health-expenditure values differ from the health audit or failed it (first: %s).'
+             % (len(bad_health), bad_health[:3]))
+assert not pd.DataFrame(out).duplicated(['iso3', 'year', 'variable']).any()
 ver = pd.DataFrame(out)
 ver.to_csv(os.path.join(D, 'current_panel_verification.csv'), index=False, encoding='utf-8-sig')
 print('current_panel_verification.csv: %d observations | how checked: %s'
@@ -210,7 +270,7 @@ reg = pd.read_csv(os.path.join(D, 'source_register.csv'))
 below = pd.read_csv(os.path.join(D, 'foreign_born_below_foreign_nationals.csv'))
 G = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock', 'irregular_proxy_overstayers', 'irregular_proxy_detections']
 gr = pd.Series([x for v in G for x in panel[v + '_grade'].dropna() if str(x).strip()]).value_counts()
-gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp']
+gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census']
                  for x in panel[v + '_grade'].dropna()
                  if str(x).strip()]).value_counts()
 sec_total = pd.read_csv(os.path.join(D, 'secondary_workbook_differences.csv'))
@@ -235,9 +295,10 @@ Sheets: `README`, `Revision_history`, `Audit_changes`, `Panel_final`, `Data_qual
 Current figures (computed from the data files on %(when)s):
 
 - Grades over the six headline variables: **A %(ga)s, B %(gb)s, C %(gc)s, D 0** (%(gtot)s values). The seven
-  Taiwan absconded-worker values (all grade B) and the %(nhe)s health-expenditure values added on 2026-10-17 (all
-  grade A) are also displayed: with them, %(gtot7)s values, A %(ga7)s, B %(gb7)s, C %(gc)s. Grades say where a value
-  was read from, not how precise or comparable it is.
+  Taiwan absconded-worker values (all grade B), the %(nhe)s health-expenditure values added on 2026-10-17 (all
+  grade A) and Australia's 2021 census count of non-citizens added on 2026-10-18 (grade A) are also displayed: with
+  them, %(gtot7)s values, A %(ga7)s, B %(gb7)s, C %(gc)s. Grades say where a value was read from, not how precise or
+  comparable it is.
 - %(ncorr)d value corrections and %(ndel)d deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   %(when)s is in `Audit_changes`.
@@ -315,29 +376,40 @@ below_lines = '\n'.join('| %s | %d | %s |' % (k, len(g), ', '.join(str(y) for y 
                         for k, g in below.groupby('iso3'))
 notes = '''# Research-use notes: constructs, timing, universes and sensitivity
 
-*Written %(when)s after audit finding F24. These are the choices that source verification does not settle.
-They are **not decisions**: the places marked [AUTHORS] are for the study's authors to fill in before the final
-analysis. No manuscript result was recalculated in preparing this file.*
+*Written %(when)s after audit finding F24. Sections 1 and 2 record the authors' decisions of 2026-10-18 (issue #24).
+The rest sets out choices that source verification does not settle; the places still marked [AUTHORS] are for the
+study's authors. No manuscript result was recalculated in preparing this file.*
 
-## 1. The construct [AUTHORS]
+## 1. The construct (decided 2026-10-18)
 
-The study asks about **attitudes toward publicly funded healthcare for non-nationals**. Which stock best
-matches the survey item depends on the item itself, which this archive does not hold.
+The study analyses the ISSP 2021 item **Q6a** (variable v8), quoted from the ZA8000 Variable Report, PDF page 51
+(archived in `evidence/survey/`, with an image of the page):
 
-- Paste the questionnaire wording and response scale here: [AUTHORS]
-- Whom does the item name - foreigners / non-citizens in general, legally resident foreigners, migrants, or
-  irregular migrants? [AUTHORS]
-- Is the entitlement question about people who are *present* (a stock), people who *arrive* (a flow), or a
-  policy position? [AUTHORS]
+> How much do you agree or disagree with the following statements? [...] People should have access to publicly
+> funded health care even if they do not hold citizenship of [country].
 
-The archive recommends `foreign_nationals_pct_pop` as the main regressor because it counts residents without
-the country's nationality, the closest match to "non-nationals". That is a methodological judgement, not a
-verified property of the survey question: it fails if the item is about birthplace or about irregular status.
+Answers run from 1 strongly agree to 5 strongly disagree (-8 can't choose, -9 no answer). The Taiwan questionnaire
+(D2a, page 6) asks: 住在台灣的每個人，就算沒有台灣的身分證，都應該可以使用公共醫療保健服務（例如：健保）. The companion item
+**Q7d** (v13, page 61) asks whether access to health care is easier or harder "for citizens of [country] than for
+people who do not hold [country's] citizenship".
+
+- **Whom the item names:** people who do not hold the country's citizenship - non-citizens, whatever their legal
+  status. Naturalised citizens hold the citizenship and are not named; irregular migrants are not named as a group.
+- **Stock, flow or position:** a position on an entitlement. The context that matches it is the size of the group
+  named, a stock, never a flow.
+- **Main regressor: `foreign_nationals_pct_pop`.** Robustness: `foreign_born_pct_pop`, which also counts naturalised
+  citizens. The irregular-migration series are not regressors for this item.
+- **Australia** has no annual foreign-national series; its 2021 Census count is in `non_citizens_census` (issue #9),
+  for a single-year level or a sensitivity run. **South Africa**'s 2011 census count was not added (issue #10): its
+  interviews were in 2021.
+- **Taiwan:** "沒有台灣的身分證" (without a Taiwan identity card) may be wider than the register series, which excludes
+  people from Mainland China, Hong Kong and Macau; whether to add them in a sensitivity run is open. [AUTHORS]
 
 | Variable | What it counts | Countries (years) | Main caution |
 |---|---|---|---|
 | foreign_nationals | residents holding a foreign nationality (stateless where reported) | %(nfn)d (%(yfn)s) | falls with naturalisation; no annual series for AUS, IND, ISR, NZL, ZAF |
 | foreign_born | residents born abroad | %(nfb)d (%(yfb)s) | includes naturalised citizens; %(ntc)d UN citizenship-basis cells are excluded from the extract |
+| non_citizens_census | persons who are not citizens, census count, where no annual series exists | 1 (Australia 2021) | a single year, not a series; 5.1%% did not state their citizenship |
 | irregular_stock | estimated unauthorised residents | %(nir)d (2010-2022) | methods differ by country; not comparable |
 | irregular_proxy_overstayers | stock proxy for persons staying beyond authorised stay: register counts (Korea; Taiwan, all categories), official estimates (Japan, New Zealand; Australia's unlawful non-citizens, a broader group) and one component (Israel) | %(nov)d (2010-2022) | heterogeneous; neither a modelled stock of all irregular residents nor an exact count |
 | irregular_proxy_detections | annual enforcement detections | %(nde)d (2010-2022) | a flow; unit differs by source (persons / events) |
@@ -349,9 +421,13 @@ Welfare, long-term care included only from 2007). It is a spending flow over the
 date rules in section 2 do not apply to it: use the fieldwork year, or the year before if spending should precede
 the attitude, and state which. [AUTHORS]
 
-## 2. Timing: survey year versus stock date [AUTHORS]
+## 2. Timing: survey year versus stock date (decided 2026-10-18)
 
-Pick one rule and apply it to every country, then test the others.
+**The primary rule is rule 2 below: the latest stock dated on or before the first interview in the country.** Rules 1
+and 3 are the sensitivity checks. The year and month of every interview are in the ISSP data (DATEYR, DATEMO), and
+the Variable Report tabulates the year of interview by country (PDF page 778; the month on page 779). The panel ends
+in 2022, so for a country interviewed in 2023 or 2024 the rule takes the latest row that exists, and the lag is stated
+with the result.
 
 1. Same row year (survey year Y with the row labelled Y);
 2. The latest stock dated on or before the start of fieldwork: row Y for a 1 January stock, row Y-1 for a

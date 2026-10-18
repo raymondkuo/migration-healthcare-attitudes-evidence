@@ -31,8 +31,9 @@ There is no `build-site.mjs` in this archive; older reports that name one descri
   Ministry of Health and Welfare workbook and report) are dated 2026-10-17.
 - **The collector outputs** (`data/extension_staging/*.csv`) are committed, so the build does not need the
   network.
-- **The audit's result tables are committed** in `data/audit_inputs/` (README there). Step 7 reads them to fill the
-  check method and the audit result of every observation in `data/current_panel_verification.csv`. They are inputs,
+- **The audits' result tables are committed** in `data/audit_inputs/` (README there): the re-audit of 2026-10-07 and
+  the health-expenditure audit of 2026-10-17. Step 7 reads them to fill the check method and the audit result of every
+  observation in `data/current_panel_verification.csv`. They are inputs,
   not products: step 7 stops with a message if they are missing or do not cover an observation, rather than writing
   "not in the audited revision" over a completed audit.
 
@@ -45,6 +46,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 1 | `python scripts/74_assemble_panel.py` | Merges the staged 2001-2009 cells into `panel_final.csv`; marks the concept of each foreign-born cell; fails if a first-release value changed outside the audit list |
 | 2 | `python scripts/79_apply_audit_corrections.py` | Applies the corrections, additions, deletion and regrades of the audit of 2026-10-07; writes `audit_changes_2026-10-07.csv`, `corrections_applied.csv`, `deleted_values.csv` |
 | 2a | `python scripts/85_add_health_expenditure.py` | Appends the ten `health_expenditure_pct_gdp*` columns from `data/extension_staging/health_expenditure_cells.csv` (step 1 writes only the columns it knows, so this must follow it); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
+| 2b | `python scripts/88_add_census_non_citizens.py` | Appends the eleven `non_citizens_census*` columns (Australia's 2021 census count of non-citizens, kept out of `foreign_nationals`) from `data/extension_staging/census_non_citizens_cells.csv`; must follow 2a; asserts every other column unchanged; source register and the Australian README |
 | 3 | `python scripts/81_audit_reference_tables.py` | Status of every irregular-estimate record; `data_from_source.csv` for every country; source-register routing; country READMEs |
 | 4 | `python scripts/75_build_derived_tables.py` | Source register rows for the extension, per-country manifests, data quality, evidence index, known issues, codebook |
 | 5 | `python scripts/66_revision_history.py` | The dated revision history (reads the commit stamp files for the commit and time) |
@@ -64,6 +66,10 @@ Every step is idempotent. `45_build_source_mirrors.py` creates the `MIRROR__` re
 `41_link_sweep.py` re-tests every external URL (`--retry-only` re-tests just the failures with curl).
 
 ## 4. Re-collecting the sources (needs the network)
+
+`87_collect_census_non_citizens.py` re-reads the archived ABS workbook and pages (with `--fetch` it downloads them).
+`89_archive_survey_documents.py <folder>` copies the ISSP 2021 documentation quoted in `data/ANALYSIS_NOTES.md` into
+`evidence/survey/` and renders the pages quoted; GESIS refuses automated downloads, so it takes the authors' copies.
 
 `84_collect_health_expenditure.py` re-reads the archived health-expenditure files and rewrites its staging file and
 `data/health_expenditure_wb_vs_who.csv` without the network; with `--fetch` it downloads them again under new dated names

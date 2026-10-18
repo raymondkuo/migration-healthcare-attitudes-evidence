@@ -5,7 +5,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from blib import (SITE, EV, D, ACCESS, revised_note, panel, vlog, reg, corr, snaps, apis, pubs,
-                  artifacts as blib_artifacts,
+                  artifacts as blib_artifacts, vcategory, first_retrieved,
                   ALLVARS, E, num, vnum, pill, filelink, page, table, cname, vlab, fname, t,
                   reason_zh)
 import i18n_content as C
@@ -136,7 +136,8 @@ def build(iso3, en_name, v, lang):
                'narrower scope: excludes long-term care services (included from 2007)':
                    '範圍較窄：不含長期照顧服務（自 2007 年起納入）',
                'break in time series: long-term care services included from 2007':
-                   '時間序列斷裂：自 2007 年起納入長期照顧服務'}
+                   '時間序列斷裂：自 2007 年起納入長期照顧服務',
+               'census count (single year)': '普查數（單一年度）', 'not stated excluded': '未填答者不計入'}
 
     def flag_html(r):
         f = str(r.get(v + '_flag') or '').strip()
@@ -154,16 +155,8 @@ def build(iso3, en_name, v, lang):
         y = int(r['year'])
         c = chk.get(y)
         vtext = str(r.get(v + '_verification') or '')
-        if y in corrected:
-            ver = '<span class="tag ok">%s</span>' % vt['corrected']
-        elif c is not None and c['status'] == 'EXACT':
-            ver = '<span class="tag ok">%s</span>' % vt['exact']
-        elif vtext.startswith('Read directly from the archived'):
-            ver = '<span class="tag ok">%s</span>' % vt['api']
-        elif vtext not in ('', 'nan'):
-            ver = '<span class="tag ok">%s</span>' % vt['doc']
-        else:
-            ver = '<span class="tag">%s</span>' % vt['nomach']
+        cat = vcategory(iso3, y, v, vtext, c, y in corrected)
+        ver = '<span class="tag%s">%s</span>' % ('' if cat == 'nomach' else ' ok', vt[cat])
         src = str(r.get(scol) or '')
         stype = str(r.get(v + '_source_type') or '') if (v + '_source_type') in r else ''
         stype = '' if stype == 'nan' else stype
@@ -285,7 +278,7 @@ def build(iso3, en_name, v, lang):
      '<div class="hero"><div class="wrap">\n'
      '  <p class="eyebrow">' + iso3 + t('ev_eyebrow', lang) + '</p>\n'
      '  <h1>' + E(cn) + ' &mdash; ' + E(vlab(v, lang)) + '</h1>\n'
-     '  <p class="lede">' + t('ev_lede', lang) + ACCESS
+     '  <p class="lede">' + t('ev_lede', lang) + first_retrieved(sub, v)
      + {'en': '.', 'zh': '。'}[lang] + revised_note(iso3, lang, up='../')
      + '</p>\n</div></div>\n\n'
      '<section><div class="wrap">\n  <h2>' + t('ev_values', lang) + '</h2>\n'

@@ -66,7 +66,9 @@ pubs = pd.read_csv(os.path.join(D, 'api_publisher_snapshots.csv'))
 
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections', 'health_expenditure_pct_gdp']
-ALLVARS = VARS + ['irregular_proxy_absconded_workers']
+# shown only for the countries that have them: Taiwan's absconded workers, and the census count of non-citizens
+# for a country with no annual foreign-national series (Australia 2021; decision of 2026-10-18)
+ALLVARS = VARS + ['irregular_proxy_absconded_workers', 'non_citizens_census']
 # decimals shown for a variable's values (counts are whole numbers; shares of GDP are not)
 DEC = {'health_expenditure_pct_gdp': 2}
 
@@ -74,6 +76,43 @@ DEC = {'health_expenditure_pct_gdp': 2}
 def vnum(v, val):
     """A panel value formatted for display with the decimals its variable needs."""
     return num(val, DEC.get(v, 0))
+
+
+# ---- how each value was checked, from the verification ledger (data/current_panel_verification.csv, written by
+# scripts/82 from the audits' own records). The evidence pages and the PDF extracts label every value from it, so the
+# two cannot disagree and a label never rests on how a verification note happens to be worded.
+_lp = os.path.join(D, 'current_panel_verification.csv')
+_howchk = ({(r.iso3, int(r.year), r.variable): r.how_checked for r in pd.read_csv(_lp).itertuples()}
+           if os.path.exists(_lp) else {})
+
+
+def vcategory(iso3, year, v, verification, chk=None, corrected=False):
+    """Key of VERTAG for one value: corrected > reproduced exactly at first release (verification_log) > the check
+    method in the ledger (raw API response, official data file such as a workbook or CSV, or an archived document) >
+    a document check if there is any verification note > not machine-checkable."""
+    if corrected:
+        return 'corrected'
+    if chk is not None and chk['status'] == 'EXACT':
+        return 'exact'
+    how = _howchk.get((iso3, int(year), v))
+    if isinstance(how, str):
+        if how.startswith('decoded from an archived machine-readable source'):
+            family = how[how.find('(') + 1:how.find(')')]
+            return 'api' if 'API' in family else 'file'
+        if how.startswith('read from an archived source document'):
+            return 'doc'
+    return 'doc' if str(verification or '') not in ('', 'nan') else 'nomach'
+
+
+def first_retrieved(sub, v):
+    """Earliest retrieval date of the values of one series: the date each value was collected (<var>_collected_on),
+    or the first release's retrieval date (ACCESS) for values collected then. Health expenditure was first collected
+    on 2026-10-17, not when the archive was first published."""
+    col = v + '_collected_on'
+    dates = [x for x in (sub[col] if col in sub else []) if isinstance(x, str) and x]
+    if col not in sub or len(dates) < len(sub):
+        dates.append(ACCESS)
+    return min(dates)
 
 
 def E(s):

@@ -37,6 +37,7 @@ VLAB = {
         'irregular_proxy_detections': 'Detections',
         'irregular_proxy_absconded_workers': 'Absconded workers (TW)',
         'health_expenditure_pct_gdp': 'Health expenditure (% GDP)',
+        'non_citizens_census': 'Non-citizens (census)',
         'irregular_detections': 'Detections', 'irregular': 'Irregular migration',
         'foreign_workers': 'Foreign workers'},
  'zh': {'population': '總人口', 'foreign_born': '外國出生人口',
@@ -45,6 +46,7 @@ VLAB = {
         'irregular_proxy_detections': '查獲人數',
         'irregular_proxy_absconded_workers': '失聯移工（臺灣）',
         'health_expenditure_pct_gdp': '醫療保健支出（占 GDP %）',
+        'non_citizens_census': '非公民人口（普查）',
         'irregular_detections': '查獲人數', 'irregular': '非常規移民',
         'foreign_workers': '外籍移工'},
 }
@@ -118,10 +120,10 @@ GRADE_SHORT = {
 VERTAG = {
  'en': {'corrected': 'corrected &amp; re-derived', 'exact': 'reproduced exactly',
         'doc': 'confirmed in document', 'nomach': 'not machine-checkable',
-        'api': 'read from raw API response'},
+        'api': 'read from raw API response', 'file': 'decoded from official data file'},
  'zh': {'corrected': '已更正並重新導出', 'exact': '完全重現',
         'doc': '經文件確認', 'nomach': '無法機械核對',
-        'api': '直接讀自 API 原始回應'},
+        'api': '直接讀自 API 原始回應', 'file': '自官方資料檔解讀'},
 }
 
 # ---------------------------------------------------------------- data-quality strings

@@ -82,6 +82,9 @@ out['foreign_nationals'] = p['foreign_nationals']
 out['foreign_nationals_pct_of_pop'] = (p['foreign_nationals_pct_pop'] * 100).round(3)
 out['foreign_nationals_source_type'] = p['foreign_nationals_source_type'].fillna('')
 out['foreign_nationals_flag'] = p['foreign_nationals_flag'].fillna('')
+# census count of non-citizens where no annual foreign-national series exists (Australia 2021; decision of 2026-10-18)
+out['non_citizens_census'] = p['non_citizens_census']
+out['non_citizens_census_pct_of_pop'] = (p['non_citizens_census_pct_pop'] * 100).round(3)
 
 # ---------------------------------------------------------------- irregular migration
 out['irregular_stock'] = p['irregular_stock']
@@ -110,7 +113,8 @@ GRADES = [('grade_population', 'population'),
           ('grade_irregular_stock', 'irregular_stock'),
           ('grade_overstayers', 'irregular_proxy_overstayers'),
           ('grade_detections', 'irregular_proxy_detections'),
-          ('grade_health_expenditure', HT.VAR)]
+          ('grade_health_expenditure', HT.VAR),
+          ('grade_non_citizens_census', 'non_citizens_census')]
 for new, src in GRADES:
     col = src + '_grade'
     out[new] = p[col].fillna('') if col in p.columns else ''
@@ -278,6 +282,13 @@ CODE = [
                                     'categories as foreign_born_source_type.', ''),
  ('foreign_nationals_flag', 'Why the value needs a caution, blank where nothing does; same '
                             'vocabulary as foreign_born_flag.', ''),
+ ('non_citizens_census', 'Census count of persons who are not citizens of the country, only where no annual '
+                         'foreign-national series exists: Australia 2021 (ABS 2021 Census, place of usual residence, '
+                         'excluding overseas visitors; census night 10 August 2021).',
+  "A single census year, kept out of foreign_nationals on purpose (authors' decision of 2026-10-18): use it as a level "
+  'or in a sensitivity run, never as part of the foreign_nationals series. 5.1% did not state their citizenship.'),
+ ('non_citizens_census_pct_of_pop', 'non_citizens_census as a PERCENTAGE of population (0-100), on the World Bank '
+                                    'population like every other share.', ''),
  ('irregular_stock', 'Estimated number of foreign residents without authorisation.',
   'STOCK. %d of %d countries. Estimation methods differ by country and are not comparable.'
   % (irr_c, NC)),
@@ -337,6 +348,7 @@ CODE = [
  ('grade_overstayers', 'Evidence grade for overstayers.', ''),
  ('grade_detections', 'Evidence grade for detections.', ''),
  ('grade_health_expenditure', 'Evidence grade for health_expenditure_pct_gdp.', ''),
+ ('grade_non_citizens_census', 'Evidence grade for non_citizens_census.', ''),
 ]
 codebook = pd.DataFrame(CODE, columns=['column', 'definition', 'caution'])
 missing = [c for c in out.columns if c not in set(codebook.column)]
@@ -347,6 +359,7 @@ assert not extra, 'codebook entries for columns that do not exist: %s' % extra
 # ---------------------------------------------------------------- coverage
 cov = []
 for c in ['population', 'population_unwpp', 'foreign_born', 'un_stock_citizenship_basis', 'foreign_nationals',
+          'non_citizens_census',
           'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw',
           'health_expenditure_pct_gdp']:
     s = out[out[c].notna()]
@@ -407,6 +420,9 @@ README = [
                         'all %d countries and all %d years (%s values), with health_expenditure_flag and '
                         'grade_health_expenditure. No other value changed.'
                         % (NC, NY, n(out.health_expenditure_pct_gdp.notna().sum()))),
+ ('Census count of non-citizens', 'non_citizens_census: Australia 2021 only (%s), from the ABS 2021 Census, in its own '
+                                  'column because Australia has no annual foreign-national series (added 2026-10-18).'
+                                  % n(out.non_citizens_census.dropna().iloc[0])),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
  ('Value-by-value comparisons', 'These are the RECORDS of the first-release check, not a count of unique '

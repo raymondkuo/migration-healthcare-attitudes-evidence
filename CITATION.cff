@@ -5,8 +5,8 @@ message: >-
   archive version (first freeze 2026-08-17; extended to 2001 on 2026-10-07; health expenditure added on 2026-10-17). The archive is joint work of Prof. Raymond
   Kuo (郭年真), National Taiwan University, and Claude (Anthropic).
 type: dataset
-version: "2026-10-17"
-date-released: 2026-10-17
+version: "2026-10-18"
+date-released: 2026-10-18
 
 authors:
   - family-names: "Kuo"

@@ -234,8 +234,7 @@ def build_country(iso, en_name, lang):
     evdir = os.path.join(EV, iso)
     evfiles = sorted(os.listdir(evdir)) if os.path.isdir(evdir) else []
 
-    extra = ['irregular_proxy_absconded_workers'] \
-        if g['irregular_proxy_absconded_workers'].notna().any() else []
+    extra = [v for v in ALLVARS if v not in VARS and v in g and g[v].notna().any()]
     show = VARS + extra
     head = '<th class="num">' + t('year', lang) + '</th>' + \
            ''.join('<th class="num">%s</th>' % vlab(v, lang) for v in show)
@@ -274,7 +273,7 @@ def build_country(iso, en_name, lang):
                     flg += '<abbr class="flg" title="%s">!</abbr>' % E(t('flag_caution', lang))
                 if flg:
                     has_marks = True
-            if v == 'health_expenditure_pct_gdp' and _s(r.get(v + '_flag')):
+            if v in ('health_expenditure_pct_gdp', 'non_citizens_census') and _s(r.get(v + '_flag')):
                 flg += '<abbr class="flg" title="%s">!</abbr>' % E(t('flag_caution', lang))
                 has_marks = True
             cells.append('<td class="num"><a class="cell" href="%s" title="%s">%s</a>'
