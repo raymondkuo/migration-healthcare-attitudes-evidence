@@ -72,7 +72,8 @@ for iso in isos:
 # ---- every non-null panel value must link to an existing evidence page and PDF extract
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections',
-        'irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census']
+        'irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
+        'unemployment_rate']
 cells = missing_ev = missing_pdf = unlinked = 0
 for iso in isos:
     h = open(os.path.join(SITE, 'countries', '%s.html' % iso), encoding='utf-8', errors='replace').read()

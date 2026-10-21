@@ -47,6 +47,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 2 | `python scripts/79_apply_audit_corrections.py` | Applies the corrections, additions, deletion and regrades of the audit of 2026-10-07; writes `audit_changes_2026-10-07.csv`, `corrections_applied.csv`, `deleted_values.csv` |
 | 2a | `python scripts/85_add_health_expenditure.py` | Appends the ten `health_expenditure_pct_gdp*` columns from `data/extension_staging/health_expenditure_cells.csv` (step 1 writes only the columns it knows, so this must follow it); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 2b | `python scripts/88_add_census_non_citizens.py` | Appends the eleven `non_citizens_census*` columns (Australia's 2021 census count of non-citizens, kept out of `foreign_nationals`) from `data/extension_staging/census_non_citizens_cells.csv`; must follow 2a; asserts every other column unchanged; source register and the Australian README |
+| 2c | `python scripts/91_add_unemployment.py` | Appends the ten `unemployment_rate*` columns from `data/extension_staging/unemployment_cells.csv`; must follow 2b (which keeps the column order); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 3 | `python scripts/81_audit_reference_tables.py` | Status of every irregular-estimate record; `data_from_source.csv` for every country; source-register routing; country READMEs |
 | 4 | `python scripts/75_build_derived_tables.py` | Source register rows for the extension, per-country manifests, data quality, evidence index, known issues, codebook |
 | 5 | `python scripts/66_revision_history.py` | The dated revision history (reads the commit stamp files for the commit and time) |
@@ -55,7 +56,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 8 | `python scripts/83_audit_response.py` | The response to the audit and to the re-audit (`audit_response_*.csv`, `reaudit_response_*.csv`, `verification/AUDIT_RESPONSE_*.md`) |
 | 9 | `python scripts/57_sync_workbook_sheets.py` | Rewrites the main workbook's sheets from the CSVs |
 | 10 | `python scripts/80_check_source_charts.py` | Source-label check: the Chile chart is read from the PDF's coordinates and compared with the panel |
-| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 486 pages, both languages |
+| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 568 pages, both languages (284 each) |
 | 12 | `python scripts/build_pdf_extracts.py` | The PDF extracts (needs Windows and Chrome; about 8 minutes) |
 | 13 | `python scripts/28_checksums.py`, `29_website_manifest.py`, `27_validate_site.py`, `validate_bilingual.py`, `77_update_readme.py`, then `28_checksums.py` again | Checksums, manifest, validators, README and CITATION numbers |
 | 14 | after committing: `python scripts/78_verify_checksums.py` | Compares the manifest with what git stored |
@@ -70,6 +71,13 @@ Every step is idempotent. `45_build_source_mirrors.py` creates the `MIRROR__` re
 `87_collect_census_non_citizens.py` re-reads the archived ABS workbook and pages (with `--fetch` it downloads them).
 `89_archive_survey_documents.py <folder>` copies the ISSP 2021 documentation quoted in `data/ANALYSIS_NOTES.md` into
 `evidence/survey/` and renders the pages quoted; GESIS refuses automated downloads, so it takes the authors' copies.
+
+`90_collect_unemployment.py` re-reads the archived unemployment files (ILO SDMX response and metadata, World Bank
+response and metadata, the DGBAS workbook and yearbook) and rewrites its staging file and
+`data/unemployment_source_comparison.csv` without the network; with `--fetch` it downloads them again (change the date
+constant first, as for 84) and renders the mirrors and the World Bank's indicator page. The ILOSTAT web pages answer
+automated requests with a bot check and the DGBAS site blocks headless browsers, so neither is captured live: the ILO's
+dataset description and status codes come from its SDMX API, and the DGBAS page is rendered from the copy retrieved.
 
 `84_collect_health_expenditure.py` re-reads the archived health-expenditure files and rewrites its staging file and
 `data/health_expenditure_wb_vs_who.csv` without the network; with `--fetch` it downloads them again under new dated names
@@ -105,6 +113,12 @@ clone of the previous commit (a full clone, not the empty-folder test above). St
 exactly; step 2a appended its ten columns with every other cell byte-identical; every derived table, workbook sheet and
 country file changed only by the new variable's rows; the validators reported 0 errors. The PDF extracts were re-rendered,
 because every country's "last amended" date changed.
+
+On 2026-10-21, when step 2c was added for the unemployment rate, steps 1-2c were run in order in the working clone:
+the panel they produced was byte-identical to the one step 2c had written, step 2c appended its ten columns with every
+other column identical as text, and the analysis extract kept every earlier column unchanged. Steps 3-13 followed; the
+validators reported 0 errors on 568 pages. The PDF extracts were re-rendered (every country's "last amended" date
+changed, and the extracts now list the raw API files they rest on).
 
 An earlier test of this kind, run in a folder next to the audit's working folders, passed without showing that step 7 depended
 on them: in an isolated clone it lost 3,328 of the 3,365 audit results (re-audit finding R01). Those result tables are now

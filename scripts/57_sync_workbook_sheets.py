@@ -213,13 +213,23 @@ ROWS_ADD = [
      % (format(int(ovl_.cells_compared.sum()), ','), format(int(ovl_.identical.sum()), ','))),
     ('Health expenditure (2026-10-17)',
      'health_expenditure_pct_gdp: current health expenditure as a percentage of GDP (0-100), %s values, every country '
-     'and year %d-%d, with source, reference period, grade, verification text and flag on each (Panel_final, last ten '
-     'columns). %d countries from the World Bank (WDI SH.XPD.CHEX.GD.ZS, the WHO Global Health Expenditure Database), '
+     'and year %d-%d, with source, reference period, grade, verification text and flag on each (Panel_final, the ten '
+     'health_expenditure_pct_gdp columns). %d countries from the World Bank (WDI SH.XPD.CHEX.GD.ZS, the WHO Global Health Expenditure Database), '
      "all identical to WHO's own API (data/health_expenditure_wb_vs_who.csv); Taiwan from the Ministry of Health and "
      'Welfare, National Health Expenditure 2024, Table 1, long-term care included only from 2007 (flagged). No other '
      'value changed.'
      % (format(int(pan_.health_expenditure_pct_gdp.notna().sum()), ','), int(pan_.year.min()), int(pan_.year.max()),
         pan_[pan_.health_expenditure_pct_gdp.notna() & (pan_.iso3 != 'TWN')].iso3.nunique())),
+    ('Unemployment rate (2026-10-21)',
+     'unemployment_rate: unemployed persons as a percentage of the labour force aged 15+ (0-100), %s values, every '
+     'country and year %d-%d, with source, reference period, grade, verification text and flag on each (Panel_final, '
+     'the ten unemployment_rate columns). %d countries from the ILO modelled estimates (November 2025 edition, ILO '
+     "SDMX API), all agreeing at three decimals with the World Bank's copy (data/unemployment_source_comparison.csv); "
+     '%d of them are ILO imputations, not based on national data, and are flagged. Taiwan from DGBAS, Yearbook of '
+     'Manpower Survey Statistics 2025, Table 2. No other value changed.'
+     % (format(int(pan_.unemployment_rate.notna().sum()), ','), int(pan_.year.min()), int(pan_.year.max()),
+        pan_[pan_.unemployment_rate.notna() & (pan_.iso3 != 'TWN')].iso3.nunique(),
+        int(pan_.unemployment_rate_flag.notna().sum()))),
 ]
 labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
 anchor = labels_.index('Corrections applied') + 1 if 'Corrections applied' in labels_ else None
@@ -227,6 +237,8 @@ for lab, text in ROWS_ADD:
     labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
     if lab in labels_:
         ws.cell(labels_.index(lab) + 1, 2).value = text
+        if anchor:
+            anchor = labels_.index(lab) + 1          # a new row goes after the last one already there: dated order
     elif anchor:
         ws.insert_rows(anchor + 1)
         ws.cell(anchor + 1, 1).value, ws.cell(anchor + 1, 2).value = lab, text

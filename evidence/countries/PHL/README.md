@@ -43,6 +43,22 @@ Each value carries its source, reference period, grade, verification text and an
 
 <!-- health-expenditure:end -->
 
+<!-- unemployment:begin -->
+
+## Unemployment rate (collected 2026-10-21)
+
+`unemployment_rate`: unemployed persons as a percentage of the labour force aged 15 and over, 2001-2022 (22 values). A new variable; no other value in this folder or in the panel changed.
+
+1 of the values (2002) are ILO imputations, which the ILO describes as not based on national data; they carry the flag "ILO imputed: not based on national data".
+
+| years | source | file |
+|---|---|---|
+| 2001-2022 | International Labour Organization, ILO modelled estimates (ILOEST), November 2025: unemployment rate, total, a | `ilo_UNE_2EAP_SEX_AGE_RT_2001-2022_retrieved_2026-10-21.csv` |
+
+Each value carries its source, reference period, grade, verification text and any flag in `data/panel_final.csv`; the revision history on the Verification page dates the addition.
+
+<!-- unemployment:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)

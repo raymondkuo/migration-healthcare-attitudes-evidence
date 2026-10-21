@@ -23,6 +23,7 @@ RAWFILE = {
  'worldbank_SP_POP_TOTL': 'evidence/api/wb_SP_POP_TOTL.json',
  'worldbank_SM_POP_TOTL': 'evidence/api/wb_SM_POP_TOTL.json',
  'worldbank_SH_XPD_CHEX_GD_ZS': 'evidence/api/wb_SH_XPD_CHEX_GD_ZS_2001-2022_retrieved_2026-10-17.json',
+ 'ilo_UNE_2EAP_SEX_AGE_RT': 'evidence/api/ilo_UNE_2EAP_SEX_AGE_RT_2001-2022_retrieved_2026-10-21.csv',
  'eurostat_migr_pop3ctb': 'evidence/api/eurostat_migr_pop3ctb.json',
  'eurostat_migr_pop1ctz': 'evidence/api/eurostat_migr_pop1ctz.json',
  'eurostat_migr_eipre': 'evidence/api/eurostat_migr_eipre.json',
@@ -40,6 +41,8 @@ def publisher_for(u):
         return 'worldbank_SM_POP_TOTL'
     if 'api.worldbank.org' in u and 'SH.XPD.CHEX.GD.ZS' in u:
         return 'worldbank_SH_XPD_CHEX_GD_ZS'
+    if 'sdmx.ilo.org' in u and 'DF_UNE_2EAP_SEX_AGE_RT' in u:
+        return 'ilo_UNE_2EAP_SEX_AGE_RT'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -124,7 +127,7 @@ def build(iso3, en_name, v, lang):
     # source type and comparability flags exist for the two migrant-stock variables
     has_flags = (v + '_flag') in sub.columns and sub[v + '_flag'].fillna('').astype(str).str.strip().ne('').any()
     TYPE_ZH = {'annual': '逐年', 'census': '普查', 'survey': '調查', 'un_estimate': 'UN 估計值',
-               'other': '其他'}
+               'model_estimate': '模型估計', 'other': '其他'}
     FLAG_ZH = {'splice (large gap)': '接續（差距大）', 'splice': '接續', 'un_estimate': 'UN 估計值',
                'declared citizenship basis': '宣告為公民身分基礎',
                'comparability caution': '可比性提醒', 'includes former-USSR births': '含前蘇聯出生者',
@@ -137,7 +140,8 @@ def build(iso3, en_name, v, lang):
                    '範圍較窄：不含長期照顧服務（自 2007 年起納入）',
                'break in time series: long-term care services included from 2007':
                    '時間序列斷裂：自 2007 年起納入長期照顧服務',
-               'census count (single year)': '普查數（單一年度）', 'not stated excluded': '未填答者不計入'}
+               'census count (single year)': '普查數（單一年度）', 'not stated excluded': '未填答者不計入',
+               'ILO imputed: not based on national data': '國際勞工組織插補值：非依據該國資料'}
 
     def flag_html(r):
         f = str(r.get(v + '_flag') or '').strip()
@@ -166,7 +170,7 @@ def build(iso3, en_name, v, lang):
         ref = str(r.get(v + '_ref_date') or '') if (v + '_ref_date') in r else ''
         rows.append('<tr id="y%d"><td class="num">%d</td><td class="num"><strong>%s</strong></td>'
                     '<td>%s</td><td>%s</td><td class="wrap-any">%s</td><td>%s</td>%s</tr>'
-                    % (y, y, vnum(v, r[v]), pill(r.get(v + '_grade', '')), ver, srccell, E(ref),
+                    % (y, y, vnum(v, r[v], iso3), pill(r.get(v + '_grade', '')), ver, srccell, E(ref),
                        ('<td class="wrap-any">%s</td>' % flag_html(r)) if has_flags else ''))
 
     def yrs_label(ys):
@@ -232,7 +236,7 @@ def build(iso3, en_name, v, lang):
     def supports(years):
         if not years:
             return '<span style="color:var(--faint)">&mdash;</span>'
-        return ' &middot; '.join('%d&nbsp;<strong>%s</strong>' % (y, vnum(v, yv[y]))
+        return ' &middot; '.join('%d&nbsp;<strong>%s</strong>' % (y, vnum(v, yv[y], iso3))
                                  for y in sorted(years))
 
     def srcname(u):

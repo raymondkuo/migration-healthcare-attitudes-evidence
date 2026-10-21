@@ -3,6 +3,7 @@ AUS,Australia,population,22,2001-2022,evidence-pages/AUS__population.html,eviden
 AUS,Australia,foreign_born,22,2001-2022,evidence-pages/AUS__foreign_born.html,evidence/extracts/AUS/foreign_born.pdf,9
 AUS,Australia,irregular_proxy_overstayers,4,2010-2016,evidence-pages/AUS__irregular_proxy_overstayers.html,evidence/extracts/AUS/irregular_proxy_overstayers.pdf,11
 AUS,Australia,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/AUS__health_expenditure_pct_gdp.html,evidence/extracts/AUS/health_expenditure_pct_gdp.pdf,13
+AUS,Australia,unemployment_rate,22,2001-2022,evidence-pages/AUS__unemployment_rate.html,evidence/extracts/AUS/unemployment_rate.pdf,17
 AUS,Australia,non_citizens_census,1,2021-2021,evidence-pages/AUS__non_citizens_census.html,evidence/extracts/AUS/non_citizens_census.pdf,11
 AUT,Austria,population,22,2001-2022,evidence-pages/AUT__population.html,evidence/extracts/AUT/population.pdf,8
 AUT,Austria,foreign_born,22,2001-2022,evidence-pages/AUT__foreign_born.html,evidence/extracts/AUT/foreign_born.pdf,14
@@ -10,190 +11,229 @@ AUT,Austria,foreign_nationals,22,2001-2022,evidence-pages/AUT__foreign_nationals
 AUT,Austria,irregular_stock,1,2017-2017,evidence-pages/AUT__irregular_stock.html,evidence/extracts/AUT/irregular_stock.pdf,2
 AUT,Austria,irregular_proxy_detections,13,2010-2022,evidence-pages/AUT__irregular_proxy_detections.html,evidence/extracts/AUT/irregular_proxy_detections.pdf,2
 AUT,Austria,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/AUT__health_expenditure_pct_gdp.html,evidence/extracts/AUT/health_expenditure_pct_gdp.pdf,13
+AUT,Austria,unemployment_rate,22,2001-2022,evidence-pages/AUT__unemployment_rate.html,evidence/extracts/AUT/unemployment_rate.pdf,17
 BEL,Belgium,population,22,2001-2022,evidence-pages/BEL__population.html,evidence/extracts/BEL/population.pdf,8
 BEL,Belgium,foreign_born,22,2001-2022,evidence-pages/BEL__foreign_born.html,evidence/extracts/BEL/foreign_born.pdf,14
 BEL,Belgium,foreign_nationals,22,2001-2022,evidence-pages/BEL__foreign_nationals.html,evidence/extracts/BEL/foreign_nationals.pdf,8
 BEL,Belgium,irregular_proxy_detections,13,2010-2022,evidence-pages/BEL__irregular_proxy_detections.html,evidence/extracts/BEL/irregular_proxy_detections.pdf,2
 BEL,Belgium,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/BEL__health_expenditure_pct_gdp.html,evidence/extracts/BEL/health_expenditure_pct_gdp.pdf,13
+BEL,Belgium,unemployment_rate,22,2001-2022,evidence-pages/BEL__unemployment_rate.html,evidence/extracts/BEL/unemployment_rate.pdf,17
 BGR,Bulgaria,population,22,2001-2022,evidence-pages/BGR__population.html,evidence/extracts/BGR/population.pdf,8
 BGR,Bulgaria,foreign_born,13,2005-2022,evidence-pages/BGR__foreign_born.html,evidence/extracts/BGR/foreign_born.pdf,16
 BGR,Bulgaria,foreign_nationals,15,2008-2022,evidence-pages/BGR__foreign_nationals.html,evidence/extracts/BGR/foreign_nationals.pdf,8
 BGR,Bulgaria,irregular_proxy_detections,13,2010-2022,evidence-pages/BGR__irregular_proxy_detections.html,evidence/extracts/BGR/irregular_proxy_detections.pdf,2
 BGR,Bulgaria,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/BGR__health_expenditure_pct_gdp.html,evidence/extracts/BGR/health_expenditure_pct_gdp.pdf,13
+BGR,Bulgaria,unemployment_rate,22,2001-2022,evidence-pages/BGR__unemployment_rate.html,evidence/extracts/BGR/unemployment_rate.pdf,17
 CHL,Chile,population,22,2001-2022,evidence-pages/CHL__population.html,evidence/extracts/CHL/population.pdf,8
 CHL,Chile,foreign_born,18,2003-2022,evidence-pages/CHL__foreign_born.html,evidence/extracts/CHL/foreign_born.pdf,12
 CHL,Chile,foreign_nationals,6,2017-2022,evidence-pages/CHL__foreign_nationals.html,evidence/extracts/CHL/foreign_nationals.pdf,9
 CHL,Chile,irregular_stock,5,2018-2022,evidence-pages/CHL__irregular_stock.html,evidence/extracts/CHL/irregular_stock.pdf,4
 CHL,Chile,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/CHL__health_expenditure_pct_gdp.html,evidence/extracts/CHL/health_expenditure_pct_gdp.pdf,13
+CHL,Chile,unemployment_rate,22,2001-2022,evidence-pages/CHL__unemployment_rate.html,evidence/extracts/CHL/unemployment_rate.pdf,17
 CHN,China,population,22,2001-2022,evidence-pages/CHN__population.html,evidence/extracts/CHN/population.pdf,8
 CHN,China,foreign_born,4,2005-2020,evidence-pages/CHN__foreign_born.html,evidence/extracts/CHN/foreign_born.pdf,8
 CHN,China,foreign_nationals,2,2010-2020,evidence-pages/CHN__foreign_nationals.html,evidence/extracts/CHN/foreign_nationals.pdf,10
 CHN,China,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/CHN__health_expenditure_pct_gdp.html,evidence/extracts/CHN/health_expenditure_pct_gdp.pdf,13
+CHN,China,unemployment_rate,22,2001-2022,evidence-pages/CHN__unemployment_rate.html,evidence/extracts/CHN/unemployment_rate.pdf,17
 HRV,Croatia,population,22,2001-2022,evidence-pages/HRV__population.html,evidence/extracts/HRV/population.pdf,8
 HRV,Croatia,foreign_born,12,2005-2022,evidence-pages/HRV__foreign_born.html,evidence/extracts/HRV/foreign_born.pdf,21
 HRV,Croatia,foreign_nationals,11,2011-2022,evidence-pages/HRV__foreign_nationals.html,evidence/extracts/HRV/foreign_nationals.pdf,13
 HRV,Croatia,irregular_proxy_detections,10,2013-2022,evidence-pages/HRV__irregular_proxy_detections.html,evidence/extracts/HRV/irregular_proxy_detections.pdf,2
 HRV,Croatia,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/HRV__health_expenditure_pct_gdp.html,evidence/extracts/HRV/health_expenditure_pct_gdp.pdf,13
+HRV,Croatia,unemployment_rate,22,2001-2022,evidence-pages/HRV__unemployment_rate.html,evidence/extracts/HRV/unemployment_rate.pdf,17
 CZE,Czech Republic,population,22,2001-2022,evidence-pages/CZE__population.html,evidence/extracts/CZE/population.pdf,8
 CZE,Czech Republic,foreign_born,15,2001-2022,evidence-pages/CZE__foreign_born.html,evidence/extracts/CZE/foreign_born.pdf,14
 CZE,Czech Republic,foreign_nationals,22,2001-2022,evidence-pages/CZE__foreign_nationals.html,evidence/extracts/CZE/foreign_nationals.pdf,8
 CZE,Czech Republic,irregular_stock,1,2017-2017,evidence-pages/CZE__irregular_stock.html,evidence/extracts/CZE/irregular_stock.pdf,2
 CZE,Czech Republic,irregular_proxy_detections,13,2010-2022,evidence-pages/CZE__irregular_proxy_detections.html,evidence/extracts/CZE/irregular_proxy_detections.pdf,2
 CZE,Czech Republic,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/CZE__health_expenditure_pct_gdp.html,evidence/extracts/CZE/health_expenditure_pct_gdp.pdf,13
+CZE,Czech Republic,unemployment_rate,22,2001-2022,evidence-pages/CZE__unemployment_rate.html,evidence/extracts/CZE/unemployment_rate.pdf,17
 DNK,Denmark,population,22,2001-2022,evidence-pages/DNK__population.html,evidence/extracts/DNK/population.pdf,8
 DNK,Denmark,foreign_born,22,2001-2022,evidence-pages/DNK__foreign_born.html,evidence/extracts/DNK/foreign_born.pdf,14
 DNK,Denmark,foreign_nationals,22,2001-2022,evidence-pages/DNK__foreign_nationals.html,evidence/extracts/DNK/foreign_nationals.pdf,8
 DNK,Denmark,irregular_proxy_detections,13,2010-2022,evidence-pages/DNK__irregular_proxy_detections.html,evidence/extracts/DNK/irregular_proxy_detections.pdf,2
 DNK,Denmark,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/DNK__health_expenditure_pct_gdp.html,evidence/extracts/DNK/health_expenditure_pct_gdp.pdf,13
+DNK,Denmark,unemployment_rate,22,2001-2022,evidence-pages/DNK__unemployment_rate.html,evidence/extracts/DNK/unemployment_rate.pdf,17
 FIN,Finland,population,22,2001-2022,evidence-pages/FIN__population.html,evidence/extracts/FIN/population.pdf,8
 FIN,Finland,foreign_born,22,2001-2022,evidence-pages/FIN__foreign_born.html,evidence/extracts/FIN/foreign_born.pdf,14
 FIN,Finland,foreign_nationals,22,2001-2022,evidence-pages/FIN__foreign_nationals.html,evidence/extracts/FIN/foreign_nationals.pdf,8
 FIN,Finland,irregular_proxy_detections,13,2010-2022,evidence-pages/FIN__irregular_proxy_detections.html,evidence/extracts/FIN/irregular_proxy_detections.pdf,2
 FIN,Finland,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/FIN__health_expenditure_pct_gdp.html,evidence/extracts/FIN/health_expenditure_pct_gdp.pdf,13
+FIN,Finland,unemployment_rate,22,2001-2022,evidence-pages/FIN__unemployment_rate.html,evidence/extracts/FIN/unemployment_rate.pdf,17
 FRA,France,population,22,2001-2022,evidence-pages/FRA__population.html,evidence/extracts/FRA/population.pdf,8
 FRA,France,foreign_born,17,2006-2022,evidence-pages/FRA__foreign_born.html,evidence/extracts/FRA/foreign_born.pdf,14
 FRA,France,foreign_nationals,17,2006-2022,evidence-pages/FRA__foreign_nationals.html,evidence/extracts/FRA/foreign_nationals.pdf,14
 FRA,France,irregular_stock,4,2014-2017,evidence-pages/FRA__irregular_stock.html,evidence/extracts/FRA/irregular_stock.pdf,2
 FRA,France,irregular_proxy_detections,13,2010-2022,evidence-pages/FRA__irregular_proxy_detections.html,evidence/extracts/FRA/irregular_proxy_detections.pdf,2
 FRA,France,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/FRA__health_expenditure_pct_gdp.html,evidence/extracts/FRA/health_expenditure_pct_gdp.pdf,13
+FRA,France,unemployment_rate,22,2001-2022,evidence-pages/FRA__unemployment_rate.html,evidence/extracts/FRA/unemployment_rate.pdf,17
 DEU,Germany,population,22,2001-2022,evidence-pages/DEU__population.html,evidence/extracts/DEU/population.pdf,8
 DEU,Germany,foreign_born,17,2006-2022,evidence-pages/DEU__foreign_born.html,evidence/extracts/DEU/foreign_born.pdf,14
 DEU,Germany,foreign_nationals,22,2001-2022,evidence-pages/DEU__foreign_nationals.html,evidence/extracts/DEU/foreign_nationals.pdf,8
 DEU,Germany,irregular_stock,4,2014-2017,evidence-pages/DEU__irregular_stock.html,evidence/extracts/DEU/irregular_stock.pdf,2
 DEU,Germany,irregular_proxy_detections,13,2010-2022,evidence-pages/DEU__irregular_proxy_detections.html,evidence/extracts/DEU/irregular_proxy_detections.pdf,2
 DEU,Germany,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/DEU__health_expenditure_pct_gdp.html,evidence/extracts/DEU/health_expenditure_pct_gdp.pdf,13
+DEU,Germany,unemployment_rate,22,2001-2022,evidence-pages/DEU__unemployment_rate.html,evidence/extracts/DEU/unemployment_rate.pdf,17
 HUN,Hungary,population,22,2001-2022,evidence-pages/HUN__population.html,evidence/extracts/HUN/population.pdf,8
 HUN,Hungary,foreign_born,22,2001-2022,evidence-pages/HUN__foreign_born.html,evidence/extracts/HUN/foreign_born.pdf,14
 HUN,Hungary,foreign_nationals,22,2001-2022,evidence-pages/HUN__foreign_nationals.html,evidence/extracts/HUN/foreign_nationals.pdf,8
 HUN,Hungary,irregular_proxy_detections,13,2010-2022,evidence-pages/HUN__irregular_proxy_detections.html,evidence/extracts/HUN/irregular_proxy_detections.pdf,2
 HUN,Hungary,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/HUN__health_expenditure_pct_gdp.html,evidence/extracts/HUN/health_expenditure_pct_gdp.pdf,13
+HUN,Hungary,unemployment_rate,22,2001-2022,evidence-pages/HUN__unemployment_rate.html,evidence/extracts/HUN/unemployment_rate.pdf,17
 ISL,Iceland,population,22,2001-2022,evidence-pages/ISL__population.html,evidence/extracts/ISL/population.pdf,8
 ISL,Iceland,foreign_born,22,2001-2022,evidence-pages/ISL__foreign_born.html,evidence/extracts/ISL/foreign_born.pdf,14
 ISL,Iceland,foreign_nationals,22,2001-2022,evidence-pages/ISL__foreign_nationals.html,evidence/extracts/ISL/foreign_nationals.pdf,14
 ISL,Iceland,irregular_proxy_detections,4,2016-2021,evidence-pages/ISL__irregular_proxy_detections.html,evidence/extracts/ISL/irregular_proxy_detections.pdf,2
 ISL,Iceland,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ISL__health_expenditure_pct_gdp.html,evidence/extracts/ISL/health_expenditure_pct_gdp.pdf,13
+ISL,Iceland,unemployment_rate,22,2001-2022,evidence-pages/ISL__unemployment_rate.html,evidence/extracts/ISL/unemployment_rate.pdf,17
 IND,India,population,22,2001-2022,evidence-pages/IND__population.html,evidence/extracts/IND/population.pdf,8
 IND,India,foreign_born,6,2001-2020,evidence-pages/IND__foreign_born.html,evidence/extracts/IND/foreign_born.pdf,18
 IND,India,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/IND__health_expenditure_pct_gdp.html,evidence/extracts/IND/health_expenditure_pct_gdp.pdf,13
+IND,India,unemployment_rate,22,2001-2022,evidence-pages/IND__unemployment_rate.html,evidence/extracts/IND/unemployment_rate.pdf,17
 ISR,Israel,population,22,2001-2022,evidence-pages/ISR__population.html,evidence/extracts/ISR/population.pdf,8
 ISR,Israel,foreign_born,22,2001-2022,evidence-pages/ISR__foreign_born.html,evidence/extracts/ISR/foreign_born.pdf,9
 ISR,Israel,irregular_stock,1,2022-2022,evidence-pages/ISR__irregular_stock.html,evidence/extracts/ISR/irregular_stock.pdf,2
 ISR,Israel,irregular_proxy_overstayers,1,2020-2020,evidence-pages/ISR__irregular_proxy_overstayers.html,evidence/extracts/ISR/irregular_proxy_overstayers.pdf,2
 ISR,Israel,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ISR__health_expenditure_pct_gdp.html,evidence/extracts/ISR/health_expenditure_pct_gdp.pdf,13
+ISR,Israel,unemployment_rate,22,2001-2022,evidence-pages/ISR__unemployment_rate.html,evidence/extracts/ISR/unemployment_rate.pdf,17
 ITA,Italy,population,22,2001-2022,evidence-pages/ITA__population.html,evidence/extracts/ITA/population.pdf,8
 ITA,Italy,foreign_born,21,2002-2022,evidence-pages/ITA__foreign_born.html,evidence/extracts/ITA/foreign_born.pdf,8
 ITA,Italy,foreign_nationals,22,2001-2022,evidence-pages/ITA__foreign_nationals.html,evidence/extracts/ITA/foreign_nationals.pdf,14
 ITA,Italy,irregular_stock,13,2010-2022,evidence-pages/ITA__irregular_stock.html,evidence/extracts/ITA/irregular_stock.pdf,18
 ITA,Italy,irregular_proxy_detections,13,2010-2022,evidence-pages/ITA__irregular_proxy_detections.html,evidence/extracts/ITA/irregular_proxy_detections.pdf,2
 ITA,Italy,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ITA__health_expenditure_pct_gdp.html,evidence/extracts/ITA/health_expenditure_pct_gdp.pdf,13
+ITA,Italy,unemployment_rate,22,2001-2022,evidence-pages/ITA__unemployment_rate.html,evidence/extracts/ITA/unemployment_rate.pdf,17
 JPN,Japan,population,22,2001-2022,evidence-pages/JPN__population.html,evidence/extracts/JPN/population.pdf,8
 JPN,Japan,foreign_nationals,22,2001-2022,evidence-pages/JPN__foreign_nationals.html,evidence/extracts/JPN/foreign_nationals.pdf,9
 JPN,Japan,irregular_proxy_overstayers,12,2010-2022,evidence-pages/JPN__irregular_proxy_overstayers.html,evidence/extracts/JPN/irregular_proxy_overstayers.pdf,15
 JPN,Japan,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/JPN__health_expenditure_pct_gdp.html,evidence/extracts/JPN/health_expenditure_pct_gdp.pdf,13
+JPN,Japan,unemployment_rate,22,2001-2022,evidence-pages/JPN__unemployment_rate.html,evidence/extracts/JPN/unemployment_rate.pdf,17
 KOR,Korea (South),population,22,2001-2022,evidence-pages/KOR__population.html,evidence/extracts/KOR/population.pdf,8
 KOR,Korea (South),foreign_born,4,2005-2020,evidence-pages/KOR__foreign_born.html,evidence/extracts/KOR/foreign_born.pdf,8
 KOR,Korea (South),foreign_nationals,22,2001-2022,evidence-pages/KOR__foreign_nationals.html,evidence/extracts/KOR/foreign_nationals.pdf,9
 KOR,Korea (South),irregular_proxy_overstayers,10,2010-2022,evidence-pages/KOR__irregular_proxy_overstayers.html,evidence/extracts/KOR/irregular_proxy_overstayers.pdf,9
 KOR,Korea (South),health_expenditure_pct_gdp,22,2001-2022,evidence-pages/KOR__health_expenditure_pct_gdp.html,evidence/extracts/KOR/health_expenditure_pct_gdp.pdf,13
+KOR,Korea (South),unemployment_rate,22,2001-2022,evidence-pages/KOR__unemployment_rate.html,evidence/extracts/KOR/unemployment_rate.pdf,17
 LTU,Lithuania,population,22,2001-2022,evidence-pages/LTU__population.html,evidence/extracts/LTU/population.pdf,8
 LTU,Lithuania,foreign_born,22,2001-2022,evidence-pages/LTU__foreign_born.html,evidence/extracts/LTU/foreign_born.pdf,14
 LTU,Lithuania,foreign_nationals,22,2001-2022,evidence-pages/LTU__foreign_nationals.html,evidence/extracts/LTU/foreign_nationals.pdf,8
 LTU,Lithuania,irregular_proxy_detections,13,2010-2022,evidence-pages/LTU__irregular_proxy_detections.html,evidence/extracts/LTU/irregular_proxy_detections.pdf,2
 LTU,Lithuania,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/LTU__health_expenditure_pct_gdp.html,evidence/extracts/LTU/health_expenditure_pct_gdp.pdf,13
+LTU,Lithuania,unemployment_rate,22,2001-2022,evidence-pages/LTU__unemployment_rate.html,evidence/extracts/LTU/unemployment_rate.pdf,17
 MEX,Mexico,population,22,2001-2022,evidence-pages/MEX__population.html,evidence/extracts/MEX/population.pdf,8
 MEX,Mexico,foreign_born,13,2005-2020,evidence-pages/MEX__foreign_born.html,evidence/extracts/MEX/foreign_born.pdf,12
 MEX,Mexico,foreign_nationals,12,2010-2022,evidence-pages/MEX__foreign_nationals.html,evidence/extracts/MEX/foreign_nationals.pdf,9
 MEX,Mexico,irregular_proxy_detections,6,2017-2022,evidence-pages/MEX__irregular_proxy_detections.html,evidence/extracts/MEX/irregular_proxy_detections.pdf,2
 MEX,Mexico,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/MEX__health_expenditure_pct_gdp.html,evidence/extracts/MEX/health_expenditure_pct_gdp.pdf,13
+MEX,Mexico,unemployment_rate,22,2001-2022,evidence-pages/MEX__unemployment_rate.html,evidence/extracts/MEX/unemployment_rate.pdf,17
 NLD,Netherlands,population,22,2001-2022,evidence-pages/NLD__population.html,evidence/extracts/NLD/population.pdf,8
 NLD,Netherlands,foreign_born,22,2001-2022,evidence-pages/NLD__foreign_born.html,evidence/extracts/NLD/foreign_born.pdf,14
 NLD,Netherlands,foreign_nationals,22,2001-2022,evidence-pages/NLD__foreign_nationals.html,evidence/extracts/NLD/foreign_nationals.pdf,8
 NLD,Netherlands,irregular_stock,6,2017-2022,evidence-pages/NLD__irregular_stock.html,evidence/extracts/NLD/irregular_stock.pdf,10
 NLD,Netherlands,irregular_proxy_detections,13,2010-2022,evidence-pages/NLD__irregular_proxy_detections.html,evidence/extracts/NLD/irregular_proxy_detections.pdf,2
 NLD,Netherlands,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/NLD__health_expenditure_pct_gdp.html,evidence/extracts/NLD/health_expenditure_pct_gdp.pdf,13
+NLD,Netherlands,unemployment_rate,22,2001-2022,evidence-pages/NLD__unemployment_rate.html,evidence/extracts/NLD/unemployment_rate.pdf,17
 NZL,New Zealand,population,22,2001-2022,evidence-pages/NZL__population.html,evidence/extracts/NZL/population.pdf,8
 NZL,New Zealand,foreign_born,8,2001-2020,evidence-pages/NZL__foreign_born.html,evidence/extracts/NZL/foreign_born.pdf,17
 NZL,New Zealand,irregular_proxy_overstayers,7,2010-2017,evidence-pages/NZL__irregular_proxy_overstayers.html,evidence/extracts/NZL/irregular_proxy_overstayers.pdf,4
 NZL,New Zealand,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/NZL__health_expenditure_pct_gdp.html,evidence/extracts/NZL/health_expenditure_pct_gdp.pdf,13
+NZL,New Zealand,unemployment_rate,22,2001-2022,evidence-pages/NZL__unemployment_rate.html,evidence/extracts/NZL/unemployment_rate.pdf,17
 NOR,Norway,population,22,2001-2022,evidence-pages/NOR__population.html,evidence/extracts/NOR/population.pdf,8
 NOR,Norway,foreign_born,22,2001-2022,evidence-pages/NOR__foreign_born.html,evidence/extracts/NOR/foreign_born.pdf,14
 NOR,Norway,foreign_nationals,22,2001-2022,evidence-pages/NOR__foreign_nationals.html,evidence/extracts/NOR/foreign_nationals.pdf,8
 NOR,Norway,irregular_proxy_detections,13,2010-2022,evidence-pages/NOR__irregular_proxy_detections.html,evidence/extracts/NOR/irregular_proxy_detections.pdf,2
 NOR,Norway,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/NOR__health_expenditure_pct_gdp.html,evidence/extracts/NOR/health_expenditure_pct_gdp.pdf,13
+NOR,Norway,unemployment_rate,22,2001-2022,evidence-pages/NOR__unemployment_rate.html,evidence/extracts/NOR/unemployment_rate.pdf,17
 PHL,Philippines,population,22,2001-2022,evidence-pages/PHL__population.html,evidence/extracts/PHL/population.pdf,8
 PHL,Philippines,foreign_born,4,2005-2020,evidence-pages/PHL__foreign_born.html,evidence/extracts/PHL/foreign_born.pdf,8
 PHL,Philippines,foreign_nationals,2,2010-2020,evidence-pages/PHL__foreign_nationals.html,evidence/extracts/PHL/foreign_nationals.pdf,6
 PHL,Philippines,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/PHL__health_expenditure_pct_gdp.html,evidence/extracts/PHL/health_expenditure_pct_gdp.pdf,13
+PHL,Philippines,unemployment_rate,22,2001-2022,evidence-pages/PHL__unemployment_rate.html,evidence/extracts/PHL/unemployment_rate.pdf,17
 POL,Poland,population,22,2001-2022,evidence-pages/POL__population.html,evidence/extracts/POL/population.pdf,8
 POL,Poland,foreign_born,15,2001-2022,evidence-pages/POL__foreign_born.html,evidence/extracts/POL/foreign_born.pdf,14
 POL,Poland,foreign_nationals,22,2001-2022,evidence-pages/POL__foreign_nationals.html,evidence/extracts/POL/foreign_nationals.pdf,14
 POL,Poland,irregular_proxy_detections,13,2010-2022,evidence-pages/POL__irregular_proxy_detections.html,evidence/extracts/POL/irregular_proxy_detections.pdf,2
 POL,Poland,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/POL__health_expenditure_pct_gdp.html,evidence/extracts/POL/health_expenditure_pct_gdp.pdf,13
+POL,Poland,unemployment_rate,22,2001-2022,evidence-pages/POL__unemployment_rate.html,evidence/extracts/POL/unemployment_rate.pdf,17
 PRT,Portugal,population,22,2001-2022,evidence-pages/PRT__population.html,evidence/extracts/PRT/population.pdf,8
 PRT,Portugal,foreign_born,15,2002-2022,evidence-pages/PRT__foreign_born.html,evidence/extracts/PRT/foreign_born.pdf,14
 PRT,Portugal,foreign_nationals,22,2001-2022,evidence-pages/PRT__foreign_nationals.html,evidence/extracts/PRT/foreign_nationals.pdf,14
 PRT,Portugal,irregular_proxy_detections,13,2010-2022,evidence-pages/PRT__irregular_proxy_detections.html,evidence/extracts/PRT/irregular_proxy_detections.pdf,2
 PRT,Portugal,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/PRT__health_expenditure_pct_gdp.html,evidence/extracts/PRT/health_expenditure_pct_gdp.pdf,13
+PRT,Portugal,unemployment_rate,22,2001-2022,evidence-pages/PRT__unemployment_rate.html,evidence/extracts/PRT/unemployment_rate.pdf,17
 RUS,Russia,population,22,2001-2022,evidence-pages/RUS__population.html,evidence/extracts/RUS/population.pdf,8
 RUS,Russia,foreign_born,5,2002-2020,evidence-pages/RUS__foreign_born.html,evidence/extracts/RUS/foreign_born.pdf,12
 RUS,Russia,foreign_nationals,1,2002-2002,evidence-pages/RUS__foreign_nationals.html,evidence/extracts/RUS/foreign_nationals.pdf,4
 RUS,Russia,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/RUS__health_expenditure_pct_gdp.html,evidence/extracts/RUS/health_expenditure_pct_gdp.pdf,13
+RUS,Russia,unemployment_rate,22,2001-2022,evidence-pages/RUS__unemployment_rate.html,evidence/extracts/RUS/unemployment_rate.pdf,17
 SVK,Slovak Republic,population,22,2001-2022,evidence-pages/SVK__population.html,evidence/extracts/SVK/population.pdf,8
 SVK,Slovak Republic,foreign_born,14,2008-2022,evidence-pages/SVK__foreign_born.html,evidence/extracts/SVK/foreign_born.pdf,14
 SVK,Slovak Republic,foreign_nationals,22,2001-2022,evidence-pages/SVK__foreign_nationals.html,evidence/extracts/SVK/foreign_nationals.pdf,14
 SVK,Slovak Republic,irregular_proxy_detections,13,2010-2022,evidence-pages/SVK__irregular_proxy_detections.html,evidence/extracts/SVK/irregular_proxy_detections.pdf,2
 SVK,Slovak Republic,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/SVK__health_expenditure_pct_gdp.html,evidence/extracts/SVK/health_expenditure_pct_gdp.pdf,13
+SVK,Slovak Republic,unemployment_rate,22,2001-2022,evidence-pages/SVK__unemployment_rate.html,evidence/extracts/SVK/unemployment_rate.pdf,17
 SVN,Slovenia,population,22,2001-2022,evidence-pages/SVN__population.html,evidence/extracts/SVN/population.pdf,8
 SVN,Slovenia,foreign_born,22,2001-2022,evidence-pages/SVN__foreign_born.html,evidence/extracts/SVN/foreign_born.pdf,14
 SVN,Slovenia,foreign_nationals,22,2001-2022,evidence-pages/SVN__foreign_nationals.html,evidence/extracts/SVN/foreign_nationals.pdf,8
 SVN,Slovenia,irregular_proxy_detections,13,2010-2022,evidence-pages/SVN__irregular_proxy_detections.html,evidence/extracts/SVN/irregular_proxy_detections.pdf,2
 SVN,Slovenia,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/SVN__health_expenditure_pct_gdp.html,evidence/extracts/SVN/health_expenditure_pct_gdp.pdf,13
+SVN,Slovenia,unemployment_rate,22,2001-2022,evidence-pages/SVN__unemployment_rate.html,evidence/extracts/SVN/unemployment_rate.pdf,17
 ZAF,South Africa,population,22,2001-2022,evidence-pages/ZAF__population.html,evidence/extracts/ZAF/population.pdf,8
 ZAF,South Africa,foreign_born,8,2001-2022,evidence-pages/ZAF__foreign_born.html,evidence/extracts/ZAF/foreign_born.pdf,14
 ZAF,South Africa,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ZAF__health_expenditure_pct_gdp.html,evidence/extracts/ZAF/health_expenditure_pct_gdp.pdf,13
+ZAF,South Africa,unemployment_rate,22,2001-2022,evidence-pages/ZAF__unemployment_rate.html,evidence/extracts/ZAF/unemployment_rate.pdf,17
 ESP,Spain,population,22,2001-2022,evidence-pages/ESP__population.html,evidence/extracts/ESP/population.pdf,8
 ESP,Spain,foreign_born,22,2001-2022,evidence-pages/ESP__foreign_born.html,evidence/extracts/ESP/foreign_born.pdf,14
 ESP,Spain,foreign_nationals,22,2001-2022,evidence-pages/ESP__foreign_nationals.html,evidence/extracts/ESP/foreign_nationals.pdf,14
 ESP,Spain,irregular_stock,6,2017-2022,evidence-pages/ESP__irregular_stock.html,evidence/extracts/ESP/irregular_stock.pdf,2
 ESP,Spain,irregular_proxy_detections,13,2010-2022,evidence-pages/ESP__irregular_proxy_detections.html,evidence/extracts/ESP/irregular_proxy_detections.pdf,2
 ESP,Spain,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ESP__health_expenditure_pct_gdp.html,evidence/extracts/ESP/health_expenditure_pct_gdp.pdf,13
+ESP,Spain,unemployment_rate,22,2001-2022,evidence-pages/ESP__unemployment_rate.html,evidence/extracts/ESP/unemployment_rate.pdf,17
 SUR,Suriname,population,22,2001-2022,evidence-pages/SUR__population.html,evidence/extracts/SUR/population.pdf,8
 SUR,Suriname,foreign_born,5,2005-2020,evidence-pages/SUR__foreign_born.html,evidence/extracts/SUR/foreign_born.pdf,12
 SUR,Suriname,foreign_nationals,1,2012-2012,evidence-pages/SUR__foreign_nationals.html,evidence/extracts/SUR/foreign_nationals.pdf,4
 SUR,Suriname,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/SUR__health_expenditure_pct_gdp.html,evidence/extracts/SUR/health_expenditure_pct_gdp.pdf,13
+SUR,Suriname,unemployment_rate,22,2001-2022,evidence-pages/SUR__unemployment_rate.html,evidence/extracts/SUR/unemployment_rate.pdf,17
 SWE,Sweden,population,22,2001-2022,evidence-pages/SWE__population.html,evidence/extracts/SWE/population.pdf,8
 SWE,Sweden,foreign_born,22,2001-2022,evidence-pages/SWE__foreign_born.html,evidence/extracts/SWE/foreign_born.pdf,14
 SWE,Sweden,foreign_nationals,22,2001-2022,evidence-pages/SWE__foreign_nationals.html,evidence/extracts/SWE/foreign_nationals.pdf,8
 SWE,Sweden,irregular_proxy_detections,13,2010-2022,evidence-pages/SWE__irregular_proxy_detections.html,evidence/extracts/SWE/irregular_proxy_detections.pdf,2
 SWE,Sweden,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/SWE__health_expenditure_pct_gdp.html,evidence/extracts/SWE/health_expenditure_pct_gdp.pdf,13
+SWE,Sweden,unemployment_rate,22,2001-2022,evidence-pages/SWE__unemployment_rate.html,evidence/extracts/SWE/unemployment_rate.pdf,17
 CHE,Switzerland,population,22,2001-2022,evidence-pages/CHE__population.html,evidence/extracts/CHE/population.pdf,8
 CHE,Switzerland,foreign_born,13,2001-2022,evidence-pages/CHE__foreign_born.html,evidence/extracts/CHE/foreign_born.pdf,14
 CHE,Switzerland,foreign_nationals,22,2001-2022,evidence-pages/CHE__foreign_nationals.html,evidence/extracts/CHE/foreign_nationals.pdf,8
 CHE,Switzerland,irregular_stock,2,2015-2017,evidence-pages/CHE__irregular_stock.html,evidence/extracts/CHE/irregular_stock.pdf,7
 CHE,Switzerland,irregular_proxy_detections,13,2010-2022,evidence-pages/CHE__irregular_proxy_detections.html,evidence/extracts/CHE/irregular_proxy_detections.pdf,2
 CHE,Switzerland,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/CHE__health_expenditure_pct_gdp.html,evidence/extracts/CHE/health_expenditure_pct_gdp.pdf,13
+CHE,Switzerland,unemployment_rate,22,2001-2022,evidence-pages/CHE__unemployment_rate.html,evidence/extracts/CHE/unemployment_rate.pdf,17
 TWN,Taiwan,population,22,2001-2022,evidence-pages/TWN__population.html,evidence/extracts/TWN/population.pdf,10
 TWN,Taiwan,foreign_nationals,22,2001-2022,evidence-pages/TWN__foreign_nationals.html,evidence/extracts/TWN/foreign_nationals.pdf,9
 TWN,Taiwan,irregular_proxy_overstayers,9,2012-2020,evidence-pages/TWN__irregular_proxy_overstayers.html,evidence/extracts/TWN/irregular_proxy_overstayers.pdf,15
 TWN,Taiwan,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/TWN__health_expenditure_pct_gdp.html,evidence/extracts/TWN/health_expenditure_pct_gdp.pdf,13
+TWN,Taiwan,unemployment_rate,22,2001-2022,evidence-pages/TWN__unemployment_rate.html,evidence/extracts/TWN/unemployment_rate.pdf,15
 TWN,Taiwan,irregular_proxy_absconded_workers,7,2011-2022,evidence-pages/TWN__irregular_proxy_absconded_workers.html,evidence/extracts/TWN/irregular_proxy_absconded_workers.pdf,2
 THA,Thailand,population,22,2001-2022,evidence-pages/THA__population.html,evidence/extracts/THA/population.pdf,8
 THA,Thailand,foreign_born,4,2005-2020,evidence-pages/THA__foreign_born.html,evidence/extracts/THA/foreign_born.pdf,8
 THA,Thailand,foreign_nationals,1,2018-2018,evidence-pages/THA__foreign_nationals.html,evidence/extracts/THA/foreign_nationals.pdf,2
 THA,Thailand,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/THA__health_expenditure_pct_gdp.html,evidence/extracts/THA/health_expenditure_pct_gdp.pdf,13
+THA,Thailand,unemployment_rate,22,2001-2022,evidence-pages/THA__unemployment_rate.html,evidence/extracts/THA/unemployment_rate.pdf,17
 TUR,Turkey,population,22,2001-2022,evidence-pages/TUR__population.html,evidence/extracts/TUR/population.pdf,8
 TUR,Turkey,foreign_born,10,2001-2022,evidence-pages/TUR__foreign_born.html,evidence/extracts/TUR/foreign_born.pdf,12
 TUR,Turkey,foreign_nationals,16,2001-2022,evidence-pages/TUR__foreign_nationals.html,evidence/extracts/TUR/foreign_nationals.pdf,12
 TUR,Turkey,irregular_proxy_detections,8,2010-2022,evidence-pages/TUR__irregular_proxy_detections.html,evidence/extracts/TUR/irregular_proxy_detections.pdf,2
 TUR,Turkey,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/TUR__health_expenditure_pct_gdp.html,evidence/extracts/TUR/health_expenditure_pct_gdp.pdf,13
+TUR,Turkey,unemployment_rate,22,2001-2022,evidence-pages/TUR__unemployment_rate.html,evidence/extracts/TUR/unemployment_rate.pdf,17
 GBR,United Kingdom,population,22,2001-2022,evidence-pages/GBR__population.html,evidence/extracts/GBR/population.pdf,8
 GBR,United Kingdom,foreign_born,18,2004-2021,evidence-pages/GBR__foreign_born.html,evidence/extracts/GBR/foreign_born.pdf,32
 GBR,United Kingdom,foreign_nationals,21,2001-2021,evidence-pages/GBR__foreign_nationals.html,evidence/extracts/GBR/foreign_nationals.pdf,22
 GBR,United Kingdom,irregular_stock,1,2017-2017,evidence-pages/GBR__irregular_stock.html,evidence/extracts/GBR/irregular_stock.pdf,7
 GBR,United Kingdom,irregular_proxy_detections,10,2010-2019,evidence-pages/GBR__irregular_proxy_detections.html,evidence/extracts/GBR/irregular_proxy_detections.pdf,2
 GBR,United Kingdom,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/GBR__health_expenditure_pct_gdp.html,evidence/extracts/GBR/health_expenditure_pct_gdp.pdf,13
+GBR,United Kingdom,unemployment_rate,22,2001-2022,evidence-pages/GBR__unemployment_rate.html,evidence/extracts/GBR/unemployment_rate.pdf,17
 USA,United States,population,22,2001-2022,evidence-pages/USA__population.html,evidence/extracts/USA/population.pdf,8
 USA,United States,foreign_born,22,2001-2022,evidence-pages/USA__foreign_born.html,evidence/extracts/USA/foreign_born.pdf,12
 USA,United States,foreign_nationals,22,2001-2022,evidence-pages/USA__foreign_nationals.html,evidence/extracts/USA/foreign_nationals.pdf,12
 USA,United States,irregular_stock,13,2010-2022,evidence-pages/USA__irregular_stock.html,evidence/extracts/USA/irregular_stock.pdf,9
 USA,United States,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/USA__health_expenditure_pct_gdp.html,evidence/extracts/USA/health_expenditure_pct_gdp.pdf,13
+USA,United States,unemployment_rate,22,2001-2022,evidence-pages/USA__unemployment_rate.html,evidence/extracts/USA/unemployment_rate.pdf,17

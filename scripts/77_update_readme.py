@@ -55,13 +55,16 @@ Y0, Y1 = int(ys.min()), int(ys.max())
 new = {v: int(panel[v + '_collected_on'].notna().sum())
        for v in ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals')}
 n_large = int((spl.mean_abs_gap_pct >= 5).sum())          # the declared rule: mean ABSOLUTE gap (re-audit R03)
-grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census']
+grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
+                                         'unemployment_rate']
                      for g in panel[v + '_grade'].dropna()
                      if str(g).strip()]).value_counts()
 n_abs = int(panel.irregular_proxy_absconded_workers.notna().sum())
 n_he = int(panel.health_expenditure_pct_gdp.notna().sum())
 import health_texts as HT                                          # noqa: E402
 _hk = HT.counts()
+import unemployment_texts as UT                                    # noqa: E402
+_uk = UT.counts()
 n_corr_aud = int((corr.corrected_on.astype(str) == '2026-10-07').sum())
 pages_each = val['pages_en']
 total_pages = val['pages_en'] + val['pages_zh']
@@ -213,6 +216,20 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 - Raw API responses, the workbook, the report and the publishers' own pages are archived with PDF/PNG mirrors in
   `evidence/api/` and `evidence/countries/TWN/`.
 
+## Unemployment rate · 失業率 (added %(ue_when)s)
+
+- New variable **`unemployment_rate`**: unemployed persons as a percentage of the labour force aged 15 and over for
+  **all %(ue_nc)d countries and all years %(y0)d–%(y1)d** (%(n_ue)s values), with source, reference period, grade,
+  verification text and flag on every value. No other value changed.
+- %(ue_nilo)d countries: the ILO modelled estimates (November 2025 edition), read from the ILO's own SDMX API; all
+  %(ue_ncmp)s values agree at three decimals with the World Bank's copy (WDI `SL.UEM.TOTL.ZS`,
+  `data/unemployment_source_comparison.csv`). **%(ue_nimp)s values are ILO imputations, not based on national data**,
+  which the ILO says should not be used for country comparisons; they are flagged (China in every year).
+- Taiwan: the DGBAS Manpower Survey (Yearbook of Manpower Survey Statistics 2025, Table 2), read from the official
+  workbook and identical to the printed yearbook; the ILO imputes Taiwan's 2021 and 2022 although DGBAS published them.
+- Raw responses, the ILO's own dataset description and status codes, the workbook, the yearbook and the World Bank's
+  indicator page are archived with PDF/PNG mirrors in `evidence/api/` and `evidence/countries/TWN/`.
+
 ## Decisions of 2026-10-18 · 2026-10-18 之決定
 
 - **Construct and timing (issue #24).** From the ISSP 2021 item the study analyses (Q6a: access to publicly funded
@@ -236,6 +253,8 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            gtot7=n(grades7.sum()), gb7=n(grades7.get('B', 0)), n_abs=n_abs,
            ga7=n(grades7.get('A', 0)), n_he=n(n_he), he_when=HT.WHEN, he_nc=_hk['n_countries'],
            he_nwb=_hk['n_countries'] - 1, he_ncmp=n(_hk['n_cmp']),
+           ue_when=UT.WHEN, ue_nc=_uk['n_countries'], n_ue=n(_uk['n']), ue_nilo=_uk['n_countries'] - 1,
+           ue_ncmp=n(_uk['n_cmp']), ue_nimp=n(_uk['n_imp']),
            aus_v=n(panel.non_citizens_census.dropna().iloc[0]),
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
@@ -271,7 +290,7 @@ csub(r'version: "[^"]*"', 'version: "%s"' % LAST)
 csub(r'date-released: [\d-]+', 'date-released: %s' % LAST)
 csub(r'state the\n  archive (?:freeze date, 2026-08-17\.|version \([^)]*\)\.)',
      'state the\n  archive version (first freeze 2026-08-17; extended to %d on 2026-10-07; health expenditure added '
-     'on %s).' % (Y0, HT.WHEN))       # the extension date is fixed; LAST moves with every later amendment
+     'on %s; unemployment rate added on %s).' % (Y0, HT.WHEN, UT.WHEN))       # the extension date is fixed; LAST moves with every later amendment
 csub(r'and \d+ values were corrected,', 'and %d values were corrected,' % len(corr))
 csub(r'covering 40 countries for [\d-]+\.', 'covering 40 countries for %d-%d.' % (Y0, Y1))
 if 'extended back' not in c:
@@ -287,8 +306,10 @@ csub(r'(?:no value published earlier changed|the extension itself changed no val
      'them; %d cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md). '
      'On %s a health-expenditure variable (current health expenditure as a percentage of GDP) was added for all %d '
      "countries and years, from the WHO Global Health Expenditure Database via the World Bank, checked against WHO's "
-     'own API, and for Taiwan from the Ministry of Health and Welfare; no other value changed.'
-     % (n(ovl.cells_compared.sum()), len(aud), HT.WHEN, _hk['n_countries']))
+     'own API, and for Taiwan from the Ministry of Health and Welfare; on %s an unemployment-rate variable for all '
+     '%d countries and years, from the ILO modelled estimates (imputed values flagged) and for Taiwan from DGBAS; no '
+     'other value changed.'
+     % (n(ovl.cells_compared.sum()), len(aud), HT.WHEN, _hk['n_countries'], UT.WHEN, _uk['n_countries']))
 open(fp, 'w', encoding='utf-8').write(c)
 print('CITATION.cff refreshed')
 

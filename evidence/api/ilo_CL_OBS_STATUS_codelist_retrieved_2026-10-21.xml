@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--NSI Web Service v8.19.6.0-->
+<message:Structure xmlns:message="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:structure="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:common="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common">
+  <message:Header>
+    <message:ID>IDREF585</message:ID>
+    <message:Test>false</message:Test>
+    <message:Prepared>2026-10-21T11:04:19.122871+02:00</message:Prepared>
+    <message:Sender id="Unknown" />
+    <message:Receiver id="Unknown" />
+  </message:Header>
+  <message:Structures>
+    <structure:Codelists>
+      <structure:Codelist id="CL_OBS_STATUS" agencyID="ILO" version="1.0" isExternalReference="false" isFinal="true">
+        <common:Name xml:lang="en">OBS_STATUS</common:Name>
+        <common:Name xml:lang="es">OBS_STATUS</common:Name>
+        <common:Name xml:lang="fr">OBS_STATUS</common:Name>
+        <structure:Code id="B">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>1</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Break in series</common:Name>
+          <common:Name xml:lang="es">Ruptura de serie</common:Name>
+          <common:Name xml:lang="fr">Rupture de série</common:Name>
+        </structure:Code>
+        <structure:Code id="A">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>1</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Adjusted</common:Name>
+          <common:Name xml:lang="es">Ajustado</common:Name>
+          <common:Name xml:lang="fr">Ajustées</common:Name>
+        </structure:Code>
+        <structure:Code id="L">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>10</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Computed value</common:Name>
+          <common:Name xml:lang="es">Valor computado</common:Name>
+          <common:Name xml:lang="fr">Valeur computée</common:Name>
+        </structure:Code>
+        <structure:Code id="C">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>20</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Confidential</common:Name>
+          <common:Name xml:lang="es">Confidencial</common:Name>
+          <common:Name xml:lang="fr">Confidentielle</common:Name>
+        </structure:Code>
+        <structure:Code id="E">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>30</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Estimate</common:Name>
+          <common:Name xml:lang="es">Estimación</common:Name>
+          <common:Name xml:lang="fr">Estimation</common:Name>
+        </structure:Code>
+        <structure:Code id="F">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>40</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Forecast</common:Name>
+          <common:Name xml:lang="es">Previsión</common:Name>
+          <common:Name xml:lang="fr">Prévision</common:Name>
+        </structure:Code>
+        <structure:Code id="M">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>50</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Model-based extrapolation</common:Name>
+          <common:Name xml:lang="es">Extrapolación modelizada</common:Name>
+          <common:Name xml:lang="fr">Extrapolation modélisée</common:Name>
+        </structure:Code>
+        <structure:Code id="X">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>80</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Not applicable</common:Name>
+          <common:Name xml:lang="es">No se aplica</common:Name>
+          <common:Name xml:lang="fr">Ne s'applique pas</common:Name>
+        </structure:Code>
+        <structure:Code id="N">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>90</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Not available</common:Name>
+          <common:Name xml:lang="es">No disponible</common:Name>
+          <common:Name xml:lang="fr">Pas disponible</common:Name>
+        </structure:Code>
+        <structure:Code id="P">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>100</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Provisional</common:Name>
+          <common:Name xml:lang="es">Provisional</common:Name>
+          <common:Name xml:lang="fr">Provisoire</common:Name>
+        </structure:Code>
+        <structure:Code id="S">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>110</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Not significant</common:Name>
+          <common:Name xml:lang="es">No significativo</common:Name>
+          <common:Name xml:lang="fr">Non significatif</common:Name>
+        </structure:Code>
+        <structure:Code id="U">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>120</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Unreliable</common:Name>
+          <common:Name xml:lang="es">Poco fiable</common:Name>
+          <common:Name xml:lang="fr">Pas fiable</common:Name>
+        </structure:Code>
+        <structure:Code id="R">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>130</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Real value</common:Name>
+          <common:Name xml:lang="es">Valor real</common:Name>
+          <common:Name xml:lang="fr">Valeur réelle</common:Name>
+        </structure:Code>
+        <structure:Code id="Z">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>150</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Non-official estimated value</common:Name>
+          <common:Name xml:lang="es">Estimación no oficial</common:Name>
+          <common:Name xml:lang="fr">Valeur estimé non-officielle</common:Name>
+        </structure:Code>
+        <structure:Code id="I">
+          <common:Annotations>
+            <common:Annotation>
+              <common:AnnotationTitle>160</common:AnnotationTitle>
+              <common:AnnotationType>ORDER</common:AnnotationType>
+            </common:Annotation>
+          </common:Annotations>
+          <common:Name xml:lang="en">Imputation</common:Name>
+          <common:Name xml:lang="es">Imputación</common:Name>
+          <common:Name xml:lang="fr">Imputation</common:Name>
+        </structure:Code>
+      </structure:Codelist>
+    </structure:Codelists>
+  </message:Structures>
+</message:Structure>

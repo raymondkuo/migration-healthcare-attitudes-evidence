@@ -10,9 +10,9 @@ def _psq(s):
     return "'" + str(s).replace("'", "''") + "'"
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from blib import (SITE, D, ACCESS, DEC, vcategory, first_retrieved, revised_on, panel, vlog, reg, corr, snaps, apis, pubs,
-                  ALLVARS, cname, vlab, reason_zh)
-from i18n import VERTAG, COUNTRY, VLAB
+from blib import (SITE, D, ACCESS, vdec, vcategory, first_retrieved, revised_on, panel, vlog, reg, corr, snaps, apis, pubs,
+                  ALLVARS, cname, vlab, reason_zh, artifacts)
+from i18n import VERTAG, COUNTRY, VLAB, GRADE_SHORT
 
 PRINT = os.path.join(SITE, 'evidence', 'extracts')
 CHROME = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
@@ -47,16 +47,12 @@ TPL = """<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8">
 <table><thead><tr>
 <th class="n">Year<small>年度</small></th><th class="n">Value<small>數值</small></th>
 <th>Grade<small>等級</small></th><th>Verification<small>查證結果</small></th>
-<th>Source<small>來源</small></th><th>Reference date<small>基準日</small></th>
+<th>Source<small>來源</small></th><th>Reference date<small>基準日</small></th>FLAGTH
 </tr></thead><tbody>TRS</tbody></table>
 NOTEBOX
 <h2>Source URL(s) <span>來源網址</span></h2><ul>URLS</ul>
 <h2>Archived evidence files <span>存檔佐證檔案</span></h2><ul>ARTS</ul>
-<p class="foot">Grades / 品質等級：A = re-derived from a machine-readable official source and matched
-exactly, or corrected against one 自機器可讀之官方來源重新計算並完全一致，或依該來源更正 ·
-B = confirmed by reading the retrieved source document 經來源文件確認 ·
-C = source retrieved but the value is a modelled estimate 已取得來源，但數值為推估值 ·
-D = cited source could not be retrieved 來源無法取得。<br>
+<p class="foot">Grades / 品質等級：GRADELEGEND。<br>
 Joint work of Prof. Raymond Kuo, National Taiwan University, and Claude (Anthropic).
 國立臺灣大學郭年真教授與 Claude（Anthropic）共同成果。</p>
 </body></html>"""
@@ -91,6 +87,10 @@ for _, ci in cinfo.iterrows():
                 if lf and lf != 'nan' and os.path.isfile(
                         os.path.join(SITE, 'evidence', 'countries', iso, lf)):
                     arts.append('evidence/countries/%s/%s' % (iso, lf))
+            # the same resolver as the evidence pages: raw API payloads (their files sit in evidence/api, not in the
+            # country folder, and were missing here), their mirrors, the publishers' pages and the checks against them
+            for lf in [r.get('local_file') for r in reg_by.get((iso, u), [])] or [None]:
+                arts += [rel for _, rel in artifacts(iso, u, lf, 'en')]
             for s in snap_by.get((iso, u), []):
                 for c in ('pdf_mirror', 'png_screenshot'):
                     f = s[c]
@@ -104,26 +104,47 @@ for _, ci in cinfo.iterrows():
         cc = corr[(corr.iso3 == iso) & (corr.variable == v)]
         corrected = {int(r['year']) for _, r in cc.iterrows()}
         trs = ''
+        fcol = v + '_flag'
+        has_flag = fcol in sub and sub[fcol].fillna('').astype(str).str.strip().ne('').any()
         for _, r in sub.iterrows():
             y = int(r['year'])
             c = chk.get(y)
             cat = vcategory(iso, y, v, r.get(v + '_verification'), c, y in corrected)
             ver = '%s／%s' % (VERTAG['en'][cat], VERTAG['zh'][cat])
+            fl = str(r.get(fcol) or '').strip() if has_flag else ''
             trs += ('<tr><td class="n">%d</td><td class="n"><b>%s</b></td><td>%s</td><td>%s</td>'
-                    '<td>%s</td><td>%s</td></tr>'
-                    % (y, ('{:,.%df}' % DEC.get(v, 0)).format(r[v]), esc(r.get(v + '_grade') or '—'),
+                    '<td>%s</td><td>%s</td>%s</tr>'
+                    % (y, ('{:,.%df}' % vdec(v, iso)).format(r[v]), esc(r.get(v + '_grade') or '—'),
                        esc(ver), esc(str(r.get(v + '_source') or '')[:88]),
-                       esc(str(r.get(v + '_ref_date') or '') if (v + '_ref_date') in r else '')))
+                       esc(str(r.get(v + '_ref_date') or '') if (v + '_ref_date') in r else ''),
+                       ('<td>%s</td>' % esc(fl if fl and fl != 'nan' else '—')) if has_flag else ''))
 
-        note = next((x for x in (sub[v + '_note'] if (v + '_note') in sub else [])
-                     if isinstance(x, str) and x.strip()), '')
-        vnote = next((x for x in (sub[v + '_verification'] if (v + '_verification') in sub else [])
-                      if isinstance(x, str) and x.strip()), '')
+        def grouped(col):
+            """Every distinct text of a column with the years it applies to (the first one alone misdescribes a
+            series whose values differ, e.g. real and imputed years)."""
+            found = {}
+            for _, r0 in sub.iterrows():
+                x = r0.get(col) if col in sub else None
+                if isinstance(x, str) and x.strip() and x.strip() != 'nan':
+                    found.setdefault(x.strip(), []).append(int(r0['year']))
+            return sorted(found.items(), key=lambda kv: kv[1][0])
+
+        def years(ys):
+            out, i = [], 0
+            while i < len(ys):
+                j = i
+                while j + 1 < len(ys) and ys[j + 1] == ys[j] + 1:
+                    j += 1
+                out.append(str(ys[i]) if i == j else '%d-%d' % (ys[i], ys[j]))
+                i = j + 1
+            return ', '.join(out)
+
         nb = ''
-        if note:
-            nb += '<div class="box"><b>Definition note 定義說明.</b> %s</div>' % esc(note)
-        if vnote:
-            nb += '<div class="box"><b>How this was confirmed 確認方式.</b> %s</div>' % esc(vnote)
+        for col, lab in ((v + '_note', 'Definition note 定義說明'), (v + '_verification', 'How this was confirmed 確認方式')):
+            gs = grouped(col)
+            for text, ys in gs:
+                nb += '<div class="box"><b>%s%s.</b> %s</div>' % (
+                    lab, (' (%s)' % years(sorted(ys))) if len(gs) > 1 else '', esc(text))
         if len(cc):
             rs = '；'.join(sorted({reason_zh(x) for x in cc['reason']}))
             nb += ('<div class="box"><b>Correction applied 已套用更正.</b> %s</div>' % esc(rs))
@@ -136,6 +157,9 @@ for _, ci in cinfo.iterrows():
                            if revised_on(iso) else '')
                   .replace('REVDATE', ('· entries for this country last amended %s '
                                        % revised_on(iso)) if revised_on(iso) else '')
+                  .replace('FLAGTH', '<th>Flag<small>旗標</small></th>' if has_flag else '')
+                  .replace('GRADELEGEND', ' · '.join('%s = %s %s' % (k, GRADE_SHORT['en'][k], GRADE_SHORT['zh'][k])
+                                                     for k in 'ABCD'))
                   .replace('TRS', trs).replace('NOTEBOX', nb)
                   .replace('URLS', ''.join('<li><code>%s</code></li>' % esc(u) for u in urls) or '<li>—</li>')
                   .replace('ARTS', ''.join('<li><code>%s</code></li>' % esc(a) for a in arts) or '<li>—</li>'))

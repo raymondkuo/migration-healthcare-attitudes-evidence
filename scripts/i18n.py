@@ -38,6 +38,7 @@ VLAB = {
         'irregular_proxy_absconded_workers': 'Absconded workers (TW)',
         'health_expenditure_pct_gdp': 'Health expenditure (% GDP)',
         'non_citizens_census': 'Non-citizens (census)',
+        'unemployment_rate': 'Unemployment rate (%)',
         'irregular_detections': 'Detections', 'irregular': 'Irregular migration',
         'foreign_workers': 'Foreign workers'},
  'zh': {'population': '總人口', 'foreign_born': '外國出生人口',
@@ -47,6 +48,7 @@ VLAB = {
         'irregular_proxy_absconded_workers': '失聯移工（臺灣）',
         'health_expenditure_pct_gdp': '醫療保健支出（占 GDP %）',
         'non_citizens_census': '非公民人口（普查）',
+        'unemployment_rate': '失業率（%）',
         'irregular_detections': '查獲人數', 'irregular': '非常規移民',
         'foreign_workers': '外籍移工'},
 }
@@ -153,6 +155,9 @@ USABLE.update(_AT.USABLE_ZH)
 COMPARABILITY.update(_AT.COMPARABILITY_ZH)
 import health_texts as _HT                                   # noqa: E402
 COMPARABILITY.update(_HT.COMPARABILITY_ZH)
+import unemployment_texts as _UT                             # noqa: E402
+COMPARABILITY.update(_UT.COMPARABILITY_ZH)
+USABLE.update(_UT.USABLE_ZH)
 
 # ---------------------------------------------------------------- correction reasons
 REASON = {
@@ -396,6 +401,13 @@ T = {
  'art_who': {'en': 'Independent check: WHO GHO API response', 'zh': '獨立核對：WHO GHO API 原始回應'},
  'art_whopdf': {'en': 'WHO indicator page (PDF)', 'zh': 'WHO 指標頁面（PDF）'},
  'art_whopng': {'en': 'WHO indicator page (screenshot)', 'zh': 'WHO 指標頁面（截圖）'},
+ 'art_ilometa': {'en': 'ILO dataset description, edition and last update (SDMX dataflow)',
+                 'zh': 'ILO 資料集說明、版次與最後更新日（SDMX 資料流）'},
+ 'art_ilocodes': {'en': 'ILO observation-status codes (R = Real value)', 'zh': 'ILO 觀測值狀態代碼（R = Real value）'},
+ 'art_wbcheck': {'en': 'Independent check: World Bank API response (SL.UEM.TOTL.ZS)',
+                 'zh': '獨立核對：世界銀行 API 原始回應（SL.UEM.TOTL.ZS）'},
+ 'art_wbpdf': {'en': 'World Bank indicator page (PDF)', 'zh': '世界銀行指標頁面（PDF）'},
+ 'art_wbpng': {'en': 'World Bank indicator page (screenshot)', 'zh': '世界銀行指標頁面（截圖）'},
 }
 
 

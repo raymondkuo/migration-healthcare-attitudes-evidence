@@ -49,6 +49,22 @@ Each value carries its source, reference period, grade, verification text and an
 
 <!-- health-expenditure:end -->
 
+<!-- unemployment:begin -->
+
+## Unemployment rate (collected 2026-10-21)
+
+`unemployment_rate`: unemployed persons as a percentage of the labour force aged 15 and over, 2001-2022 (22 values). A new variable; no other value in this folder or in the panel changed.
+
+| years | source | file |
+|---|---|---|
+| 2001-2022 | Taiwan Directorate-General of Budget, Accounting and Statistics, Yearbook of Manpower Survey Statistics 2025 ( | `unemployment_rate__DGBAS_Manpower_Yearbook2025_table2__retrieved_2026-10-21.xlsx` |
+| 2001-2022 | Taiwan Directorate-General of Budget, Accounting and Statistics, Yearbook of Manpower Survey Statistics 2025 ( | `unemployment_rate__DGBAS_Manpower_Yearbook2025__retrieved_2026-10-21.pdf` |
+| 2001-2022 | Taiwan Directorate-General of Budget, Accounting and Statistics, Yearbook of Manpower Survey Statistics 2025 ( | `unemployment_rate__DGBAS_Manpower_Yearbook2025_page__retrieved_2026-10-21.html` |
+
+Each value carries its source, reference period, grade, verification text and any flag in `data/panel_final.csv`; the revision history on the Verification page dates the addition.
+
+<!-- unemployment:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)

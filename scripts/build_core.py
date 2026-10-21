@@ -273,12 +273,12 @@ def build_country(iso, en_name, lang):
                     flg += '<abbr class="flg" title="%s">!</abbr>' % E(t('flag_caution', lang))
                 if flg:
                     has_marks = True
-            if v in ('health_expenditure_pct_gdp', 'non_citizens_census') and _s(r.get(v + '_flag')):
+            if v in ('health_expenditure_pct_gdp', 'non_citizens_census', 'unemployment_rate') and _s(r.get(v + '_flag')):
                 flg += '<abbr class="flg" title="%s">!</abbr>' % E(t('flag_caution', lang))
                 has_marks = True
             cells.append('<td class="num"><a class="cell" href="%s" title="%s">%s</a>'
                          '<a class="cellg" href="%s" title="%s">%s</a>%s%s</td>'
-                         % (href, E(tip), vnum(v, val), href, E(tip),
+                         % (href, E(tip), vnum(v, val, iso), href, E(tip),
                             pill(r.get(v + '_grade', '')), der, flg))
         rows.append('<tr>' + ''.join(cells) + '</tr>')
     dtable = ('<div class="tablewrap"><table><thead><tr>' + head + '</tr></thead><tbody>'

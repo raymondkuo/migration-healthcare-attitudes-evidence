@@ -32,6 +32,7 @@ sys.path.insert(0, os.path.join(SITE, 'scripts'))
 D = os.path.join(SITE, 'data')
 from i18n import COUNTRY                                            # noqa: E402
 import health_texts as HT                                           # noqa: E402
+import unemployment_texts as UT                                     # noqa: E402
 
 p = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 hist = pd.read_csv(os.path.join(D, 'revision_history.csv')).fillna('')
@@ -106,6 +107,12 @@ _he = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', H
 out['health_expenditure_pct_gdp'] = [_he.get((i, y)) for i, y in zip(p.iso3, p.year)]
 out['health_expenditure_flag'] = p[HT.VAR + '_flag'].fillna('')
 
+# ---------------------------------------------------------------- unemployment rate (added 2026-10-21)
+_ue = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', UT.VAR],
+                  float_precision='round_trip').set_index(['iso3', 'year'])[UT.VAR]
+out['unemployment_rate'] = [_ue.get((i, y)) for i, y in zip(p.iso3, p.year)]
+out['unemployment_flag'] = p[UT.VAR + '_flag'].fillna('')
+
 # ---------------------------------------------------------------- quality grades
 GRADES = [('grade_population', 'population'),
           ('grade_foreign_born', 'foreign_born'),
@@ -114,7 +121,8 @@ GRADES = [('grade_population', 'population'),
           ('grade_overstayers', 'irregular_proxy_overstayers'),
           ('grade_detections', 'irregular_proxy_detections'),
           ('grade_health_expenditure', HT.VAR),
-          ('grade_non_citizens_census', 'non_citizens_census')]
+          ('grade_non_citizens_census', 'non_citizens_census'),
+          ('grade_unemployment', UT.VAR)]
 for new, src in GRADES:
     col = src + '_grade'
     out[new] = p[col].fillna('') if col in p.columns else ''
@@ -219,6 +227,10 @@ HFLAGS = {
      'Taiwan 2007 health expenditure: the first year that includes long-term care services.',
 }
 assert set(out.health_expenditure_flag) - {''} <= set(HFLAGS), set(out.health_expenditure_flag)
+UFLAGS = {UT.FLAG: 'The ILO imputed the value from a model because it has no national survey data for that country '
+                   'and year. The ILO says such values are subject to high uncertainty and should not be used for '
+                   'country comparisons or rankings.'}
+assert set(out.unemployment_flag) - {''} <= set(UFLAGS), set(out.unemployment_flag)
 used = set(out.foreign_born_flag) | set(out.foreign_nationals_flag) | set(out.detections_flag)
 unknown = {f for f in used if f and f not in FLAGS and not f.startswith('Eurostat flag: ')}
 assert not unknown, 'flag values with no codebook text: %s' % sorted(unknown)
@@ -336,6 +348,16 @@ CODE = [
   'from 2007 (see health_expenditure_flag).' % n(int((out.iso3 != 'TWN').sum()))),
  ('health_expenditure_flag', 'Why the health-expenditure value needs a caution, blank where nothing does. '
                              + ' | '.join('%s: %s' % (k, v) for k, v in HFLAGS.items()), ''),
+ ('unemployment_rate', 'Unemployment rate as a PERCENTAGE of the labour force aged 15 and over (0-100): people '
+                       'without work, available for work and seeking work. %d countries: ILO modelled estimates, '
+                       'November 2025 edition (three decimals); Taiwan: DGBAS Manpower Survey, Yearbook 2025, '
+                       'Table 2 (two decimals). Added 2026-10-21, every country and year.' % (NC - 1),
+  "All %s ILO values agree at three decimals with the World Bank's copy (WDI SL.UEM.TOTL.ZS; "
+  'data/unemployment_source_comparison.csv in the archive). %s values are ILO imputations, not based on national '
+  'data (see unemployment_flag): run a cross-country analysis with and without them.'
+  % (n(int((out.iso3 != 'TWN').sum())), n(int((out.unemployment_flag != '').sum())))),
+ ('unemployment_flag', 'Why the unemployment value needs a caution, blank where nothing does. '
+                       + ' | '.join('%s: %s' % (k, v) for k, v in UFLAGS.items()), ''),
  ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
                        'official source; B: read from an archived document; C: midpoint of a published range, '
                        'computed by the archive; D: none published.',
@@ -349,6 +371,7 @@ CODE = [
  ('grade_detections', 'Evidence grade for detections.', ''),
  ('grade_health_expenditure', 'Evidence grade for health_expenditure_pct_gdp.', ''),
  ('grade_non_citizens_census', 'Evidence grade for non_citizens_census.', ''),
+ ('grade_unemployment', 'Evidence grade for unemployment_rate.', ''),
 ]
 codebook = pd.DataFrame(CODE, columns=['column', 'definition', 'caution'])
 missing = [c for c in out.columns if c not in set(codebook.column)]
@@ -361,7 +384,7 @@ cov = []
 for c in ['population', 'population_unwpp', 'foreign_born', 'un_stock_citizenship_basis', 'foreign_nationals',
           'non_citizens_census',
           'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw',
-          'health_expenditure_pct_gdp']:
+          'health_expenditure_pct_gdp', 'unemployment_rate']:
     s = out[out[c].notna()]
     yrs = sorted(s.year.unique())
     cov.append(dict(variable=c, observations=len(s), pct_of_rows=round(100 * len(s) / NR, 1),
@@ -423,6 +446,12 @@ README = [
  ('Census count of non-citizens', 'non_citizens_census: Australia 2021 only (%s), from the ABS 2021 Census, in its own '
                                   'column because Australia has no annual foreign-national series (added 2026-10-18).'
                                   % n(out.non_citizens_census.dropna().iloc[0])),
+ ('', ''),
+ ('WHAT WAS ADDED ON 2026-10-21', ''),
+ ('Unemployment rate', 'unemployment_rate: unemployed persons as a percentage of the labour force aged 15+ for all %d '
+                       'countries and all %d years (%s values), with unemployment_flag and grade_unemployment. %s '
+                       'values are ILO imputations and are flagged. No other value changed.'
+                       % (NC, NY, n(out.unemployment_rate.notna().sum()), n((out.unemployment_flag != '').sum()))),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
  ('Value-by-value comparisons', 'These are the RECORDS of the first-release check, not a count of unique '
@@ -517,6 +546,12 @@ README = [
                         'includes long-term care only from 2007: start Taiwan in 2007 for a trend across that '
                         'year. WHO revises past years when it updates its database; the values are those '
                         'published when retrieved (2026-10-17).' % (NC - 1)),
+ ('Unemployment rate', 'A share of the labour force aged 15+ (0-100), not of the population. One definition for '
+                       'every country; one source for %d of them (ILO modelled estimates); Taiwan from DGBAS. '
+                       '%s values are ILO imputations (unemployment_flag), which the ILO says not to use for '
+                       'country comparisons: China has no other kind. The ILO revises its estimates with every '
+                       'edition; the values are those published when retrieved (2026-10-21).'
+                       % (NC - 1, n((out.unemployment_flag != '').sum()))),
 ]
 readme = pd.DataFrame(README, columns=['Item', 'Detail'])
 

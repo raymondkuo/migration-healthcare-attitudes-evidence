@@ -24,6 +24,7 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import counts as K                                                 # noqa: E402
+import unemployment_texts as UT                                    # noqa: E402
 
 SITE = os.path.dirname(HERE)
 D = os.path.join(SITE, 'data')
@@ -96,7 +97,10 @@ VAR = [('population', 'total resident population'), ('population_un_wpp2024', 't
        ('irregular_proxy_detections', None), ('irregular_proxy_absconded_workers', 'migrant workers recorded as absconded (stock)'),
        ('health_expenditure_pct_gdp', 'current health expenditure (CHE) as a percentage of GDP; excludes capital spending'),
        ('non_citizens_census', 'persons who are not citizens of the country, census count (place of usual residence, '
-                               'excluding overseas visitors)')]
+                               'excluding overseas visitors)'),
+       ('unemployment_rate', 'unemployed persons (without work, available for and seeking work) as a percentage of the '
+                             'labour force aged 15 and over')]
+UNEMP = 'unemployment_rate'
 HEALTH = 'health_expenditure_pct_gdp'
 HWHEN = '2026-10-17'
 # Observations added after both independent audits. They are listed one variable at a time, with the date and how the
@@ -104,7 +108,15 @@ HWHEN = '2026-10-17'
 # observation still stops the build.
 POST_AUDIT = {'non_citizens_census': (
     '2026-10-18', 'decoded from an archived machine-readable source (ABS official workbook)',
-    'read by the archive from the official ABS workbook (Table 2, national total); census date from the archived ABS page')}
+    'read by the archive from the official ABS workbook (Table 2, national total); census date from the archived ABS page'),
+    # one source for 39 countries and another for Taiwan: the check method is given per country
+    UNEMP: ('2026-10-21', {
+        'TWN': 'decoded from an archived machine-readable source (Taiwan DGBAS official workbook), checked against the '
+               'printed yearbook',
+        '*': 'decoded from an archived machine-readable source (ILO SDMX API), checked against the World Bank API'}, {
+        'TWN': 'read by the archive from the official DGBAS workbook (Table 2), identical to the printed yearbook',
+        '*': "read by the archive from the ILO SDMX response; the World Bank's copy rounds to it at three decimals "
+             '(data/unemployment_source_comparison.csv)'})}
 for f_ in ('source_value_checks.csv', 'document_value_review.csv', 'health_wb_who_checks_%s.csv' % HWHEN,
            'health_taiwan_checks_%s.csv' % HWHEN):
     if not os.path.exists(os.path.join(AUD, f_)):
@@ -160,9 +172,12 @@ def basis(family, derived, derivation):
 
 
 out = []
-# health expenditure is a share with up to eight decimals: its value is carried as written in the panel, never rounded
+# health expenditure is a share with up to eight decimals: its value is carried as written in the panel, never rounded;
+# so is the unemployment rate (three decimals from the ILO, two from DGBAS)
 _htext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', HEALTH],
                      dtype={HEALTH: str}).set_index(['iso3', 'year'])[HEALTH]
+_utext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', UNEMP],
+                     dtype={UNEMP: str}).set_index(['iso3', 'year'])[UNEMP]
 bad_health = []
 for r in panel.itertuples():
     iso, y = r.iso3, int(r.year)
@@ -227,6 +242,12 @@ for r in panel.itertuples():
             haudit = 'matched the source (independent health audit, %s): %s' % (HWHEN, detail)
         elif v in POST_AUDIT:
             added, how, checked = POST_AUDIT[v]
+            if isinstance(how, dict):
+                how, checked = how.get(iso, how['*']), checked.get(iso, checked['*'])
+            if v == UNEMP:
+                value, unit = _utext[(iso, y)], '% of the labour force aged 15+ (percentage points, 0-100)'
+                if iso == 'TWN':
+                    concept += '; Taiwan: DGBAS Manpower Survey, civilian population aged 15+, annual average'
             audit = ('not independently audited: added %s, after the audits of %s and %s; %s'
                      % (added, WHEN, HWHEN, checked))
         elif key in chg_idx:
@@ -270,7 +291,8 @@ reg = pd.read_csv(os.path.join(D, 'source_register.csv'))
 below = pd.read_csv(os.path.join(D, 'foreign_born_below_foreign_nationals.csv'))
 G = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock', 'irregular_proxy_overstayers', 'irregular_proxy_detections']
 gr = pd.Series([x for v in G for x in panel[v + '_grade'].dropna() if str(x).strip()]).value_counts()
-gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census']
+gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
+                                  'unemployment_rate']
                  for x in panel[v + '_grade'].dropna()
                  if str(x).strip()]).value_counts()
 sec_total = pd.read_csv(os.path.join(D, 'secondary_workbook_differences.csv'))
@@ -296,9 +318,9 @@ Current figures (computed from the data files on %(when)s):
 
 - Grades over the six headline variables: **A %(ga)s, B %(gb)s, C %(gc)s, D 0** (%(gtot)s values). The seven
   Taiwan absconded-worker values (all grade B), the %(nhe)s health-expenditure values added on 2026-10-17 (all
-  grade A) and Australia's 2021 census count of non-citizens added on 2026-10-18 (grade A) are also displayed: with
-  them, %(gtot7)s values, A %(ga7)s, B %(gb7)s, C %(gc)s. Grades say where a value was read from, not how precise or
-  comparable it is.
+  grade A), Australia's 2021 census count of non-citizens added on 2026-10-18 (grade A) and the %(nue)s unemployment
+  rates added on 2026-10-21 (all grade A) are also displayed: with them, %(gtot7)s values, A %(ga7)s, B %(gb7)s,
+  C %(gc)s. Grades say where a value was read from, not how precise or comparable it is.
 - %(ncorr)d value corrections and %(ndel)d deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   %(when)s is in `Audit_changes`.
@@ -351,7 +373,7 @@ For the manuscript and for any claim a reviewer might check, use
 `data/original_inputs/` so that every correction can be checked against what was supplied.
 ''' % dict(when=WHEN, rows=n(len(panel)), ga=n(gr.get('A', 0)), gb=n(gr.get('B', 0)), gc=n(gr.get('C', 0)),
            gtot=n(gr.sum()), gtot7=n(gr7.sum()), gb7=n(gr7.get('B', 0)), ga7=n(gr7.get('A', 0)),
-           nhe=n(panel.health_expenditure_pct_gdp.notna().sum()), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
+           nhe=n(panel.health_expenditure_pct_gdp.notna().sum()), nue=n(panel.unemployment_rate.notna().sum()), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
            ndel=len(pd.read_csv(os.path.join(D, 'deleted_values.csv'))), nlog=n(len(vlog)),
            nurls=reg.source_url.nunique(), nsec=len(sec_total), ncmp=n(n_cmp),
            nres=int((sec_total.status_now != 'in secondary workbook only').sum()),
@@ -420,6 +442,13 @@ Expenditure Database via the World Bank, checked against WHO's own API; Taiwan f
 Welfare, long-term care included only from 2007). It is a spending flow over the year as published, so the stock
 date rules in section 2 do not apply to it: use the fieldwork year, or the year before if spending should precede
 the attitude, and state which. [AUTHORS]
+
+`unemployment_rate`, added on 2026-10-21, is the same kind of context variable: unemployed persons as a percentage of
+the labour force aged 15 and over for all 40 countries, 2001-2022 (ILO modelled estimates, November 2025 edition,
+checked against the World Bank's copy; Taiwan from DGBAS). %(nui)s of the values are ILO imputations, not based on
+national data, which the ILO says should not be used for country comparisons: %(uimp)s. Run a cross-country model with
+and without them (`unemployment_flag` in the extract); China has no value of the other kind. It is an annual average,
+so the same timing choice applies as for health expenditure. [AUTHORS]
 
 ## 2. Timing: survey year versus stock date (decided 2026-10-18)
 
@@ -497,6 +526,7 @@ It does not establish that any source's own estimate is accurate, that a series 
 its numbers were reproduced, or that the choices above have been made. Report the sensitivity of the main result to
 each of them.
 ''' % dict(when=WHEN, nfn=fn.iso3.nunique(), yfn='%d-%d' % (fn.year.min(), fn.year.max()),
+           nui=n(int(panel.unemployment_rate_flag.notna().sum())), uimp=UT._imp_list(UT.counts()),
            nfb=fb.iso3.nunique(), yfb='%d-%d' % (fb.year.min(), fb.year.max()),
            ntc=int(panel.foreign_born_concept.fillna('').str.contains('citizenship basis').sum()),
            nir=panel[panel.irregular_stock.notna()].iso3.nunique(),

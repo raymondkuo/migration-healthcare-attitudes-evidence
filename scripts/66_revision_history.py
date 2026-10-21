@@ -465,6 +465,48 @@ H += [
 ]
 H += [dict(HA, **e) for e in DT.revision()]
 
+# ---------------------------------------------------------------- unemployment rate, 2026-10-21
+# A new variable for every country and year; no existing value changed. Stamped after committing
+# (commit_stamp_2026-10-21.json).
+import unemployment_texts as UT                                   # noqa: E402
+up = os.path.join(D, "extension_staging", "commit_stamp_2026-10-21.json")
+ustamp = json.load(open(up, encoding="utf-8")) if os.path.exists(up) else {}
+UA = dict(date=UT.WHEN, time=ustamp.get("time", ""), commit=ustamp.get("commit", ""))
+H += [
+ dict(UA, kind="variable added", iso3=ALL40, **UT.revision()),
+ dict(UA, kind="documentation corrected", iso3="",
+      scope="Workbook README, row Health expenditure (2026-10-17): where its columns are",
+      scope_zh="活頁簿 README，「Health expenditure (2026-10-17)」列：其欄位所在位置",
+      before="\"Panel_final, last ten columns\"", before_zh="「Panel_final, last ten columns」",
+      after="\"Panel_final, the ten health_expenditure_pct_gdp columns\"",
+      after_zh="「Panel_final, the ten health_expenditure_pct_gdp columns」",
+      change="Values unchanged. The health-expenditure columns stopped being the last ten of the panel when the census "
+             "column family was appended on 2026-10-18; the row now names them.",
+      change_zh="數值不變。2026-10-18 於 panel 末尾新增普查欄位群後，醫療保健支出欄位已非最後十欄；該列現直接指名其欄位。"),
+ dict(UA, kind="documentation corrected", iso3="",
+      scope="PDF extracts (evidence/extracts/): list of archived files, notes, flags and grade legend",
+      scope_zh="PDF 摘錄（evidence/extracts/）：存檔檔案清單、說明、旗標與等級圖例",
+      before="API-read series listed no archived file; only the first note shown; no flag column; legend called a "
+             "modelled estimate grade C",
+      before_zh="讀自 API 之序列未列任何存檔檔案；僅顯示第一則說明；無旗標欄；圖例稱模型推估值為 C 級",
+      after="every archived file the evidence page lists; every distinct note with its years; flag column; the "
+            "codebook's grade definitions",
+      after_zh="列出佐證頁所列之每一存檔檔案；每則不同說明並註明年度；旗標欄；採編碼簿之等級定義",
+      change="Values unchanged. The extracts listed only files kept in the country folder, so every series read from an "
+             "API (population, Eurostat and OECD stocks, health expenditure, the unemployment rate) showed no archived "
+             "file although its raw response is archived in evidence/api/; they now list the same files as the "
+             "evidence page. They showed only the first year's note, which misdescribes a series whose notes differ "
+             "(real and imputed ILO values); every distinct note is now shown with its years, and flags have a column. "
+             "The grade legend still carried the first-release wording (\"C = the value is a modelled estimate\"), "
+             "which contradicts the grades defined after the audit of 2026-10-07 (a published estimate is A or B by "
+             "where it was read from); it now uses the codebook's definitions.",
+      change_zh="數值不變。摘錄原僅列出存放於國家資料夾之檔案，故所有讀自 API 之序列（人口、Eurostat 與 OECD 存量、醫療保健支出、"
+                "失業率）雖其原始回應已存於 evidence/api/，摘錄卻顯示無存檔檔案；現列出與佐證頁相同之檔案。摘錄原僅顯示第一個年度之"
+                "說明，對說明各年不同之序列（國際勞工組織之實際值與插補值）有所誤述；現顯示每則不同說明並註明年度，旗標另設一欄。"
+                "等級圖例仍沿用首次發布之文字（「C = 數值為推估值」），與 2026-10-07 稽核後之等級定義（已公布之推估值依其讀取來源評為 "
+                "A 或 B）矛盾；現採編碼簿之定義。"),
+]
+
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):
     if col not in hist.columns:

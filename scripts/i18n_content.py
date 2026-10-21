@@ -54,11 +54,11 @@ P['sources'] = {
                 '擷取始於 '},
  'api_h': {'en': 'Bulk statistical sources (API snapshots)', 'zh': '批次統計來源（API 快照）'},
  'api_sub': {'en': 'These %d payloads are the evidence behind every value read from an API: %s of the %s '
-                   'values verified at first release, and the years and the health-expenditure variable '
-                   'added since. Each file is exactly what the publisher’s server returned; the query URL '
+                   'values verified at first release, and the years and the health-expenditure and '
+                   'unemployment-rate variables added since. Each file is exactly what the publisher’s server returned; the query URL '
                    'that produced it is given so the request can be repeated.',
              'zh': '這 %d 份回應內容即為所有取自 API 之數值的佐證：首次發布時已查證之 %s／%s 筆數值，'
-                   '以及其後新增之年度與醫療保健支出變項。'
+                   '以及其後新增之年度與醫療保健支出、失業率變項。'
                    '每份檔案均為發布機構伺服器回傳的原始內容；並附上產生該回應的查詢網址，以便重複驗證。'},
  'pub_h': {'en': 'Publisher pages for the bulk sources', 'zh': '批次來源之發布機構頁面'},
  'pub_sub': {'en': 'A raw JSON payload is precise but not readable. So the publishers’ own '
@@ -603,3 +603,8 @@ for _l, _v in _HT.verdict().items():
     P['methods']['verdict'][_l][_HT.VAR] = _v
 P['verification']['kind']['zh']['variable added'] = '新增變項'
 P['verification']['kind']['zh']['evidence files corrected'] = '佐證檔案更正'
+
+# ---- unemployment rate (added 2026-10-21): its line in the methods page's table of variables
+import unemployment_texts as _UT                             # noqa: E402
+for _l, _v in _UT.verdict().items():
+    P['methods']['verdict'][_l][_UT.VAR] = _v

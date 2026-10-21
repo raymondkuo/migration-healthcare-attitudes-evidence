@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--NSI Web Service v8.19.6.0-->
+<message:Structure xmlns:message="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:structure="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:common="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common">
+  <message:Header>
+    <message:ID>IDREF584</message:ID>
+    <message:Test>false</message:Test>
+    <message:Prepared>2026-10-21T11:04:18.6538703+02:00</message:Prepared>
+    <message:Sender id="Unknown" />
+    <message:Receiver id="Unknown" />
+  </message:Header>
+  <message:Structures>
+    <structure:Dataflows>
+      <structure:Dataflow id="DF_UNE_2EAP_SEX_AGE_RT" agencyID="ILO" version="1.0" isExternalReference="false" isFinal="true">
+        <common:Annotations>
+          <common:Annotation>
+            <common:AnnotationTitle>02/12/2025 13:33:47</common:AnnotationTitle>
+            <common:AnnotationType>LAST_UPDATE</common:AnnotationType>
+          </common:Annotation>
+          <common:Annotation>
+            <common:AnnotationTitle>AGE</common:AnnotationTitle>
+            <common:AnnotationType>LAYOUT_COLUMN</common:AnnotationType>
+          </common:Annotation>
+          <common:Annotation>
+            <common:AnnotationTitle>REF_AREA,SEX,TIME_PERIOD</common:AnnotationTitle>
+            <common:AnnotationType>LAYOUT_ROW</common:AnnotationType>
+          </common:Annotation>
+          <common:Annotation>
+            <common:AnnotationTitle>FREQ=A,endPeriod=2027-12-31,AGE=AGE_YTHADULT_YGE15+AGE_YTHADULT_Y15-64+AGE_YTHADULT_Y15-24+AGE_YTHADULT_YGE25,SEX=SEX_T,LASTNOBSERVATIONS=1</common:AnnotationTitle>
+            <common:AnnotationType>DEFAULT</common:AnnotationType>
+          </common:Annotation>
+          <common:Annotation>
+            <common:AnnotationTitle>647000</common:AnnotationTitle>
+            <common:AnnotationType>ORDER</common:AnnotationType>
+          </common:Annotation>
+          <common:Annotation>
+            <common:AnnotationTitle>353000</common:AnnotationTitle>
+            <common:AnnotationType>SEARCH_WEIGHT</common:AnnotationType>
+          </common:Annotation>
+        </common:Annotations>
+        <common:Name xml:lang="en">Unemployment rate by sex and age -- ILO modelled estimates, Nov. 2025</common:Name>
+        <common:Name xml:lang="es">Tasa de desocupación según sexo y edad -- Estimaciones modeladas de la OIT, Nov. 2025</common:Name>
+        <common:Name xml:lang="fr">Taux de chômage par sexe et âge -- Estimations modélisées du BIT, Nov. 2025</common:Name>
+        <common:Description xml:lang="en">&lt;p&gt;&lt;strong&gt;Imputed observations are not based on national data, are subject to high uncertainty and should not be used for country comparisons or rankings. &lt;/strong&gt;This series is based on the 13th ICLS definitions. The unemployment rate conveys the number of persons who are unemployed as a percent of the labour force (i.e., the employed plus the unemployed). The unemployed comprise all persons of working age who were: a) without work during the reference period, i.e. were not in paid employment or self-employment; b) currently available for work, i.e. were available for paid employment or self-employment during the reference period; and c) seeking work, i.e. had taken specific steps in a specified recent period to seek paid employment or self-employment. For more information, refer to the &lt;a href="https://ilostat.ilo.org/methods/concepts-and-definitions/ilo-modelled-estimates/"&gt;ILO Modelled Estimates (ILOEST) database description&lt;/a&gt;.&lt;/p&gt;</common:Description>
+        <common:Description xml:lang="es">&lt;p&gt;&lt;strong&gt;Las observaciones imputadas no se basan en datos nacionales, están sujetas a una gran incertidumbre y no deben utilizarse para comparaciones o clasificaciones de países. &lt;/strong&gt;Esta serie se basa en las definiciones de la 13.ª CIET. La tasa de desocupación representa el número de desocupados como porcentaje de la fuerza de trabao (es decir, las personas en la ocupación y las personas en desocupación). Las personas en desocupación son todas aquellas que se hallan: a) sin empleo durante el período de referencia, es decir, que no tienen un puesto de trabajo salariado ni independiente; b) corrientemente disponibles para trabajar, es decir, disponibles para trabajar en un puesto de trabajo salariado o independiente durante el período de referencia; y c) en busca de un puesto de trabajo, es decir, que tomaron medidas concretas para buscar un puesto de trabajo salariado o independiente en un período reciente especificado. Para obtener más información, consulte la &lt;a href="https://ilostat.ilo.org/es/resources/concepts-and-definitions/ilo-modelled-estimates/"&gt;descripción de la base de datos Estimaciones de la OIT (ILOEST)&lt;/a&gt;.&lt;/p&gt;</common:Description>
+        <common:Description xml:lang="fr">&lt;p&gt;&lt;strong&gt;Les observations imputées ne sont pas basées sur des données nationales, sont soumises à une grande incertitude et ne doivent pas être utilisées pour des comparaisons ou des classements de pays. &lt;/strong&gt;Cette série est basée sur les définitions de la 13e CIST. Le taux de chômage représente le nombre de personnes au chômage exprimé en pourcentage de la main-d'&amp;gt;uvre (c'est-à-dire, les personnes en emploi et les personnes au chômage). Les chômeurs comprennent toutes les personnes qui se trouvent: a) sans travail pendant la période de référence, c'est-à-dire pas en emploi ni salarié ni non salarié; b) disponibles pour travailler dans un emploi salarié ou non salarié durant la période de référence; et c) à la recherche d'un travail, c'est-à-dire ayant pris des dispositions spécifiques au cours d'une période récente spécifiée pour chercher un emploi salarié ou non salarié. Pour plus d'informations, reportez-vous à la &lt;a href="https://ilostat.ilo.org/fr/resources/concepts-and-definitions/ilo-modelled-estimates/"&gt;description de la base de données Estimations modélisées de l'OIT (ILOEST)&lt;/a&gt;.&lt;/p&gt;</common:Description>
+        <structure:Structure>
+          <Ref id="UNE_2EAP_SEX_AGE_RT" version="1.0" agencyID="ILO" package="datastructure" class="DataStructure" />
+        </structure:Structure>
+      </structure:Dataflow>
+    </structure:Dataflows>
+  </message:Structures>
+</message:Structure>

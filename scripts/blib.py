@@ -65,17 +65,26 @@ irrall = pd.read_csv(os.path.join(D, 'irregular_estimates_all.csv'))
 pubs = pd.read_csv(os.path.join(D, 'api_publisher_snapshots.csv'))
 
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
-        'irregular_proxy_overstayers', 'irregular_proxy_detections', 'health_expenditure_pct_gdp']
+        'irregular_proxy_overstayers', 'irregular_proxy_detections', 'health_expenditure_pct_gdp',
+        'unemployment_rate']
 # shown only for the countries that have them: Taiwan's absconded workers, and the census count of non-citizens
 # for a country with no annual foreign-national series (Australia 2021; decision of 2026-10-18)
 ALLVARS = VARS + ['irregular_proxy_absconded_workers', 'non_citizens_census']
 # decimals shown for a variable's values (counts are whole numbers; shares of GDP are not)
-DEC = {'health_expenditure_pct_gdp': 2}
+DEC = {'health_expenditure_pct_gdp': 2, 'unemployment_rate': 3}
+# a country whose source publishes fewer decimals than the rest: shown as published, not padded with zeros
+# (the ILO publishes unemployment rates to three decimals, DGBAS to two)
+DEC_ISO = {('unemployment_rate', 'TWN'): 2}
 
 
-def vnum(v, val):
-    """A panel value formatted for display with the decimals its variable needs."""
-    return num(val, DEC.get(v, 0))
+def vdec(v, iso3=None):
+    """Decimals shown for one variable (and country)."""
+    return DEC_ISO.get((v, iso3), DEC.get(v, 0))
+
+
+def vnum(v, val, iso3=None):
+    """A panel value formatted for display with the decimals its variable (and source) needs."""
+    return num(val, vdec(v, iso3))
 
 
 # ---- how each value was checked, from the verification ledger (data/current_panel_verification.csv, written by
@@ -271,6 +280,8 @@ def publisher_key(url):
         return 'worldbank_SM_POP_TOTL'
     if 'api.worldbank.org' in u and 'SH.XPD.CHEX.GD.ZS' in u:
         return 'worldbank_SH_XPD_CHEX_GD_ZS'
+    if 'sdmx.ilo.org' in u and 'DF_UNE_2EAP_SEX_AGE_RT' in u:
+        return 'ilo_UNE_2EAP_SEX_AGE_RT'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -357,6 +368,23 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
                 for col, lab in (('pdf', 'art_whopdf'), ('png', 'art_whopng')):
                     if isinstance(pw.get(col), str) and pw[col]:
                         add(t(lab, lang), pw[col])
+
+    # unemployment rate: the ILO publishes no capturable page (its site answers automated requests with a bot
+    # check), so its own dataset description and status codes are archived from the SDMX API; the World Bank's copy,
+    # checked cell by cell, its definition and its indicator page are evidence for the values too
+    if k == 'ilo_UNE_2EAP_SEX_AGE_RT' and len(_apis):
+        for pat, lab in (('ilo_DF_UNE_2EAP_SEX_AGE_RT_dataflow', 'art_ilometa'), ('ilo_CL_OBS_STATUS', 'art_ilocodes'),
+                         ('wb_SL_UEM_TOTL_ZS_2001', 'art_wbcheck'), ('SL_UEM_TOTL_ZS_indicator_metadata', 'art_wbmeta')):
+            for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False)].iterrows():
+                ap = str(a['path'])
+                add(t(lab, lang), ap)
+                for lab2, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab2, rel)
+        pw = _pub_by_key.get('worldbank_SL_UEM_TOTL_ZS')
+        if pw is not None:
+            for col, lab in (('pdf', 'art_wbpdf'), ('png', 'art_wbpng')):
+                if isinstance(pw.get(col), str) and pw[col]:
+                    add(t(lab, lang), pw[col])
 
     # 4. snapshots of the source web page
     for s in _snap_by.get((iso3, url), []):

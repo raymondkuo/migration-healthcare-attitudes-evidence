@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**488 pages** — 244 per language. Validated: 33,872 internal links, 0 broken.
+**568 pages** — 284 per language. Validated: 41,450 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -59,7 +59,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 |---|---|
 | `index.html` / `index.zh.html` | Overview, headline verification results |
 | `countries.html`, `countries/<ISO3>.html` | One page per country: data, verification result, sources |
-| `evidence-pages/` | 198 per-country, per-variable evidence pages (×2 languages) — every value with its source, verification result and archived files |
+| `evidence-pages/` | 238 per-country, per-variable evidence pages (×2 languages) — every value with its source, verification result and archived files |
 | `sources.html` | Complete source register — original URL plus archived copy for each |
 | `data.html` | Download the dataset and every supporting table |
 | `verification.html` | All 2,737 value comparisons, the 1,777 re-comparisons of 2026-10-07, corrections, the extension and the issues |
@@ -68,7 +68,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 | `evidence/api/` | Raw API response payloads exactly as returned by the publisher |
 | `evidence/api/publisher_pages/` | PDF and screenshot mirrors of the publishers' own dataset pages |
 | `evidence/countries/<ISO3>/` | Every source document, PDF mirror and screenshot for that country |
-| `evidence/extracts/` | 198 bilingual PDF extracts, one per country × variable |
+| `evidence/extracts/` | 238 bilingual PDF extracts, one per country × variable |
 | `manifest/checksums.csv` | SHA-256 hash of every file in the archive, of the bytes the website serves (text files with LF line endings, so a Windows checkout with CRLF will not match; `scripts/78_verify_checksums.py` checks the manifest against git) |
 | `verification/` | Machine-readable verification output, the live link sweep, and the audit response |
 | `scripts/` | Every script used. Only the pipeline in `REBUILD.md` can be re-run safely; the first-release builders (numbered below 67) would undo later corrections |
@@ -103,11 +103,11 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - **Every number in every country's Panel data table is a link.** Click a value, or the grade pill
   beside it, and you reach the evidence for that exact figure.
 
-**Now (revised 2026-10-18)**
+**Now (revised 2026-10-21)**
 
 - **Audit of 2026-10-07** (issues #1–#25): all 24 findings were re-checked against the archived sources and
   confirmed; **45 cell changes** followed, counting the audit and the re-audit below (15 corrected, 7 regraded, 6 relabelled, 6 added, 4 source corrected, 4 flag added, 2 metadata cleared, 1 deleted). The response is in
-  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **4,246** current observations are in
+  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **5,126** current observations are in
   `data/current_panel_verification.csv`. The 2,454 / 2,737 figures above are comparison *records* of the first-release
   check, not a count of unique current observations.
 - **Re-audit of 2026-10-07**, an independent re-check of commit `30d6cb1` (issues #5, #11, #12, #13, #17, #20 and #21
@@ -119,7 +119,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - Quality grades on the 2,478 displayed values of the six headline variables (2001–2022): **A** 2,323 · **B** 142 · **C** 13 · **D** 0.
   With the 7 Taiwan absconded-worker values (all grade B), the 880 health-expenditure values (all grade A,
   added 2026-10-17) and Australia's 2021 census count of non-citizens (grade A, added 2026-10-18) the displayed total
-  is 3,366: **A** 3,204 · **B** 149 · **C** 13.
+  is 4,246: **A** 4,084 · **B** 149 · **C** 13.
   A grade says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
   C the midpoint of a published range computed by the archive; a single-number estimate a source publishes is A or B);
   it does not say how precise or comparable the value is.
@@ -163,6 +163,20 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 - Raw API responses, the workbook, the report and the publishers' own pages are archived with PDF/PNG mirrors in
   `evidence/api/` and `evidence/countries/TWN/`.
 
+## Unemployment rate · 失業率 (added 2026-10-21)
+
+- New variable **`unemployment_rate`**: unemployed persons as a percentage of the labour force aged 15 and over for
+  **all 40 countries and all years 2001–2022** (880 values), with source, reference period, grade,
+  verification text and flag on every value. No other value changed.
+- 39 countries: the ILO modelled estimates (November 2025 edition), read from the ILO's own SDMX API; all
+  858 values agree at three decimals with the World Bank's copy (WDI `SL.UEM.TOTL.ZS`,
+  `data/unemployment_source_comparison.csv`). **61 values are ILO imputations, not based on national data**,
+  which the ILO says should not be used for country comparisons; they are flagged (China in every year).
+- Taiwan: the DGBAS Manpower Survey (Yearbook of Manpower Survey Statistics 2025, Table 2), read from the official
+  workbook and identical to the printed yearbook; the ILO imputes Taiwan's 2021 and 2022 although DGBAS published them.
+- Raw responses, the ILO's own dataset description and status codes, the workbook, the yearbook and the World Bank's
+  indicator page are archived with PDF/PNG mirrors in `evidence/api/` and `evidence/countries/TWN/`.
+
 ## Decisions of 2026-10-18 · 2026-10-18 之決定
 
 - **Construct and timing (issue #24).** From the ISSP 2021 item the study analyses (Q6a: access to publicly funded
@@ -202,7 +216,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 412 MB across 1,542 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
+- About 443 MB across 1,699 files. No single file exceeds 27 MB; the largest is UN_WPP2024_demographic_indicators_compact.xlsx at 26 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the

@@ -22,15 +22,16 @@ migration values, counting the seven Taiwan absconded-worker values).
 | `health_wb_who_checks_2026-10-17.csv` | 858 | `health_expenditure_pct_gdp` for the 39 countries the World Bank covers: the panel value, the staged value, the World Bank value and the WHO GHO value, compared digit for digit (all `True`). |
 | `health_taiwan_checks_2026-10-17.csv` | 22 | Taiwan: the panel value, the official MOHW workbook value with its cell (sheet 表1), the published report's Table 1 value, CHE and GDP, and the percentage recomputed from them (all `True`). |
 
-With them the audits cover 4,245 current observations; with the census value added after them the ledger has 4,246
-rows. Every source path is relative to the archive root.
+With them the audits cover 4,245 current observations; with the census value (2026-10-18) and the 880 unemployment
+rates (2026-10-21) added after them the ledger has 5,126 rows. Every source path is relative to the archive root.
 
 **These files are not produced by this archive's pipeline.** They are the audits' own record and are committed so
 that a clean clone reproduces the ledger. Keep them as they are: if an observation is added to the panel, an audit has
 to be extended, and `82_audit_documents.py` stops with a message naming the first uncovered observation rather than
 writing "not in the audited revision". It also stops if a health-expenditure value in the panel differs, digit for
-digit, from the value the health audit recorded. The one exception is an observation added after both audits and
-named in the script (`POST_AUDIT`): Australia's 2021 census count of non-citizens (`non_citizens_census`, added
-2026-10-18), whose ledger row says that no independent audit covered it and how the archive itself checked it. Where a later correction changed a cell
+digit, from the value the health audit recorded. The exceptions are observations added after both audits and named
+in the script (`POST_AUDIT`): Australia's 2021 census count of non-citizens (`non_citizens_census`, added 2026-10-18)
+and the unemployment rate of every country and year (`unemployment_rate`, added 2026-10-21), whose ledger rows say
+that no independent audit covered them and how the archive itself checked them. Where a later correction changed a cell
 (`data/audit_changes_2026-10-07.csv`), the ledger shows that change first and the audit result after it; the audit's
 own status in these files is left as it was written.

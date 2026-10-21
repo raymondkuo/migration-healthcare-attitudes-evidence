@@ -45,6 +45,13 @@ Welfare, long-term care included only from 2007). It is a spending flow over the
 date rules in section 2 do not apply to it: use the fieldwork year, or the year before if spending should precede
 the attitude, and state which. [AUTHORS]
 
+`unemployment_rate`, added on 2026-10-21, is the same kind of context variable: unemployed persons as a percentage of
+the labour force aged 15 and over for all 40 countries, 2001-2022 (ILO modelled estimates, November 2025 edition,
+checked against the World Bank's copy; Taiwan from DGBAS). 61 of the values are ILO imputations, not based on
+national data, which the ILO says should not be used for country comparisons: China 2001-2022; India 2001-2017; Suriname 2001-2003, 2005-2008, 2017-2022; South Africa 2001-2007; Philippines 2002; Thailand 2002. Run a cross-country model with
+and without them (`unemployment_flag` in the extract); China has no value of the other kind. It is an annual average,
+so the same timing choice applies as for health expenditure. [AUTHORS]
+
 ## 2. Timing: survey year versus stock date (decided 2026-10-18)
 
 **The primary rule is rule 2 below: the latest stock dated on or before the first interview in the country.** Rules 1
