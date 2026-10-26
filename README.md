@@ -228,7 +228,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 505 MB across 1,862 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
+- About 505 MB across 1,863 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the
