@@ -24,6 +24,7 @@ RAWFILE = {
  'worldbank_SM_POP_TOTL': 'evidence/api/wb_SM_POP_TOTL.json',
  'worldbank_SH_XPD_CHEX_GD_ZS': 'evidence/api/wb_SH_XPD_CHEX_GD_ZS_2001-2022_retrieved_2026-10-17.json',
  'ilo_UNE_2EAP_SEX_AGE_RT': 'evidence/api/ilo_UNE_2EAP_SEX_AGE_RT_2001-2022_retrieved_2026-10-21.csv',
+ 'vdem_dataset_v16': 'evidence/api/vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData',
  'eurostat_migr_pop3ctb': 'evidence/api/eurostat_migr_pop3ctb.json',
  'eurostat_migr_pop1ctz': 'evidence/api/eurostat_migr_pop1ctz.json',
  'eurostat_migr_eipre': 'evidence/api/eurostat_migr_eipre.json',
@@ -43,6 +44,8 @@ def publisher_for(u):
         return 'worldbank_SH_XPD_CHEX_GD_ZS'
     if 'sdmx.ilo.org' in u and 'DF_UNE_2EAP_SEX_AGE_RT' in u:
         return 'ilo_UNE_2EAP_SEX_AGE_RT'
+    if 'raw.githubusercontent.com/vdeminstitute/vdemdata/' in u:
+        return 'vdem_dataset_v16'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -127,7 +130,7 @@ def build(iso3, en_name, v, lang):
     # source type and comparability flags exist for the two migrant-stock variables
     has_flags = (v + '_flag') in sub.columns and sub[v + '_flag'].fillna('').astype(str).str.strip().ne('').any()
     TYPE_ZH = {'annual': '逐年', 'census': '普查', 'survey': '調查', 'un_estimate': 'UN 估計值',
-               'model_estimate': '模型估計', 'other': '其他'}
+               'model_estimate': '模型估計', 'expert_index': '專家評估指數', 'other': '其他'}
     FLAG_ZH = {'splice (large gap)': '接續（差距大）', 'splice': '接續', 'un_estimate': 'UN 估計值',
                'declared citizenship basis': '宣告為公民身分基礎',
                'comparability caution': '可比性提醒', 'includes former-USSR births': '含前蘇聯出生者',

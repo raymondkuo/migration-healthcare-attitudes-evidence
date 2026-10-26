@@ -56,7 +56,7 @@ new = {v: int(panel[v + '_collected_on'].notna().sum())
        for v in ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals')}
 n_large = int((spl.mean_abs_gap_pct >= 5).sum())          # the declared rule: mean ABSOLUTE gap (re-audit R03)
 grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
-                                         'unemployment_rate']
+                                         'unemployment_rate', 'vdem_libdem']
                      for g in panel[v + '_grade'].dropna()
                      if str(g).strip()]).value_counts()
 n_abs = int(panel.irregular_proxy_absconded_workers.notna().sum())
@@ -65,6 +65,8 @@ import health_texts as HT                                          # noqa: E402
 _hk = HT.counts()
 import unemployment_texts as UT                                    # noqa: E402
 _uk = UT.counts()
+import vdem_texts as VT                                            # noqa: E402
+_vk = VT.counts()
 n_corr_aud = int((corr.corrected_on.astype(str) == '2026-10-07').sum())
 pages_each = val['pages_en']
 total_pages = val['pages_en'] + val['pages_zh']
@@ -230,6 +232,18 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 - Raw responses, the ILO's own dataset description and status codes, the workbook, the yearbook and the World Bank's
   indicator page are archived with PDF/PNG mirrors in `evidence/api/` and `evidence/countries/TWN/`.
 
+## V-Dem liberal democracy index · V-Dem 自由民主指數 (added %(vd_when)s)
+
+- New variable **`vdem_libdem`**: the V-Dem liberal democracy index (`v2x_libdem`, 0 to 1) for **all %(vd_nc)d countries
+  and all years %(y0)d–%(y1)d** (%(n_vd)s values), with source, reference period, grade and verification text on every
+  value. No other value changed.
+- Source: the V-Dem Country-Year Dataset v16 (%(vd_doi)s), read from the V-Dem Institute's own data file (R package
+  `vdemdata` 16.0, release commit `%(vd_commit)s`; the archived file's git hash is the one GitHub records). All
+  %(vd_ncmp)s values are identical at three decimals to Our World in Data's copy (`data/vdem_source_comparison.csv`,
+  which also gives V-Dem's 68%% interval for each value). V-Dem re-estimates past years with every release: cite v16.
+- The data file, its codebook entry, the V-Dem Codebook v16 (pages on the index, the interval and the annual
+  aggregation), Our World in Data's copy and the publishers' pages are archived with PDF/PNG mirrors in `evidence/api/`.
+
 ## Decisions of 2026-10-18 · 2026-10-18 之決定
 
 - **Construct and timing (issue #24).** From the ISSP 2021 item the study analyses (Q6a: access to publicly funded
@@ -255,6 +269,8 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            he_nwb=_hk['n_countries'] - 1, he_ncmp=n(_hk['n_cmp']),
            ue_when=UT.WHEN, ue_nc=_uk['n_countries'], n_ue=n(_uk['n']), ue_nilo=_uk['n_countries'] - 1,
            ue_ncmp=n(_uk['n_cmp']), ue_nimp=n(_uk['n_imp']),
+           vd_when=VT.WHEN, vd_nc=_vk['n_countries'], n_vd=n(_vk['n']), vd_doi=VT.DOI, vd_commit=VT.COMMIT[:7],
+           vd_ncmp=n(_vk['n_cmp']),
            aus_v=n(panel.non_citizens_census.dropna().iloc[0]),
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
@@ -290,7 +306,8 @@ csub(r'version: "[^"]*"', 'version: "%s"' % LAST)
 csub(r'date-released: [\d-]+', 'date-released: %s' % LAST)
 csub(r'state the\n  archive (?:freeze date, 2026-08-17\.|version \([^)]*\)\.)',
      'state the\n  archive version (first freeze 2026-08-17; extended to %d on 2026-10-07; health expenditure added '
-     'on %s; unemployment rate added on %s).' % (Y0, HT.WHEN, UT.WHEN))       # the extension date is fixed; LAST moves with every later amendment
+     'on %s; unemployment rate added on %s; V-Dem liberal democracy index added on %s).'
+     % (Y0, HT.WHEN, UT.WHEN, VT.WHEN))       # the extension date is fixed; LAST moves with every later amendment
 csub(r'and \d+ values were corrected,', 'and %d values were corrected,' % len(corr))
 csub(r'covering 40 countries for [\d-]+\.', 'covering 40 countries for %d-%d.' % (Y0, Y1))
 if 'extended back' not in c:
@@ -307,9 +324,10 @@ csub(r'(?:no value published earlier changed|the extension itself changed no val
      'On %s a health-expenditure variable (current health expenditure as a percentage of GDP) was added for all %d '
      "countries and years, from the WHO Global Health Expenditure Database via the World Bank, checked against WHO's "
      'own API, and for Taiwan from the Ministry of Health and Welfare; on %s an unemployment-rate variable for all '
-     '%d countries and years, from the ILO modelled estimates (imputed values flagged) and for Taiwan from DGBAS; no '
-     'other value changed.'
-     % (n(ovl.cells_compared.sum()), len(aud), HT.WHEN, _hk['n_countries'], UT.WHEN, _uk['n_countries']))
+     '%d countries and years, from the ILO modelled estimates (imputed values flagged) and for Taiwan from DGBAS; on %s '
+     'the V-Dem liberal democracy index for all %d countries and years (V-Dem v16); no other value changed.'
+     % (n(ovl.cells_compared.sum()), len(aud), HT.WHEN, _hk['n_countries'], UT.WHEN, _uk['n_countries'],
+        VT.WHEN, _vk['n_countries']))
 open(fp, 'w', encoding='utf-8').write(c)
 print('CITATION.cff refreshed')
 

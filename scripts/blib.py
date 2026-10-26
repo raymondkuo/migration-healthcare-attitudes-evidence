@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Shared helpers for the bilingual build."""
-import os, sys, html
+import glob, os, sys, html
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -66,12 +66,12 @@ pubs = pd.read_csv(os.path.join(D, 'api_publisher_snapshots.csv'))
 
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections', 'health_expenditure_pct_gdp',
-        'unemployment_rate']
+        'unemployment_rate', 'vdem_libdem']
 # shown only for the countries that have them: Taiwan's absconded workers, and the census count of non-citizens
 # for a country with no annual foreign-national series (Australia 2021; decision of 2026-10-18)
 ALLVARS = VARS + ['irregular_proxy_absconded_workers', 'non_citizens_census']
 # decimals shown for a variable's values (counts are whole numbers; shares of GDP are not)
-DEC = {'health_expenditure_pct_gdp': 2, 'unemployment_rate': 3}
+DEC = {'health_expenditure_pct_gdp': 2, 'unemployment_rate': 3, 'vdem_libdem': 3}
 # a country whose source publishes fewer decimals than the rest: shown as published, not padded with zeros
 # (the ILO publishes unemployment rates to three decimals, DGBAS to two)
 DEC_ISO = {('unemployment_rate', 'TWN'): 2}
@@ -282,6 +282,8 @@ def publisher_key(url):
         return 'worldbank_SH_XPD_CHEX_GD_ZS'
     if 'sdmx.ilo.org' in u and 'DF_UNE_2EAP_SEX_AGE_RT' in u:
         return 'ilo_UNE_2EAP_SEX_AGE_RT'
+    if 'raw.githubusercontent.com/vdeminstitute/vdemdata/' in u:
+        return 'vdem_dataset_v16'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -331,7 +333,8 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
             ap = str(a['path'])
             if str(a['query_url']).split('?')[0] != base:
                 continue
-            add(t('art_raw', lang), ap)
+            # a data file downloaded as published (the V-Dem R data file) is not an API response
+            add(t('art_rawfile' if ap.endswith('.RData') else 'art_raw', lang), ap)
             for lab, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
                 add(lab, rel)
 
@@ -383,6 +386,40 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
         pw = _pub_by_key.get('worldbank_SL_UEM_TOTL_ZS')
         if pw is not None:
             for col, lab in (('pdf', 'art_wbpdf'), ('png', 'art_wbpng')):
+                if isinstance(pw.get(col), str) and pw[col]:
+                    add(t(lab, lang), pw[col])
+
+    # V-Dem liberal democracy index: the data file is an R data file of the V-Dem Institute's package, so the files that
+    # establish what it is (the package's version and release commit, GitHub's size and hash of the file, its codebook
+    # entry and the V-Dem Codebook) and Our World in Data's copy, checked cell by cell, are evidence for the values too
+    if k == 'vdem_dataset_v16' and len(_apis):
+        pw = _pub_by_key.get('vdemdata_github_v16')
+        if pw is not None:
+            for col, lab in (('pdf', 'art_ghpdf'), ('png', 'art_ghpng')):
+                if isinstance(pw.get(col), str) and pw[col]:
+                    add(t(lab, lang), pw[col])
+        for pat, lab in (('vdem_v16_vdemdata_DESCRIPTION', 'art_vdemdesc'), ('vdem_v16_vdemdata_commit_', 'art_vdemcommit'),
+                         ('vdem_v16_vdemdata_data_folder_', 'art_vdemtree'), ('vdem_v16_vdemdata_codebook_', 'art_vdemcbdata')):
+            for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False)].iterrows():
+                ap = str(a['path'])
+                add(t(lab, lang), ap)
+                for lab2, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab2, rel)
+        for cb in sorted(glob.glob(os.path.join(SITE, 'evidence', 'api', 'vdem_codebook_v16_retrieved_*.pdf'))):
+            ap = 'evidence/api/' + os.path.basename(cb)
+            add(t('art_vdemcb', lang), ap)
+            for lab2, rel in _mirrors_of('evidence/api', os.path.basename(cb), lang):
+                add(lab2, rel)
+        for pat, lab in (('owid_liberal-democracy-index_retrieved', 'art_owidcheck'),
+                         ('owid_liberal-democracy-index_metadata', 'art_owidmeta')):
+            for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False)].iterrows():
+                ap = str(a['path'])
+                add(t(lab, lang), ap)
+                for lab2, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab2, rel)
+        pw = _pub_by_key.get('owid_liberal_democracy_index')
+        if pw is not None:
+            for col, lab in (('pdf', 'art_owidpdf'), ('png', 'art_owidpng')):
                 if isinstance(pw.get(col), str) and pw[col]:
                     add(t(lab, lang), pw[col])
 

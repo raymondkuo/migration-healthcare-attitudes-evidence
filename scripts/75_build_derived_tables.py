@@ -27,6 +27,7 @@ import blib                                            # noqa: E402
 import audit_texts as AT                               # noqa: E402
 import health_texts as HT                              # noqa: E402
 import unemployment_texts as UT                        # noqa: E402
+import vdem_texts as VT                                # noqa: E402
 import decision_texts as DT                            # noqa: E402
 import counts as _K                                    # noqa: E402
 
@@ -40,7 +41,7 @@ panel = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 won = pd.read_csv(os.path.join(STAGE, 'assembled_winners.txt'))
 splice = pd.read_csv(os.path.join(D, 'extension_splice_summary.csv'))
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
-        'irregular_proxy_overstayers', 'irregular_proxy_detections', HT.VAR, UT.VAR]
+        'irregular_proxy_overstayers', 'irregular_proxy_detections', HT.VAR, UT.VAR, VT.VAR]
 
 # ------------------------------------------------------------------ 0. snapshot rows must point at files that exist
 ws = pd.read_csv(os.path.join(D, 'web_snapshots.csv')).fillna('')
@@ -125,6 +126,7 @@ old_q = pd.read_csv(os.path.join(D, 'data_quality.csv'))
 COMP = dict(AT.COMPARABILITY_EN)            # rewritten after the audit: no blanket date statements
 COMP.update(HT.COMPARABILITY_EN)            # health expenditure, added 2026-10-17
 COMP.update(UT.COMPARABILITY_EN)            # unemployment rate, added 2026-10-21
+COMP.update(VT.COMPARABILITY_EN)            # V-Dem liberal democracy index, added 2026-10-26
 NY = panel.year.nunique()
 rows = []
 for iso, g in panel.groupby('iso3', sort=False):
@@ -410,7 +412,7 @@ ki.loc[mask, 'evidence_zh'] = ("Eurostat migr_pop1ctz／migr_pop3ctb 之後設�
                                "統計附錄（各國參照日期）。")
 # the audit's row on countries with no foreign-national series is superseded by the authors' decisions of 2026-10-18
 _AT = [DT.known_issue(_K.N_FN_COUNTRIES) if (r['scope'], r['variable']) == (DT.SCOPE, 'foreign_nationals') else r
-       for r in AT.known_issues()] + [HT.known_issue()] + UT.known_issues()
+       for r in AT.known_issues()] + [HT.known_issue()] + UT.known_issues() + [VT.known_issue()]
 _keys = {(r['scope'], r['variable']) for r in _AT}
 NEW = [r for r in NEW if (r['scope'], r['variable']) not in _keys] + _AT
 ki = ki[ki.scope != 'Denmark, Slovakia, Czechia, Lithuania, Poland, Portugal']   # replaced by the row keyed on the full list
@@ -492,10 +494,12 @@ set_caution('irregular_proxy_overstayers', AT.OVS_CAUTION_EN % (_ovs, _NC), AT.O
 ADD = [
  ('*_source_type', 'Kind of source behind a foreign_born or foreign_nationals value: annual '
   '(official annual series such as Eurostat, OECD, MOI), census, survey (household-survey '
-  'estimate), un_estimate (UN DESA model estimate) or other.' + HT.SOURCE_TYPE_EN + UT.SOURCE_TYPE_EN,
+  'estimate), un_estimate (UN DESA model estimate) or other.' + HT.SOURCE_TYPE_EN + UT.SOURCE_TYPE_EN
+  + VT.SOURCE_TYPE_EN,
   'Filter on this to keep only annual series.',
   '外國出生或外國籍人口數值所依據之來源類型：annual（Eurostat、OECD、內政部等官方逐年序列）、census（普查）、'
-  'survey（家戶調查估計）、un_estimate（UN DESA 模型估計）或 other。' + HT.SOURCE_TYPE_ZH + UT.SOURCE_TYPE_ZH,
+  'survey（家戶調查估計）、un_estimate（UN DESA 模型估計）或 other。' + HT.SOURCE_TYPE_ZH + UT.SOURCE_TYPE_ZH
+  + VT.SOURCE_TYPE_ZH,
   '依此欄篩選即可僅保留逐年序列。'),
  ('*_flag', 'Comparability flags on a foreign_born, foreign_nationals or irregular_proxy_detections value, '
   'separated by semicolons. foreign_born and foreign_nationals: splice (source differs from the one used for the rest '
@@ -517,10 +521,10 @@ ADD = [
  ('*_collected_on', 'Date a value was collected, for values added in the 2001 extension '
   '(2026-10-07); blank for values collected on 2026-08-17.',
   'Present for population, population_un_wpp2024, foreign_born and foreign_nationals.' + HT.COLLECTED_EN
-  + UT.COLLECTED_EN,
+  + UT.COLLECTED_EN + VT.COLLECTED_EN,
   '數值蒐集之日期：2001 年延伸所新增之數值為 2026-10-07；於 2026-08-17 蒐集者則為空白。',
   '適用於 population、population_un_wpp2024、foreign_born 與 foreign_nationals。' + HT.COLLECTED_ZH
-  + UT.COLLECTED_ZH),
+  + UT.COLLECTED_ZH + VT.COLLECTED_ZH),
 ]
 for name, ed in AT.CODEBOOK_EDITS.items():
     i = cb.index[cb[cols[0]] == name]
@@ -532,6 +536,7 @@ for name, ed in AT.CODEBOOK_EDITS.items():
 ADD += [(n_, d_, c_, dz_, cz_) for (n_, d_, c_, dz_, cz_) in AT.CODEBOOK_NEW]
 ADD += HT.codebook_rows()
 ADD += UT.codebook_rows()
+ADD += VT.codebook_rows()
 ADD += DT.codebook_rows()
 cb = cb[~cb[cols[0]].isin([a[0] for a in ADD])]
 add = pd.DataFrame([{cols[0]: a[0], cols[1]: a[1], cols[2]: a[2], 'definition_zh': a[3],

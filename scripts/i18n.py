@@ -39,6 +39,7 @@ VLAB = {
         'health_expenditure_pct_gdp': 'Health expenditure (% GDP)',
         'non_citizens_census': 'Non-citizens (census)',
         'unemployment_rate': 'Unemployment rate (%)',
+        'vdem_libdem': 'Liberal democracy (V-Dem, 0-1)',
         'irregular_detections': 'Detections', 'irregular': 'Irregular migration',
         'foreign_workers': 'Foreign workers'},
  'zh': {'population': '總人口', 'foreign_born': '外國出生人口',
@@ -49,6 +50,7 @@ VLAB = {
         'health_expenditure_pct_gdp': '醫療保健支出（占 GDP %）',
         'non_citizens_census': '非公民人口（普查）',
         'unemployment_rate': '失業率（%）',
+        'vdem_libdem': '自由民主指數（V-Dem，0–1）',
         'irregular_detections': '查獲人數', 'irregular': '非常規移民',
         'foreign_workers': '外籍移工'},
 }
@@ -158,6 +160,8 @@ COMPARABILITY.update(_HT.COMPARABILITY_ZH)
 import unemployment_texts as _UT                             # noqa: E402
 COMPARABILITY.update(_UT.COMPARABILITY_ZH)
 USABLE.update(_UT.USABLE_ZH)
+import vdem_texts as _VT                                     # noqa: E402
+COMPARABILITY.update(_VT.COMPARABILITY_ZH)
 
 # ---------------------------------------------------------------- correction reasons
 REASON = {
@@ -408,6 +412,24 @@ T = {
                  'zh': '獨立核對：世界銀行 API 原始回應（SL.UEM.TOTL.ZS）'},
  'art_wbpdf': {'en': 'World Bank indicator page (PDF)', 'zh': '世界銀行指標頁面（PDF）'},
  'art_wbpng': {'en': 'World Bank indicator page (screenshot)', 'zh': '世界銀行指標頁面（截圖）'},
+ 'art_ghpdf': {'en': 'V-Dem Institute data package at the v16 release (GitHub page, PDF)',
+               'zh': 'V-Dem 研究所資料套件 v16 發布版（GitHub 頁面，PDF）'},
+ 'art_ghpng': {'en': 'V-Dem Institute data package at the v16 release (GitHub page, screenshot)',
+               'zh': 'V-Dem 研究所資料套件 v16 發布版（GitHub 頁面，截圖）'},
+ 'art_rawfile': {'en': 'Raw data file, as published', 'zh': '原始資料檔（依發布原樣）'},
+ 'art_vdemdesc': {'en': 'Package description, version 16.0 (DESCRIPTION file)', 'zh': '套件說明，版本 16.0（DESCRIPTION 檔）'},
+ 'art_vdemcommit': {'en': 'Release commit "v16 release": date and message (GitHub API)',
+                    'zh': '發布提交「v16 release」：日期與訊息（GitHub API）'},
+ 'art_vdemtree': {'en': 'Size and git hash of the data file at the release commit (GitHub API)',
+                  'zh': '發布提交時資料檔之大小與 git 雜湊值（GitHub API）'},
+ 'art_vdemcbdata': {'en': 'Codebook entry of the index (the package\'s codebook.RData)',
+                    'zh': '該指數之編碼簿條目（套件之 codebook.RData）'},
+ 'art_vdemcb': {'en': 'V-Dem Codebook v16 (PDF)', 'zh': '《V-Dem Codebook v16》（PDF）'},
+ 'art_owidcheck': {'en': 'Independent check: Our World in Data copy of V-Dem v16 (CSV)',
+                   'zh': '獨立核對：Our World in Data 轉載之 V-Dem v16（CSV）'},
+ 'art_owidmeta': {'en': 'Our World in Data chart metadata (source and version)', 'zh': 'Our World in Data 圖表後設資料（來源與版本）'},
+ 'art_owidpdf': {'en': 'Our World in Data chart page (PDF)', 'zh': 'Our World in Data 圖表頁面（PDF）'},
+ 'art_owidpng': {'en': 'Our World in Data chart page (screenshot)', 'zh': 'Our World in Data 圖表頁面（截圖）'},
 }
 
 

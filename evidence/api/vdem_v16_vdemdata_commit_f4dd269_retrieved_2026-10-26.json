@@ -1,0 +1,170 @@
+{
+  "sha": "f4dd26922e658442524dfd954bf14f7ebe622d5d",
+  "node_id": "C_kwDODWZAOtoAKGY0ZGQyNjkyMmU2NTg0NDI1MjRkZmQ5NTRiZjE0ZjdlYmU2MjJkNWQ",
+  "commit": {
+    "author": {
+      "name": "linneafox",
+      "email": "linnea.fox@v-dem.net",
+      "date": "2026-03-17T07:20:18Z"
+    },
+    "committer": {
+      "name": "linneafox",
+      "email": "linnea.fox@v-dem.net",
+      "date": "2026-03-17T07:20:18Z"
+    },
+    "message": "v16 release",
+    "tree": {
+      "sha": "ef1940c0c9becb992344950c7af929d12fc6fa81",
+      "url": "https://api.github.com/repos/vdeminstitute/vdemdata/git/trees/ef1940c0c9becb992344950c7af929d12fc6fa81"
+    },
+    "url": "https://api.github.com/repos/vdeminstitute/vdemdata/git/commits/f4dd26922e658442524dfd954bf14f7ebe622d5d",
+    "comment_count": 0,
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  },
+  "url": "https://api.github.com/repos/vdeminstitute/vdemdata/commits/f4dd26922e658442524dfd954bf14f7ebe622d5d",
+  "html_url": "https://github.com/vdeminstitute/vdemdata/commit/f4dd26922e658442524dfd954bf14f7ebe622d5d",
+  "comments_url": "https://api.github.com/repos/vdeminstitute/vdemdata/commits/f4dd26922e658442524dfd954bf14f7ebe622d5d/comments",
+  "author": {
+    "login": "linneafox",
+    "id": 97742883,
+    "node_id": "U_kgDOBdNwIw",
+    "avatar_url": "https://avatars.githubusercontent.com/u/97742883?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/linneafox",
+    "html_url": "https://github.com/linneafox",
+    "followers_url": "https://api.github.com/users/linneafox/followers",
+    "following_url": "https://api.github.com/users/linneafox/following{/other_user}",
+    "gists_url": "https://api.github.com/users/linneafox/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/linneafox/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/linneafox/subscriptions",
+    "organizations_url": "https://api.github.com/users/linneafox/orgs",
+    "repos_url": "https://api.github.com/users/linneafox/repos",
+    "events_url": "https://api.github.com/users/linneafox/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/linneafox/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "linneafox",
+    "id": 97742883,
+    "node_id": "U_kgDOBdNwIw",
+    "avatar_url": "https://avatars.githubusercontent.com/u/97742883?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/linneafox",
+    "html_url": "https://github.com/linneafox",
+    "followers_url": "https://api.github.com/users/linneafox/followers",
+    "following_url": "https://api.github.com/users/linneafox/following{/other_user}",
+    "gists_url": "https://api.github.com/users/linneafox/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/linneafox/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/linneafox/subscriptions",
+    "organizations_url": "https://api.github.com/users/linneafox/orgs",
+    "repos_url": "https://api.github.com/users/linneafox/repos",
+    "events_url": "https://api.github.com/users/linneafox/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/linneafox/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "c7836967c508fd463ad4ef866529933938e30cb0",
+      "url": "https://api.github.com/repos/vdeminstitute/vdemdata/commits/c7836967c508fd463ad4ef866529933938e30cb0",
+      "html_url": "https://github.com/vdeminstitute/vdemdata/commit/c7836967c508fd463ad4ef866529933938e30cb0"
+    }
+  ],
+  "stats": {
+    "total": 32,
+    "additions": 21,
+    "deletions": 11
+  },
+  "files": [
+    {
+      "sha": "cc809dca4a0ec428fb217d33cbb76690caa7930d",
+      "filename": "DESCRIPTION",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/DESCRIPTION",
+      "raw_url": "https://github.com/vdeminstitute/vdemdata/raw/f4dd26922e658442524dfd954bf14f7ebe622d5d/DESCRIPTION",
+      "contents_url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/DESCRIPTION?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+      "patch": "@@ -1,7 +1,7 @@\n Package: vdemdata\n Type: Package\n Title: Provides most recent V-Dem and V-Party data and some additional features\n-Version: 15.0\n+Version: 16.0\n Authors@R: c(person(\"Seraphine\", \"Maerz\", email = \"maerz@soz.uni-frankfurt.de\", role = c(\"aut\", \"cre\")),\n              person(\"Amanda\", \"Edgell\", email = \"amanda.edgell@v-dem.net\", role = c(\"aut\")),\n              person(\"Sebastian\", \"Hellmeier\", email = \"sebastian.hellmeier@v-dem.net\", role = c(\"aut\")),"
+    },
+    {
+      "sha": "c6b132c89967804fd1a29f0a2a9723bf22f10086",
+      "filename": "README.md",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 5,
+      "changes": 13,
+      "blob_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/README.md",
+      "raw_url": "https://github.com/vdeminstitute/vdemdata/raw/f4dd26922e658442524dfd954bf14f7ebe622d5d/README.md",
+      "contents_url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/README.md?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+      "patch": "@@ -3,14 +3,14 @@ An R package to load, explore and work with the most recent [V-Dem (Varieties of\n \n ## V-Dem: Global Standards, Local Knowledge ##\n \n-Varieties of Democracy (V-Dem) is a new approach to conceptualizing and measuring democracy. We provide a multidimensional and disaggregated dataset that reflects the complexity of the concept of democracy as a system of rule that goes beyond the simple presence of elections. The V-Dem project distinguishes between five high-level principles of democracy: electoral, liberal, participatory, deliberative, and egalitarian, and collects data to measure these principles. \n+Varieties of Democracy (V-Dem) conceptualizes and measures democracy. We provide a multidimensional and disaggregated dataset that reflects the complexity of the concept of democracy as a system of rule that goes beyond the simple presence of elections. The V-Dem project distinguishes between five high-level principles of democracy: electoral, liberal, participatory, deliberative, and egalitarian, and collects data to measure these principles. \n \n-We are a team of over 50 social scientists on six continents. We work with more than 3,000 country experts and a truly global International Advisory Board. [Read more about the work we do here](https://www.v-dem.net/).\n+We are a team of over 50 social scientists on six continents. We work with more than 5,000 country experts. Read more about the work we do [here](https://www.v-dem.net/).\n \n \n ## The vdemdata R package ##\n \n-This package contains the most recent V-Dem (Country-Year: V-Dem Full+Others) and V-Party datasets and provides some additional functions.\n+This package contains the most recent V-Dem (Country-Year: V-Dem Full+Others) and V-Party datasets and provides some additional functions. Other versions of the V-Dem dataset can be downloaded from our [website](https://v-dem.net/data/the-v-dem-dataset/).\n \n #### Basics: ####\n * `vdem`: Load the V-Dem dataset (for non-R users, please access the V-Dem dataset [here](https://www.v-dem.net/vdemds.html))\n@@ -40,6 +40,9 @@ devtools::install_github(\"vdeminstitute/vdemdata\")\n # an updated version of rlang, xcode (Mac), rtools (Windows), r-base-dev (Linux)\n # installed. If you have troubles with the installation \n # write to contact@v-dem.net at the V-Dem Institute.\n+\n+# NOTE: a tar.gz is also provide if you encounter any \n+# issues in the installation processes.\n ```\n \n ## Suggested Citations ##\n@@ -48,12 +51,12 @@ Please remember to cite this package and the underlying datasets when using them\n \n #### Package ####\n \n-Maerz, Seraphine F., Amanda B. Edgell, Sebastian Hellemeier, Nina Illchenko, and Linnea Fox. 2025. vdemdata: An R package to load, explore and work with the most recent V-Dem (Varieties of Democracy) dataset. https://github.com/vdeminstitute/vdemdata\n+Maerz, Seraphine F., Amanda B. Edgell, Sebastian Hellemeier, Nina Illchenko, and Linnea Fox. 2026. vdemdata: An R package to load, explore and work with the most recent V-Dem (Varieties of Democracy) dataset. https://github.com/vdeminstitute/vdemdata\n \n \n #### V-Dem Country-Year+Others Dataset ####\n \n-Coppedge, Michael, John Gerring, Carl Henrik Knutsen, Staffan I. Lindberg, Jan Teorell, David Altman, Fabio Angiolillo, Michael Bernhard, Agnes Cornell, M. Steven Fish, Linnea Fox, Lisa Gastaldi, Haakon Gjerløw, Adam Glynn, Ana Good God, Sandra Grahn, Allen Hicken, Katrin Kinzelbach, Joshua Krusell, Kyle L. Marquardt, Kelly McMann, Valeriya Mechkova, Juraj Medzihorsky, Natalia Natsika, Anja Neundorf, Pamela Paxton, Daniel Pemstein, Johannes von Römer, Brigitte Seim, Rachel Sigman, Svend-Erik Skaaning, Jeffrey Staton, Aksel Sundström, Marcus Tannenberg, Eitan Tzelgov, Yi-ting Wang, Felix Wiebrecht, Tore Wig, Steven Wilson and Daniel Ziblatt. 2025. \"V-Dem Country-Year Dataset v15\" Varieties of Democracy (V-Dem) Project. https://doi.org/10.23696/vdemds25.\n+Coppedge, Michael, John Gerring, Carl Henrik Knutsen, Staffan I. Lindberg, Jan Teorell, David Altman, Fabio Angiolillo, Michael Bernhard, Agnes Cornell, M. Steven Fish, Linnea Fox, Lisa Gastaldi, Haakon Gjerløw, Adam Glynn, Ana Good God, Allen Hicken, Katrin Kinzelbach, Joshua Krusell, Kyle L. Marquardt, Kelly McMann, Valeriya Mechkova, Juraj Medzihorsky, Anja Neundorf, Pamela Paxton, Daniel Pemstein, Josefine Pernes, Johannes von Römer, Brigitte Seim, Rachel Sigman, Svend-Erik Skaaning, Jeffrey Staton, Aksel Sundström, Marcus Tannenberg, Eitan Tzelgov, Yi-ting Wang, Tore Wig, Steven Wilson and Daniel Ziblatt. 2026. \"V-Dem Country-Year Dataset v16\" Varieties of Democracy (V-Dem) Project. https://doi.org/10.23696/vdemds26.\n \n \n #### V-Party Dataset ####"
+    },
+    {
+      "sha": "7844e2f070742a8b382044c53557e986669bb0fb",
+      "filename": "data/codebook.RData",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 0,
+      "changes": 0,
+      "blob_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data%2Fcodebook.RData",
+      "raw_url": "https://github.com/vdeminstitute/vdemdata/raw/f4dd26922e658442524dfd954bf14f7ebe622d5d/data%2Fcodebook.RData",
+      "contents_url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data%2Fcodebook.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d"
+    },
+    {
+      "sha": "5a472621427337cebf032a9c4e397e0bedd57aea",
+      "filename": "data/vdem.RData",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 0,
+      "changes": 0,
+      "blob_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data%2Fvdem.RData",
+      "raw_url": "https://github.com/vdeminstitute/vdemdata/raw/f4dd26922e658442524dfd954bf14f7ebe622d5d/data%2Fvdem.RData",
+      "contents_url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data%2Fvdem.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d"
+    },
+    {
+      "sha": "7466d8d76aafbe69ed6c593842d39fdb6d59454a",
+      "filename": "inst/CITATION",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "blob_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/inst%2FCITATION",
+      "raw_url": "https://github.com/vdeminstitute/vdemdata/raw/f4dd26922e658442524dfd954bf14f7ebe622d5d/inst%2FCITATION",
+      "contents_url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/inst%2FCITATION?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+      "patch": "@@ -9,8 +9,8 @@ citEntry(\n          as.person(\"Nina Ilchenko\"),\n          as.person(\"Linnea Fox\")),\n   institution = \"Varieties of Democracy (V-Dem) Project\",\n-  year     = 2025,\n+  year     = 2026,\n   url      = \"https://www.v-dem.net/en/\",\n-  textVersion = \"Seraphine Maerz, Amanda Edgell, Sebastian Hellmeier, Nina Ilchenko, Linnea Fox. 'Vdemdata - an R package to load, explore and work with the most recent V-Dem (Varieties of Democracy) and V-Party datasets'. Varieties of Democracy (V-Dem) Project. 2025. https://www.v-dem.net/en/ and https://github.com/vdeminstitute/vdemdata\"\n+  textVersion = \"Seraphine Maerz, Amanda Edgell, Sebastian Hellmeier, Nina Ilchenko, Linnea Fox. 'Vdemdata - an R package to load, explore and work with the most recent V-Dem (Varieties of Democracy) and V-Party datasets'. Varieties of Democracy (V-Dem) Project. 2026. https://www.v-dem.net/en/ and https://github.com/vdeminstitute/vdemdata\"\n )\n "
+    },
+    {
+      "sha": "743eef374b48d8b18dd45291e1d5b87adc2e8947",
+      "filename": "inst/Updating.R",
+      "status": "modified",
+      "additions": 10,
+      "deletions": 3,
+      "changes": 13,
+      "blob_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/inst%2FUpdating.R",
+      "raw_url": "https://github.com/vdeminstitute/vdemdata/raw/f4dd26922e658442524dfd954bf14f7ebe622d5d/inst%2FUpdating.R",
+      "contents_url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/inst%2FUpdating.R?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+      "patch": "@@ -21,7 +21,7 @@ remove_latex <- function(x) {\n \n # Load the new datasets and save them as RData in the package folder \"data\"\n # vdem\n-vdem <- readRDS(\"~/data/ds_construction/v15/dataset/V-Dem-CY-Full+Others/V-Dem-CY-Full+Others-v15.rds\")\n+vdem <- readRDS(\"~/data/ds_construction/v16/dataset/V-Dem-CY-Full+Others/V-Dem-CY-Full+Others-v16.rds\")\n \n save(\"vdem\", file = \"data/vdem.RData\")\n \n@@ -31,15 +31,19 @@ save(\"vparty\", file = \"data/vparty.RData\")\n \n # Load vdem codebook\n # save as RData in the package folder \"data\"\n+# -- fix for ellodiseff because formula is messing up clarification\n ellodiseff <- \"We have used different calculations to find the lower chamber election district effective magnitude value, depending on the electoral system. In electoral systems with reserved seats, reserved seats are treated as a second tier in a hybrid system. Effective magnitude is calculated separately for reserved seats. Effective magnitude in such systems is the weighted average where the weight is the proportion of seats allocated in each tier.\"\n \n codebook <- readRDS(\"~/proj/reference_documents/refs/codebook.rds\") %>%\n     select(name, vartype, tag, projectmanager, question, clarification, responses,\n         scale, notes, crosscoder_aggregation, cy_aggregation, datarelease, years, convergence) %>%\n-    filter(!grepl(\"commnt|coment|intro\", tag)) %>%\n+    filter(!grepl(\"commnt|coment|intro|v[23]zz\", tag)) %>%\n     # fix formulas (most formulas are in aggregation and therefore not included in the package)\n     mutate(clarification = case_when(tag == \"v2ellodiseff\" ~ ellodiseff,\n-        TRUE ~ clarification)) %>%\n+            TRUE ~ clarification),\n+        tag = case_when(tag == \"v2histname\" ~ \"histname\",\n+            tag == \"codingstart_contemporary\" ~ \"codingstart_contemp\",\n+            TRUE ~ tag)) %>%\n     # remove LaTeX code\n     mutate(question = remove_latex(question),\n         clarification = remove_latex(clarification),\n@@ -62,6 +66,9 @@ save(\"codebook\", file = \"data/codebook.RData\")\n devtools::document()\n devtools::check()\n \n+# Update package tar.gz file\n+devtools::build(path = \"~/proj/vdemdata\")\n+\n # push to your personal rep\n # do a pull request to the original rep\n "
+    },
+    {
+      "sha": "890e52d4429b038520861e295bb1129f8ec35c39",
+      "filename": "vdemdata_16.0.tar.gz",
+      "status": "added",
+      "additions": 0,
+      "deletions": 0,
+      "changes": 0,
+      "blob_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/vdemdata_16.0.tar.gz",
+      "raw_url": "https://github.com/vdeminstitute/vdemdata/raw/f4dd26922e658442524dfd954bf14f7ebe622d5d/vdemdata_16.0.tar.gz",
+      "contents_url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/vdemdata_16.0.tar.gz?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d"
+    }
+  ]
+}

@@ -48,6 +48,21 @@ Each value carries its source, reference period, grade, verification text and an
 
 <!-- unemployment:end -->
 
+<!-- vdem:begin -->
+
+## V-Dem liberal democracy index (collected 2026-10-26)
+
+`vdem_libdem`: the V-Dem liberal democracy index (v2x_libdem, 0-1), 2001-2022 (22 values), from the V-Dem Country-Year Dataset v16. A new variable; no other value in this folder or in the panel changed.
+
+| years | source | file |
+|---|---|---|
+| 2001-2022 | V-Dem Institute, V-Dem Country-Year Dataset v16 (Coppedge et al. 2026, https://doi.org/10.23696/vdemds26): lib | `vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData` |
+| 2001-2022 | V-Dem Institute, V-Dem Country-Year Dataset v16 (Coppedge et al. 2026, https://doi.org/10.23696/vdemds26): lib | `vdem_codebook_v16_retrieved_2026-10-26.pdf` |
+
+Each value carries its source, reference period, grade and verification text in `data/panel_final.csv`; V-Dem's 68% interval for it is in `data/vdem_source_comparison.csv`; the revision history on the Verification page dates the addition.
+
+<!-- vdem:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "codebook.RData",
+    "path": "data/codebook.RData",
+    "sha": "7844e2f070742a8b382044c53557e986669bb0fb",
+    "size": 148633,
+    "url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data/codebook.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+    "html_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/codebook.RData",
+    "git_url": "https://api.github.com/repos/vdeminstitute/vdemdata/git/blobs/7844e2f070742a8b382044c53557e986669bb0fb",
+    "download_url": "https://raw.githubusercontent.com/vdeminstitute/vdemdata/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/codebook.RData",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data/codebook.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+      "git": "https://api.github.com/repos/vdeminstitute/vdemdata/git/blobs/7844e2f070742a8b382044c53557e986669bb0fb",
+      "html": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/codebook.RData"
+    }
+  },
+  {
+    "name": "vdem.RData",
+    "path": "data/vdem.RData",
+    "sha": "5a472621427337cebf032a9c4e397e0bedd57aea",
+    "size": 33878255,
+    "url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data/vdem.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+    "html_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/vdem.RData",
+    "git_url": "https://api.github.com/repos/vdeminstitute/vdemdata/git/blobs/5a472621427337cebf032a9c4e397e0bedd57aea",
+    "download_url": "https://raw.githubusercontent.com/vdeminstitute/vdemdata/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/vdem.RData",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data/vdem.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+      "git": "https://api.github.com/repos/vdeminstitute/vdemdata/git/blobs/5a472621427337cebf032a9c4e397e0bedd57aea",
+      "html": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/vdem.RData"
+    }
+  },
+  {
+    "name": "vparty.RData",
+    "path": "data/vparty.RData",
+    "sha": "7b612a09f08625b10244420b785440ef36150093",
+    "size": 3356399,
+    "url": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data/vparty.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+    "html_url": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/vparty.RData",
+    "git_url": "https://api.github.com/repos/vdeminstitute/vdemdata/git/blobs/7b612a09f08625b10244420b785440ef36150093",
+    "download_url": "https://raw.githubusercontent.com/vdeminstitute/vdemdata/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/vparty.RData",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/vdeminstitute/vdemdata/contents/data/vparty.RData?ref=f4dd26922e658442524dfd954bf14f7ebe622d5d",
+      "git": "https://api.github.com/repos/vdeminstitute/vdemdata/git/blobs/7b612a09f08625b10244420b785440ef36150093",
+      "html": "https://github.com/vdeminstitute/vdemdata/blob/f4dd26922e658442524dfd954bf14f7ebe622d5d/data/vparty.RData"
+    }
+  }
+]

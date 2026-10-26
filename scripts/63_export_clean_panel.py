@@ -33,6 +33,7 @@ D = os.path.join(SITE, 'data')
 from i18n import COUNTRY                                            # noqa: E402
 import health_texts as HT                                           # noqa: E402
 import unemployment_texts as UT                                     # noqa: E402
+import vdem_texts as VT                                             # noqa: E402
 
 p = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 hist = pd.read_csv(os.path.join(D, 'revision_history.csv')).fillna('')
@@ -113,6 +114,11 @@ _ue = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', U
 out['unemployment_rate'] = [_ue.get((i, y)) for i, y in zip(p.iso3, p.year)]
 out['unemployment_flag'] = p[UT.VAR + '_flag'].fillna('')
 
+# ---------------------------------------------------------------- V-Dem liberal democracy index (added 2026-10-26)
+_vd = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', VT.VAR],
+                  float_precision='round_trip').set_index(['iso3', 'year'])[VT.VAR]
+out['vdem_libdem'] = [_vd.get((i, y)) for i, y in zip(p.iso3, p.year)]
+
 # ---------------------------------------------------------------- quality grades
 GRADES = [('grade_population', 'population'),
           ('grade_foreign_born', 'foreign_born'),
@@ -122,7 +128,8 @@ GRADES = [('grade_population', 'population'),
           ('grade_detections', 'irregular_proxy_detections'),
           ('grade_health_expenditure', HT.VAR),
           ('grade_non_citizens_census', 'non_citizens_census'),
-          ('grade_unemployment', UT.VAR)]
+          ('grade_unemployment', UT.VAR),
+          ('grade_vdem_libdem', VT.VAR)]
 for new, src in GRADES:
     col = src + '_grade'
     out[new] = p[col].fillna('') if col in p.columns else ''
@@ -358,6 +365,14 @@ CODE = [
   % (n(int((out.iso3 != 'TWN').sum())), n(int((out.unemployment_flag != '').sum())))),
  ('unemployment_flag', 'Why the unemployment value needs a caution, blank where nothing does. '
                        + ' | '.join('%s: %s' % (k, v) for k, v in UFLAGS.items()), ''),
+ ('vdem_libdem', 'V-Dem liberal democracy index (v2x_libdem), 0 (low) to 1 (high): to what extent the ideal of '
+                 'liberal democracy is achieved (electoral democracy combined with civil liberties, rule of law and '
+                 'checks on the executive); annual value = day-weighted mean over the year. V-Dem Country-Year Dataset '
+                 'v16 (%s), three decimals. Added 2026-10-26, every country and year.' % VT.DOI,
+  "All %s values identical at three decimals to Our World in Data's copy of V-Dem v16 "
+  '(data/vdem_source_comparison.csv in the archive, which also gives V-Dem\'s 68%% interval for each value). An '
+  'estimate from expert ratings; V-Dem re-estimates past years with every release: cite v16.'
+  % n(int(out.vdem_libdem.notna().sum()))),
  ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
                        'official source; B: read from an archived document; C: midpoint of a published range, '
                        'computed by the archive; D: none published.',
@@ -372,6 +387,7 @@ CODE = [
  ('grade_health_expenditure', 'Evidence grade for health_expenditure_pct_gdp.', ''),
  ('grade_non_citizens_census', 'Evidence grade for non_citizens_census.', ''),
  ('grade_unemployment', 'Evidence grade for unemployment_rate.', ''),
+ ('grade_vdem_libdem', 'Evidence grade for vdem_libdem.', ''),
 ]
 codebook = pd.DataFrame(CODE, columns=['column', 'definition', 'caution'])
 missing = [c for c in out.columns if c not in set(codebook.column)]
@@ -384,7 +400,7 @@ cov = []
 for c in ['population', 'population_unwpp', 'foreign_born', 'un_stock_citizenship_basis', 'foreign_nationals',
           'non_citizens_census',
           'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw',
-          'health_expenditure_pct_gdp', 'unemployment_rate']:
+          'health_expenditure_pct_gdp', 'unemployment_rate', 'vdem_libdem']:
     s = out[out[c].notna()]
     yrs = sorted(s.year.unique())
     cov.append(dict(variable=c, observations=len(s), pct_of_rows=round(100 * len(s) / NR, 1),
@@ -452,6 +468,11 @@ README = [
                        'countries and all %d years (%s values), with unemployment_flag and grade_unemployment. %s '
                        'values are ILO imputations and are flagged. No other value changed.'
                        % (NC, NY, n(out.unemployment_rate.notna().sum()), n((out.unemployment_flag != '').sum()))),
+ ('', ''),
+ ('WHAT WAS ADDED ON 2026-10-26', ''),
+ ('V-Dem liberal democracy index', 'vdem_libdem: the V-Dem liberal democracy index (0-1) for all %d countries and all %d '
+                                   'years (%s values, V-Dem v16), with grade_vdem_libdem. No other value changed.'
+                                   % (NC, NY, n(out.vdem_libdem.notna().sum()))),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
  ('Value-by-value comparisons', 'These are the RECORDS of the first-release check, not a count of unique '
@@ -552,6 +573,10 @@ README = [
                        'country comparisons: China has no other kind. The ILO revises its estimates with every '
                        'edition; the values are those published when retrieved (2026-10-21).'
                        % (NC - 1, n((out.unemployment_flag != '').sum()))),
+ ('V-Dem liberal democracy index', 'An index from 0 to 1, not a count or a share. One source and one definition for every '
+                                   'country (V-Dem v16). Each value is an estimate from expert ratings with an '
+                                   'uncertainty interval (in the archive\'s data/vdem_source_comparison.csv); V-Dem '
+                                   're-estimates every past year with each release, so cite v16 (retrieved 2026-10-26).'),
 ]
 readme = pd.DataFrame(README, columns=['Item', 'Detail'])
 

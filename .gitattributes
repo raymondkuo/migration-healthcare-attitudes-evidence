@@ -34,3 +34,8 @@ evidence/api/ilo_UNE_2EAP_SEX_AGE_RT_2001-2022_retrieved_2026-10-21.csv -text
 evidence/api/ilo_DF_UNE_2EAP_SEX_AGE_RT_dataflow_retrieved_2026-10-21.xml -text
 evidence/api/ilo_CL_OBS_STATUS_codelist_retrieved_2026-10-21.xml -text
 evidence/countries/TWN/unemployment_rate__DGBAS_Manpower_Yearbook2025_page__retrieved_2026-10-21.html -text
+evidence/api/vdem_v16_vdemdata_DESCRIPTION_retrieved_2026-10-26.txt -text
+evidence/api/vdem_v16_vdemdata_commit_f4dd269_retrieved_2026-10-26.json -text
+evidence/api/vdem_v16_vdemdata_data_folder_f4dd269_retrieved_2026-10-26.json -text
+evidence/api/owid_liberal-democracy-index_retrieved_2026-10-26.csv -text
+evidence/api/owid_liberal-democracy-index_metadata_retrieved_2026-10-26.json -text

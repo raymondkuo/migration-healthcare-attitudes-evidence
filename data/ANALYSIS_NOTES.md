@@ -52,6 +52,14 @@ national data, which the ILO says should not be used for country comparisons: Ch
 and without them (`unemployment_flag` in the extract); China has no value of the other kind. It is an annual average,
 so the same timing choice applies as for health expenditure. [AUTHORS]
 
+`vdem_libdem`, added on 2026-10-26, is a third context variable: the V-Dem liberal democracy index (v2x_libdem, 0 to
+1) for all 40 countries, 2001-2022, from the V-Dem Country-Year Dataset v16, read from the V-Dem Institute's own data
+file and identical to Our World in Data's copy. Each annual value is a day-weighted mean over the calendar year, so the
+same timing choice applies again. It is an estimate from expert ratings: V-Dem's 68% interval for every value is in
+`data/vdem_source_comparison.csv` (mean width 0.091), and V-Dem re-estimates all past years with each release,
+so a model should name the version (v16). Whether to use this index, another democracy measure, or both as a
+robustness check is a choice of the study. [AUTHORS]
+
 ## 2. Timing: survey year versus stock date (decided 2026-10-18)
 
 **The primary rule is rule 2 below: the latest stock dated on or before the first interview in the country.** Rules 1

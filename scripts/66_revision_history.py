@@ -507,6 +507,15 @@ H += [
                 "A 或 B）矛盾；現採編碼簿之定義。"),
 ]
 
+# ---------------------------------------------------------------- V-Dem liberal democracy index, 2026-10-26
+# A new variable for every country and year; no existing value changed. Stamped after committing
+# (commit_stamp_2026-10-26.json).
+import vdem_texts as VT                                           # noqa: E402
+vp = os.path.join(D, "extension_staging", "commit_stamp_2026-10-26.json")
+vstamp = json.load(open(vp, encoding="utf-8")) if os.path.exists(vp) else {}
+VA = dict(date=VT.WHEN, time=vstamp.get("time", ""), commit=vstamp.get("commit", ""))
+H += [dict(VA, kind="variable added", iso3=ALL40, **VT.revision())]
+
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):
     if col not in hist.columns:

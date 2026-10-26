@@ -230,6 +230,13 @@ ROWS_ADD = [
      % (format(int(pan_.unemployment_rate.notna().sum()), ','), int(pan_.year.min()), int(pan_.year.max()),
         pan_[pan_.unemployment_rate.notna() & (pan_.iso3 != 'TWN')].iso3.nunique(),
         int(pan_.unemployment_rate_flag.notna().sum()))),
+    ('V-Dem liberal democracy index (2026-10-26)',
+     'vdem_libdem: the V-Dem liberal democracy index (v2x_libdem, 0-1), %s values, every country and year %d-%d, with '
+     'source, reference period, grade and verification text on each (Panel_final, the ten vdem_libdem columns). From '
+     "the V-Dem Country-Year Dataset v16, read from the V-Dem Institute's own data file (R package vdemdata 16.0); all "
+     "identical at three decimals to Our World in Data's copy (data/vdem_source_comparison.csv, with V-Dem's 68%% "
+     'interval for each value). No other value changed.'
+     % (format(int(pan_.vdem_libdem.notna().sum()), ','), int(pan_.year.min()), int(pan_.year.max()))),
 ]
 labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
 anchor = labels_.index('Corrections applied') + 1 if 'Corrections applied' in labels_ else None

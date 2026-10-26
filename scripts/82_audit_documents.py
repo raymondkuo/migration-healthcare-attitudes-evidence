@@ -25,6 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import counts as K                                                 # noqa: E402
 import unemployment_texts as UT                                    # noqa: E402
+import vdem_texts as VT                                            # noqa: E402
 
 SITE = os.path.dirname(HERE)
 D = os.path.join(SITE, 'data')
@@ -99,8 +100,11 @@ VAR = [('population', 'total resident population'), ('population_un_wpp2024', 't
        ('non_citizens_census', 'persons who are not citizens of the country, census count (place of usual residence, '
                                'excluding overseas visitors)'),
        ('unemployment_rate', 'unemployed persons (without work, available for and seeking work) as a percentage of the '
-                             'labour force aged 15 and over')]
+                             'labour force aged 15 and over'),
+       ('vdem_libdem', 'V-Dem liberal democracy index (v2x_libdem): extent to which the ideal of liberal democracy is '
+                       'achieved, estimated from expert ratings; annual day-weighted mean')]
 UNEMP = 'unemployment_rate'
+VDEM = VT.VAR
 HEALTH = 'health_expenditure_pct_gdp'
 HWHEN = '2026-10-17'
 # Observations added after both independent audits. They are listed one variable at a time, with the date and how the
@@ -116,7 +120,11 @@ POST_AUDIT = {'non_citizens_census': (
         '*': 'decoded from an archived machine-readable source (ILO SDMX API), checked against the World Bank API'}, {
         'TWN': 'read by the archive from the official DGBAS workbook (Table 2), identical to the printed yearbook',
         '*': "read by the archive from the ILO SDMX response; the World Bank's copy rounds to it at three decimals "
-             '(data/unemployment_source_comparison.csv)'})}
+             '(data/unemployment_source_comparison.csv)'}),
+    VDEM: ('2026-10-26', 'decoded from an archived machine-readable source (V-Dem Institute data file, vdemdata 16.0), '
+                         "checked against Our World in Data's copy",
+           "read by the archive from the V-Dem v16 data file (decoded with R); Our World in Data's copy gives the same "
+           'value at three decimals (data/vdem_source_comparison.csv)')}
 for f_ in ('source_value_checks.csv', 'document_value_review.csv', 'health_wb_who_checks_%s.csv' % HWHEN,
            'health_taiwan_checks_%s.csv' % HWHEN):
     if not os.path.exists(os.path.join(AUD, f_)):
@@ -178,6 +186,8 @@ _htext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year'
                      dtype={HEALTH: str}).set_index(['iso3', 'year'])[HEALTH]
 _utext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', UNEMP],
                      dtype={UNEMP: str}).set_index(['iso3', 'year'])[UNEMP]
+_vtext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', VDEM],
+                     dtype={VDEM: str}).set_index(['iso3', 'year'])[VDEM]
 bad_health = []
 for r in panel.itertuples():
     iso, y = r.iso3, int(r.year)
@@ -248,6 +258,8 @@ for r in panel.itertuples():
                 value, unit = _utext[(iso, y)], '% of the labour force aged 15+ (percentage points, 0-100)'
                 if iso == 'TWN':
                     concept += '; Taiwan: DGBAS Manpower Survey, civilian population aged 15+, annual average'
+            if v == VDEM:
+                value, unit = _vtext[(iso, y)], 'index, 0 (low) to 1 (high)'
             audit = ('not independently audited: added %s, after the audits of %s and %s; %s'
                      % (added, WHEN, HWHEN, checked))
         elif key in chg_idx:
@@ -292,7 +304,7 @@ below = pd.read_csv(os.path.join(D, 'foreign_born_below_foreign_nationals.csv'))
 G = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock', 'irregular_proxy_overstayers', 'irregular_proxy_detections']
 gr = pd.Series([x for v in G for x in panel[v + '_grade'].dropna() if str(x).strip()]).value_counts()
 gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
-                                  'unemployment_rate']
+                                  'unemployment_rate', 'vdem_libdem']
                  for x in panel[v + '_grade'].dropna()
                  if str(x).strip()]).value_counts()
 sec_total = pd.read_csv(os.path.join(D, 'secondary_workbook_differences.csv'))
@@ -318,9 +330,9 @@ Current figures (computed from the data files on %(when)s):
 
 - Grades over the six headline variables: **A %(ga)s, B %(gb)s, C %(gc)s, D 0** (%(gtot)s values). The seven
   Taiwan absconded-worker values (all grade B), the %(nhe)s health-expenditure values added on 2026-10-17 (all
-  grade A), Australia's 2021 census count of non-citizens added on 2026-10-18 (grade A) and the %(nue)s unemployment
-  rates added on 2026-10-21 (all grade A) are also displayed: with them, %(gtot7)s values, A %(ga7)s, B %(gb7)s,
-  C %(gc)s. Grades say where a value was read from, not how precise or comparable it is.
+  grade A), Australia's 2021 census count of non-citizens added on 2026-10-18 (grade A), the %(nue)s unemployment
+  rates added on 2026-10-21 and the %(nvd)s V-Dem liberal democracy index values added on 2026-10-26 (all grade A) are
+  also displayed: with them, %(gtot7)s values, A %(ga7)s, B %(gb7)s, C %(gc)s. Grades say where a value was read from, not how precise or comparable it is.
 - %(ncorr)d value corrections and %(ndel)d deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   %(when)s is in `Audit_changes`.
@@ -373,7 +385,7 @@ For the manuscript and for any claim a reviewer might check, use
 `data/original_inputs/` so that every correction can be checked against what was supplied.
 ''' % dict(when=WHEN, rows=n(len(panel)), ga=n(gr.get('A', 0)), gb=n(gr.get('B', 0)), gc=n(gr.get('C', 0)),
            gtot=n(gr.sum()), gtot7=n(gr7.sum()), gb7=n(gr7.get('B', 0)), ga7=n(gr7.get('A', 0)),
-           nhe=n(panel.health_expenditure_pct_gdp.notna().sum()), nue=n(panel.unemployment_rate.notna().sum()), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
+           nhe=n(panel.health_expenditure_pct_gdp.notna().sum()), nue=n(panel.unemployment_rate.notna().sum()), nvd=n(panel.vdem_libdem.notna().sum()), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
            ndel=len(pd.read_csv(os.path.join(D, 'deleted_values.csv'))), nlog=n(len(vlog)),
            nurls=reg.source_url.nunique(), nsec=len(sec_total), ncmp=n(n_cmp),
            nres=int((sec_total.status_now != 'in secondary workbook only').sum()),
@@ -449,6 +461,14 @@ checked against the World Bank's copy; Taiwan from DGBAS). %(nui)s of the values
 national data, which the ILO says should not be used for country comparisons: %(uimp)s. Run a cross-country model with
 and without them (`unemployment_flag` in the extract); China has no value of the other kind. It is an annual average,
 so the same timing choice applies as for health expenditure. [AUTHORS]
+
+`vdem_libdem`, added on 2026-10-26, is a third context variable: the V-Dem liberal democracy index (v2x_libdem, 0 to
+1) for all 40 countries, 2001-2022, from the V-Dem Country-Year Dataset v16, read from the V-Dem Institute's own data
+file and identical to Our World in Data's copy. Each annual value is a day-weighted mean over the calendar year, so the
+same timing choice applies again. It is an estimate from expert ratings: V-Dem's 68%% interval for every value is in
+`data/vdem_source_comparison.csv` (mean width %(vdw).3f), and V-Dem re-estimates all past years with each release,
+so a model should name the version (v16). Whether to use this index, another democracy measure, or both as a
+robustness check is a choice of the study. [AUTHORS]
 
 ## 2. Timing: survey year versus stock date (decided 2026-10-18)
 
@@ -527,6 +547,7 @@ its numbers were reproduced, or that the choices above have been made. Report th
 each of them.
 ''' % dict(when=WHEN, nfn=fn.iso3.nunique(), yfn='%d-%d' % (fn.year.min(), fn.year.max()),
            nui=n(int(panel.unemployment_rate_flag.notna().sum())), uimp=UT._imp_list(UT.counts()),
+           vdw=VT.counts()['w_mean'],
            nfb=fb.iso3.nunique(), yfb='%d-%d' % (fb.year.min(), fb.year.max()),
            ntc=int(panel.foreign_born_concept.fillna('').str.contains('citizenship basis').sum()),
            nir=panel[panel.irregular_stock.notna()].iso3.nunique(),

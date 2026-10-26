@@ -244,6 +244,11 @@ def build_data(lang):
        'and for Taiwan the DGBAS figure the panel uses.',
        '每一筆失業率並列其來源：國際勞工組織模型推估值及其觀測值狀態（R = Real value；無標示即為插補值）與上下界、'
        '世界銀行之轉載值及其是否四捨五入後等於國際勞工組織之數值，臺灣另列 panel 所採用之主計總處數值。')),
+     ('data/vdem_source_comparison.csv', ('V-Dem liberal democracy index: V-Dem and Our World in Data', 'V-Dem 自由民主指數：V-Dem 與 Our World in Data 之比對'),
+      ('Every value of the V-Dem index beside V-Dem&rsquo;s own 68% interval (codelow, codehigh) and standard deviation '
+       'for it, and Our World in Data&rsquo;s copy with whether the two agree at three decimals.',
+       '每一筆 V-Dem 指數並列 V-Dem 自身公布之 68% 區間（codelow、codehigh）與標準差，以及 Our World in Data 之轉載值與兩者於'
+       '小數三位是否一致。')),
      ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit and the re-audit of 2026-10-07', '對 2026-10-07 稽核與再稽核之回應'),
       ('All 24 audit findings and all 11 re-audit findings re-checked against the archived sources: verdict, what was '
        'checked, what changed, and what stays with the authors.',
@@ -259,9 +264,10 @@ def build_data(lang):
        '每一更正、改評、改標、新增或刪除之儲存格：新舊數值與等級、理由與佐證。')),
      ('data/current_panel_verification.csv', ('Current panel: one row per observation', '現行 panel：每筆觀測值一列'),
       ('Source, year, unit, concept, grade, how it was checked and what the audits found for every value in the panel, '
-       'including the alternative UN WPP population, health expenditure and the unemployment rate (in %, not rounded). The 2,737-row '
+       'including the alternative UN WPP population, health expenditure and the unemployment rate (in %, not rounded) and the '
+       'V-Dem index (0-1). The 2,737-row '
        'verification log is a record of comparisons, not this.',
-       'panel 中每個數值（含 UN WPP 替代人口、醫療保健支出與失業率；後二者以百分比列示，未經四捨五入）之來源、年度、單位、概念、'
+       'panel 中每個數值（含 UN WPP 替代人口、醫療保健支出與失業率，後二者以百分比列示，未經四捨五入；以及 V-Dem 指數，0–1）之來源、年度、單位、概念、'
        '等級、查核方式與稽核結果。2,737 列之查證紀錄是比對紀錄，並非此表。')),
      ('data/ANALYSIS_NOTES.md', ('Research-use notes', '研究使用說明'),
       ('The construct, timing, universe, denominator and sensitivity choices that source verification does not settle, with '
