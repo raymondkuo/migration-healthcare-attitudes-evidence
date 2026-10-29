@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**648 pages** — 324 per language. Validated: 55,026 internal links, 0 broken.
+**728 pages** — 364 per language. Validated: 61,276 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -59,7 +59,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 |---|---|
 | `index.html` / `index.zh.html` | Overview, headline verification results |
 | `countries.html`, `countries/<ISO3>.html` | One page per country: data, verification result, sources |
-| `evidence-pages/` | 278 per-country, per-variable evidence pages (×2 languages) — every value with its source, verification result and archived files |
+| `evidence-pages/` | 318 per-country, per-variable evidence pages (×2 languages) — every value with its source, verification result and archived files |
 | `sources.html` | Complete source register — original URL plus archived copy for each |
 | `data.html` | Download the dataset and every supporting table |
 | `verification.html` | All 2,737 value comparisons, the 1,777 re-comparisons of 2026-10-07, corrections, the extension and the issues |
@@ -68,7 +68,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 | `evidence/api/` | Raw API response payloads exactly as returned by the publisher |
 | `evidence/api/publisher_pages/` | PDF and screenshot mirrors of the publishers' own dataset pages |
 | `evidence/countries/<ISO3>/` | Every source document, PDF mirror and screenshot for that country |
-| `evidence/extracts/` | 278 bilingual PDF extracts, one per country × variable |
+| `evidence/extracts/` | 318 bilingual PDF extracts, one per country × variable |
 | `manifest/checksums.csv` | SHA-256 hash of every file in the archive, of the bytes the website serves (text files with LF line endings, so a Windows checkout with CRLF will not match; `scripts/78_verify_checksums.py` checks the manifest against git) |
 | `verification/` | Machine-readable verification output, the live link sweep, and the audit response |
 | `scripts/` | Every script used. Only the pipeline in `REBUILD.md` can be re-run safely; the first-release builders (numbered below 67) would undo later corrections |
@@ -103,11 +103,11 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - **Every number in every country's Panel data table is a link.** Click a value, or the grade pill
   beside it, and you reach the evidence for that exact figure.
 
-**Now (revised 2026-10-26)**
+**Now (revised 2026-10-29)**
 
 - **Audit of 2026-10-07** (issues #1–#25): all 24 findings were re-checked against the archived sources and
   confirmed; **45 cell changes** followed, counting the audit and the re-audit below (15 corrected, 7 regraded, 6 relabelled, 6 added, 4 source corrected, 4 flag added, 2 metadata cleared, 1 deleted). The response is in
-  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **6,006** current observations are in
+  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **6,685** current observations are in
   `data/current_panel_verification.csv`. The 2,454 / 2,737 figures above are comparison *records* of the first-release
   check, not a count of unique current observations.
 - **Re-audit of 2026-10-07**, an independent re-check of commit `30d6cb1` (issues #5, #11, #12, #13, #17, #20 and #21
@@ -119,7 +119,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - Quality grades on the 2,478 displayed values of the six headline variables (2001–2022): **A** 2,323 · **B** 142 · **C** 13 · **D** 0.
   With the 7 Taiwan absconded-worker values (all grade B), the 880 health-expenditure values (all grade A,
   added 2026-10-17) and Australia's 2021 census count of non-citizens (grade A, added 2026-10-18) the displayed total
-  is 5,126: **A** 4,964 · **B** 149 · **C** 13.
+  is 5,805: **A** 5,643 · **B** 149 · **C** 13.
   A grade says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
   C the midpoint of a published range computed by the archive; a single-number estimate a source publishes is A or B);
   it does not say how precise or comparable the value is.
@@ -189,6 +189,20 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 - The data file, its codebook entry, the V-Dem Codebook v16 (pages on the index, the interval and the annual
   aggregation), Our World in Data's copy and the publishers' pages are archived with PDF/PNG mirrors in `evidence/api/`.
 
+## Gini index · 吉尼指數 (added 2026-10-29)
+
+- New variable **`gini_index`**: 100 x the Gini coefficient of income (or consumption) per person for **all 40
+  countries**, in the years a household survey exists (679 of 880 country-years; the gaps are not filled),
+  with source, reference period, grade, verification text and flag on every value. No other value changed.
+- 38 countries: World Bank WDI `SI.POV.GINI` (Poverty and Inequality Platform, version `20260922_2021_01_02_PROD`); all
+  652 values equal the platform's own survey estimates (`data/gini_source_comparison.csv`). Taiwan, which WDI
+  does not publish: the same platform (10 survey years). New Zealand, which the World Bank does not cover: the
+  OECD Income Distribution Database (17 years, equivalised disposable income, flagged).
+- Flagged: **89 consumption-based values** (lower than income-based ones) and **39 survey breaks**
+  the World Bank marks as not comparable with earlier surveys.
+- Raw responses, the PIP survey table and citation, the OECD dataset description and the publishers' pages are archived
+  with PDF/PNG mirrors in `evidence/api/`.
+
 ## Decisions of 2026-10-18 · 2026-10-18 之決定
 
 - **Construct and timing (issue #24).** From the ISSP 2021 item the study analyses (Q6a: access to publicly funded
@@ -228,7 +242,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 505 MB across 1,863 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
+- About 525 MB across 2,012 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the

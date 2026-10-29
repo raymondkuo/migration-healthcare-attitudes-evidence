@@ -39,3 +39,9 @@ evidence/api/vdem_v16_vdemdata_commit_f4dd269_retrieved_2026-10-26.json -text
 evidence/api/vdem_v16_vdemdata_data_folder_f4dd269_retrieved_2026-10-26.json -text
 evidence/api/owid_liberal-democracy-index_retrieved_2026-10-26.csv -text
 evidence/api/owid_liberal-democracy-index_metadata_retrieved_2026-10-26.json -text
+evidence/api/wb_SI_POV_GINI_2001-2022_retrieved_2026-10-29.json -text
+evidence/api/wb_SI_POV_GINI_indicator_metadata_retrieved_2026-10-29.json -text
+evidence/api/pip_survey_estimates_20260922_2021_01_02_PROD_retrieved_2026-10-29.csv -text
+evidence/api/pip_citation_20260922_2021_01_02_PROD_retrieved_2026-10-29.json -text
+evidence/api/oecd_IDD_NZL_INC_DISP_GINI_2001-2022_retrieved_2026-10-29.csv -text
+evidence/api/oecd_IDD_dataflow_retrieved_2026-10-29.xml -text

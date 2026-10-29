@@ -23,8 +23,8 @@ migration values, counting the seven Taiwan absconded-worker values).
 | `health_taiwan_checks_2026-10-17.csv` | 22 | Taiwan: the panel value, the official MOHW workbook value with its cell (sheet 表1), the published report's Table 1 value, CHE and GDP, and the percentage recomputed from them (all `True`). |
 
 With them the audits cover 4,245 current observations; with the census value (2026-10-18), the 880 unemployment
-rates (2026-10-21) and the 880 V-Dem liberal democracy index values (2026-10-26) added after them the ledger has
-6,006 rows. Every source path is relative to the archive root.
+rates (2026-10-21), the 880 V-Dem liberal democracy index values (2026-10-26) and the 679 Gini index values
+(2026-10-29) added after them the ledger has 6,685 rows. Every source path is relative to the archive root.
 
 **These files are not produced by this archive's pipeline.** They are the audits' own record and are committed so
 that a clean clone reproduces the ledger. Keep them as they are: if an observation is added to the panel, an audit has
@@ -32,8 +32,9 @@ to be extended, and `82_audit_documents.py` stops with a message naming the firs
 writing "not in the audited revision". It also stops if a health-expenditure value in the panel differs, digit for
 digit, from the value the health audit recorded. The exceptions are observations added after both audits and named
 in the script (`POST_AUDIT`): Australia's 2021 census count of non-citizens (`non_citizens_census`, added 2026-10-18)
-the unemployment rate of every country and year (`unemployment_rate`, added 2026-10-21) and the V-Dem liberal
-democracy index of every country and year (`vdem_libdem`, added 2026-10-26), whose ledger rows say
+the unemployment rate of every country and year (`unemployment_rate`, added 2026-10-21), the V-Dem liberal
+democracy index of every country and year (`vdem_libdem`, added 2026-10-26) and the Gini index of every country in its
+survey years (`gini_index`, added 2026-10-29), whose ledger rows say
 that no independent audit covered them and how the archive itself checked them. Where a later correction changed a cell
 (`data/audit_changes_2026-10-07.csv`), the ledger shows that change first and the audit result after it; the audit's
 own status in these files is left as it was written.

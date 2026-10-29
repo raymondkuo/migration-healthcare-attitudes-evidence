@@ -80,6 +80,20 @@ Each value carries its source, reference period, grade and verification text in 
 
 <!-- vdem:end -->
 
+<!-- gini:begin -->
+
+## Gini index (collected 2026-10-29)
+
+`gini_index`: 100 x the Gini coefficient of income or consumption, 10 value(s) for the survey years 2005, 2007, 2010, 2013, 2016-2021. A new variable; no other value in this folder or in the panel changed.
+
+| years | source | file |
+|---|---|---|
+| 2005-2021 | World Bank, Poverty and Inequality Platform (PIP version 20260922_2021_01_02_PROD): survey estimate for Taiwan | `pip_survey_estimates_20260922_2021_01_02_PROD_retrieved_2026-10-29.csv` |
+
+Each value carries its source, reference period, grade, verification text and any flag in `data/panel_final.csv`; `data/gini_source_comparison.csv` sets the World Bank, PIP and OECD values side by side; the revision history on the Verification page dates the addition.
+
+<!-- gini:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)

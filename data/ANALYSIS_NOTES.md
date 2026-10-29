@@ -60,6 +60,14 @@ same timing choice applies again. It is an estimate from expert ratings: V-Dem's
 so a model should name the version (v16). Whether to use this index, another democracy measure, or both as a
 robustness check is a choice of the study. [AUTHORS]
 
+`gini_index`, added on 2026-10-29, is a fourth context variable: 100 x the Gini coefficient of income or consumption per
+person for all 40 countries, but only in the years a household survey exists (679 of 880 country-years); the
+gaps are real and are not filled. The World Bank's indicator (Poverty and Inequality Platform) gives 38 countries,
+the same platform Taiwan, and the OECD New Zealand, on a different income concept (flagged). Consumption-based values
+(flagged, 89) are lower than income-based ones, and flagged breaks mark a change of survey. For a model that needs
+one value per country and wave, take the survey nearest to (and not after) the fieldwork, state the distance, and check
+the result without the flagged values. [AUTHORS]
+
 ## 2. Timing: survey year versus stock date (decided 2026-10-18)
 
 **The primary rule is rule 2 below: the latest stock dated on or before the first interview in the country.** Rules 1

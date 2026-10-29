@@ -29,7 +29,8 @@ There is no `build-site.mjs` in this archive; older reports that name one descri
   each with its retrieval date in its name or in `data/api_snapshots.csv` / `data/source_register.csv`.
   The 2001-2022 payloads are dated 2026-10-07; the health-expenditure files (World Bank, WHO and the Taiwan
   Ministry of Health and Welfare workbook and report) are dated 2026-10-17, the unemployment files 2026-10-21 and the
-  V-Dem files (the V-Dem Institute's R data file and codebook, the V-Dem Codebook, Our World in Data's copy) 2026-10-26.
+  V-Dem files (the V-Dem Institute's R data file and codebook, the V-Dem Codebook, Our World in Data's copy) 2026-10-26
+  and the Gini files (World Bank WDI and PIP, OECD IDD) 2026-10-29.
 - **The collector outputs** (`data/extension_staging/*.csv`) are committed, so the build does not need the
   network.
 - **The audits' result tables are committed** in `data/audit_inputs/` (README there): the re-audit of 2026-10-07 and
@@ -50,6 +51,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 2b | `python scripts/88_add_census_non_citizens.py` | Appends the eleven `non_citizens_census*` columns (Australia's 2021 census count of non-citizens, kept out of `foreign_nationals`) from `data/extension_staging/census_non_citizens_cells.csv`; must follow 2a; asserts every other column unchanged; source register and the Australian README |
 | 2c | `python scripts/91_add_unemployment.py` | Appends the ten `unemployment_rate*` columns from `data/extension_staging/unemployment_cells.csv`; must follow 2b (which keeps the column order); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 2d | `python scripts/93_add_vdem.py` | Appends the ten `vdem_libdem*` columns (V-Dem liberal democracy index) from `data/extension_staging/vdem_cells.csv`; must follow 2c (which keeps the column order); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
+| 2e | `python scripts/95_add_gini.py` | Appends the ten `gini_index*` columns (Gini index, survey years only) from `data/extension_staging/gini_cells.csv`; must follow 2d (which keeps the column order); asserts every other column unchanged and that every country has a value; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 3 | `python scripts/81_audit_reference_tables.py` | Status of every irregular-estimate record; `data_from_source.csv` for every country; source-register routing; country READMEs |
 | 4 | `python scripts/75_build_derived_tables.py` | Source register rows for the extension, per-country manifests, data quality, evidence index, known issues, codebook |
 | 5 | `python scripts/66_revision_history.py` | The dated revision history (reads the commit stamp files for the commit and time) |
@@ -58,7 +60,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 8 | `python scripts/83_audit_response.py` | The response to the audit and to the re-audit (`audit_response_*.csv`, `reaudit_response_*.csv`, `verification/AUDIT_RESPONSE_*.md`) |
 | 9 | `python scripts/57_sync_workbook_sheets.py` | Rewrites the main workbook's sheets from the CSVs |
 | 10 | `python scripts/80_check_source_charts.py` | Source-label check: the Chile chart is read from the PDF's coordinates and compared with the panel |
-| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 648 pages, both languages (324 each) |
+| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 728 pages, both languages (364 each) |
 | 12 | `python scripts/build_pdf_extracts.py` | The PDF extracts (needs Windows and Chrome; about 8 minutes) |
 | 13 | `python scripts/28_checksums.py`, `29_website_manifest.py`, `27_validate_site.py`, `validate_bilingual.py`, `77_update_readme.py`, then `28_checksums.py` again | Checksums, manifest, validators, README and CITATION numbers |
 | 14 | after committing: `python scripts/78_verify_checksums.py` | Compares the manifest with what git stored |
@@ -89,6 +91,13 @@ the mirrors, codebook pages and publisher pages. It needs R (`Rscript`, base R o
 `scripts/92_decode_vdem.R`; the rebuild in section 3 does not, because the staging file is committed. The download on
 v-dem.net asks for an e-mail address and consent to a privacy policy, so the same dataset is taken from the institute's
 GitHub package, pinned to the release commit.
+
+`94_collect_gini.py` re-reads the archived Gini files (the World Bank WDI response and indicator metadata, the PIP
+survey table and citation of the pinned PIP version, the OECD IDD response for New Zealand and the OECD dataflow) and
+rewrites its staging file and `data/gini_source_comparison.csv` without the network; with `--fetch` it downloads them
+again (change the date constant in `scripts/gini_texts.py` first, and the PIP version if a newer one is wanted) and
+renders the mirrors and publisher pages. The OECD's own site answers a headless browser with a bot check, so its page
+is captured from the OECD Data Explorer instead.
 
 `84_collect_health_expenditure.py` re-reads the archived health-expenditure files and rewrites its staging file and
 `data/health_expenditure_wb_vs_who.csv` without the network; with `--fetch` it downloads them again under new dated names
@@ -135,6 +144,11 @@ On 2026-10-26, when step 2d was added for the V-Dem liberal democracy index, ste
 working clone: the panel they produced was byte-identical to the one step 2d had written, and after steps 3 and 4 every
 tracked file was identical to its state before the test. Steps 3-13 had been run before it; the validators reported 0
 errors on 648 pages (324 per language). The PDF extracts were re-rendered (every country's "last amended" date changed).
+
+On 2026-10-29, when step 2e was added for the Gini index, steps 1-2e were run in order in the working clone: the panel
+they produced was byte-identical to the one step 2e had written, and after steps 3 and 4 every file of the working tree
+was identical to its state before the test. The validators reported 0 errors on 728 pages (364 per language). The PDF
+extracts were re-rendered.
 
 An earlier test of this kind, run in a folder next to the audit's working folders, passed without showing that step 7 depended
 on them: in an isolated clone it lost 3,328 of the 3,365 audit results (re-audit finding R01). Those result tables are now

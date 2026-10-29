@@ -34,6 +34,7 @@ from i18n import COUNTRY                                            # noqa: E402
 import health_texts as HT                                           # noqa: E402
 import unemployment_texts as UT                                     # noqa: E402
 import vdem_texts as VT                                             # noqa: E402
+import gini_texts as GT                                             # noqa: E402
 
 p = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 hist = pd.read_csv(os.path.join(D, 'revision_history.csv')).fillna('')
@@ -119,6 +120,12 @@ _vd = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', V
                   float_precision='round_trip').set_index(['iso3', 'year'])[VT.VAR]
 out['vdem_libdem'] = [_vd.get((i, y)) for i, y in zip(p.iso3, p.year)]
 
+# ---------------------------------------------------------------- Gini index (added 2026-10-29)
+_gi = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', GT.VAR],
+                  float_precision='round_trip').set_index(['iso3', 'year'])[GT.VAR]
+out['gini_index'] = [_gi.get((i, y)) for i, y in zip(p.iso3, p.year)]
+out['gini_flag'] = p[GT.VAR + '_flag'].fillna('')
+
 # ---------------------------------------------------------------- quality grades
 GRADES = [('grade_population', 'population'),
           ('grade_foreign_born', 'foreign_born'),
@@ -129,7 +136,8 @@ GRADES = [('grade_population', 'population'),
           ('grade_health_expenditure', HT.VAR),
           ('grade_non_citizens_census', 'non_citizens_census'),
           ('grade_unemployment', UT.VAR),
-          ('grade_vdem_libdem', VT.VAR)]
+          ('grade_vdem_libdem', VT.VAR),
+          ('grade_gini', GT.VAR)]
 for new, src in GRADES:
     col = src + '_grade'
     out[new] = p[col].fillna('') if col in p.columns else ''
@@ -238,6 +246,13 @@ UFLAGS = {UT.FLAG: 'The ILO imputed the value from a model because it has no nat
                    'and year. The ILO says such values are subject to high uncertainty and should not be used for '
                    'country comparisons or rankings.'}
 assert set(out.unemployment_flag) - {''} <= set(UFLAGS), set(out.unemployment_flag)
+GFLAGS = {GT.F_CONS: 'The survey measures household consumption, not income; consumption is spread more evenly, so the '
+                     'Gini is lower than an income Gini of the same country would be.',
+          GT.F_BREAK: 'The World Bank marks this survey as not comparable with the country\'s earlier ones: a change from '
+                      'the previous value may reflect the change of survey.',
+          GT.F_OECD: 'New Zealand, which the World Bank does not cover: OECD Gini of equivalised household disposable '
+                     'income, a different concept from the World Bank\'s income per person.'}
+assert {x.strip() for f in out.gini_flag for x in f.split(';') if x.strip()} <= set(GFLAGS), set(out.gini_flag)
 used = set(out.foreign_born_flag) | set(out.foreign_nationals_flag) | set(out.detections_flag)
 unknown = {f for f in used if f and f not in FLAGS and not f.startswith('Eurostat flag: ')}
 assert not unknown, 'flag values with no codebook text: %s' % sorted(unknown)
@@ -373,6 +388,16 @@ CODE = [
   '(data/vdem_source_comparison.csv in the archive, which also gives V-Dem\'s 68%% interval for each value). An '
   'estimate from expert ratings; V-Dem re-estimates past years with every release: cite v16.'
   % n(int(out.vdem_libdem.notna().sum()))),
+ ('gini_index', 'Gini index, 0 (equality) to 100: 100 x the Gini coefficient of income (or, in some countries, '
+                'consumption) per person, from national household surveys. %d countries: World Bank WDI SI.POV.GINI '
+                '(Poverty and Inequality Platform, version %s), one decimal; Taiwan: the same platform\'s survey estimate '
+                '(x 100); New Zealand: OECD IDD, equivalised household disposable income (x 100). Only survey years have '
+                'a value. Added 2026-10-29.' % (GT.counts()['n_wdi_countries'], GT.PIP_VERSION),
+  'All WDI values equal the platform\'s own survey estimates (data/gini_source_comparison.csv in the archive). %s of '
+  '%s country-years have a value: do not fill the gaps silently. See gini_flag for consumption-based values, survey '
+  'breaks and New Zealand.' % (n(int(out.gini_index.notna().sum())), n(len(out)))),
+ ('gini_flag', 'Why the Gini value needs a caution, blank where nothing does; several are separated by "; ". '
+               + ' | '.join('%s: %s' % (k, v) for k, v in GFLAGS.items()), ''),
  ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
                        'official source; B: read from an archived document; C: midpoint of a published range, '
                        'computed by the archive; D: none published.',
@@ -388,6 +413,7 @@ CODE = [
  ('grade_non_citizens_census', 'Evidence grade for non_citizens_census.', ''),
  ('grade_unemployment', 'Evidence grade for unemployment_rate.', ''),
  ('grade_vdem_libdem', 'Evidence grade for vdem_libdem.', ''),
+ ('grade_gini', 'Evidence grade for gini_index.', ''),
 ]
 codebook = pd.DataFrame(CODE, columns=['column', 'definition', 'caution'])
 missing = [c for c in out.columns if c not in set(codebook.column)]
@@ -400,7 +426,7 @@ cov = []
 for c in ['population', 'population_unwpp', 'foreign_born', 'un_stock_citizenship_basis', 'foreign_nationals',
           'non_citizens_census',
           'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw',
-          'health_expenditure_pct_gdp', 'unemployment_rate', 'vdem_libdem']:
+          'health_expenditure_pct_gdp', 'unemployment_rate', 'vdem_libdem', 'gini_index']:
     s = out[out[c].notna()]
     yrs = sorted(s.year.unique())
     cov.append(dict(variable=c, observations=len(s), pct_of_rows=round(100 * len(s) / NR, 1),
@@ -473,6 +499,10 @@ README = [
  ('V-Dem liberal democracy index', 'vdem_libdem: the V-Dem liberal democracy index (0-1) for all %d countries and all %d '
                                    'years (%s values, V-Dem v16), with grade_vdem_libdem. No other value changed.'
                                    % (NC, NY, n(out.vdem_libdem.notna().sum()))),
+ ('', ''),
+ ('WHAT WAS ADDED ON 2026-10-29', ''),
+ ('Gini index', 'gini_index: 100 x the Gini coefficient for all %d countries, in the years a household survey exists (%s '
+                'values), with gini_flag and grade_gini. No other value changed.' % (NC, n(out.gini_index.notna().sum()))),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
  ('Value-by-value comparisons', 'These are the RECORDS of the first-release check, not a count of unique '
@@ -573,6 +603,11 @@ README = [
                        'country comparisons: China has no other kind. The ILO revises its estimates with every '
                        'edition; the values are those published when retrieved (2026-10-21).'
                        % (NC - 1, n((out.unemployment_flag != '').sum()))),
+ ('Gini index', 'Survey years only (%s of %s country-years); do not interpolate without saying so. Consumption-based '
+                'values (flagged) are lower than income-based ones; flagged breaks mark a change of survey; New Zealand '
+                'is from the OECD on a different income concept (flagged). The World Bank revises past values with new '
+                'releases; the values are those published when retrieved (2026-10-29).'
+                % (n(out.gini_index.notna().sum()), n(len(out)))),
  ('V-Dem liberal democracy index', 'An index from 0 to 1, not a count or a share. One source and one definition for every '
                                    'country (V-Dem v16). Each value is an estimate from expert ratings with an '
                                    'uncertainty interval (in the archive\'s data/vdem_source_comparison.csv); V-Dem '

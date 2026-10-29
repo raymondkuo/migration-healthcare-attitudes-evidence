@@ -237,6 +237,14 @@ ROWS_ADD = [
      "identical at three decimals to Our World in Data's copy (data/vdem_source_comparison.csv, with V-Dem's 68%% "
      'interval for each value). No other value changed.'
      % (format(int(pan_.vdem_libdem.notna().sum()), ','), int(pan_.year.min()), int(pan_.year.max()))),
+    ('Gini index (2026-10-29)',
+     'gini_index: 100 x the Gini coefficient of income or consumption per person, %s values for all %d countries in the '
+     'years a household survey exists, with source, reference period, grade, verification text and flag on each '
+     '(Panel_final, the ten gini_index columns). %d countries from World Bank WDI SI.POV.GINI (Poverty and Inequality '
+     "Platform), every value equal to the platform's own survey estimate (data/gini_source_comparison.csv); Taiwan from "
+     'the same platform; New Zealand from the OECD Income Distribution Database (flagged). No other value changed.'
+     % (format(int(pan_.gini_index.notna().sum()), ','), pan_[pan_.gini_index.notna()].iso3.nunique(),
+        pan_[pan_.gini_index_source.fillna('').str.startswith('World Bank, World Development')].iso3.nunique())),
 ]
 labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
 anchor = labels_.index('Corrections applied') + 1 if 'Corrections applied' in labels_ else None

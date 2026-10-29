@@ -66,12 +66,12 @@ pubs = pd.read_csv(os.path.join(D, 'api_publisher_snapshots.csv'))
 
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections', 'health_expenditure_pct_gdp',
-        'unemployment_rate', 'vdem_libdem']
+        'unemployment_rate', 'vdem_libdem', 'gini_index']
 # shown only for the countries that have them: Taiwan's absconded workers, and the census count of non-citizens
 # for a country with no annual foreign-national series (Australia 2021; decision of 2026-10-18)
 ALLVARS = VARS + ['irregular_proxy_absconded_workers', 'non_citizens_census']
 # decimals shown for a variable's values (counts are whole numbers; shares of GDP are not)
-DEC = {'health_expenditure_pct_gdp': 2, 'unemployment_rate': 3, 'vdem_libdem': 3}
+DEC = {'health_expenditure_pct_gdp': 2, 'unemployment_rate': 3, 'vdem_libdem': 3, 'gini_index': 1}
 # a country whose source publishes fewer decimals than the rest: shown as published, not padded with zeros
 # (the ILO publishes unemployment rates to three decimals, DGBAS to two)
 DEC_ISO = {('unemployment_rate', 'TWN'): 2}
@@ -284,6 +284,12 @@ def publisher_key(url):
         return 'ilo_UNE_2EAP_SEX_AGE_RT'
     if 'raw.githubusercontent.com/vdeminstitute/vdemdata/' in u:
         return 'vdem_dataset_v16'
+    if 'api.worldbank.org' in u and 'SI.POV.GINI' in u:
+        return 'worldbank_SI_POV_GINI'
+    if 'api.worldbank.org/pip/' in u:
+        return 'worldbank_pip_TWN'
+    if 'sdmx.oecd.org' in u and 'DF_IDD' in u:
+        return 'oecd_idd'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -422,6 +428,21 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
             for col, lab in (('pdf', 'art_owidpdf'), ('png', 'art_owidpng')):
                 if isinstance(pw.get(col), str) and pw[col]:
                     add(t(lab, lang), pw[col])
+
+    # Gini index: WDI values were checked cell by cell against the World Bank's own survey table (PIP), which also
+    # gives each value's welfare type and survey; Taiwan's values come from that table directly; New Zealand's from the
+    # OECD, whose dataflow description names the codes used
+    if k in ('worldbank_SI_POV_GINI', 'worldbank_pip_TWN', 'oecd_idd') and len(_apis):
+        pats = {'worldbank_SI_POV_GINI': (('SI_POV_GINI_indicator_metadata', 'art_wbmeta'),
+                                          ('pip_survey_estimates_', 'art_pipcheck'), ('pip_citation_', 'art_pipcit')),
+                'worldbank_pip_TWN': (('pip_citation_', 'art_pipcit'), ('SI_POV_GINI_indicator_metadata', 'art_wbmeta')),
+                'oecd_idd': (('oecd_IDD_dataflow', 'art_oecdidd'),)}[k]
+        for pat, lab in pats:
+            for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False)].iterrows():
+                ap = str(a['path'])
+                add(t(lab, lang), ap)
+                for lab2, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab2, rel)
 
     # 4. snapshots of the source web page
     for s in _snap_by.get((iso3, url), []):

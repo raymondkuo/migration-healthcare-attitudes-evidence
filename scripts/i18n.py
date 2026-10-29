@@ -40,6 +40,7 @@ VLAB = {
         'non_citizens_census': 'Non-citizens (census)',
         'unemployment_rate': 'Unemployment rate (%)',
         'vdem_libdem': 'Liberal democracy (V-Dem, 0-1)',
+        'gini_index': 'Gini index (0-100)',
         'irregular_detections': 'Detections', 'irregular': 'Irregular migration',
         'foreign_workers': 'Foreign workers'},
  'zh': {'population': '總人口', 'foreign_born': '外國出生人口',
@@ -51,6 +52,7 @@ VLAB = {
         'non_citizens_census': '非公民人口（普查）',
         'unemployment_rate': '失業率（%）',
         'vdem_libdem': '自由民主指數（V-Dem，0–1）',
+        'gini_index': '吉尼指數（0–100）',
         'irregular_detections': '查獲人數', 'irregular': '非常規移民',
         'foreign_workers': '外籍移工'},
 }
@@ -162,6 +164,8 @@ COMPARABILITY.update(_UT.COMPARABILITY_ZH)
 USABLE.update(_UT.USABLE_ZH)
 import vdem_texts as _VT                                     # noqa: E402
 COMPARABILITY.update(_VT.COMPARABILITY_ZH)
+import gini_texts as _GT                                     # noqa: E402
+COMPARABILITY.update(_GT.COMPARABILITY_ZH)
 
 # ---------------------------------------------------------------- correction reasons
 REASON = {
@@ -430,6 +434,11 @@ T = {
  'art_owidmeta': {'en': 'Our World in Data chart metadata (source and version)', 'zh': 'Our World in Data 圖表後設資料（來源與版本）'},
  'art_owidpdf': {'en': 'Our World in Data chart page (PDF)', 'zh': 'Our World in Data 圖表頁面（PDF）'},
  'art_owidpng': {'en': 'Our World in Data chart page (screenshot)', 'zh': 'Our World in Data 圖表頁面（截圖）'},
+ 'art_pipcheck': {'en': 'Independent check: World Bank PIP survey table (welfare type, survey, comparability)',
+                  'zh': '獨立核對：世界銀行 PIP 調查表（福利類型、調查、可比較區段）'},
+ 'art_pipcit': {'en': 'PIP data version and citation', 'zh': 'PIP 資料版本與引用說明'},
+ 'art_oecdidd': {'en': 'OECD database description and the codes used (SDMX dataflow)',
+                 'zh': 'OECD 資料庫說明及所用代碼（SDMX 資料流）'},
 }
 
 

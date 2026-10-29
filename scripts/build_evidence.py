@@ -25,6 +25,9 @@ RAWFILE = {
  'worldbank_SH_XPD_CHEX_GD_ZS': 'evidence/api/wb_SH_XPD_CHEX_GD_ZS_2001-2022_retrieved_2026-10-17.json',
  'ilo_UNE_2EAP_SEX_AGE_RT': 'evidence/api/ilo_UNE_2EAP_SEX_AGE_RT_2001-2022_retrieved_2026-10-21.csv',
  'vdem_dataset_v16': 'evidence/api/vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData',
+ 'worldbank_SI_POV_GINI': 'evidence/api/wb_SI_POV_GINI_2001-2022_retrieved_2026-10-29.json',
+ 'worldbank_pip_TWN': 'evidence/api/pip_survey_estimates_20260922_2021_01_02_PROD_retrieved_2026-10-29.csv',
+ 'oecd_idd': 'evidence/api/oecd_IDD_NZL_INC_DISP_GINI_2001-2022_retrieved_2026-10-29.csv',
  'eurostat_migr_pop3ctb': 'evidence/api/eurostat_migr_pop3ctb.json',
  'eurostat_migr_pop1ctz': 'evidence/api/eurostat_migr_pop1ctz.json',
  'eurostat_migr_eipre': 'evidence/api/eurostat_migr_eipre.json',
@@ -46,6 +49,12 @@ def publisher_for(u):
         return 'ilo_UNE_2EAP_SEX_AGE_RT'
     if 'raw.githubusercontent.com/vdeminstitute/vdemdata/' in u:
         return 'vdem_dataset_v16'
+    if 'api.worldbank.org' in u and 'SI.POV.GINI' in u:
+        return 'worldbank_SI_POV_GINI'
+    if 'api.worldbank.org/pip/' in u:
+        return 'worldbank_pip_TWN'
+    if 'sdmx.oecd.org' in u and 'DF_IDD' in u:
+        return 'oecd_idd'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -144,7 +153,10 @@ def build(iso3, en_name, v, lang):
                'break in time series: long-term care services included from 2007':
                    '時間序列斷裂：自 2007 年起納入長期照顧服務',
                'census count (single year)': '普查數（單一年度）', 'not stated excluded': '未填答者不計入',
-               'ILO imputed: not based on national data': '國際勞工組織插補值：非依據該國資料'}
+               'ILO imputed: not based on national data': '國際勞工組織插補值：非依據該國資料',
+               'consumption-based (not income)': '以消費為基礎（非所得）',
+               'break in time series: new PIP survey-comparability spell': '時間序列斷裂：PIP 調查可比較區段更替',
+               'OECD equivalised disposable income (not World Bank)': 'OECD 均等化可支配所得（非世界銀行）'}
 
     def flag_html(r):
         f = str(r.get(v + '_flag') or '').strip()

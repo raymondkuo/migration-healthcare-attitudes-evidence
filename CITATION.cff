@@ -2,11 +2,11 @@ cff-version: 1.2.0
 title: "Migration and population data archive, 40 countries, 2001-2022"
 message: >-
   If you use this archive, please cite the accompanying study and state the
-  archive version (first freeze 2026-08-17; extended to 2001 on 2026-10-07; health expenditure added on 2026-10-17; unemployment rate added on 2026-10-21; V-Dem liberal democracy index added on 2026-10-26). The archive is joint work of Prof. Raymond
+  archive version (first freeze 2026-08-17; extended to 2001 on 2026-10-07; health expenditure added on 2026-10-17; unemployment rate added on 2026-10-21; V-Dem liberal democracy index added on 2026-10-26; Gini index added on 2026-10-29). The archive is joint work of Prof. Raymond
   Kuo (郭年真), National Taiwan University, and Claude (Anthropic).
 type: dataset
-version: "2026-10-26"
-date-released: 2026-10-26
+version: "2026-10-29"
+date-released: 2026-10-29
 
 authors:
   - family-names: "Kuo"
@@ -27,7 +27,7 @@ abstract: >-
   reproduced exactly; the 39 discrepancies were corrected and re-verified against
   the live source on 2026-08-18, when all 21 sources reproduced at 100%. In total
   2,737 value-by-value comparisons are recorded, and 67 values were corrected,
-  each itemised with its evidence. On 2026-10-07 the panel was extended back from 2010 to 2001 for the foreign-born, foreign-national and population series; the extension itself changed no value published earlier, and 1,777 of them were re-compared with fresh source responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of them; 45 cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md). On 2026-10-17 a health-expenditure variable (current health expenditure as a percentage of GDP) was added for all 40 countries and years, from the WHO Global Health Expenditure Database via the World Bank, checked against WHO's own API, and for Taiwan from the Ministry of Health and Welfare; on 2026-10-21 an unemployment-rate variable for all 40 countries and years, from the ILO modelled estimates (imputed values flagged) and for Taiwan from DGBAS; on 2026-10-26 the V-Dem liberal democracy index for all 40 countries and years (V-Dem v16); no other value changed.
+  each itemised with its evidence. On 2026-10-07 the panel was extended back from 2010 to 2001 for the foreign-born, foreign-national and population series; the extension itself changed no value published earlier, and 1,777 of them were re-compared with fresh source responses. An audit on 2026-10-07 re-checked 24 findings against the archived sources and confirmed all of them; 45 cells were corrected, added, regraded or deleted as a result (verification/AUDIT_RESPONSE_2026-10-07.md). On 2026-10-17 a health-expenditure variable (current health expenditure as a percentage of GDP) was added for all 40 countries and years, from the WHO Global Health Expenditure Database via the World Bank, checked against WHO's own API, and for Taiwan from the Ministry of Health and Welfare; on 2026-10-21 an unemployment-rate variable for all 40 countries and years, from the ILO modelled estimates (imputed values flagged) and for Taiwan from DGBAS; on 2026-10-26 the V-Dem liberal democracy index for all 40 countries and years (V-Dem v16); on 2026-10-29 the Gini index for all 40 countries in their survey years (World Bank Poverty and Inequality Platform; New Zealand from the OECD); no other value changed.
 
 keywords:
   - migration

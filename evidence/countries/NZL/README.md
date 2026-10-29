@@ -68,6 +68,22 @@ Each value carries its source, reference period, grade and verification text in 
 
 <!-- vdem:end -->
 
+<!-- gini:begin -->
+
+## Gini index (collected 2026-10-29)
+
+`gini_index`: 100 x the Gini coefficient of income or consumption, 17 value(s) for the survey years 2006-2022. A new variable; no other value in this folder or in the panel changed.
+
+- Flag "OECD equivalised disposable income (not World Bank)": 2006-2022.
+
+| years | source | file |
+|---|---|---|
+| 2006-2022 | OECD Income Distribution Database (IDD): Gini coefficient of equivalised household disposable income, total po | `oecd_IDD_NZL_INC_DISP_GINI_2001-2022_retrieved_2026-10-29.csv` |
+
+Each value carries its source, reference period, grade, verification text and any flag in `data/panel_final.csv`; `data/gini_source_comparison.csv` sets the World Bank, PIP and OECD values side by side; the revision history on the Verification page dates the addition.
+
+<!-- gini:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)

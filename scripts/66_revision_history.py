@@ -516,6 +516,15 @@ vstamp = json.load(open(vp, encoding="utf-8")) if os.path.exists(vp) else {}
 VA = dict(date=VT.WHEN, time=vstamp.get("time", ""), commit=vstamp.get("commit", ""))
 H += [dict(VA, kind="variable added", iso3=ALL40, **VT.revision())]
 
+# ---------------------------------------------------------------- Gini index, 2026-10-29
+# A new variable for every country (survey years only); no existing value changed. Stamped after committing
+# (commit_stamp_2026-10-29.json).
+import gini_texts as GT                                           # noqa: E402
+gp = os.path.join(D, "extension_staging", "commit_stamp_2026-10-29.json")
+gstamp = json.load(open(gp, encoding="utf-8")) if os.path.exists(gp) else {}
+GA = dict(date=GT.WHEN, time=gstamp.get("time", ""), commit=gstamp.get("commit", ""))
+H += [dict(GA, kind="variable added", iso3=ALL40, **GT.revision())]
+
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):
     if col not in hist.columns:
