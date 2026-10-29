@@ -154,7 +154,7 @@ if FETCH:
                                    'and git blob hash of vdem.RData and codebook.RData, against which the archived files '
                                    'are checked', 'GitHub (V-Dem Institute repository)', 'application/vnd.github+json'),
             (OWID_FILE, OWID_URL, 'Our World in Data, Liberal Democracy Index (V-Dem v16), all countries and years, '
-                                  'CSV; the independent check of the V-Dem values', 'Our World in Data', 'text/csv'),
+                                  'CSV; a copy of V-Dem v16, the check of the V-Dem values', 'Our World in Data', 'text/csv'),
             (OWID_META, OWID_META_URL, 'Our World in Data metadata of the chart: title, source (V-Dem v16), citation '
                                        'and last update', 'Our World in Data', 'application/json')):
         dest = os.path.join(API, f)

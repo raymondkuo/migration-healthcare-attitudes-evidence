@@ -434,8 +434,10 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
     # OECD, whose dataflow description names the codes used
     if k in ('worldbank_SI_POV_GINI', 'worldbank_pip_TWN', 'oecd_idd') and len(_apis):
         pats = {'worldbank_SI_POV_GINI': (('SI_POV_GINI_indicator_metadata', 'art_wbmeta'),
-                                          ('pip_survey_estimates_', 'art_pipcheck'), ('pip_citation_', 'art_pipcit')),
-                'worldbank_pip_TWN': (('pip_citation_', 'art_pipcit'), ('SI_POV_GINI_indicator_metadata', 'art_wbmeta')),
+                                          ('pip_survey_estimates_', 'art_pipcheck'), ('pip_citation_', 'art_pipcit'),
+                                          ('pip_methodology_', 'art_pipmeth')),
+                'worldbank_pip_TWN': (('pip_citation_', 'art_pipcit'), ('SI_POV_GINI_indicator_metadata', 'art_wbmeta'),
+                                      ('pip_methodology_', 'art_pipmeth')),
                 'oecd_idd': (('oecd_IDD_dataflow', 'art_oecdidd'),)}[k]
         for pat, lab in pats:
             for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False)].iterrows():

@@ -45,3 +45,4 @@ evidence/api/pip_survey_estimates_20260922_2021_01_02_PROD_retrieved_2026-10-29.
 evidence/api/pip_citation_20260922_2021_01_02_PROD_retrieved_2026-10-29.json -text
 evidence/api/oecd_IDD_NZL_INC_DISP_GINI_2001-2022_retrieved_2026-10-29.csv -text
 evidence/api/oecd_IDD_dataflow_retrieved_2026-10-29.xml -text
+evidence/api/pip_methodology_02_welfare_aggregates_3038270_retrieved_2026-10-29.Rmd -text

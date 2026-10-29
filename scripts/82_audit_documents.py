@@ -498,7 +498,9 @@ robustness check is a choice of the study. [AUTHORS]
 person for all 40 countries, but only in the years a household survey exists (%(ngi)s of %(ncy)s country-years); the
 gaps are real and are not filled. The World Bank's indicator (Poverty and Inequality Platform) gives %(gnw)d countries,
 the same platform Taiwan, and the OECD New Zealand, on a different income concept (flagged). Consumption-based values
-(flagged, %(ngc)s) are lower than income-based ones, and flagged breaks mark a change of survey. For a model that needs
+(flagged, %(ngc)s) measure a different welfare concept: they are often, but not always, lower than income-based ones
+(where the World Bank's table has both for a country-year in this scope, the consumption Gini is higher in %(npc)s of
+%(npp)s), so compare like with like and do not assume a direction. Flagged breaks mark a change of survey. For a model that needs
 one value per country and wave, take the survey nearest to (and not after) the fieldwork, state the distance, and check
 the result without the flagged values. [AUTHORS]
 
@@ -580,7 +582,7 @@ each of them.
 ''' % dict(when=WHEN, nfn=fn.iso3.nunique(), yfn='%d-%d' % (fn.year.min(), fn.year.max()),
            nui=n(int(panel.unemployment_rate_flag.notna().sum())), uimp=UT._imp_list(UT.counts()),
            vdw=VT.counts()['w_mean'], ngi=n(int(panel.gini_index.notna().sum())), ncy=n(len(panel)),
-           gnw=GT.counts()['n_wdi_countries'],
+           gnw=GT.counts()['n_wdi_countries'], npc=GT.counts()['n_pairs_cons_higher'], npp=GT.counts()['n_pairs'],
            ngc=n(int(panel.gini_index_flag.fillna('').str.contains(GT.F_CONS, regex=False).sum())),
            nfb=fb.iso3.nunique(), yfb='%d-%d' % (fb.year.min(), fb.year.max()),
            ntc=int(panel.foreign_born_concept.fillna('').str.contains('citizenship basis').sum()),

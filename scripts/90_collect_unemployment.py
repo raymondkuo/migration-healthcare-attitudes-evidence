@@ -139,7 +139,7 @@ if FETCH:
             (ILO_CL, ILO_CL_URL, 'SDMX code list CL_OBS_STATUS: the meaning of the ILO\'s observation-status '
                                  'codes (R = Real value)', 'ILO', 'application/xml'),
             (WB_FILE, WB_URL, 'Unemployment, total (% of total labor force) (modeled ILO estimate) '
-                              '(SL.UEM.TOTL.ZS), all countries 2001-2022; the independent check of the ILO '
+                              '(SL.UEM.TOTL.ZS), all countries 2001-2022; a copy of the ILO series, the check of the ILO '
                               'values', 'World Bank WDI', 'application/json'),
             (WB_META, WB_META_URL, 'Indicator metadata of SL.UEM.TOTL.ZS: name, definition (sourceNote) and '
                                    'source organisation (ILOEST)', 'World Bank WDI', 'application/json')):

@@ -93,8 +93,10 @@ v-dem.net asks for an e-mail address and consent to a privacy policy, so the sam
 GitHub package, pinned to the release commit.
 
 `94_collect_gini.py` re-reads the archived Gini files (the World Bank WDI response and indicator metadata, the PIP
-survey table and citation of the pinned PIP version, the OECD IDD response for New Zealand and the OECD dataflow) and
-rewrites its staging file and `data/gini_source_comparison.csv` without the network; with `--fetch` it downloads them
+survey table and citation of the pinned PIP version, the OECD IDD response for New Zealand, the OECD dataflow and the
+World Bank's PIP methodology chapter on income and consumption) and rewrites its staging file,
+`data/gini_source_comparison.csv` and `data/gini_income_consumption_pairs.csv` without the network
+(`--fetch-methodology` downloads only the methodology chapter); with `--fetch` it downloads them
 again (change the date constant in `scripts/gini_texts.py` first, and the PIP version if a newer one is wanted) and
 renders the mirrors and publisher pages. The OECD's own site answers a headless browser with a bot check, so its page
 is captured from the OECD Data Explorer instead.

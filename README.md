@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**728 pages** — 364 per language. Validated: 61,276 internal links, 0 broken.
+**728 pages** — 364 per language. Validated: 61,752 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -198,8 +198,10 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
   652 values equal the platform's own survey estimates (`data/gini_source_comparison.csv`). Taiwan, which WDI
   does not publish: the same platform (10 survey years). New Zealand, which the World Bank does not cover: the
   OECD Income Distribution Database (17 years, equivalised disposable income, flagged).
-- Flagged: **89 consumption-based values** (lower than income-based ones) and **39 survey breaks**
-  the World Bank marks as not comparable with earlier surveys.
+- Flagged: **89 consumption-based values** (a different welfare concept: often, but not always, lower than
+  income-based ones; the consumption Gini is higher in 24 of the 48 country-years where the World Bank has
+  both, `data/gini_income_consumption_pairs.csv`) and **39 survey breaks** the World Bank marks as not
+  comparable with earlier surveys.
 - Raw responses, the PIP survey table and citation, the OECD dataset description and the publishers' pages are archived
   with PDF/PNG mirrors in `evidence/api/`.
 
@@ -242,7 +244,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 525 MB across 2,013 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
+- About 525 MB across 2,017 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the

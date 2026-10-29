@@ -290,6 +290,53 @@ for iso in ISO:
             flag=cell_by[(iso, y)]['flag'] if (iso, y) in cell_by else ''))
 pd.DataFrame(cmp_rows).to_csv(GT.CMP, index=False, encoding='utf-8-sig')
 
+# ------------------------------------------------------------------ income and consumption in the same country-year
+# Where the survey table has both, which is higher. Added 2026-10-29 (issue #33): the documentation had said a
+# consumption Gini is always the lower one; the World Bank says inequality "often" is higher on income.
+METH_URL = 'https://raw.githubusercontent.com/worldbank/PIP-Methodology/%s/02-Constructing-welfare-aggregates.Rmd' % GT.METH_COMMIT
+if FETCH or '--fetch-methodology' in sys.argv:
+    size = fetch(METH_URL, os.path.join(API, GT.METH_FILE), 'text/plain', minimum=5000)
+    upsert(os.path.join(D, 'api_snapshots.csv'), [dict(
+        file=GT.METH_FILE, publisher='World Bank PIP (methodology, GitHub)',
+        description='PIP methodology, chapter 2 "Constructing welfare aggregates", at commit %s of '
+                    'github.com/worldbank/PIP-Methodology: the World Bank\'s statement that inequality often is higher '
+                    'when income rather than consumption is used' % GT.METH_COMMIT[:7],
+        query_url=METH_URL, bytes=size, path='evidence/api/' + GT.METH_FILE)], 'file')
+meth = open(os.path.join(API, GT.METH_FILE), encoding='utf-8').read()
+meth_par = next(par for par in meth.split('\n') if GT.METH_QUOTE in par)
+if FETCH or '--fetch-methodology' in sys.argv:
+    mb = os.path.join(API, 'MIRROR__' + os.path.splitext(GT.METH_FILE)[0])
+    L.table_extract('World Bank PIP methodology, chapter 2 - income and consumption', ['Paragraph (as archived)'],
+                    [([meth_par], True)], mb,
+                    'Archived file %s from %s, retrieved %s.' % (GT.METH_FILE, METH_URL, GT.FIXED),
+                    note='The paragraph of the archived chapter that compares inequality measured on income and on '
+                         'consumption, unchanged. Rendered %s.' % GT.FIXED)
+    sm = os.path.join(D, 'source_mirrors.csv')
+    old = pd.read_csv(sm)
+    old = old[old.source_file != GT.METH_FILE]
+    pd.concat([old, pd.DataFrame([dict(scope='API', folder='evidence/api', source_file=GT.METH_FILE,
+                                       mirrors='%s;%s' % (os.path.basename(mb + '.pdf'), os.path.basename(mb + '.png')),
+                                       n_mirrors=2)])], ignore_index=True).to_csv(sm, index=False, encoding='utf-8-sig')
+pip_all = pd.read_csv(os.path.join(API, PIP_FILE), dtype={'gini': str})
+pip_all = pip_all[(pip_all.reporting_level == 'national') & pip_all.country_code.isin(ISO)
+                  & pip_all.reporting_year.between(YEARS[0], YEARS[-1])]
+pair_rows = []
+for (iso, y), g in pip_all.groupby(['country_code', 'reporting_year']):
+    if set(g.welfare_type) != {'income', 'consumption'}:
+        continue
+    assert len(g) == 2, (iso, y)
+    inc, con = g[g.welfare_type == 'income'].iloc[0], g[g.welfare_type == 'consumption'].iloc[0]
+    row = used[(iso, int(y))][2]
+    pair_rows.append(dict(iso3=iso, year=int(y), gini_income=inc.gini, gini_consumption=con.gini,
+                          income_x100=repr(x100(inc.gini)), consumption_x100=repr(x100(con.gini)),
+                          higher='consumption' if Decimal(con.gini) > Decimal(inc.gini) else 'income',
+                          income_survey=inc.survey_acronym, consumption_survey=con.survey_acronym,
+                          panel_uses='' if row is None else row.welfare_type))
+pairs = pd.DataFrame(pair_rows)
+pairs.to_csv(GT.PAIRS, index=False, encoding='utf-8-sig')
+print('income and consumption Gini in the same country-year: %d pairs, the consumption one higher in %d'
+      % (len(pairs), (pairs.higher == 'consumption').sum()))
+
 # ------------------------------------------------------------------ mirrors, extracts, publisher pages
 if FETCH:
     import fitz                                          # noqa: E402

@@ -125,7 +125,7 @@ if FETCH:
                               'GHED), all countries 2001-2022', 'World Bank WDI'),
             (WHO_FILE, WHO_URL, 'WHO Global Health Expenditure Database via the GHO OData API, '
                                 'current health expenditure % of GDP (GHED_CHEGDP_SHA2011), all '
-                                'countries 2001-2022; the independent check of the World Bank '
+                                'countries 2001-2022; the check of the World Bank '
                                 'values', 'WHO'),
             (WB_META, WB_META_URL, 'Indicator metadata of SH.XPD.CHEX.GD.ZS: name, definition '
                                    '(sourceNote) and source organisation', 'World Bank WDI')):

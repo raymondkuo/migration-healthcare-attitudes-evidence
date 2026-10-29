@@ -255,6 +255,12 @@ def build_data(lang):
        'country-year without a survey has no value.',
        '每一國家年度：世界銀行 WDI 數值、對應之 PIP 調查列（吉尼係數、福利類型、調查、調查年度、可比較區段）及 WDI 是否與之相等、'
        '紐西蘭之 OECD 數值，以及所採用之數值與旗標。無調查之國家年度無數值。')),
+     ('data/gini_income_consumption_pairs.csv', ('Gini index: income and consumption in the same country-year', '吉尼指數：同一國家年度之所得與消費'),
+      ('Every country-year in the panel&rsquo;s scope where the World Bank&rsquo;s survey table has both an income and a '
+       'consumption Gini, with both values, their surveys, which is higher and which one the panel uses: the evidence '
+       'that a consumption Gini is not always the lower one.',
+       '在 panel 範圍內世界銀行調查表同時列有所得與消費吉尼值之每一國家年度：兩數值、其調查、何者較高及 panel 所採用者；'
+       '此即消費吉尼值並非必然較低之佐證。')),
      ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit and the re-audit of 2026-10-07', '對 2026-10-07 稽核與再稽核之回應'),
       ('All 24 audit findings and all 11 re-audit findings re-checked against the archived sources: verdict, what was '
        'checked, what changed, and what stays with the authors.',

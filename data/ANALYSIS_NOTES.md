@@ -64,7 +64,9 @@ robustness check is a choice of the study. [AUTHORS]
 person for all 40 countries, but only in the years a household survey exists (679 of 880 country-years); the
 gaps are real and are not filled. The World Bank's indicator (Poverty and Inequality Platform) gives 38 countries,
 the same platform Taiwan, and the OECD New Zealand, on a different income concept (flagged). Consumption-based values
-(flagged, 89) are lower than income-based ones, and flagged breaks mark a change of survey. For a model that needs
+(flagged, 89) measure a different welfare concept: they are often, but not always, lower than income-based ones
+(where the World Bank's table has both for a country-year in this scope, the consumption Gini is higher in 24 of
+48), so compare like with like and do not assume a direction. Flagged breaks mark a change of survey. For a model that needs
 one value per country and wave, take the survey nearest to (and not after) the fieldwork, state the distance, and check
 the result without the flagged values. [AUTHORS]
 

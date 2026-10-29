@@ -16,6 +16,12 @@ F_BREAK = 'break in time series: new PIP survey-comparability spell'
 F_OECD = 'OECD equivalised disposable income (not World Bank)'
 _D = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 CMP = os.path.join(_D, 'gini_source_comparison.csv')
+PAIRS = os.path.join(_D, 'gini_income_consumption_pairs.csv')
+# the World Bank's own statement on income and consumption inequality (PIP methodology, chapter 2), archived
+METH_COMMIT = '30382709c7ffc391dcf71e4bbac5c0d50bfebb2b'
+METH_FILE = 'pip_methodology_02_welfare_aggregates_%s_retrieved_2026-10-29.Rmd' % METH_COMMIT[:7]
+METH_QUOTE = 'inequality often is higher when incomes are used rather than consumption'
+FIXED = '2026-10-29'                     # the wording on consumption and income was corrected (issue #33)
 _ZH = {'China': '中國', 'India': '印度', 'Thailand': '泰國', 'South Africa': '南非', 'Suriname': '蘇利南',
        'Russia': '俄羅斯', 'Croatia': '克羅埃西亞', 'Bulgaria': '保加利亞', 'Hungary': '匈牙利', 'Lithuania': '立陶宛',
        'Poland': '波蘭', 'Slovak Republic': '斯洛伐克', 'Slovenia': '斯洛維尼亞', 'Turkey': '土耳其', 'Philippines': '菲律賓'}
@@ -42,7 +48,8 @@ def counts():
     cons_by = {cn: _years(cons[cons.country == cn].year) for cn in cons.groupby('country').size()
                .sort_values(ascending=False, kind='stable').index}
     wdi = c[c.used_source == 'World Bank WDI']
-    return dict(n=int(len(s)), n_countries=int(s.iso3.nunique()), y0=int(p.year.min()), y1=int(p.year.max()),
+    pr = pd.read_csv(PAIRS, dtype=str, keep_default_na=False)
+    return dict(n_pairs=int(len(pr)), n_pairs_cons_higher=int((pr.higher == 'consumption').sum()),n=int(len(s)), n_countries=int(s.iso3.nunique()), y0=int(p.year.min()), y1=int(p.year.max()),
                 n_wdi=int(len(wdi)), n_wdi_countries=int(wdi.iso3.nunique()),
                 n_pip_match=int((wdi.wdi_equals_pip == 'yes').sum()),
                 n_twn=int((c.used_source == 'World Bank PIP').sum()), n_nzl=int((c.used_source == 'OECD IDD').sum()),
@@ -63,13 +70,16 @@ def _cons(k, zh=False):
 COMPARABILITY_EN = {
     VAR: 'Comparable with caution. One publisher and method for 39 countries (World Bank Poverty and Inequality Platform: '
          'Gini of per-capita income or consumption from national household surveys), but some countries\' surveys '
-         'measure consumption, which gives lower Gini values than income (flagged), surveys change within a country '
+         'measure consumption rather than income, a different welfare concept (flagged): inequality is often, but not '
+         'always, lower when measured on consumption, so neither the direction nor the size of the difference can be '
+         'assumed for a given value; surveys change within a country '
          '(the World Bank marks non-comparable spells; flagged at the break), and New Zealand comes from the OECD on a '
          'different income concept (flagged). Years without a survey are empty, not interpolated.',
 }
 COMPARABILITY_ZH = {
     VAR: '可謹慎比較。39 國之發布機構與方法一致（世界銀行貧窮與不平等平台：依各國家戶調查計算之每人所得或消費吉尼係數），'
-         '但部分國家之調查衡量消費，其吉尼值低於所得（已標示旗標）；一國之調查亦可能更替（世界銀行標示不可比較之區段；於斷點標示旗標）；'
+         '但部分國家之調查衡量消費而非所得，屬不同之福利概念（已標示旗標）：以消費衡量之不平等常低於以所得衡量者，但並非必然，'
+         '故任一數值之差異方向與大小均無法預設；一國之調查亦可能更替（世界銀行標示不可比較之區段；於斷點標示旗標）；'
          '紐西蘭則取自 OECD，所得概念不同（已標示旗標）。無調查之年度留空，未作內插。',
 }
 
@@ -140,19 +150,28 @@ def known_issues():
                   '之結果；未經說明請勿以內插填補空缺。')
     cons = dict(
         severity='MEDIUM', scope=', '.join(k['cons_by']), variable=VAR,
-        issue='%d Gini values rest on household consumption, not income: %s. Consumption is spread more evenly than '
-              'income, so these values are lower than an income Gini of the same country would be; they are flagged '
-              '"%s". %d values are flagged "%s" where the World Bank marks a survey as not comparable with the '
-              'country\'s earlier ones.' % (k['n_cons'], _cons(k), F_CONS, k['n_break'], F_BREAK),
-        issue_zh='%d 筆吉尼值依據家戶消費而非所得：%s。消費分配較所得平均，故此類數值低於同國以所得計算之吉尼值；已標示旗標「%s」。'
-                 '世界銀行註記調查與該國先前調查不可比較者，%d 筆標示「%s」。'
-                 % (k['n_cons'], _cons(k, zh=True), F_CONS, k['n_break'], F_BREAK),
+        issue='%d Gini values rest on household consumption, not income: %s. Consumption and income are different '
+              'welfare concepts. The World Bank notes that inequality often is higher when measured on income, but this '
+              'is a tendency, not a rule: of the %d country-years in the panel\'s scope where its survey table has both '
+              'an income and a consumption Gini, the consumption one is higher in %d (the two can come from different '
+              'surveys). Neither the direction nor the size of the difference can be assumed for a flagged value. %d '
+              'values are flagged "%s" where the World Bank marks a survey as not comparable with the country\'s earlier '
+              'ones. (Wording corrected %s: it had said consumption values are always lower.)'
+              % (k['n_cons'], _cons(k), k['n_pairs'], k['n_pairs_cons_higher'], k['n_break'], F_BREAK, FIXED),
+        issue_zh='%d 筆吉尼值依據家戶消費而非所得：%s。消費與所得屬不同之福利概念。世界銀行指出以所得衡量之不平等常較高，但此為一般傾向而非'
+                 '定則：在 panel 範圍內世界銀行調查表同時列有所得與消費吉尼值之 %d 個國家年度中，有 %d 個之消費吉尼值較高（兩者可能來自不同'
+                 '調查）。已標示旗標之數值，其差異方向與大小均無法預設。世界銀行註記調查與該國先前調查不可比較者，%d 筆標示「%s」。'
+                 '（文字於 %s 更正：原稱消費基礎數值必然較低。）'
+                 % (k['n_cons'], _cons(k, zh=True), k['n_pairs'], k['n_pairs_cons_higher'], k['n_break'], F_BREAK, FIXED),
         evidence='The PIP survey table in evidence/api/ (welfare_type and survey_comparability per survey); '
-                 'data/gini_source_comparison.csv.',
-        evidence_zh='evidence/api/ 之 PIP 調查表（每一調查之 welfare_type 與 survey_comparability）；data/gini_source_comparison.csv。',
-        action='Kept and flagged. Compare countries on the same welfare type where possible, and treat a change across a '
-               'flagged break as possibly a change of survey.',
-        action_zh='保留並標示旗標。跨國比較請盡量限於相同福利類型；跨越已標示斷點之變化，可能來自調查更替。')
+                 'data/gini_source_comparison.csv; data/gini_income_consumption_pairs.csv (every country-year with both '
+                 'measures); the World Bank\'s statement in its PIP methodology, chapter 2 (evidence/api/%s).' % METH_FILE,
+        evidence_zh='evidence/api/ 之 PIP 調查表（每一調查之 welfare_type 與 survey_comparability）；data/gini_source_comparison.csv；'
+                    'data/gini_income_consumption_pairs.csv（每一同時具有兩種衡量之國家年度）；世界銀行 PIP 方法說明第 2 章之陳述'
+                    '（evidence/api/%s）。' % METH_FILE,
+        action='Kept and flagged. Compare countries on the same welfare type where possible, do not adjust a consumption '
+               'value by an assumed direction, and treat a change across a flagged break as possibly a change of survey.',
+        action_zh='保留並標示旗標。跨國比較請盡量限於相同福利類型，勿依預設方向調整消費基礎數值；跨越已標示斷點之變化，可能來自調查更替。')
     return [cov, cons]
 
 

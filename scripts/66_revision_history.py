@@ -525,6 +525,46 @@ gstamp = json.load(open(gp, encoding="utf-8")) if os.path.exists(gp) else {}
 GA = dict(date=GT.WHEN, time=gstamp.get("time", ""), commit=gstamp.get("commit", ""))
 H += [dict(GA, kind="variable added", iso3=ALL40, **GT.revision())]
 
+# ---------------------------------------------------------------- corrections of 2026-10-29 (Gini audit, issue #33)
+# Wording only; no value changed. A second commit on the same day, stamped in commit_stamp_2026-10-29b.json.
+cp_ = os.path.join(D, "extension_staging", "commit_stamp_2026-10-29b.json")
+cstamp = json.load(open(cp_, encoding="utf-8")) if os.path.exists(cp_) else {}
+CA = dict(date=GT.FIXED, time=cstamp.get("time", ""), commit=cstamp.get("commit", ""))
+_gk = GT.counts()
+H += [
+ dict(CA, kind="documentation corrected", iso3="",
+      scope="Gini index: what the consumption-based flag means (GitHub issue #33, Gini audit finding G01)",
+      scope_zh="吉尼指數：消費基礎旗標之意涵（GitHub issue #33，吉尼指數稽核發現 G01）",
+      before="consumption-based Ginis \"are lower than an income Gini of the same country would be\"",
+      before_zh="消費基礎吉尼值「低於同國以所得計算之吉尼值」",
+      after="a different welfare concept: often, but not always, lower; direction and size cannot be assumed",
+      after_zh="屬不同之福利概念：常較低但並非必然；差異方向與大小均無法預設",
+      change="Values and flags unchanged. The README, known issues, comparability text, analysis notes and the clean "
+             "workbook said a consumption Gini is always lower than the income Gini of the same country. The World Bank "
+             "says inequality often is higher on income (PIP methodology, chapter 2, now archived), and where its survey "
+             "table has both measures for a country-year in the panel's scope the consumption Gini is higher in %d of %d "
+             "(data/gini_income_consumption_pairs.csv). The texts now say often, not always, in English and Chinese."
+             % (_gk['n_pairs_cons_higher'], _gk['n_pairs']),
+      change_zh="數值與旗標不變。README、已知問題、可比性說明、分析說明與精簡活頁簿原稱消費吉尼值必然低於同國之所得吉尼值。世界銀行指出以所得"
+                "衡量之不平等「常」較高（PIP 方法說明第 2 章，現已存檔）；在 panel 範圍內世界銀行調查表同時列有兩種衡量之國家年度中，"
+                "%d 個之中有 %d 個消費吉尼值較高（data/gini_income_consumption_pairs.csv）。中英文說明現改為「常較低，但並非必然」。"
+                % (_gk['n_pairs'], _gk['n_pairs_cons_higher'])),
+ dict(CA, kind="documentation corrected", iso3="",
+      scope="Evidence pages and file descriptions: checks against a copy of the same series",
+      scope_zh="佐證頁與檔案說明：與同一序列轉載值之核對",
+      before="\"Independent check\" for the World Bank's copy of the ILO series, Our World in Data's copy of V-Dem, the "
+             "World Bank's PIP survey table and WHO's API",
+      before_zh="世界銀行轉載之國際勞工組織序列、Our World in Data 轉載之 V-Dem、世界銀行 PIP 調查表與 WHO API 均標為「獨立核對」",
+      after="\"Cross-check\", naming what each is (a copy, the source of WDI's values, the original publisher)",
+      after_zh="改標為「交叉核對」，並說明其性質（轉載、WDI 數值之來源、原始發布機構）",
+      change="Values unchanged. A copy of the same series confirms that the archive read the publisher's file correctly, "
+             "not that the values are right; the Gini audit of 2026-10-29 made the point for the World Bank's PIP table, "
+             "and the same label stood on the other copies. The labels and the descriptions in data/api_snapshots.csv now "
+             "say what each check is.",
+      change_zh="數值不變。同一序列之轉載值僅能確認存檔正確讀取發布機構之檔案，無法證明數值本身正確；2026-10-29 之吉尼指數稽核就世界銀行 "
+                "PIP 調查表指出此點，其他轉載亦用同一標示。標示與 data/api_snapshots.csv 之說明現已載明每項核對之性質。"),
+]
+
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):
     if col not in hist.columns:

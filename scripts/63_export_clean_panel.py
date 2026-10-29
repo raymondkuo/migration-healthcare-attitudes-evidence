@@ -246,8 +246,9 @@ UFLAGS = {UT.FLAG: 'The ILO imputed the value from a model because it has no nat
                    'and year. The ILO says such values are subject to high uncertainty and should not be used for '
                    'country comparisons or rankings.'}
 assert set(out.unemployment_flag) - {''} <= set(UFLAGS), set(out.unemployment_flag)
-GFLAGS = {GT.F_CONS: 'The survey measures household consumption, not income; consumption is spread more evenly, so the '
-                     'Gini is lower than an income Gini of the same country would be.',
+GFLAGS = {GT.F_CONS: 'The survey measures household consumption, not income: a different welfare concept. Consumption '
+                     'Ginis are often, but not always, lower than income Ginis, so neither the direction nor the size of '
+                     'the difference can be assumed.',
           GT.F_BREAK: 'The World Bank marks this survey as not comparable with the country\'s earlier ones: a change from '
                       'the previous value may reflect the change of survey.',
           GT.F_OECD: 'New Zealand, which the World Bank does not cover: OECD Gini of equivalised household disposable '
@@ -604,7 +605,8 @@ README = [
                        'edition; the values are those published when retrieved (2026-10-21).'
                        % (NC - 1, n((out.unemployment_flag != '').sum()))),
  ('Gini index', 'Survey years only (%s of %s country-years); do not interpolate without saying so. Consumption-based '
-                'values (flagged) are lower than income-based ones; flagged breaks mark a change of survey; New Zealand '
+                'values (flagged) measure a different concept from income-based ones (often, but not always, lower); '
+                'flagged breaks mark a change of survey; New Zealand '
                 'is from the OECD on a different income concept (flagged). The World Bank revises past values with new '
                 'releases; the values are those published when retrieved (2026-10-29).'
                 % (n(out.gini_index.notna().sum()), n(len(out)))),

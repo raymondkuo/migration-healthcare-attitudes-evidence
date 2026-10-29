@@ -255,8 +255,10 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
   %(gi_ncmp)s values equal the platform's own survey estimates (`data/gini_source_comparison.csv`). Taiwan, which WDI
   does not publish: the same platform (%(gi_ntwn)d survey years). New Zealand, which the World Bank does not cover: the
   OECD Income Distribution Database (%(gi_nnzl)d years, equivalised disposable income, flagged).
-- Flagged: **%(gi_ncons)s consumption-based values** (lower than income-based ones) and **%(gi_nbreak)s survey breaks**
-  the World Bank marks as not comparable with earlier surveys.
+- Flagged: **%(gi_ncons)s consumption-based values** (a different welfare concept: often, but not always, lower than
+  income-based ones; the consumption Gini is higher in %(gi_npc)s of the %(gi_npp)s country-years where the World Bank has
+  both, `data/gini_income_consumption_pairs.csv`) and **%(gi_nbreak)s survey breaks** the World Bank marks as not
+  comparable with earlier surveys.
 - Raw responses, the PIP survey table and citation, the OECD dataset description and the publishers' pages are archived
   with PDF/PNG mirrors in `evidence/api/`.
 
@@ -290,6 +292,7 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            gi_when=GT.WHEN, gi_nc=_gk['n_countries'], n_gi=n(_gk['n']), gi_ncy=n(40 * (_gk['y1'] - _gk['y0'] + 1)),
            gi_nwdi=_gk['n_wdi_countries'], gi_pv=GT.PIP_VERSION, gi_ncmp=n(_gk['n_wdi']), gi_ntwn=_gk['n_twn'],
            gi_nnzl=_gk['n_nzl'], gi_ncons=n(_gk['n_cons']), gi_nbreak=n(_gk['n_break']),
+           gi_npc=_gk['n_pairs_cons_higher'], gi_npp=_gk['n_pairs'],
            aus_v=n(panel.non_citizens_census.dropna().iloc[0]),
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
