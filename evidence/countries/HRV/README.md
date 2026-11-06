@@ -86,6 +86,22 @@ Each value carries its source, reference period, grade, verification text and an
 
 <!-- gini:end -->
 
+<!-- covid:begin -->
+
+## COVID-19 (collected 2026-11-06)
+
+Four new variables for the years 2020, 2021, 2022: `covid_cases` and `covid_deaths` (reported in the calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100, computed by the archive). No other value in this folder or in the panel changed.
+
+| year | cases | deaths | source | file |
+|---|---:|---:|---|---|
+| 2020 | 208,446 | 3,860 | World Health Organization, COVID-19 dashboard data: cases and deaths by date reported to W | `who_COVID-19_global_daily_data_retrieved_2026-11-06.csv` |
+| 2021 | 501,232 | 8,633 | World Health Organization, COVID-19 dashboard data: cases and deaths by date reported to W | `who_COVID-19_global_daily_data_retrieved_2026-11-06.csv` |
+| 2022 | 553,839 | 5,090 | World Health Organization, COVID-19 dashboard data: cases and deaths by date reported to W | `who_COVID-19_global_daily_data_retrieved_2026-11-06.csv` |
+
+`data/covid_source_comparison.csv` sets the values beside WHO's and the Johns Hopkins archive's; the revision history on the Verification page dates the addition.
+
+<!-- covid:end -->
+
 <!-- extension-2001:begin -->
 
 ## Extension to 2001 (collected 2026-10-07)

@@ -24,7 +24,7 @@ migration values, counting the seven Taiwan absconded-worker values).
 
 With them the audits cover 4,245 current observations; with the census value (2026-10-18), the 880 unemployment
 rates (2026-10-21), the 880 V-Dem liberal democracy index values (2026-10-26) and the 679 Gini index values
-(2026-10-29) added after them the ledger has 6,685 rows. Every source path is relative to the archive root.
+(2026-10-29) and the 476 COVID-19 values (2026-11-06) added after them the ledger has 7,161 rows. Every source path is relative to the archive root.
 
 **These files are not produced by this archive's pipeline.** They are the audits' own record and are committed so
 that a clean clone reproduces the ledger. Keep them as they are: if an observation is added to the panel, an audit has
@@ -34,7 +34,8 @@ digit, from the value the health audit recorded. The exceptions are observations
 in the script (`POST_AUDIT`): Australia's 2021 census count of non-citizens (`non_citizens_census`, added 2026-10-18)
 the unemployment rate of every country and year (`unemployment_rate`, added 2026-10-21), the V-Dem liberal
 democracy index of every country and year (`vdem_libdem`, added 2026-10-26) and the Gini index of every country in its
-survey years (`gini_index`, added 2026-10-29), whose ledger rows say
+survey years (`gini_index`, added 2026-10-29) and the four COVID-19 variables (`covid_cases`, `covid_cases_pct_pop`,
+`covid_deaths`, `covid_deaths_pct_pop`, added 2026-11-06), whose ledger rows say
 that no independent audit covered them and how the archive itself checked them. Where a later correction changed a cell
 (`data/audit_changes_2026-10-07.csv`), the ledger shows that change first and the audit result after it; the audit's
 own status in these files is left as it was written.

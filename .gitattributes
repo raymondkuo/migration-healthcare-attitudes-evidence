@@ -46,3 +46,12 @@ evidence/api/pip_citation_20260922_2021_01_02_PROD_retrieved_2026-10-29.json -te
 evidence/api/oecd_IDD_NZL_INC_DISP_GINI_2001-2022_retrieved_2026-10-29.csv -text
 evidence/api/oecd_IDD_dataflow_retrieved_2026-10-29.xml -text
 evidence/api/pip_methodology_02_welfare_aggregates_3038270_retrieved_2026-10-29.Rmd -text
+evidence/api/who_COVID-19_global_daily_data_retrieved_2026-11-06.csv -text
+evidence/api/jhu_csse_time_series_covid19_confirmed_global_246b73f_retrieved_2026-11-06.csv -text
+evidence/api/jhu_csse_time_series_covid19_deaths_global_246b73f_retrieved_2026-11-06.csv -text
+evidence/api/wb_SP_POP_TOTL_FRA_country_series_note_retrieved_2026-11-06.json -text
+evidence/countries/CHN/covid__NHC_briefing_2020-12-31__chinadaily__retrieved_2026-11-06.html -text
+evidence/countries/CHN/covid__NHC_briefing_2021-12-31__chinadaily__retrieved_2026-11-06.html -text
+evidence/countries/TWN/covid__CECC_bulletin_2020-12-31__retrieved_2026-11-06.html -text
+evidence/countries/TWN/covid__CECC_bulletin_2021-12-31__retrieved_2026-11-06.html -text
+evidence/countries/TWN/covid__CECC_bulletin_2022-12-31__retrieved_2026-11-06.html -text

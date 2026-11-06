@@ -35,6 +35,7 @@ import health_texts as HT                                           # noqa: E402
 import unemployment_texts as UT                                     # noqa: E402
 import vdem_texts as VT                                             # noqa: E402
 import gini_texts as GT                                             # noqa: E402
+import covid_texts as CT                                            # noqa: E402
 
 p = pd.read_csv(os.path.join(D, 'panel_final.csv'))
 hist = pd.read_csv(os.path.join(D, 'revision_history.csv')).fillna('')
@@ -126,6 +127,12 @@ _gi = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', G
 out['gini_index'] = [_gi.get((i, y)) for i, y in zip(p.iso3, p.year)]
 out['gini_flag'] = p[GT.VAR + '_flag'].fillna('')
 
+# ---------------------------------------------------------------- COVID-19 (added 2026-11-06; 2020-2022 only)
+_cv = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year'] + CT.VARS,
+                  float_precision='round_trip').set_index(['iso3', 'year'])
+for _v in CT.VARS:
+    out[_v] = [_cv[_v].get((i, y)) for i, y in zip(p.iso3, p.year)]
+
 # ---------------------------------------------------------------- quality grades
 GRADES = [('grade_population', 'population'),
           ('grade_foreign_born', 'foreign_born'),
@@ -137,7 +144,8 @@ GRADES = [('grade_population', 'population'),
           ('grade_non_citizens_census', 'non_citizens_census'),
           ('grade_unemployment', UT.VAR),
           ('grade_vdem_libdem', VT.VAR),
-          ('grade_gini', GT.VAR)]
+          ('grade_gini', GT.VAR),
+          ('grade_covid', CT.CASES)]
 for new, src in GRADES:
     col = src + '_grade'
     out[new] = p[col].fillna('') if col in p.columns else ''
@@ -397,6 +405,17 @@ CODE = [
   'All WDI values equal the platform\'s own survey estimates (data/gini_source_comparison.csv in the archive). %s of '
   '%s country-years have a value: do not fill the gaps silently. See gini_flag for consumption-based values, survey '
   'breaks and New Zealand.' % (n(int(out.gini_index.notna().sum())), n(len(out)))),
+ ('covid_cases', 'COVID-19 cases reported in the calendar year (a count), 2020-2022 only. 38 countries: WHO (by date '
+                 'reported; France with its overseas departments); mainland China (2020-2021): National Health Commission; '
+                 'Taiwan: Central Epidemic Command Center. Added 2026-11-06.',
+  'Reported cases, not infections: they depend on testing, which fell in 2022. China 2022 is empty (see the archive\'s '
+  'known issues). Empty before 2020.'),
+ ('covid_cases_pct_pop', 'covid_cases / population x 100, computed by the archive with this file\'s population.',
+  'Not the share of the population ever infected: a year\'s reported cases over the population; one person can be '
+  'counted more than once.'),
+ ('covid_deaths', 'COVID-19 deaths reported in the calendar year (a count), 2020-2022 only; same sources as covid_cases.',
+  'Countries certify COVID-19 deaths differently; not excess mortality.'),
+ ('covid_deaths_pct_pop', 'covid_deaths / population x 100, computed by the archive with this file\'s population.', ''),
  ('gini_flag', 'Why the Gini value needs a caution, blank where nothing does; several are separated by "; ". '
                + ' | '.join('%s: %s' % (k, v) for k, v in GFLAGS.items()), ''),
  ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
@@ -415,6 +434,8 @@ CODE = [
  ('grade_unemployment', 'Evidence grade for unemployment_rate.', ''),
  ('grade_vdem_libdem', 'Evidence grade for vdem_libdem.', ''),
  ('grade_gini', 'Evidence grade for gini_index.', ''),
+ ('grade_covid', 'Evidence grade for the four COVID-19 columns (A: WHO\'s machine-readable file; B: the mainland China '
+                 'and Taiwan figures, read from archived briefings).', ''),
 ]
 codebook = pd.DataFrame(CODE, columns=['column', 'definition', 'caution'])
 missing = [c for c in out.columns if c not in set(codebook.column)]
@@ -427,7 +448,7 @@ cov = []
 for c in ['population', 'population_unwpp', 'foreign_born', 'un_stock_citizenship_basis', 'foreign_nationals',
           'non_citizens_census',
           'irregular_stock', 'overstayers', 'detections', 'absconded_workers_tw',
-          'health_expenditure_pct_gdp', 'unemployment_rate', 'vdem_libdem', 'gini_index']:
+          'health_expenditure_pct_gdp', 'unemployment_rate', 'vdem_libdem', 'gini_index'] + CT.VARS:
     s = out[out[c].notna()]
     yrs = sorted(s.year.unique())
     cov.append(dict(variable=c, observations=len(s), pct_of_rows=round(100 * len(s) / NR, 1),
@@ -504,6 +525,11 @@ README = [
  ('WHAT WAS ADDED ON 2026-10-29', ''),
  ('Gini index', 'gini_index: 100 x the Gini coefficient for all %d countries, in the years a household survey exists (%s '
                 'values), with gini_flag and grade_gini. No other value changed.' % (NC, n(out.gini_index.notna().sum()))),
+ ('', ''),
+ ('WHAT WAS ADDED ON 2026-11-06', ''),
+ ('COVID-19', 'covid_cases, covid_cases_pct_pop, covid_deaths and covid_deaths_pct_pop for all %d countries, 2020-2022 (%s '
+              'country-years; China 2022 is empty), with grade_covid. No other value changed.'
+              % (NC, n(out.covid_cases.notna().sum()))),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
  ('Value-by-value comparisons', 'These are the RECORDS of the first-release check, not a count of unique '
@@ -604,6 +630,9 @@ README = [
                        'country comparisons: China has no other kind. The ILO revises its estimates with every '
                        'edition; the values are those published when retrieved (2026-10-21).'
                        % (NC - 1, n((out.unemployment_flag != '').sum()))),
+ ('COVID-19', 'Counts reported in the calendar year, 2020-2022 only (empty before 2020, not zero). Reported cases depend '
+              'on testing and fell in 2022 as testing was scaled back; deaths depend on how each country certified them. '
+              'Mainland China has 2020-2021 only: WHO\'s "China" includes Hong Kong, Macao and Taiwan.'),
  ('Gini index', 'Survey years only (%s of %s country-years); do not interpolate without saying so. Consumption-based '
                 'values (flagged) measure a different concept from income-based ones (often, but not always, lower); '
                 'flagged breaks mark a change of survey; New Zealand '

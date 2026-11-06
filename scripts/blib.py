@@ -66,7 +66,8 @@ pubs = pd.read_csv(os.path.join(D, 'api_publisher_snapshots.csv'))
 
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections', 'health_expenditure_pct_gdp',
-        'unemployment_rate', 'vdem_libdem', 'gini_index']
+        'unemployment_rate', 'vdem_libdem', 'gini_index',
+        'covid_cases', 'covid_cases_pct_pop', 'covid_deaths', 'covid_deaths_pct_pop']
 # shown only for the countries that have them: Taiwan's absconded workers, and the census count of non-citizens
 # for a country with no annual foreign-national series (Australia 2021; decision of 2026-10-18)
 ALLVARS = VARS + ['irregular_proxy_absconded_workers', 'non_citizens_census']
@@ -77,14 +78,26 @@ DEC = {'health_expenditure_pct_gdp': 2, 'unemployment_rate': 3, 'vdem_libdem': 3
 DEC_ISO = {('unemployment_rate', 'TWN'): 2}
 
 
-def vdec(v, iso3=None):
-    """Decimals shown for one variable (and country)."""
+# shares that span several orders of magnitude (COVID-19 deaths: from about 0.3% of the population down to 0.0000001%)
+# are shown to three significant digits, so that a small value is never displayed as 0
+SIG = {'covid_cases_pct_pop', 'covid_deaths_pct_pop'}
+
+
+def vdec(v, iso3=None, val=None):
+    """Decimals shown for one variable (and country; for SIG variables, for one value)."""
+    if v in SIG:
+        import math
+        try:
+            x = abs(float(val))
+        except (TypeError, ValueError):
+            return 2
+        return 2 if not x or math.isnan(x) else max(2, 2 - int(math.floor(math.log10(x))))
     return DEC_ISO.get((v, iso3), DEC.get(v, 0))
 
 
 def vnum(v, val, iso3=None):
     """A panel value formatted for display with the decimals its variable (and source) needs."""
-    return num(val, vdec(v, iso3))
+    return num(val, vdec(v, iso3, val))
 
 
 # ---- how each value was checked, from the verification ledger (data/current_panel_verification.csv, written by
@@ -290,6 +303,8 @@ def publisher_key(url):
         return 'worldbank_pip_TWN'
     if 'sdmx.oecd.org' in u and 'DF_IDD' in u:
         return 'oecd_idd'
+    if 'srhdpeuwpubsa.blob.core.windows.net/whdh/COVID' in u:
+        return 'who_covid19_dashboard'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -441,6 +456,23 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
                 'oecd_idd': (('oecd_IDD_dataflow', 'art_oecdidd'),)}[k]
         for pat, lab in pats:
             for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False)].iterrows():
+                ap = str(a['path'])
+                add(t(lab, lang), ap)
+                for lab2, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):
+                    add(lab2, rel)
+
+    # COVID-19: the Johns Hopkins archive is the check for every country; WHO's own file and the situation report that
+    # says WHO's "China" includes Hong Kong, Macao and Taiwan are evidence for the mainland figures; France adds its
+    # overseas departments because the World Bank population includes them
+    covid_doc = 'govt.chinadaily.com.cn' in url or 'cdc.gov.tw/En/Bulletin' in url
+    if (k == 'who_covid19_dashboard' or covid_doc) and len(_apis):
+        pats = [('jhu_csse_time_series_covid19_', 'art_jhucheck')]
+        if 'govt.chinadaily.com.cn' in url:
+            pats += [('who_COVID-19_situation_report_24', 'art_whositrep'), ('who_COVID-19_global_daily_data', 'art_whochina')]
+        if k == 'who_covid19_dashboard' and iso3 == 'FRA':
+            pats += [('wb_SP_POP_TOTL_FRA_country_series_note', 'art_wbpopnote')]
+        for pat, lab in pats:
+            for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False, regex=False)].iterrows():
                 ap = str(a['path'])
                 add(t(lab, lang), ap)
                 for lab2, rel in _mirrors_of(os.path.dirname(ap), os.path.basename(ap), lang):

@@ -114,7 +114,7 @@ for _, ci in cinfo.iterrows():
             fl = str(r.get(fcol) or '').strip() if has_flag else ''
             trs += ('<tr><td class="n">%d</td><td class="n"><b>%s</b></td><td>%s</td><td>%s</td>'
                     '<td>%s</td><td>%s</td>%s</tr>'
-                    % (y, ('{:,.%df}' % vdec(v, iso)).format(r[v]), esc(r.get(v + '_grade') or '—'),
+                    % (y, ('{:,.%df}' % vdec(v, iso, r[v])).format(r[v]), esc(r.get(v + '_grade') or '—'),
                        esc(ver), esc(str(r.get(v + '_source') or '')[:88]),
                        esc(str(r.get(v + '_ref_date') or '') if (v + '_ref_date') in r else ''),
                        ('<td>%s</td>' % esc(fl if fl and fl != 'nan' else '—')) if has_flag else ''))

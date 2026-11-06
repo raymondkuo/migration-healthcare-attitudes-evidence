@@ -565,6 +565,14 @@ H += [
                 "PIP 調查表指出此點，其他轉載亦用同一標示。標示與 data/api_snapshots.csv 之說明現已載明每項核對之性質。"),
 ]
 
+# ---------------------------------------------------------------- COVID-19, 2026-11-06
+# Four new variables (2020-2022); no existing value changed. Stamped after committing (commit_stamp_2026-11-06.json).
+import covid_texts as CT                                          # noqa: E402
+vp_ = os.path.join(D, "extension_staging", "commit_stamp_2026-11-06.json")
+vst_ = json.load(open(vp_, encoding="utf-8")) if os.path.exists(vp_) else {}
+CVA = dict(date=CT.WHEN, time=vst_.get("time", ""), commit=vst_.get("commit", ""))
+H += [dict(CVA, kind="variable added", iso3=ALL40, **CT.revision())]
+
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):
     if col not in hist.columns:

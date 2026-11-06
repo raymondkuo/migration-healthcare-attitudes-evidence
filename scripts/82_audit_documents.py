@@ -27,6 +27,7 @@ import counts as K                                                 # noqa: E402
 import unemployment_texts as UT                                    # noqa: E402
 import vdem_texts as VT                                            # noqa: E402
 import gini_texts as GT                                            # noqa: E402
+import covid_texts as CT                                           # noqa: E402
 
 SITE = os.path.dirname(HERE)
 D = os.path.join(SITE, 'data')
@@ -105,7 +106,11 @@ VAR = [('population', 'total resident population'), ('population_un_wpp2024', 't
        ('vdem_libdem', 'V-Dem liberal democracy index (v2x_libdem): extent to which the ideal of liberal democracy is '
                        'achieved, estimated from expert ratings; annual day-weighted mean'),
        ('gini_index', 'Gini index: 100 x the Gini coefficient of household income or consumption per person, from a '
-                      'national household survey (World Bank PIP)')]
+                      'national household survey (World Bank PIP)'),
+       ('covid_cases', 'COVID-19 cases reported in the calendar year (confirmed cases; by date reported)'),
+       ('covid_cases_pct_pop', 'COVID-19 cases reported in the calendar year as a percentage of the population'),
+       ('covid_deaths', 'COVID-19 deaths reported in the calendar year'),
+       ('covid_deaths_pct_pop', 'COVID-19 deaths reported in the calendar year as a percentage of the population')]
 GINI = GT.VAR
 UNEMP = 'unemployment_rate'
 VDEM = VT.VAR
@@ -140,6 +145,21 @@ POST_AUDIT = {'non_citizens_census': (
                'Gini of equivalised disposable income',
         '*': "read by the archive from the World Bank WDI response; equal to 100 x the matching PIP survey Gini, one "
              'decimal (data/gini_source_comparison.csv)'})}
+# COVID-19: three kinds of source; the two percentages are computed by the archive
+_CV_HOW = {'TWN': 'read from an archived source document (Taiwan CECC press releases of 31 December)',
+           'CHN': 'read from an archived source document (National Health Commission briefings of 31 December, China Daily)',
+           '*': 'decoded from an archived machine-readable source (WHO COVID-19 daily file)'}
+_CV_CHK = {'TWN': 'read by the archive from the CECC year-end press releases (cumulative minus the previous year-end); '
+                  'checked against the Johns Hopkins CSSE archive',
+           'CHN': 'read by the archive from the NHC year-end briefings (mainland only); with the briefings\' Hong Kong, '
+                  'Macao and Taiwan figures the 2021 total equals WHO\'s China',
+           '*': 'read by the archive from the WHO daily file (cumulative on 31 December minus the year before, equal to '
+                'the sum of daily counts); checked against the Johns Hopkins CSSE archive'}
+for _v in CT.VARS:
+    _pct = ('; derived: %s / population x 100' % (CT.CASES if _v == CT.CASES_PCT else CT.DEATHS)) if _v in CT.PCT else ''
+    POST_AUDIT[_v] = ('2026-11-06', {k_: h_ + _pct for k_, h_ in _CV_HOW.items()},
+                      {k_: c_ + ('; the percentage is computed with the panel\'s population' if _pct else '')
+                       for k_, c_ in _CV_CHK.items()})
 for f_ in ('source_value_checks.csv', 'document_value_review.csv', 'health_wb_who_checks_%s.csv' % HWHEN,
            'health_taiwan_checks_%s.csv' % HWHEN):
     if not os.path.exists(os.path.join(AUD, f_)):
@@ -205,6 +225,8 @@ _vtext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year'
                      dtype={VDEM: str}).set_index(['iso3', 'year'])[VDEM]
 _gtext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year', GINI],
                      dtype={GINI: str}).set_index(['iso3', 'year'])[GINI]
+_cvtext = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year'] + list(CT.PCT),
+                      dtype={v_: str for v_ in CT.PCT}).set_index(['iso3', 'year'])
 bad_health = []
 for r in panel.itertuples():
     iso, y = r.iso3, int(r.year)
@@ -284,6 +306,12 @@ for r in panel.itertuples():
                                'total population (OECD IDD)')
                 elif GT.F_CONS in str(flag):
                     concept += '; consumption-based survey'
+            if v in CT.VARS:
+                unit = 'persons (reported in the calendar year)' if v not in CT.PCT else '% of the population (0-100)'
+                if v in CT.PCT:
+                    value = _cvtext.loc[(iso, y), v]
+                if iso == 'CHN':
+                    concept += '; mainland China only'
             audit = ('not independently audited: added %s, after the audits of %s and %s; %s'
                      % (added, WHEN, HWHEN, checked))
         elif key in chg_idx:
@@ -329,6 +357,7 @@ G = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock', 'irre
 gr = pd.Series([x for v in G for x in panel[v + '_grade'].dropna() if str(x).strip()]).value_counts()
 gr7 = pd.Series([x for v in G + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
                                   'unemployment_rate', 'vdem_libdem', 'gini_index']
+                                  + CT.VARS
                  for x in panel[v + '_grade'].dropna()
                  if str(x).strip()]).value_counts()
 sec_total = pd.read_csv(os.path.join(D, 'secondary_workbook_differences.csv'))
@@ -356,7 +385,8 @@ Current figures (computed from the data files on %(when)s):
   Taiwan absconded-worker values (all grade B), the %(nhe)s health-expenditure values added on 2026-10-17 (all
   grade A), Australia's 2021 census count of non-citizens added on 2026-10-18 (grade A), the %(nue)s unemployment
   rates added on 2026-10-21, the %(nvd)s V-Dem liberal democracy index values added on 2026-10-26 and the %(ngi)s Gini
-  index values added on 2026-10-29 (all grade A) are also displayed: with them, %(gtot7)s values, A %(ga7)s, B %(gb7)s, C %(gc)s. Grades say where a value was read from, not how precise or comparable it is.
+  index values added on 2026-10-29 (all grade A), and the %(ncv)s COVID-19 values added on 2026-11-06 (grade A from WHO's
+  file, B for mainland China and Taiwan) are also displayed: with them, %(gtot7)s values, A %(ga7)s, B %(gb7)s, C %(gc)s. Grades say where a value was read from, not how precise or comparable it is.
 - %(ncorr)d value corrections and %(ndel)d deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   %(when)s is in `Audit_changes`.
@@ -409,7 +439,7 @@ For the manuscript and for any claim a reviewer might check, use
 `data/original_inputs/` so that every correction can be checked against what was supplied.
 ''' % dict(when=WHEN, rows=n(len(panel)), ga=n(gr.get('A', 0)), gb=n(gr.get('B', 0)), gc=n(gr.get('C', 0)),
            gtot=n(gr.sum()), gtot7=n(gr7.sum()), gb7=n(gr7.get('B', 0)), ga7=n(gr7.get('A', 0)),
-           nhe=n(panel.health_expenditure_pct_gdp.notna().sum()), nue=n(panel.unemployment_rate.notna().sum()), nvd=n(panel.vdem_libdem.notna().sum()), ngi=n(panel.gini_index.notna().sum()), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
+           nhe=n(panel.health_expenditure_pct_gdp.notna().sum()), nue=n(panel.unemployment_rate.notna().sum()), nvd=n(panel.vdem_libdem.notna().sum()), ngi=n(panel.gini_index.notna().sum()), ncv=n(sum(int(panel[v_].notna().sum()) for v_ in CT.VARS)), ncorr=len(pd.read_csv(os.path.join(D, 'corrections_applied.csv'))),
            ndel=len(pd.read_csv(os.path.join(D, 'deleted_values.csv'))), nlog=n(len(vlog)),
            nurls=reg.source_url.nunique(), nsec=len(sec_total), ncmp=n(n_cmp),
            nres=int((sec_total.status_now != 'in secondary workbook only').sum()),
@@ -503,6 +533,14 @@ the same platform Taiwan, and the OECD New Zealand, on a different income concep
 %(npp)s), so compare like with like and do not assume a direction. Flagged breaks mark a change of survey. For a model that needs
 one value per country and wave, take the survey nearest to (and not after) the fieldwork, state the distance, and check
 the result without the flagged values. [AUTHORS]
+
+The four COVID-19 variables, added on 2026-11-06 (`covid_cases`, `covid_deaths` and each as a percentage of the
+population), exist for 2020-2022 only and are counts reported in the calendar year, not infections or excess deaths:
+cases depend on testing, which fell sharply in 2022, and deaths on how each country certified them. 38 countries come
+from WHO (by date reported), mainland China from the National Health Commission (2020 and 2021 only; WHO's "China"
+includes Hong Kong, Macao and Taiwan) and Taiwan from the Central Epidemic Command Center. For the 2021 wave decide
+whether the exposure is the year before fieldwork, the fieldwork year, or the cumulative total up to fieldwork (the
+sum of the years), and state which; before 2020 the values are empty, not zero. [AUTHORS]
 
 ## 2. Timing: survey year versus stock date (decided 2026-10-18)
 

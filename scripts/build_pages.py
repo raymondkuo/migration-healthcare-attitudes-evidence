@@ -261,6 +261,12 @@ def build_data(lang):
        'that a consumption Gini is not always the lower one.',
        '在 panel 範圍內世界銀行調查表同時列有所得與消費吉尼值之每一國家年度：兩數值、其調查、何者較高及 panel 所採用者；'
        '此即消費吉尼值並非必然較低之佐證。')),
+     ('data/covid_source_comparison.csv', ('COVID-19: values used, WHO and Johns Hopkins', 'COVID-19：所採數值、世界衛生組織與 Johns Hopkins'),
+      ('Every country-year 2020-2022: the source used, cases, deaths, the population and both percentages, WHO&rsquo;s '
+       'figures (for China: WHO&rsquo;s &ldquo;China&rdquo;, which includes Hong Kong, Macao and Taiwan) and the Johns '
+       'Hopkins CSSE archive&rsquo;s.',
+       '2020–2022 年每一國家年度：所採來源、病例數、死亡數、人口與兩個百分比、世界衛生組織之數字（中國為其包含香港、澳門與臺灣之'
+       '「中國」）與 Johns Hopkins CSSE 存檔之數字。')),
      ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit and the re-audit of 2026-10-07', '對 2026-10-07 稽核與再稽核之回應'),
       ('All 24 audit findings and all 11 re-audit findings re-checked against the archived sources: verdict, what was '
        'checked, what changed, and what stays with the authors.',
@@ -277,9 +283,9 @@ def build_data(lang):
      ('data/current_panel_verification.csv', ('Current panel: one row per observation', '現行 panel：每筆觀測值一列'),
       ('Source, year, unit, concept, grade, how it was checked and what the audits found for every value in the panel, '
        'including the alternative UN WPP population, health expenditure and the unemployment rate (in %, not rounded) and the '
-       'V-Dem index (0-1) and the Gini index (0-100). The 2,737-row '
+       'V-Dem index (0-1), the Gini index (0-100) and the COVID-19 counts and shares. The 2,737-row '
        'verification log is a record of comparisons, not this.',
-       'panel 中每個數值（含 UN WPP 替代人口、醫療保健支出與失業率，後二者以百分比列示，未經四捨五入；以及 V-Dem 指數，0–1，與吉尼指數，0–100）之來源、年度、單位、概念、'
+       'panel 中每個數值（含 UN WPP 替代人口、醫療保健支出與失業率，後二者以百分比列示，未經四捨五入；以及 V-Dem 指數，0–1，與吉尼指數，0–100；以及 COVID-19 計數與比例）之來源、年度、單位、概念、'
        '等級、查核方式與稽核結果。2,737 列之查證紀錄是比對紀錄，並非此表。')),
      ('data/ANALYSIS_NOTES.md', ('Research-use notes', '研究使用說明'),
       ('The construct, timing, universe, denominator and sensitivity choices that source verification does not settle, with '

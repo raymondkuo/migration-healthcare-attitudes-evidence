@@ -28,6 +28,7 @@ RAWFILE = {
  'worldbank_SI_POV_GINI': 'evidence/api/wb_SI_POV_GINI_2001-2022_retrieved_2026-10-29.json',
  'worldbank_pip_TWN': 'evidence/api/pip_survey_estimates_20260922_2021_01_02_PROD_retrieved_2026-10-29.csv',
  'oecd_idd': 'evidence/api/oecd_IDD_NZL_INC_DISP_GINI_2001-2022_retrieved_2026-10-29.csv',
+ 'who_covid19_dashboard': 'evidence/api/who_COVID-19_global_daily_data_retrieved_2026-11-06.csv',
  'eurostat_migr_pop3ctb': 'evidence/api/eurostat_migr_pop3ctb.json',
  'eurostat_migr_pop1ctz': 'evidence/api/eurostat_migr_pop1ctz.json',
  'eurostat_migr_eipre': 'evidence/api/eurostat_migr_eipre.json',
@@ -55,6 +56,8 @@ def publisher_for(u):
         return 'worldbank_pip_TWN'
     if 'sdmx.oecd.org' in u and 'DF_IDD' in u:
         return 'oecd_idd'
+    if 'srhdpeuwpubsa.blob.core.windows.net/whdh/COVID' in u:
+        return 'who_covid19_dashboard'
     for k in ('migr_pop3ctb', 'migr_pop1ctz', 'migr_eipre'):
         if k in u:
             return 'eurostat_' + k
@@ -139,7 +142,7 @@ def build(iso3, en_name, v, lang):
     # source type and comparability flags exist for the two migrant-stock variables
     has_flags = (v + '_flag') in sub.columns and sub[v + '_flag'].fillna('').astype(str).str.strip().ne('').any()
     TYPE_ZH = {'annual': '逐年', 'census': '普查', 'survey': '調查', 'un_estimate': 'UN 估計值',
-               'model_estimate': '模型估計', 'expert_index': '專家評估指數', 'other': '其他'}
+               'model_estimate': '模型估計', 'expert_index': '專家評估指數', 'surveillance': '監測通報', 'other': '其他'}
     FLAG_ZH = {'splice (large gap)': '接續（差距大）', 'splice': '接續', 'un_estimate': 'UN 估計值',
                'declared citizenship basis': '宣告為公民身分基礎',
                'comparability caution': '可比性提醒', 'includes former-USSR births': '含前蘇聯出生者',

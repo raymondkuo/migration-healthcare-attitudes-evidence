@@ -56,7 +56,8 @@ new = {v: int(panel[v + '_collected_on'].notna().sum())
        for v in ('population', 'population_un_wpp2024', 'foreign_born', 'foreign_nationals')}
 n_large = int((spl.mean_abs_gap_pct >= 5).sum())          # the declared rule: mean ABSOLUTE gap (re-audit R03)
 grades7 = pd.Series([g for v in VARS + ['irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
-                                         'unemployment_rate', 'vdem_libdem', 'gini_index']
+                                         'unemployment_rate', 'vdem_libdem', 'gini_index',
+                                         'covid_cases', 'covid_cases_pct_pop', 'covid_deaths', 'covid_deaths_pct_pop']
                      for g in panel[v + '_grade'].dropna()
                      if str(g).strip()]).value_counts()
 n_abs = int(panel.irregular_proxy_absconded_workers.notna().sum())
@@ -69,6 +70,8 @@ import vdem_texts as VT                                            # noqa: E402
 _vk = VT.counts()
 import gini_texts as GT                                            # noqa: E402
 _gk = GT.counts()
+import covid_texts as CT                                           # noqa: E402
+_ck = CT.counts()
 n_corr_aud = int((corr.corrected_on.astype(str) == '2026-10-07').sum())
 pages_each = val['pages_en']
 total_pages = val['pages_en'] + val['pages_zh']
@@ -262,6 +265,20 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 - Raw responses, the PIP survey table and citation, the OECD dataset description and the publishers' pages are archived
   with PDF/PNG mirrors in `evidence/api/`.
 
+## COVID-19 (added %(cv_when)s)
+
+- Four new variables for **all %(cv_nc)d countries, 2020–2022**: `covid_cases` and `covid_deaths` (reported in the
+  calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100,
+  computed by the archive); %(cv_n)s country-years each. Empty before 2020. No other value changed.
+- %(cv_nwho)d countries: WHO COVID-19 data (daily file, by date reported to WHO; France with its five overseas
+  departments, which the World Bank population includes). Mainland China (2020–2021): National Health Commission
+  year-end briefings; **China 2022 is empty**, because national reporting stopped in December 2022 and WHO's "China"
+  includes Hong Kong, Macao and Taiwan. Taiwan: Central Epidemic Command Center year-end press releases.
+- Checked against the Johns Hopkins CSSE archive: over 2020–2022 combined, %(cv_c1)d of %(cv_ncomb)d countries agree
+  within 1%% for cases and %(cv_d1)d for deaths (`data/covid_source_comparison.csv`).
+- Reported counts, not infections or excess deaths. The WHO file, the situation report on China, the briefings and
+  press releases, the Johns Hopkins files and WHO's data page are archived with PDF/PNG mirrors.
+
 ## Decisions of 2026-10-18 · 2026-10-18 之決定
 
 - **Construct and timing (issue #24).** From the ISSP 2021 item the study analyses (Q6a: access to publicly funded
@@ -293,6 +310,8 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            gi_nwdi=_gk['n_wdi_countries'], gi_pv=GT.PIP_VERSION, gi_ncmp=n(_gk['n_wdi']), gi_ntwn=_gk['n_twn'],
            gi_nnzl=_gk['n_nzl'], gi_ncons=n(_gk['n_cons']), gi_nbreak=n(_gk['n_break']),
            gi_npc=_gk['n_pairs_cons_higher'], gi_npp=_gk['n_pairs'],
+           cv_when=CT.WHEN, cv_nc=_ck['n_countries'], cv_n=n(_ck['n']), cv_nwho=_ck['n_who_countries'],
+           cv_c1=_ck['n_comb_cases_1pct'], cv_d1=_ck['n_comb_deaths_1pct'], cv_ncomb=_ck['n_comb'],
            aus_v=n(panel.non_citizens_census.dropna().iloc[0]),
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),
            gb=n(grades.get('B', 0)), gc=n(grades.get('C', 0)), n_sweep=len(sweep),
@@ -328,8 +347,8 @@ csub(r'version: "[^"]*"', 'version: "%s"' % LAST)
 csub(r'date-released: [\d-]+', 'date-released: %s' % LAST)
 csub(r'state the\n  archive (?:freeze date, 2026-08-17\.|version \([^)]*\)\.)',
      'state the\n  archive version (first freeze 2026-08-17; extended to %d on 2026-10-07; health expenditure added '
-     'on %s; unemployment rate added on %s; V-Dem liberal democracy index added on %s; Gini index added on %s).'
-     % (Y0, HT.WHEN, UT.WHEN, VT.WHEN, GT.WHEN))       # the extension date is fixed; LAST moves with every later amendment
+     'on %s; unemployment rate added on %s; V-Dem liberal democracy index added on %s; Gini index added on %s; '
+     'COVID-19 variables added on %s).' % (Y0, HT.WHEN, UT.WHEN, VT.WHEN, GT.WHEN, CT.WHEN))       # the extension date is fixed; LAST moves with every later amendment
 csub(r'and \d+ values were corrected,', 'and %d values were corrected,' % len(corr))
 csub(r'covering 40 countries for [\d-]+\.', 'covering 40 countries for %d-%d.' % (Y0, Y1))
 if 'extended back' not in c:
@@ -348,10 +367,11 @@ csub(r'(?:no value published earlier changed|the extension itself changed no val
      'own API, and for Taiwan from the Ministry of Health and Welfare; on %s an unemployment-rate variable for all '
      '%d countries and years, from the ILO modelled estimates (imputed values flagged) and for Taiwan from DGBAS; on %s '
      'the V-Dem liberal democracy index for all %d countries and years (V-Dem v16); on %s the Gini index for all %d '
-     'countries in their survey years (World Bank Poverty and Inequality Platform; New Zealand from the OECD); no other '
-     'value changed.'
+     'countries in their survey years (World Bank Poverty and Inequality Platform; New Zealand from the OECD); on %s '
+     'COVID-19 cases and deaths and their shares of the population for 2020-2022 (WHO; mainland China and Taiwan from '
+     'their national authorities); no other value changed.'
      % (n(ovl.cells_compared.sum()), len(aud), HT.WHEN, _hk['n_countries'], UT.WHEN, _uk['n_countries'],
-        VT.WHEN, _vk['n_countries'], GT.WHEN, _gk['n_countries']))
+        VT.WHEN, _vk['n_countries'], GT.WHEN, _gk['n_countries'], CT.WHEN))
 open(fp, 'w', encoding='utf-8').write(c)
 print('CITATION.cff refreshed')
 

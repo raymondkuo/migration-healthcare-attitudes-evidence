@@ -30,7 +30,8 @@ There is no `build-site.mjs` in this archive; older reports that name one descri
   The 2001-2022 payloads are dated 2026-10-07; the health-expenditure files (World Bank, WHO and the Taiwan
   Ministry of Health and Welfare workbook and report) are dated 2026-10-17, the unemployment files 2026-10-21 and the
   V-Dem files (the V-Dem Institute's R data file and codebook, the V-Dem Codebook, Our World in Data's copy) 2026-10-26
-  and the Gini files (World Bank WDI and PIP, OECD IDD) 2026-10-29.
+  and the Gini files (World Bank WDI and PIP, OECD IDD) 2026-10-29; the COVID-19 files (WHO daily file and situation
+  report, Johns Hopkins CSSE time series, the China and Taiwan year-end releases) 2026-11-06.
 - **The collector outputs** (`data/extension_staging/*.csv`) are committed, so the build does not need the
   network.
 - **The audits' result tables are committed** in `data/audit_inputs/` (README there): the re-audit of 2026-10-07 and
@@ -52,6 +53,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 2c | `python scripts/91_add_unemployment.py` | Appends the ten `unemployment_rate*` columns from `data/extension_staging/unemployment_cells.csv`; must follow 2b (which keeps the column order); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 2d | `python scripts/93_add_vdem.py` | Appends the ten `vdem_libdem*` columns (V-Dem liberal democracy index) from `data/extension_staging/vdem_cells.csv`; must follow 2c (which keeps the column order); asserts every other column unchanged; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 2e | `python scripts/95_add_gini.py` | Appends the ten `gini_index*` columns (Gini index, survey years only) from `data/extension_staging/gini_cells.csv`; must follow 2d (which keeps the column order); asserts every other column unchanged and that every country has a value; adds the rows of the new variable to each country's `data_from_source.csv`, the source register and the country READMEs |
+| 2f | `python scripts/97_add_covid.py` | Appends the four COVID-19 variables (44 columns: `covid_cases`, `covid_cases_pct_pop`, `covid_deaths`, `covid_deaths_pct_pop`, 2020-2022) from `data/extension_staging/covid_cells.csv`; must follow 2e; asserts every other column unchanged and each percentage equal to the count over the panel's population; adds the rows to each country's `data_from_source.csv`, the source register and the country READMEs |
 | 3 | `python scripts/81_audit_reference_tables.py` | Status of every irregular-estimate record; `data_from_source.csv` for every country; source-register routing; country READMEs |
 | 4 | `python scripts/75_build_derived_tables.py` | Source register rows for the extension, per-country manifests, data quality, evidence index, known issues, codebook |
 | 5 | `python scripts/66_revision_history.py` | The dated revision history (reads the commit stamp files for the commit and time) |
@@ -60,7 +62,7 @@ Run from the archive root. Python 3.11+ with pandas, openpyxl, PyMuPDF (`fitz`),
 | 8 | `python scripts/83_audit_response.py` | The response to the audit and to the re-audit (`audit_response_*.csv`, `reaudit_response_*.csv`, `verification/AUDIT_RESPONSE_*.md`) |
 | 9 | `python scripts/57_sync_workbook_sheets.py` | Rewrites the main workbook's sheets from the CSVs |
 | 10 | `python scripts/80_check_source_charts.py` | Source-label check: the Chile chart is read from the PDF's coordinates and compared with the panel |
-| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 728 pages, both languages (364 each) |
+| 11 | `python scripts/build_core.py`, `build_pages.py`, `build_evidence.py` | The 1,048 pages, both languages (524 each) |
 | 12 | `python scripts/build_pdf_extracts.py` | The PDF extracts (needs Windows and Chrome; about 8 minutes) |
 | 13 | `python scripts/28_checksums.py`, `29_website_manifest.py`, `27_validate_site.py`, `validate_bilingual.py`, `77_update_readme.py`, then `28_checksums.py` again | Checksums, manifest, validators, README and CITATION numbers |
 | 14 | after committing: `python scripts/78_verify_checksums.py` | Compares the manifest with what git stored |
@@ -100,6 +102,14 @@ World Bank's PIP methodology chapter on income and consumption) and rewrites its
 again (change the date constant in `scripts/gini_texts.py` first, and the PIP version if a newer one is wanted) and
 renders the mirrors and publisher pages. The OECD's own site answers a headless browser with a bot check, so its page
 is captured from the OECD Data Explorer instead.
+
+`96_collect_covid.py` re-reads the archived COVID-19 files (the WHO daily file and situation report 24, the World
+Bank's note on France's population, the Johns Hopkins CSSE time series pinned to the archived repository's last commit,
+the National Health Commission's year-end briefings for mainland China and the CECC's year-end press releases for
+Taiwan) and rewrites its staging file and `data/covid_source_comparison.csv` without the network; with `--fetch` it
+downloads them again (change the date constant in `scripts/covid_texts.py` first) and renders the mirrors and WHO's data
+page. The National Health Commission's own site answers automated requests with a bot check, so its briefings are taken
+from China Daily's government portal, which publishes them in English.
 
 `84_collect_health_expenditure.py` re-reads the archived health-expenditure files and rewrites its staging file and
 `data/health_expenditure_wb_vs_who.csv` without the network; with `--fetch` it downloads them again under new dated names
@@ -151,6 +161,11 @@ On 2026-10-29, when step 2e was added for the Gini index, steps 1-2e were run in
 they produced was byte-identical to the one step 2e had written, and after steps 3 and 4 every file of the working tree
 was identical to its state before the test. The validators reported 0 errors on 728 pages (364 per language). The PDF
 extracts were re-rendered.
+
+On 2026-11-06, when step 2f was added for the four COVID-19 variables, steps 1-2f were run in order in the working
+clone: the panel they produced was byte-identical to the one step 2f had written, and after steps 3 and 4 every file of
+the working tree was identical to its state before the test. The validators reported 0 errors on 1,048 pages (524 per
+language). The PDF extracts were re-rendered.
 
 An earlier test of this kind, run in a folder next to the audit's working folders, passed without showing that step 7 depended
 on them: in an isolated clone it lost 3,328 of the 3,365 audit results (re-audit finding R01). Those result tables are now

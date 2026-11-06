@@ -67,7 +67,8 @@ panel = pd.read_csv(os.path.join(SITE, 'data', 'panel_final.csv'))
 VARS = ['population', 'foreign_born', 'foreign_nationals', 'irregular_stock',
         'irregular_proxy_overstayers', 'irregular_proxy_detections',
         'irregular_proxy_absconded_workers', 'health_expenditure_pct_gdp', 'non_citizens_census',
-        'unemployment_rate', 'vdem_libdem', 'gini_index']
+        'unemployment_rate', 'vdem_libdem', 'gini_index',
+        'covid_cases', 'covid_cases_pct_pop', 'covid_deaths', 'covid_deaths_pct_pop']
 cells = unlinked = 0
 for lang, sfx in (('en', ''), ('zh', '.zh')):
     for iso in sorted(panel.iso3.unique()):

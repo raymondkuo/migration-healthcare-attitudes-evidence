@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29",
+  "generated_at": "2026-11-06",
   "generator": "scripts/build_core.py, build_pages.py, build_evidence.py, build_pdf_extracts.py (Python)",
   "validated_by": "scripts/27_validate_site.py — 0 errors across all internal links",
   "freeze_date": "2026-08-17",
@@ -29,10 +29,10 @@
       2001,
       2022
     ],
-    "files_total": 2018,
-    "bytes_total": 525097860,
+    "files_total": 2537,
+    "bytes_total": 585331826,
     "evidence_directory": "evidence/",
-    "api_snapshots": 49,
+    "api_snapshots": 54,
     "web_page_snapshots": 64,
     "pdf_mirrors": 61,
     "screenshots": 64
@@ -43,13 +43,13 @@
     "discrepancies": 39,
     "corrections_applied": 67,
     "countries_corrected": 10,
-    "document_source_variable_rows": 150,
-    "document_source_citations_distinct": 131,
-    "document_source_citations_archived": 131,
+    "document_source_variable_rows": 155,
+    "document_source_citations_distinct": 136,
+    "document_source_citations_archived": 136,
     "document_source_citations_not_retrievable": 0,
-    "document_source_urls_distinct": 82,
-    "all_source_urls_distinct": 180,
-    "source_hosts": 58,
+    "document_source_urls_distinct": 87,
+    "all_source_urls_distinct": 186,
+    "source_hosts": 61,
     "rechecked_2026_10_07": {
       "compared": 1777,
       "identical": 1777
@@ -63,8 +63,8 @@
   },
   "primary_workbook": {
     "path": "data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx",
-    "bytes": 1038395,
-    "sha256": "38886fb27393d6319e1991ec17f52206ab725db63f943237593bf5817e25e179"
+    "bytes": 1215314,
+    "sha256": "14969487b652573fc1ba75075135c7fed44823ee3f5565fc1f8e803ce9a3d8c8"
   },
   "secondary_workbook": {
     "path": "data/migration_population_panel_40countries_2010-2022_final.xlsx",

@@ -41,6 +41,8 @@ VLAB = {
         'unemployment_rate': 'Unemployment rate (%)',
         'vdem_libdem': 'Liberal democracy (V-Dem, 0-1)',
         'gini_index': 'Gini index (0-100)',
+        'covid_cases': 'COVID-19 cases', 'covid_cases_pct_pop': 'COVID-19 cases (% pop.)',
+        'covid_deaths': 'COVID-19 deaths', 'covid_deaths_pct_pop': 'COVID-19 deaths (% pop.)',
         'irregular_detections': 'Detections', 'irregular': 'Irregular migration',
         'foreign_workers': 'Foreign workers'},
  'zh': {'population': '總人口', 'foreign_born': '外國出生人口',
@@ -53,6 +55,8 @@ VLAB = {
         'unemployment_rate': '失業率（%）',
         'vdem_libdem': '自由民主指數（V-Dem，0–1）',
         'gini_index': '吉尼指數（0–100）',
+        'covid_cases': 'COVID-19 確診病例數', 'covid_cases_pct_pop': 'COVID-19 確診（占人口 %）',
+        'covid_deaths': 'COVID-19 死亡數', 'covid_deaths_pct_pop': 'COVID-19 死亡（占人口 %）',
         'irregular_detections': '查獲人數', 'irregular': '非常規移民',
         'foreign_workers': '外籍移工'},
 }
@@ -166,6 +170,8 @@ import vdem_texts as _VT                                     # noqa: E402
 COMPARABILITY.update(_VT.COMPARABILITY_ZH)
 import gini_texts as _GT                                     # noqa: E402
 COMPARABILITY.update(_GT.COMPARABILITY_ZH)
+import covid_texts as _CT                                    # noqa: E402
+COMPARABILITY.update(_CT.COMPARABILITY_ZH)
 
 # ---------------------------------------------------------------- correction reasons
 REASON = {
@@ -443,6 +449,14 @@ T = {
  'art_pipcit': {'en': 'PIP data version and citation', 'zh': 'PIP 資料版本與引用說明'},
  'art_oecdidd': {'en': 'OECD database description and the codes used (SDMX dataflow)',
                  'zh': 'OECD 資料庫說明及所用代碼（SDMX 資料流）'},
+ 'art_jhucheck': {'en': 'Cross-check: Johns Hopkins CSSE COVID-19 time series (archived repository)',
+                  'zh': '交叉核對：Johns Hopkins CSSE COVID-19 時間序列（已封存之資料庫）'},
+ 'art_whositrep': {'en': 'WHO situation report 24: WHO\'s "China" includes Hong Kong SAR, Macao SAR and Taiwan',
+                   'zh': '世界衛生組織第 24 號疫情報告：其「中國」包含香港、澳門與臺灣'},
+ 'art_whochina': {'en': 'WHO daily file (its "China" row, compared with the mainland figures)',
+                  'zh': '世界衛生組織每日檔（其「中國」列，與大陸數字比對）'},
+ 'art_wbpopnote': {'en': 'World Bank note: the population of France includes its five overseas departments',
+                   'zh': '世界銀行註記：法國人口包含其五個海外省'},
 }
 
 

@@ -245,6 +245,15 @@ ROWS_ADD = [
      'the same platform; New Zealand from the OECD Income Distribution Database (flagged). No other value changed.'
      % (format(int(pan_.gini_index.notna().sum()), ','), pan_[pan_.gini_index.notna()].iso3.nunique(),
         pan_[pan_.gini_index_source.fillna('').str.startswith('World Bank, World Development')].iso3.nunique())),
+    ('COVID-19 (2026-11-06)',
+     'covid_cases, covid_cases_pct_pop, covid_deaths and covid_deaths_pct_pop: COVID-19 cases and deaths reported in the '
+     'calendar year and each as a percentage of the population, %d country-years 2020-2022 for all %d countries (China '
+     '2022 empty), with source, reference period, grade and verification text on each (Panel_final, 44 columns). %d '
+     'countries from WHO\'s COVID-19 data; mainland China from the National Health Commission; Taiwan from the Central '
+     'Epidemic Command Center; checked against the Johns Hopkins CSSE archive (data/covid_source_comparison.csv). No '
+     'other value changed.'
+     % (int(pan_.covid_cases.notna().sum()), pan_[pan_.covid_cases.notna()].iso3.nunique(),
+        pan_[pan_.covid_cases_source.fillna('').str.startswith('World Health Organization')].iso3.nunique())),
 ]
 labels_ = [str(ws.cell(r_, 1).value or '') for r_ in range(1, ws.max_row + 1)]
 anchor = labels_.index('Corrections applied') + 1 if 'Corrections applied' in labels_ else None
