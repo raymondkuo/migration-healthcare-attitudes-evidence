@@ -29,8 +29,8 @@
       2001,
       2022
     ],
-    "files_total": 2537,
-    "bytes_total": 585331826,
+    "files_total": 2538,
+    "bytes_total": 585332071,
     "evidence_directory": "evidence/",
     "api_snapshots": 54,
     "web_page_snapshots": 64,
@@ -63,8 +63,8 @@
   },
   "primary_workbook": {
     "path": "data/FINAL_migration_population_panel_2010-2022_VERIFIED.xlsx",
-    "bytes": 1215314,
-    "sha256": "14969487b652573fc1ba75075135c7fed44823ee3f5565fc1f8e803ce9a3d8c8"
+    "bytes": 1215326,
+    "sha256": "fb0b19ecf5880c3beec1dbe6faf5c54ec32dba7b2321cedcab84adb1d3236b77"
   },
   "secondary_workbook": {
     "path": "data/migration_population_panel_40countries_2010-2022_final.xlsx",
