@@ -141,9 +141,11 @@ for iso, g in cells.groupby('iso3'):
         lines.append('| %d | %s | %s | %s | `%s` |' % (y, format(int(c.loc[y, 'value']), ','), format(int(dd.loc[y, 'value']), ','),
                                                         str(c.loc[y, 'source_name']).replace('|', '/')[:90],
                                                         os.path.basename(c.loc[y, 'local_file'])))
+    for fl, gg in g[(g.variable == CT.CASES) & (g.flag != '')].groupby('flag'):
+        lines += ['', 'Flag "%s": %s.' % (fl, ', '.join(str(int(y)) for y in gg.year))]
     if iso == 'CHN':
-        lines += ['', '2022 is empty: national daily reporting stopped in December 2022, and WHO\'s "China" includes Hong '
-                      'Kong, Macao and Taiwan.']
+        lines += ['', 'WHO\'s "China" includes Hong Kong, Macao and Taiwan, so the mainland figures come from the National '
+                      'Health Commission.']
     lines += ['', '`data/covid_source_comparison.csv` sets the values beside WHO\'s and the Johns Hopkins archive\'s; the '
               'revision history on the Verification page dates the addition.', '', END, '']
     open(rd, 'w', encoding='utf-8', newline='\n').write(txt.rstrip('\n') + '\n\n' + '\n'.join(lines))

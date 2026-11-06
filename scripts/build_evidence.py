@@ -159,7 +159,9 @@ def build(iso3, en_name, v, lang):
                'ILO imputed: not based on national data': '國際勞工組織插補值：非依據該國資料',
                'consumption-based (not income)': '以消費為基礎（非所得）',
                'break in time series: new PIP survey-comparability spell': '時間序列斷裂：PIP 調查可比較區段更替',
-               'OECD equivalised disposable income (not World Bank)': 'OECD 均等化可支配所得（非世界銀行）'}
+               'OECD equivalised disposable income (not World Bank)': 'OECD 均等化可支配所得（非世界銀行）',
+               'incomplete year: national daily reporting ended 23 Dec 2022; confirmed cases only':
+                   '年度不完整：全國每日通報止於 2022 年 12 月 23 日；僅計確診病例'}
 
     def flag_html(r):
         f = str(r.get(v + '_flag') or '').strip()

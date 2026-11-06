@@ -17,6 +17,8 @@ SOURCE_TYPE = 'surveillance'
 _D = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 CMP = os.path.join(_D, 'covid_source_comparison.csv')
 FR_DOM = ('Guadeloupe', 'Martinique', 'French Guiana', 'Réunion', 'Mayotte')
+F_CN22 = 'incomplete year: national daily reporting ended 23 Dec 2022; confirmed cases only'
+FIXED_CN22 = '2026-11-06'                # China 2022 added from the last national daily briefing (flagged)
 
 LABEL = {CASES: ('COVID-19 cases', 'COVID-19 確診病例數'),
          CASES_PCT: ('COVID-19 cases as % of population', 'COVID-19 確診病例占人口百分比'),
@@ -78,19 +80,19 @@ def codebook_rows():
     """(name, definition, caution, definition_zh, caution_zh) rows for data/codebook.csv."""
     k = counts()
     caution = ('Years 2020-2022 only (none before 2020). Reported counts, not infections or excess deaths. Mainland China '
-               '2022 is empty: national reporting stopped in December 2022, and WHO\'s figure for "China" includes Hong '
-               'Kong, Macao and Taiwan. Verified: the WHO annual values equal the change in WHO\'s cumulative counts; '
+               '2022 covers 1 January-23 December only and confirmed cases only (the last national daily report; flagged '
+               '"%s"); WHO\'s figure for "China" includes Hong Kong, Macao and Taiwan and is not used. Verified: the WHO annual values equal the change in WHO\'s cumulative counts; '
                'against the Johns Hopkins CSSE archive, %d of %d country-years agree within 1%% for cases and %d for deaths, '
                'and over 2020-2022 combined %d and %d of %d countries do; the two compilations differ in reporting dates and, '
                'for some countries (%s, more than 5%% apart), in what they counted (data/covid_source_comparison.csv).'
-               % (k['n_jhu_cases_1pct'], k['n_jhu'], k['n_jhu_deaths_1pct'], k['n_comb_cases_1pct'],
+               % (F_CN22, k['n_jhu_cases_1pct'], k['n_jhu'], k['n_jhu_deaths_1pct'], k['n_comb_cases_1pct'],
                   k['n_comb_deaths_1pct'], k['n_comb'], k['big_gaps']))
-    caution_zh = ('僅 2020–2022 年（2020 年前無）。為通報數，而非感染數或超額死亡。中國大陸 2022 年留空：其全國通報於 2022 年 12 月停止，'
-                  '而世界衛生組織之「中國」數字含香港、澳門與臺灣。已查證：世界衛生組織年度值等於其累計數之年度差；%d 個國家年度中，'
+    caution_zh = ('僅 2020–2022 年（2020 年前無）。為通報數，而非感染數或超額死亡。中國大陸 2022 年僅涵蓋 1 月 1 日至 12 月 23 日，且僅計'
+                  '確診病例（全國最後一次每日通報；標示旗標「%s」）；世界衛生組織之「中國」數字含香港、澳門與臺灣，未予採用。已查證：世界衛生組織年度值等於其累計數之年度差；%d 個國家年度中，'
                   '病例數有 %d 個、死亡數有 %d 個與 Johns Hopkins CSSE 存檔相差在 1%% 以內；2020–2022 年合計，%d 國中病例數有 %d 國、'
                   '死亡數有 %d 國在 1%% 以內；兩者之差異來自通報日期，部分國家（%s，相差逾 5%%）則來自計入範圍不同'
                   '（data/covid_source_comparison.csv）。'
-                  % (k['n_jhu'], k['n_jhu_cases_1pct'], k['n_jhu_deaths_1pct'], k['n_comb'], k['n_comb_cases_1pct'],
+                  % (F_CN22, k['n_jhu'], k['n_jhu_cases_1pct'], k['n_jhu_deaths_1pct'], k['n_comb'], k['n_comb_cases_1pct'],
                      k['n_comb_deaths_1pct'], k['big_gaps']))
     out = []
     for v, d_en, d_zh in (
@@ -109,6 +111,9 @@ def codebook_rows():
 
 SOURCE_TYPE_EN = (' covid_*: surveillance (counts reported by public-health surveillance) for every value.')
 SOURCE_TYPE_ZH = ('covid_*：每一筆數值皆為 surveillance（公共衛生監測通報之計數）。')
+FLAG_EN = (' covid_*: "%s" on mainland China 2022 (the National Health Commission stopped publishing daily figures on 25 '
+           'December 2022).' % F_CN22)
+FLAG_ZH = ('COVID-19 變項：中國大陸 2022 年標示「%s」（國家衛生健康委員會自 2022 年 12 月 25 日起停止發布每日數字）。' % F_CN22)
 COLLECTED_EN = ' covid_* were collected on %s for every value.' % WHEN
 COLLECTED_ZH = 'covid_* 之每一筆數值均於 %s 蒐集。' % WHEN
 
@@ -117,24 +122,33 @@ def known_issues():
     k = counts()
     china = dict(
         severity='MEDIUM', scope='China', variable=CASES,
-        issue='Mainland China has COVID-19 values for 2020 and 2021 only. WHO\'s series for "China" includes Hong Kong '
-              'SAR, Macao SAR and Taiwan (WHO situation report 24 says so; for 31 December 2021 WHO\'s total equals the '
-              'National Health Commission\'s mainland count plus the three, case for case). In 2022 that series no longer '
-              'adds up (WHO\'s China total is smaller than Hong Kong plus Taiwan alone from March), and China\'s national '
-              'daily reporting stopped in December 2022, so no mainland figure for 2022 can be traced to a source.',
-        issue_zh='中國大陸僅有 2020 與 2021 年之 COVID-19 數值。世界衛生組織之「中國」序列包含香港、澳門與臺灣（世界衛生組織第 24 號疫情'
-                 '報告載明；2021 年 12 月 31 日世界衛生組織之總數，恰等於國家衛生健康委員會之大陸累計數加上三地之數）。2022 年該序列已無法'
-                 '加總對應（自 3 月起，世界衛生組織之中國總數小於香港與臺灣兩地之和），且中國之全國每日通報於 2022 年 12 月停止，故 2022 年'
-                 '無可追溯至來源之大陸數字。',
-        evidence='evidence/countries/CHN/: the National Health Commission\'s briefings for 31 December 2020 and 2021 (mainland, '
-                 'Hong Kong, Macao and Taiwan counts); evidence/api/: WHO situation report 24 (page 5 footnote) and the WHO '
+        issue='Mainland China\'s COVID-19 values come from the National Health Commission, not WHO: WHO\'s series for '
+              '"China" includes Hong Kong SAR, Macao SAR and Taiwan (WHO situation report 24 says so; for 31 December 2021 '
+              'WHO\'s total equals the Commission\'s mainland count plus the three, case for case), and in 2022 it no '
+              'longer adds up (WHO\'s China total is smaller than Hong Kong plus Taiwan alone from March). Mainland China '
+              '2022 is incomplete: the Commission\'s last daily briefing gives the counts to 24:00 on 23 December 2022 and '
+              'it stopped publishing daily figures on 25 December; the counts are confirmed cases as it defined them '
+              '(asymptomatic infections were reported separately and are not included), so they miss most of the '
+              'infections and deaths of the December 2022 wave. Flagged "%s".' % F_CN22,
+        issue_zh='中國大陸之 COVID-19 數值取自國家衛生健康委員會，而非世界衛生組織：世界衛生組織之「中國」序列包含香港、澳門與臺灣'
+                 '（世界衛生組織第 24 號疫情報告載明；2021 年 12 月 31 日世界衛生組織之總數，恰等於該委員會之大陸累計數加上三地之數），'
+                 '且 2022 年已無法加總對應（自 3 月起，世界衛生組織之中國總數小於香港與臺灣兩地之和）。中國大陸 2022 年資料不完整：'
+                 '該委員會最後一次每日通報提供至 2022 年 12 月 23 日 24 時之數字，並自 12 月 25 日起停止發布每日數字；其計數為該委員會定義之'
+                 '確診病例（無症狀感染者另行通報，未計入），故未能涵蓋 2022 年 12 月疫情高峰之多數感染與死亡。標示旗標「%s」。'
+                 % F_CN22,
+        evidence='evidence/countries/CHN/: the National Health Commission\'s briefings for 31 December 2020 and 2021 and its last '
+                 'daily briefing (23 December 2022), each with mainland, Hong Kong, Macao and Taiwan counts, and the report '
+                 'of its notice that daily publication stopped; evidence/api/: WHO situation report 24 (page 5 footnote) and the WHO '
                  'daily file; data/covid_source_comparison.csv puts WHO\'s China figures beside the mainland ones.',
-        evidence_zh='evidence/countries/CHN/：國家衛生健康委員會 2020 與 2021 年 12 月 31 日之通報（大陸、香港、澳門與臺灣之數）；'
+        evidence_zh='evidence/countries/CHN/：國家衛生健康委員會 2020 與 2021 年 12 月 31 日之通報與其最後一次每日通報（2022 年 12 月 23 日），'
+                    '均含大陸、香港、澳門與臺灣之數，以及其停止每日發布之公告報導；'
                     'evidence/api/：世界衛生組織第 24 號疫情報告（第 5 頁註腳）與世界衛生組織每日檔；data/covid_source_comparison.csv '
                     '並列世界衛生組織之中國數字與大陸數字。',
-        action='China 2022 is empty in all four COVID-19 variables. Do not substitute WHO\'s China figure: it covers a '
+        action='China 2022 is kept and flagged in all four COVID-19 variables: leave it out of comparisons of 2022 or of '
+               'totals over 2020-2022, or report the result without it. Do not substitute WHO\'s China figure: it covers a '
                'different territory.',
-        action_zh='中國 2022 年於四個 COVID-19 變項皆留空。請勿以世界衛生組織之中國數字替代：其涵蓋範圍不同。')
+        action_zh='中國 2022 年於四個 COVID-19 變項皆保留並標示旗標：比較 2022 年或 2020–2022 年合計時請排除之，或另報告排除後之結果。'
+                  '請勿以世界衛生組織之中國數字替代：其涵蓋範圍不同。')
     rep = dict(
         severity='MEDIUM', scope='All countries', variable=CASES,
         issue='COVID-19 cases and deaths are counts reported by surveillance, by the date they were reported (WHO) or '
@@ -161,10 +175,30 @@ def verdict():
     return {
         'en': 'Fair. One source for 38 countries (WHO, checked against its own cumulative counts and the Johns Hopkins '
               'archive), mainland China and Taiwan from their national authorities; but reported counts depend on '
-              'testing and certification, China 2022 is missing, and only 2020-2022 exist.',
+              'testing and certification, China 2022 is incomplete (flagged), and only 2020-2022 exist.',
         'zh': '尚可。38 國來源一致（世界衛生組織，並與其累計數及 Johns Hopkins 存檔核對），中國大陸與臺灣取自其主管機關；但通報數取決於'
-              '檢驗與死因認定，中國 2022 年缺漏，且僅有 2020–2022 年。',
+              '檢驗與死因認定，中國 2022 年不完整（已標示旗標），且僅有 2020–2022 年。',
     }
+
+
+def revision_cn2022():
+    """The second entry of 2026-11-06: China 2022 added after the first commit left it empty."""
+    p = pd.read_csv(os.path.join(_D, 'panel_final.csv'), usecols=['iso3', 'year', CASES, DEATHS])
+    r = p[(p.iso3 == 'CHN') & (p.year == 2022)].iloc[0]
+    return dict(
+        scope='COVID-19, mainland China 2022 (all four variables)',
+        scope_zh='COVID-19，中國大陸 2022 年（四個變項）',
+        before='empty', before_zh='空白',
+        after='%s cases and %s deaths (1 January-23 December 2022), flagged "%s"'
+              % (format(int(r[CASES]), ','), format(int(r[DEATHS]), ','), F_CN22),
+        after_zh='%s 例確診、%s 例死亡（2022 年 1 月 1 日至 12 月 23 日），標示旗標「%s」'
+                 % (format(int(r[CASES]), ','), format(int(r[DEATHS]), ','), F_CN22),
+        change='Added from the National Health Commission\'s last daily briefing (24 December 2022, data to 24:00 on 23 '
+               'December; its English website), minus the 2021 year-end count. The year is incomplete and the counts are '
+               'confirmed cases only, so the values are flagged and a known issue says how to treat them. The notice that '
+               'daily publication stopped on 25 December 2022 is archived.',
+        change_zh='取自國家衛生健康委員會最後一次每日通報（2022 年 12 月 24 日，資料至 12 月 23 日 24 時；其英文網站），減去 2021 年底之累計數。'
+                  '該年度不完整且僅計確診病例，故標示旗標，並於已知問題說明處理方式。停止每日發布（2022 年 12 月 25 日）之公告亦已存檔。')
 
 
 def revision():

@@ -464,11 +464,19 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
     # COVID-19: the Johns Hopkins archive is the check for every country; WHO's own file and the situation report that
     # says WHO's "China" includes Hong Kong, Macao and Taiwan are evidence for the mainland figures; France adds its
     # overseas departments because the World Bank population includes them
-    covid_doc = 'govt.chinadaily.com.cn' in url or 'cdc.gov.tw/En/Bulletin' in url
+    china_doc = 'govt.chinadaily.com.cn' in url or 'en.nhc.gov.cn' in url
+    covid_doc = china_doc or 'cdc.gov.tw/En/Bulletin' in url
     if (k == 'who_covid19_dashboard' or covid_doc) and len(_apis):
         pats = [('jhu_csse_time_series_covid19_', 'art_jhucheck')]
-        if 'govt.chinadaily.com.cn' in url:
+        if china_doc:
             pats += [('who_COVID-19_situation_report_24', 'art_whositrep'), ('who_COVID-19_global_daily_data', 'art_whochina')]
+        if 'en.nhc.gov.cn' in url:
+            # the last daily briefing: the report of the notice that daily publication stopped
+            for f_ in sorted(glob.glob(os.path.join(SITE, 'evidence', 'countries', 'CHN', 'covid__NHC_stops_daily_reporting_*.html'))):
+                rel_ = 'evidence/countries/CHN/' + os.path.basename(f_)
+                add(t('art_nhcstop', lang), rel_)
+                for lab2, rel in _mirrors_of('evidence/countries/CHN', os.path.basename(f_), lang):
+                    add(lab2, rel)
         if k == 'who_covid19_dashboard' and iso3 == 'FRA':
             pats += [('wb_SP_POP_TOTL_FRA_country_series_note', 'art_wbpopnote')]
         for pat, lab in pats:

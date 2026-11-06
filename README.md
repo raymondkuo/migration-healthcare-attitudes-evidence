@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**1,048 pages** — 524 per language. Validated: 74,350 internal links, 0 broken.
+**1,048 pages** — 524 per language. Validated: 74,508 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -107,7 +107,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 
 - **Audit of 2026-10-07** (issues #1–#25): all 24 findings were re-checked against the archived sources and
   confirmed; **45 cell changes** followed, counting the audit and the re-audit below (15 corrected, 7 regraded, 6 relabelled, 6 added, 4 source corrected, 4 flag added, 2 metadata cleared, 1 deleted). The response is in
-  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **7,161** current observations are in
+  `verification/AUDIT_RESPONSE_2026-10-07.md`; the dispositions of all **7,165** current observations are in
   `data/current_panel_verification.csv`. The 2,454 / 2,737 figures above are comparison *records* of the first-release
   check, not a count of unique current observations.
 - **Re-audit of 2026-10-07**, an independent re-check of commit `30d6cb1` (issues #5, #11, #12, #13, #17, #20 and #21
@@ -119,7 +119,7 @@ sheet names**. Taiwan terminology is used throughout: 臺灣、資料、外國�
 - Quality grades on the 2,478 displayed values of the six headline variables (2001–2022): **A** 2,323 · **B** 142 · **C** 13 · **D** 0.
   With the 7 Taiwan absconded-worker values (all grade B), the 880 health-expenditure values (all grade A,
   added 2026-10-17) and Australia's 2021 census count of non-citizens (grade A, added 2026-10-18) the displayed total
-  is 6,281: **A** 6,099 · **B** 169 · **C** 13.
+  is 6,285: **A** 6,099 · **B** 173 · **C** 13.
   A grade says where a value was read from (A decoded from a machine-readable source, B read from an archived document,
   C the midpoint of a published range computed by the archive; a single-number estimate a source publishes is A or B);
   it does not say how precise or comparable the value is.
@@ -209,13 +209,14 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
 
 - Four new variables for **all 40 countries, 2020–2022**: `covid_cases` and `covid_deaths` (reported in the
   calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100,
-  computed by the archive); 119 country-years each. Empty before 2020. No other value changed.
+  computed by the archive); 120 country-years each. Empty before 2020. No other value changed.
 - 38 countries: WHO COVID-19 data (daily file, by date reported to WHO; France with its five overseas
-  departments, which the World Bank population includes). Mainland China (2020–2021): National Health Commission
-  year-end briefings; **China 2022 is empty**, because national reporting stopped in December 2022 and WHO's "China"
-  includes Hong Kong, Macao and Taiwan. Taiwan: Central Epidemic Command Center year-end press releases.
+  departments, which the World Bank population includes). Mainland China: National Health Commission briefings (WHO's
+  "China" includes Hong Kong, Macao and Taiwan); **China 2022 stops at 23 December and counts confirmed cases only**, as
+  the Commission's daily reports ended on 25 December 2022 (flagged). Taiwan: Central Epidemic Command Center year-end
+  press releases.
 - Checked against the Johns Hopkins CSSE archive: over 2020–2022 combined, 33 of 40 countries agree
-  within 1% for cases and 28 for deaths (`data/covid_source_comparison.csv`).
+  within 1% for cases and 29 for deaths (`data/covid_source_comparison.csv`).
 - Reported counts, not infections or excess deaths. The WHO file, the situation report on China, the briefings and
   press releases, the Johns Hopkins files and WHO's data page are archived with PDF/PNG mirrors.
 
@@ -258,7 +259,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 585 MB across 2,538 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
+- About 587 MB across 2,544 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the

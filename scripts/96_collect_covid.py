@@ -74,6 +74,15 @@ TW_PAGES = {2020: 'https://www.cdc.gov.tw/En/Bulletin/Detail/-ShMvyrZbj9DKWNTBPC
             2021: 'https://www.cdc.gov.tw/En/Bulletin/Detail/geVzXO_h2mz_y2Mcv4tW5A?typeid=158',
             2022: 'https://www.cdc.gov.tw/En/Bulletin/Detail/ObLo-99cs63pMzlKVslGxA?typeid=158'}
 CN_FILE = 'covid__NHC_briefing_%d-12-31__chinadaily__retrieved_%s.html'
+# 2022: the Commission's last daily briefing (24 December, data to 24:00 on 23 December), on its own English site; it
+# stopped publishing daily figures on 25 December 2022 (Xinhua's report of its notice, on the State Council's portal)
+CN_PAGES[2022] = 'https://en.nhc.gov.cn/2022-12/24/c_86224.htm'
+CN_FILES = {y: CN_FILE % (y, COLLECTED) for y in (2020, 2021)}
+CN_FILES[2022] = 'covid__NHC_briefing_2022-12-23__en.nhc.gov.cn__retrieved_%s.html' % COLLECTED
+CN_STOP_URL = ('https://chinaservicesinfo.com/s/202212/26/WS63aac4ef498ea274927ac6b1/'
+               'chinas-national-health-commission-stops-publishing-daily-covid-information.html')
+CN_STOP = 'covid__NHC_stops_daily_reporting_2022-12-25__chinaservicesinfo__retrieved_%s.html' % COLLECTED
+CN_DAY = {2020: 31, 2021: 31, 2022: 23}
 TW_FILE = 'covid__CECC_bulletin_%d-12-31__retrieved_%s.html'
 FR_DOM_CODES = ('GP', 'MQ', 'GF', 'RE', 'YT')
 
@@ -81,6 +90,8 @@ WHO_NAME = ('World Health Organization, COVID-19 dashboard data: cases and death
             'WHO-COVID-19-global-daily-data.csv)')
 CN_NAME = ('National Health Commission of China, daily briefing on COVID-19 for 24:00 on 31 December %d (mainland), '
            'English text published by China Daily\'s government portal')
+CN_NAME22 = ('National Health Commission of China, last daily briefing on COVID-19 (24 December 2022, data to 24:00 on 23 '
+             'December; mainland), on the Commission\'s English website')
 TW_NAME = ('Taiwan Centers for Disease Control, Central Epidemic Command Center press release of 31 December %d '
            '(cumulative laboratory-confirmed cases and deaths)')
 PUBLISHER_PAGES = [dict(key='who_covid19_dashboard', publisher='World Health Organization',
@@ -137,9 +148,12 @@ if FETCH:
         new.append(dict(file=f, publisher=pub, description=desc, query_url=url, bytes=size, path='evidence/api/' + f))
     upsert(os.path.join(D, 'api_snapshots.csv'), new, 'file')
     for y, u in CN_PAGES.items():
-        fetch(u, os.path.join(EVC, 'CHN', CN_FILE % (y, COLLECTED)), 'text/html')
+        fetch(u, os.path.join(EVC, 'CHN', CN_FILES[y]), 'text/html')
     for y, u in TW_PAGES.items():
         fetch(u, os.path.join(EVC, 'TWN', TW_FILE % (y, COLLECTED)), 'text/html')
+if FETCH or '--fetch-cn2022' in sys.argv:
+    fetch(CN_PAGES[2022], os.path.join(EVC, 'CHN', CN_FILES[2022]), 'text/html')
+    fetch(CN_STOP_URL, os.path.join(EVC, 'CHN', CN_STOP), 'text/html')
 
 # ------------------------------------------------------------------ WHO
 w = pd.read_csv(os.path.join(API, WHO_FILE), keep_default_na=False, na_values=[''], dtype={'Country_code': str})
@@ -177,9 +191,9 @@ sr.close()
 assert 'Confirmed cases in China include cases confirmed in Hong Kong SAR' in sr_text and 'Taipei' in sr_text, 'sitrep'
 cn, cn_parts = {}, {}
 for y in CN_PAGES:
-    t = page_text(os.path.join(EVC, 'CHN', CN_FILE % (y, COLLECTED)))
-    m = re.search(r'As of 24:00 on Dec 31, the National Health Commission had received reports of ([\d,]+) confirmed '
-                  r'cases and ([\d,]+) deaths in 31 provincial-level regions', t)
+    t = page_text(os.path.join(EVC, 'CHN', CN_FILES[y]))
+    m = re.search(r'As of 24:00 on Dec %d, the National Health Commission had received reports of ([\d,]+) confirmed '
+                  r'cases and ([\d,]+) deaths in 31 provincial-level regions' % CN_DAY[y], t)
     hk = re.search(r'([\d,]+) in Hong Kong \(([\d,]+) had died', t)
     mo = re.search(r'([\d,]+) in Macao \(([^)]*)\)', t)
     tw = re.search(r'([\d,]+) in Taiwan \(([\d,]+) had died', t)
@@ -193,7 +207,10 @@ wc = w[w.Country_code == 'CN'].set_index('Date_reported')
 tot21 = cn[2021][0] + sum(v[0] for v in cn_parts[2021].values())
 assert tot21 == int(wc.loc['2021-12-31', 'Cumulative_cases']), (tot21, wc.loc['2021-12-31', 'Cumulative_cases'])
 assert cn[2021][1] + sum(v[1] for v in cn_parts[2021].values()) == int(wc.loc['2021-12-31', 'Cumulative_deaths'])
-cn_year = {2020: cn[2020], 2021: (cn[2021][0] - cn[2020][0], cn[2021][1] - cn[2020][1])}
+cn_year = {2020: cn[2020], 2021: (cn[2021][0] - cn[2020][0], cn[2021][1] - cn[2020][1]),
+           2022: (cn[2022][0] - cn[2021][0], cn[2022][1] - cn[2021][1])}
+stop_text = page_text(os.path.join(EVC, 'CHN', CN_STOP))
+assert 'stopped publishing daily epidemic information' in stop_text, 'NHC notice'
 print('China (mainland): 2020 %s, 2021 %s; mainland + Hong Kong + Macao + Taiwan on 31 Dec 2021 = WHO China (%s)'
       % (cn_year[2020], cn_year[2021], format(tot21, ',')))
 
@@ -266,16 +283,27 @@ for iso in ISO:
                                           '"China" includes Hong Kong, Macao and Taiwan.'))
                 continue
             (c, d), src = cn_year[y], 'NHC'
-            url, lf, name, grade = CN_PAGES[y], CN_FILE % (y, COLLECTED), CN_NAME % y, 'B'
-            ref = 'Calendar year (cumulative count as of 24:00 on 31 December, minus the previous year-end count)'
+            url, lf, grade = CN_PAGES[y], CN_FILES[y], 'B'
+            name = CN_NAME % y if y < 2022 else CN_NAME22
+            ref = ('Calendar year (cumulative count as of 24:00 on 31 December, minus the previous year-end count)' if y < 2022
+                   else '1 January-23 December 2022 (cumulative count as of 24:00 on 23 December, the last national daily '
+                        'report, minus the 2021 year-end count)')
             note = ('Mainland China (31 provincial-level regions and the Xinjiang Production and Construction Corps), '
-                    'National Health Commission: %s confirmed cases and %s deaths reported by 24:00 on 31 December %d%s; '
+                    'National Health Commission: %s confirmed cases and %s deaths reported by 24:00 on %d December %d%s; '
                     'Hong Kong, Macao and Taiwan are not included (WHO\'s "China" includes them).'
-                    % (format(cn[y][0], ','), format(cn[y][1], ','), y,
+                    % (format(cn[y][0], ','), format(cn[y][1], ','), CN_DAY[y], y,
                        '' if y == 2020 else ', minus those of 31 December %d' % (y - 1)))
-            ver = ('Read from the archived briefing (evidence/countries/CHN/%s)%s. The same briefing gives Hong Kong, Macao '
-                   'and Taiwan; with them the 31 December 2021 counts equal WHO\'s China totals case for case. Retrieved %s.'
-                   % (lf, '' if y == 2020 else ' and the one of 31 December %d' % (y - 1), COLLECTED))
+            if y == 2022:
+                note += (' INCOMPLETE YEAR: the Commission stopped publishing daily figures on 25 December 2022, so 24 '
+                         'December-31 December are missing; the counts are confirmed cases as the Commission defined them '
+                         '(asymptomatic infections were reported separately and are not included) and miss most of the '
+                         'infections and deaths of the December 2022 wave.')
+            ver = ('Read from the archived briefing (evidence/countries/CHN/%s)%s. %s Retrieved %s.'
+                   % (lf, '' if y == 2020 else ' and the one of 31 December %d' % (y - 1),
+                      'The same briefing gives Hong Kong, Macao and Taiwan; with them the 31 December 2021 counts equal '
+                      'WHO\'s China totals case for case.' if y < 2022 else
+                      'It is the last daily briefing: the notice that daily publication stopped on 25 December 2022 is '
+                      'archived as evidence/countries/CHN/%s.' % CN_STOP, COLLECTED))
         else:
             (c, d), src = who[(iso, y)], 'WHO'
             url, lf, name, grade = WHO_URL, 'evidence/api/' + WHO_FILE, WHO_NAME, 'A'
@@ -292,7 +320,8 @@ for iso in ISO:
                                 (CT.DEATHS_PCT, dpct, ' Computed by the archive: %s deaths / population %s x 100 (the '
                                                       'panel\'s population of %s %d).' % (format(d, ','), format(int(pop), ','), iso, y))):
             rows.append(L.cell(iso, y, var, val, 'COVID_' + src, name, url, lf, ref, grade, CT.SOURCE_TYPE,
-                               note=note + extra, flag='', verification=ver, collected_on=COLLECTED))
+                               note=note + extra, flag=CT.F_CN22 if (iso, y) == ('CHN', 2022) else '',
+                               verification=ver, collected_on=COLLECTED))
         cmp_rows.append(dict(iso3=iso, year=y, source_used=src, cases=c, deaths=d, population=repr(pop),
                              cases_pct=repr(cpct), deaths_pct=repr(dpct),
                              who_cases='' if iso == 'TWN' else who[(iso, y)][0],
@@ -312,6 +341,28 @@ print('Johns Hopkins within 1%%: cases %d of %d, deaths %d of %d'
          within(cm.jhu_deaths.astype(float), cm.deaths.astype(float)).sum(), len(cm)))
 
 # ------------------------------------------------------------------ mirrors, extracts, publisher page
+def mirror_html(folder, f, u):
+    hb = os.path.join(folder, 'MIRROR__' + os.path.splitext(f)[0])
+    raw = open(os.path.join(folder, f), encoding='utf-8', errors='replace').read()
+    tmp = hb + '.tmp.html'
+    open(tmp, 'w', encoding='utf-8').write(re.sub(r'(<head[^>]*>)', r'\1<base href="%s">' % u, raw, count=1, flags=re.I))
+    made = L.chrome_render('file:///' + tmp.replace(chr(92), '/'), pdf=hb + '.pdf', png=hb + '.png')
+    os.remove(tmp)
+    return made
+
+
+if '--fetch-cn2022' in sys.argv and not FETCH:
+    mirrors = []
+    for f, u in ((CN_FILES[2022], CN_PAGES[2022]), (CN_STOP, CN_STOP_URL)):
+        made = mirror_html(os.path.join(EVC, 'CHN'), f, u)
+        mirrors.append(dict(scope='CHN', folder='evidence/countries/CHN', source_file=f,
+                            mirrors=';'.join(os.path.basename(m) for m in made), n_mirrors=len(made)))
+        print('mirror %-60s %s' % (f[:60], [os.path.basename(m) for m in made]))
+    sm = os.path.join(D, 'source_mirrors.csv')
+    old = pd.read_csv(sm)
+    old = old[~(old.source_file.isin([m['source_file'] for m in mirrors]))]
+    pd.concat([old, pd.DataFrame(mirrors)], ignore_index=True).to_csv(sm, index=False, encoding='utf-8-sig')
+
 if FETCH:
     mirrors = []
     made = []
@@ -360,7 +411,7 @@ if FETCH:
     # the briefings and bulletins, rendered from the archived copies (with the page's own address as base)
     for iso, pages, fname in (('CHN', CN_PAGES, CN_FILE), ('TWN', TW_PAGES, TW_FILE)):
         for y, u in pages.items():
-            f = fname % (y, COLLECTED)
+            f = CN_FILES[y] if iso == 'CHN' else fname % (y, COLLECTED)
             folder = os.path.join(EVC, iso)
             hb = os.path.join(folder, 'MIRROR__' + os.path.splitext(f)[0])
             raw = open(os.path.join(folder, f), encoding='utf-8', errors='replace').read()

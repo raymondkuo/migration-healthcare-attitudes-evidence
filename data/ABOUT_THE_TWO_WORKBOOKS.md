@@ -20,8 +20,8 @@ Current figures (computed from the data files on 2026-10-07):
   Taiwan absconded-worker values (all grade B), the 880 health-expenditure values added on 2026-10-17 (all
   grade A), Australia's 2021 census count of non-citizens added on 2026-10-18 (grade A), the 880 unemployment
   rates added on 2026-10-21, the 880 V-Dem liberal democracy index values added on 2026-10-26 and the 679 Gini
-  index values added on 2026-10-29 (all grade A), and the 476 COVID-19 values added on 2026-11-06 (grade A from WHO's
-  file, B for mainland China and Taiwan) are also displayed: with them, 6,281 values, A 6,099, B 169, C 13. Grades say where a value was read from, not how precise or comparable it is.
+  index values added on 2026-10-29 (all grade A), and the 480 COVID-19 values added on 2026-11-06 (grade A from WHO's
+  file, B for mainland China and Taiwan) are also displayed: with them, 6,285 values, A 6,099, B 173, C 13. Grades say where a value was read from, not how precise or comparable it is.
 - 67 value corrections and 2 deletions are itemised in `Corrections_applied` and `Deleted_values`.
 - Every change since first publication is dated in `Revision_history`; every cell changed by the audit of
   2026-10-07 is in `Audit_changes`.
@@ -51,7 +51,7 @@ describes the current release.
 compiled from the first-release inputs, covers 2010-2022 only, and has not been updated.
 
 - Its numbers describe its own run: its `Verification` sheet reports 203 source-URL rows, 192 of 203 snapshots and
-  750 of 750 Eurostat/OECD values matched. The corresponding figures for this archive are 186 distinct source
+  750 of 750 Eurostat/OECD values matched. The corresponding figures for this archive are 187 distinct source
   URLs in the register and 2,737 value comparisons. Neither set is wrong; they are different runs.
 - Its `Source Audit` and `Folder Index` sheets point to a folder layout (`country_sources\...`, `sources\001_...`)
   that does not exist here; the evidence lives under `evidence/countries/<ISO3>/`.

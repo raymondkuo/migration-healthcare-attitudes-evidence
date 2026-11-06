@@ -73,8 +73,9 @@ the result without the flagged values. [AUTHORS]
 The four COVID-19 variables, added on 2026-11-06 (`covid_cases`, `covid_deaths` and each as a percentage of the
 population), exist for 2020-2022 only and are counts reported in the calendar year, not infections or excess deaths:
 cases depend on testing, which fell sharply in 2022, and deaths on how each country certified them. 38 countries come
-from WHO (by date reported), mainland China from the National Health Commission (2020 and 2021 only; WHO's "China"
-includes Hong Kong, Macao and Taiwan) and Taiwan from the Central Epidemic Command Center. For the 2021 wave decide
+from WHO (by date reported), mainland China from the National Health Commission (WHO's "China" includes Hong Kong,
+Macao and Taiwan; its 2022 values stop at 23 December, when the daily reports ended, and count confirmed cases only:
+flagged, leave them out of 2022 comparisons) and Taiwan from the Central Epidemic Command Center. For the 2021 wave decide
 whether the exposure is the year before fieldwork, the fieldwork year, or the cumulative total up to fieldwork (the
 sum of the years), and state which; before 2020 the values are empty, not zero. [AUTHORS]
 

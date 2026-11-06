@@ -108,7 +108,7 @@ Bank's note on France's population, the Johns Hopkins CSSE time series pinned to
 the National Health Commission's year-end briefings for mainland China and the CECC's year-end press releases for
 Taiwan) and rewrites its staging file and `data/covid_source_comparison.csv` without the network; with `--fetch` it
 downloads them again (change the date constant in `scripts/covid_texts.py` first) and renders the mirrors and WHO's data
-page. The National Health Commission's own site answers automated requests with a bot check, so its briefings are taken
+page (`--fetch-cn2022` downloads only the Commission's last daily briefing and the notice that daily reporting stopped). The National Health Commission's own site answers automated requests with a bot check, so its briefings are taken
 from China Daily's government portal, which publishes them in English.
 
 `84_collect_health_expenditure.py` re-reads the archived health-expenditure files and rewrites its staging file and

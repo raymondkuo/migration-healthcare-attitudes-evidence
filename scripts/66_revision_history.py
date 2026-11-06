@@ -572,6 +572,11 @@ vp_ = os.path.join(D, "extension_staging", "commit_stamp_2026-11-06.json")
 vst_ = json.load(open(vp_, encoding="utf-8")) if os.path.exists(vp_) else {}
 CVA = dict(date=CT.WHEN, time=vst_.get("time", ""), commit=vst_.get("commit", ""))
 H += [dict(CVA, kind="variable added", iso3=ALL40, **CT.revision())]
+# a second commit on the same day: China 2022 from the last national daily briefing (commit_stamp_2026-11-06b.json)
+vp2_ = os.path.join(D, "extension_staging", "commit_stamp_2026-11-06b.json")
+vst2_ = json.load(open(vp2_, encoding="utf-8")) if os.path.exists(vp2_) else {}
+H += [dict(date=CT.FIXED_CN22, time=vst2_.get("time", ""), commit=vst2_.get("commit", ""), kind="values added",
+           iso3="CHN", **CT.revision_cn2022())]
 
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):

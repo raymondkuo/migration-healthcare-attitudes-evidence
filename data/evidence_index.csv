@@ -67,10 +67,10 @@ CHN,China,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/CHN__health_exp
 CHN,China,unemployment_rate,22,2001-2022,evidence-pages/CHN__unemployment_rate.html,evidence/extracts/CHN/unemployment_rate.pdf,17
 CHN,China,vdem_libdem,22,2001-2022,evidence-pages/CHN__vdem_libdem.html,evidence/extracts/CHN/vdem_libdem.pdf,36
 CHN,China,gini_index,16,2002-2022,evidence-pages/CHN__gini_index.html,evidence/extracts/CHN/gini_index.pdf,17
-CHN,China,covid_cases,2,2020-2021,evidence-pages/CHN__covid_cases.html,evidence/extracts/CHN/covid_cases.pdf,20
-CHN,China,covid_cases_pct_pop,2,2020-2021,evidence-pages/CHN__covid_cases_pct_pop.html,evidence/extracts/CHN/covid_cases_pct_pop.pdf,20
-CHN,China,covid_deaths,2,2020-2021,evidence-pages/CHN__covid_deaths.html,evidence/extracts/CHN/covid_deaths.pdf,20
-CHN,China,covid_deaths_pct_pop,2,2020-2021,evidence-pages/CHN__covid_deaths_pct_pop.html,evidence/extracts/CHN/covid_deaths_pct_pop.pdf,20
+CHN,China,covid_cases,3,2020-2022,evidence-pages/CHN__covid_cases.html,evidence/extracts/CHN/covid_cases.pdf,26
+CHN,China,covid_cases_pct_pop,3,2020-2022,evidence-pages/CHN__covid_cases_pct_pop.html,evidence/extracts/CHN/covid_cases_pct_pop.pdf,26
+CHN,China,covid_deaths,3,2020-2022,evidence-pages/CHN__covid_deaths.html,evidence/extracts/CHN/covid_deaths.pdf,26
+CHN,China,covid_deaths_pct_pop,3,2020-2022,evidence-pages/CHN__covid_deaths_pct_pop.html,evidence/extracts/CHN/covid_deaths_pct_pop.pdf,26
 HRV,Croatia,population,22,2001-2022,evidence-pages/HRV__population.html,evidence/extracts/HRV/population.pdf,8
 HRV,Croatia,foreign_born,12,2005-2022,evidence-pages/HRV__foreign_born.html,evidence/extracts/HRV/foreign_born.pdf,21
 HRV,Croatia,foreign_nationals,11,2011-2022,evidence-pages/HRV__foreign_nationals.html,evidence/extracts/HRV/foreign_nationals.pdf,13

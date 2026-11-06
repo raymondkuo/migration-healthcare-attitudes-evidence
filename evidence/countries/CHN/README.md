@@ -91,14 +91,17 @@ Each value carries its source, reference period, grade, verification text and an
 
 ## COVID-19 (collected 2026-11-06)
 
-Four new variables for the years 2020, 2021: `covid_cases` and `covid_deaths` (reported in the calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100, computed by the archive). No other value in this folder or in the panel changed.
+Four new variables for the years 2020, 2021, 2022: `covid_cases` and `covid_deaths` (reported in the calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100, computed by the archive). No other value in this folder or in the panel changed.
 
 | year | cases | deaths | source | file |
 |---|---:|---:|---|---|
 | 2020 | 87,071 | 4,634 | National Health Commission of China, daily briefing on COVID-19 for 24:00 on 31 December 2 | `covid__NHC_briefing_2020-12-31__chinadaily__retrieved_2026-11-06.html` |
 | 2021 | 15,243 | 2 | National Health Commission of China, daily briefing on COVID-19 for 24:00 on 31 December 2 | `covid__NHC_briefing_2021-12-31__chinadaily__retrieved_2026-11-06.html` |
+| 2022 | 294,881 | 605 | National Health Commission of China, last daily briefing on COVID-19 (24 December 2022, da | `covid__NHC_briefing_2022-12-23__en.nhc.gov.cn__retrieved_2026-11-06.html` |
 
-2022 is empty: national daily reporting stopped in December 2022, and WHO's "China" includes Hong Kong, Macao and Taiwan.
+Flag "incomplete year: national daily reporting ended 23 Dec 2022; confirmed cases only": 2022.
+
+WHO's "China" includes Hong Kong, Macao and Taiwan, so the mainland figures come from the National Health Commission.
 
 `data/covid_source_comparison.csv` sets the values beside WHO's and the Johns Hopkins archive's; the revision history on the Verification page dates the addition.
 

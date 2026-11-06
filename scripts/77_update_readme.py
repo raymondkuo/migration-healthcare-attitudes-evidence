@@ -271,9 +271,10 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
   calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100,
   computed by the archive); %(cv_n)s country-years each. Empty before 2020. No other value changed.
 - %(cv_nwho)d countries: WHO COVID-19 data (daily file, by date reported to WHO; France with its five overseas
-  departments, which the World Bank population includes). Mainland China (2020–2021): National Health Commission
-  year-end briefings; **China 2022 is empty**, because national reporting stopped in December 2022 and WHO's "China"
-  includes Hong Kong, Macao and Taiwan. Taiwan: Central Epidemic Command Center year-end press releases.
+  departments, which the World Bank population includes). Mainland China: National Health Commission briefings (WHO's
+  "China" includes Hong Kong, Macao and Taiwan); **China 2022 stops at 23 December and counts confirmed cases only**, as
+  the Commission's daily reports ended on 25 December 2022 (flagged). Taiwan: Central Epidemic Command Center year-end
+  press releases.
 - Checked against the Johns Hopkins CSSE archive: over 2020–2022 combined, %(cv_c1)d of %(cv_ncomb)d countries agree
   within 1%% for cases and %(cv_d1)d for deaths (`data/covid_source_comparison.csv`).
 - Reported counts, not infections or excess deaths. The WHO file, the situation report on China, the briefings and

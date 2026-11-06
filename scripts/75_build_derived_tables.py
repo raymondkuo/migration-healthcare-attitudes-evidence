@@ -511,7 +511,7 @@ ADD = [
   '5% or more; the signed mean is reported separately), un_estimate, declared citizenship basis, comparability '
   'caution, includes former-USSR births, derived by subtraction, and the publisher\'s own flags (Eurostat: break in '
   'time series, estimated, provisional). irregular_proxy_detections: only the publisher\'s own Eurostat flag '
-  '(break in time series).' + HT.FLAG_EN + UT.FLAG_EN + GT.FLAG_EN,
+  '(break in time series).' + HT.FLAG_EN + UT.FLAG_EN + GT.FLAG_EN + CT.FLAG_EN,
   'Blank means no flag. Attached to every cell, including those published before the '
   'extension (UN DESA estimates and the flags Eurostat itself attached). See the cell note and '
   'data/extension_splice_summary.csv.',
@@ -519,7 +519,7 @@ ADD = [
   'splice (large gap)（兩來源於重疊年度之「平均絕對差距」達 5% 以上；有號平均另行報告）、un_estimate、'
   'declared citizenship basis、comparability caution、includes former-USSR births、derived by subtraction，'
   '以及發布機構自身之旗標（Eurostat：時間序列斷裂、估計值、暫定值）。查獲人數：僅 Eurostat 自身之旗標（時間序列斷裂）。'
-  + HT.FLAG_ZH + UT.FLAG_ZH + GT.FLAG_ZH,
+  + HT.FLAG_ZH + UT.FLAG_ZH + GT.FLAG_ZH + CT.FLAG_ZH,
   '空白表示無旗標。適用於每一格，包括延伸前已發布者（UN DESA 估計值與 Eurostat 自身之旗標）。'
   '請參閱各筆備註與 data/extension_splice_summary.csv。'),
  ('*_collected_on', 'Date a value was collected, for values added in the 2001 extension '

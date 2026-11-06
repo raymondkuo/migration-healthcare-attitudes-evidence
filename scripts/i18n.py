@@ -455,6 +455,8 @@ T = {
                    'zh': '世界衛生組織第 24 號疫情報告：其「中國」包含香港、澳門與臺灣'},
  'art_whochina': {'en': 'WHO daily file (its "China" row, compared with the mainland figures)',
                   'zh': '世界衛生組織每日檔（其「中國」列，與大陸數字比對）'},
+ 'art_nhcstop': {'en': 'Notice: the National Health Commission stopped publishing daily figures (25 December 2022)',
+                 'zh': '公告：國家衛生健康委員會停止發布每日數字（2022 年 12 月 25 日）'},
  'art_wbpopnote': {'en': 'World Bank note: the population of France includes its five overseas departments',
                    'zh': '世界銀行註記：法國人口包含其五個海外省'},
 }
