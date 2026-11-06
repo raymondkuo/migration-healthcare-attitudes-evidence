@@ -577,6 +577,16 @@ vp2_ = os.path.join(D, "extension_staging", "commit_stamp_2026-11-06b.json")
 vst2_ = json.load(open(vp2_, encoding="utf-8")) if os.path.exists(vp2_) else {}
 H += [dict(date=CT.FIXED_CN22, time=vst2_.get("time", ""), commit=vst2_.get("commit", ""), kind="values added",
            iso3="CHN", **CT.revision_cn2022())]
+# a third commit on the same day: the COVID-19 audit's GitHub issues #34-#36 (commit_stamp_2026-11-06c.json): China
+# 2022 to 31 December from China CDC, a caution on WHO's early-2020 dates, the unit of the *_pct_pop columns, and the
+# revision history's own COVID-19 entries
+vp3_ = os.path.join(D, "extension_staging", "commit_stamp_2026-11-06c.json")
+vst3_ = json.load(open(vp3_, encoding="utf-8")) if os.path.exists(vp3_) else {}
+CVC = dict(date=CT.CORR, time=vst3_.get("time", ""), commit=vst3_.get("commit", ""))
+H += [dict(CVC, kind="value corrected", iso3="CHN", **CT.revision_cn2022_cdc()),
+      dict(CVC, kind="evidence added", iso3="", **CT.revision_who_dates()),
+      dict(CVC, kind="documentation corrected", iso3="", **CT.revision_units()),
+      dict(CVC, kind="documentation corrected", iso3="", **CT.revision_history_fix())]
 
 hist = pd.DataFrame(H)
 for col in ('scope_zh', 'before_zh', 'after_zh'):

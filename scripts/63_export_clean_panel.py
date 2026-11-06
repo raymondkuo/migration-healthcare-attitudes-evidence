@@ -12,10 +12,12 @@ typed in: the first version of this text carried numbers that went stale after l
 
 Two naming decisions, both deliberate:
 
-  *_pct_of_pop here is a PERCENTAGE (0-100). The archive's own *_pct_pop columns hold
-  the same quantity as a proportion (0-1) despite the name - Australia 2010 reads
-  0.2669 for a country that is 26.7% foreign-born. Renamed and rescaled so the number
-  cannot be read 100x wrong.
+  *_pct_of_pop here is a PERCENTAGE (0-100). The archive's own migration shares
+  (*_pct_pop) hold the same quantity as a proportion (0-1) despite the name - Australia
+  2010 reads 0.2669 for a country that is 26.7% foreign-born. Renamed and rescaled so the
+  number cannot be read 100x wrong. The two COVID-19 shares added later
+  (covid_cases_pct_pop, covid_deaths_pct_pop) are percentages in both files and keep
+  their names; the script stops if any of these scales changes (GitHub issue #36).
 
   The three irregular-migration measures stay in three columns and are never summed
   into one. They count different things and cover different countries.
@@ -133,6 +135,13 @@ _cv = pd.read_csv(os.path.join(D, 'panel_final.csv'), usecols=['iso3', 'year'] +
 for _v in CT.VARS:
     out[_v] = [_cv[_v].get((i, y)) for i, y in zip(p.iso3, p.year)]
 out['covid_flag'] = p[CT.CASES + '_flag'].fillna('')
+# units (GitHub issue #36): every *_pct_of_pop is a percentage of the archive's proportion; the COVID-19 shares are
+# percentages in both files
+for _c in [c for c in out.columns if c.endswith('_pct_of_pop')]:
+    assert out[_c].dropna().between(0, 100).all(), _c
+for _v, _b in ((CT.CASES_PCT, CT.CASES), (CT.DEATHS_PCT, CT.DEATHS)):
+    _s = out[out[_v].notna()]
+    assert ((_s[_v] - 100.0 * _s[_b] / _s['population']).abs() <= 1e-12 * _s[_v].abs().clip(lower=1e-300)).all(), _v
 
 # ---------------------------------------------------------------- quality grades
 GRADES = [('grade_population', 'population'),
@@ -407,19 +416,23 @@ CODE = [
   '%s country-years have a value: do not fill the gaps silently. See gini_flag for consumption-based values, survey '
   'breaks and New Zealand.' % (n(int(out.gini_index.notna().sum())), n(len(out)))),
  ('covid_cases', 'COVID-19 cases reported in the calendar year (a count), 2020-2022 only. 38 countries: WHO (by date '
-                 'reported; France with its overseas departments); mainland China: National Health Commission; '
-                 'Taiwan: Central Epidemic Command Center. Added 2026-11-06.',
-  'Reported cases, not infections: they depend on testing, which fell in 2022. China 2022 is incomplete (see '
-  'covid_flag). Empty before 2020.'),
- ('covid_cases_pct_pop', 'covid_cases / population x 100, computed by the archive with this file\'s population.',
+                 'reported; France with its overseas departments); mainland China: National Health Commission '
+                 '(2020-2021) and China CDC (2022); Taiwan: Central Epidemic Command Center. Added 2026-11-06.',
+  'Reported cases, not infections: they depend on testing, which fell in 2022. Mainland China 2022 misses most of the '
+  'December wave (see covid_flag). Empty before 2020.'),
+ ('covid_cases_pct_pop', 'covid_cases / population x 100: a PERCENTAGE (0-100), like *_pct_of_pop and unlike the '
+                         'archive\'s migration *_pct_pop proportions; computed by the archive with this file\'s '
+                         'population.',
   'Not the share of the population ever infected: a year\'s reported cases over the population; one person can be '
   'counted more than once.'),
  ('covid_deaths', 'COVID-19 deaths reported in the calendar year (a count), 2020-2022 only; same sources as covid_cases.',
   'Countries certify COVID-19 deaths differently; not excess mortality.'),
- ('covid_deaths_pct_pop', 'covid_deaths / population x 100, computed by the archive with this file\'s population.', ''),
+ ('covid_deaths_pct_pop', 'covid_deaths / population x 100: a PERCENTAGE (0-100), as covid_cases_pct_pop; computed by '
+                          'the archive with this file\'s population.', ''),
  ('covid_flag', 'Why the four COVID-19 values of a country-year need a caution, blank where nothing does. %s: mainland '
-                'China 2022 stops at 23 December, when the National Health Commission\'s daily reports ended, and counts '
-                'confirmed cases only.' % CT.F_CN22, ''),
+                'China 2022 counts confirmed cases and deaths only; China CDC\'s own report of 15 January 2023 counts '
+                '%s COVID-19-related deaths in hospitals from 8 December 2022 to 12 January 2023.'
+                % (CT.F_CN22, format(CT.HOSP['deaths'], ',')), ''),
  ('gini_flag', 'Why the Gini value needs a caution, blank where nothing does; several are separated by "; ". '
                + ' | '.join('%s: %s' % (k, v) for k, v in GFLAGS.items()), ''),
  ('grade_population', 'Evidence grade for the population value. A: decoded from a machine-readable '
@@ -532,7 +545,8 @@ README = [
  ('', ''),
  ('WHAT WAS ADDED ON 2026-11-06', ''),
  ('COVID-19', 'covid_cases, covid_cases_pct_pop, covid_deaths and covid_deaths_pct_pop for all %d countries, 2020-2022 (%s '
-              'country-years; China 2022 incomplete, see covid_flag), with covid_flag and grade_covid. No other value changed.'
+              'country-years; mainland China 2022 flagged, see covid_flag), with covid_flag and grade_covid. No other value '
+              'changed.'
               % (NC, n(out.covid_cases.notna().sum()))),
  ('', ''),
  ('HOW THE NUMBERS WERE CHECKED', ''),
@@ -570,8 +584,12 @@ README = [
                           for r in dele.itertuples()))),
  ('', ''),
  ('READ BEFORE USING', ''),
- ('Percentages', 'Every *_pct_of_pop column is a PERCENTAGE, 0-100. The archive workbook '
-                 'stores the same quantity as a proportion, 0-1, under the name *_pct_pop.'),
+ ('Percentages', 'Every *_pct_of_pop column is a PERCENTAGE, 0-100. The archive workbook stores the same migration '
+                 'shares as proportions, 0-1, under the name *_pct_pop (foreign_born_pct_pop, '
+                 'foreign_nationals_pct_pop, irregular_stock_pct_pop, irregular_proxy_overstayers_pct_pop, '
+                 'non_citizens_census_pct_pop). The exception: covid_cases_pct_pop and covid_deaths_pct_pop are '
+                 'PERCENTAGES, 0-100 (count / population x 100), in this file and in the archive workbook alike - '
+                 'Australia 2020 reads 0.1107, that is 0.11% of the population.'),
  ('Two population series', 'population (World Bank, mid-year) and population_unwpp (UN WPP, '
                            '1 July) both defensible. %s of %s country-years differ, %s by more '
                            'than 3%% (worst: %s %+.1f%% in %d, %s %+.1f%% in %d). Choose one and '
@@ -636,8 +654,10 @@ README = [
                        % (NC - 1, n((out.unemployment_flag != '').sum()))),
  ('COVID-19', 'Counts reported in the calendar year, 2020-2022 only (empty before 2020, not zero). Reported cases depend '
               'on testing and fell in 2022 as testing was scaled back; deaths depend on how each country certified them. '
-              'Mainland China comes from its National Health Commission (WHO\'s "China" includes Hong Kong, Macao and '
-              'Taiwan); its 2022 values stop at 23 December and count confirmed cases only (covid_flag).'),
+              'Mainland China comes from its National Health Commission and, for 2022, China CDC (WHO\'s "China" '
+              'includes Hong Kong, Macao and Taiwan); it counts confirmed cases and deaths only, and its 2022 values miss '
+              'most of the December wave (covid_flag). WHO\'s daily file dates some early-2020 counts before WHO reported '
+              'them; the annual values are unaffected.'),
  ('Gini index', 'Survey years only (%s of %s country-years); do not interpolate without saying so. Consumption-based '
                 'values (flagged) measure a different concept from income-based ones (often, but not always, lower); '
                 'flagged breaks mark a change of survey; New Zealand '

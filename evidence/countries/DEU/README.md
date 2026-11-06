@@ -94,6 +94,8 @@ Four new variables for the years 2020, 2021, 2022: `covid_cases` and `covid_deat
 | 2021 | 5,353,865 | 70,683 | World Health Organization, COVID-19 dashboard data: cases and deaths by date reported to W | `who_COVID-19_global_daily_data_retrieved_2026-11-06.csv` |
 | 2022 | 30,227,893 | 48,046 | World Health Organization, COVID-19 dashboard data: cases and deaths by date reported to W | `who_COVID-19_global_daily_data_retrieved_2026-11-06.csv` |
 
+WHO's daily file dates some of the early-2020 counts before WHO reported them at the time (`data/covid_who_date_check.csv`); they fall within 2020, so the annual values are unaffected.
+
 `data/covid_source_comparison.csv` sets the values beside WHO's and the Johns Hopkins archive's; the revision history on the Verification page dates the addition.
 
 <!-- covid:end -->

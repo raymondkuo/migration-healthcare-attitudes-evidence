@@ -97,11 +97,11 @@ Four new variables for the years 2020, 2021, 2022: `covid_cases` and `covid_deat
 |---|---:|---:|---|---|
 | 2020 | 87,071 | 4,634 | National Health Commission of China, daily briefing on COVID-19 for 24:00 on 31 December 2 | `covid__NHC_briefing_2020-12-31__chinadaily__retrieved_2026-11-06.html` |
 | 2021 | 15,243 | 2 | National Health Commission of China, daily briefing on COVID-19 for 24:00 on 31 December 2 | `covid__NHC_briefing_2021-12-31__chinadaily__retrieved_2026-11-06.html` |
-| 2022 | 294,881 | 605 | National Health Commission of China, last daily briefing on COVID-19 (24 December 2022, da | `covid__NHC_briefing_2022-12-23__en.nhc.gov.cn__retrieved_2026-11-06.html` |
+| 2022 | 333,158 | 613 | Chinese Center for Disease Control and Prevention (China CDC), bulletin on COVID-19 for 24 | `covid__ChinaCDC_bulletin_2022-12-31__chinacdc__retrieved_2026-11-06.html` |
 
-Flag "incomplete year: national daily reporting ended 23 Dec 2022; confirmed cases only": 2022.
+Flag "confirmed counts only: most of the December 2022 wave not counted": 2022.
 
-WHO's "China" includes Hong Kong, Macao and Taiwan, so the mainland figures come from the National Health Commission.
+WHO's "China" includes Hong Kong, Macao and Taiwan, so the mainland figures come from the National Health Commission and, for 2022, from China CDC, which took over the daily figures when the Commission stopped publishing them on 25 December 2022. 2022 was corrected on 2026-11-06 (GitHub issue #35): it had stopped at the Commission's last daily briefing (23 December; 294,881 cases, 605 deaths), which stays archived with the notice and China CDC's report on deaths in hospitals.
 
 `data/covid_source_comparison.csv` sets the values beside WHO's and the Johns Hopkins archive's; the revision history on the Verification page dates the addition.
 

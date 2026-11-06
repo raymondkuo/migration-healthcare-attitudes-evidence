@@ -317,6 +317,13 @@ def publisher_key(url):
     return None
 
 
+_covid_dates_off = set()
+_dp = os.path.join(D, 'covid_who_date_check.csv')
+if os.path.exists(_dp):
+    _dc = pd.read_csv(_dp)
+    _covid_dates_off = set(_dc[(_dc.cases_difference != 0) | (_dc.deaths_difference != 0)].iso3)
+
+
 def _mirrors_of(folder, filename, lang):
     out = []
     for m in _mirror_idx.get((folder, filename), []):
@@ -464,21 +471,35 @@ def artifacts(iso3, url, local_file, lang, is_api=False):
     # COVID-19: the Johns Hopkins archive is the check for every country; WHO's own file and the situation report that
     # says WHO's "China" includes Hong Kong, Macao and Taiwan are evidence for the mainland figures; France adds its
     # overseas departments because the World Bank population includes them
-    china_doc = 'govt.chinadaily.com.cn' in url or 'en.nhc.gov.cn' in url
+    china_doc = 'govt.chinadaily.com.cn' in url or 'chinacdc.cn' in url
     covid_doc = china_doc or 'cdc.gov.tw/En/Bulletin' in url
+
+    def covid_local(iso_, prefix, lab_):
+        for f_ in sorted(glob.glob(os.path.join(SITE, 'evidence', 'countries', iso_, prefix + '*'))):
+            if os.path.basename(f_).startswith('MIRROR__'):
+                continue
+            add(t(lab_, lang), 'evidence/countries/%s/%s' % (iso_, os.path.basename(f_)))
+            for lab2, rel in _mirrors_of('evidence/countries/' + iso_, os.path.basename(f_), lang):
+                add(lab2, rel)
+
     if (k == 'who_covid19_dashboard' or covid_doc) and len(_apis):
         pats = [('jhu_csse_time_series_covid19_', 'art_jhucheck')]
         if china_doc:
             pats += [('who_COVID-19_situation_report_24', 'art_whositrep'), ('who_COVID-19_global_daily_data', 'art_whochina')]
-        if 'en.nhc.gov.cn' in url:
-            # the last daily briefing: the report of the notice that daily publication stopped
-            for f_ in sorted(glob.glob(os.path.join(SITE, 'evidence', 'countries', 'CHN', 'covid__NHC_stops_daily_reporting_*.html'))):
-                rel_ = 'evidence/countries/CHN/' + os.path.basename(f_)
-                add(t('art_nhcstop', lang), rel_)
-                for lab2, rel in _mirrors_of('evidence/countries/CHN', os.path.basename(f_), lang):
-                    add(lab2, rel)
+        if 'chinacdc.cn' in url:
+            # 2022 (China CDC): the Commission's last daily briefing, the report of its notice that China CDC would
+            # publish the figures, and China CDC's report on deaths in hospitals (the evidence for the flag)
+            covid_local('CHN', 'covid__NHC_briefing_2022-12-23__', 'art_nhclast')
+            covid_local('CHN', 'covid__NHC_stops_daily_reporting_', 'art_nhcstop')
+            covid_local('CHN', 'covid__ChinaCDC_hospital_deaths_', 'art_cdchosp')
         if k == 'who_covid19_dashboard' and iso3 == 'FRA':
             pats += [('wb_SP_POP_TOTL_FRA_country_series_note', 'art_wbpopnote')]
+        if k == 'who_covid19_dashboard' and iso3 in _covid_dates_off:
+            # the daily file dates some early-2020 counts before WHO reported them (data/covid_who_date_check.csv)
+            pats += [('who_COVID-19_situation_report_24', 'art_whodates')]
+            if iso3 == 'DEU':
+                covid_local('DEU', 'covid__ECDC_statement_', 'art_ecdcde')
+                covid_local('DEU', 'covid__RKI_situation_report_', 'art_rkide')
         for pat, lab in pats:
             for _, a in _apis[_apis.path.astype(str).str.contains(pat, na=False, regex=False)].iterrows():
                 ap = str(a['path'])

@@ -455,8 +455,24 @@ T = {
                    'zh': '世界衛生組織第 24 號疫情報告：其「中國」包含香港、澳門與臺灣'},
  'art_whochina': {'en': 'WHO daily file (its "China" row, compared with the mainland figures)',
                   'zh': '世界衛生組織每日檔（其「中國」列，與大陸數字比對）'},
- 'art_nhcstop': {'en': 'Notice: the National Health Commission stopped publishing daily figures (25 December 2022)',
-                 'zh': '公告：國家衛生健康委員會停止發布每日數字（2022 年 12 月 25 日）'},
+ 'art_nhcstop': {'en': 'Notice: the National Health Commission stopped publishing daily figures and China CDC took them '
+                       'over (25 December 2022)',
+                 'zh': '公告：國家衛生健康委員會停止發布每日數字，改由中國疾病預防控制中心發布（2022 年 12 月 25 日）'},
+ 'art_nhclast': {'en': 'The National Health Commission\'s last daily briefing (data to 23 December 2022), whose counts '
+                       'China CDC continued',
+                 'zh': '國家衛生健康委員會最後一次每日通報（資料至 2022 年 12 月 23 日），中國疾病預防控制中心延續其累計數'},
+ 'art_cdchosp': {'en': 'China CDC report of 15 January 2023: COVID-19-related deaths in hospitals, 8 December 2022-12 '
+                       'January 2023 (the evidence for the flag)',
+                 'zh': '中國疾病預防控制中心 2023 年 1 月 15 日之報告：2022 年 12 月 8 日至 2023 年 1 月 12 日在院新冠病毒感染相關死亡'
+                       '（旗標之佐證）'},
+ 'art_whodates': {'en': 'WHO situation report 24 (13 February 2020): the counts WHO reported at the time; the daily file '
+                        'dates some of them earlier (data/covid_who_date_check.csv)',
+                  'zh': '世界衛生組織第 24 號疫情報告（2020 年 2 月 13 日）：其當時之通報數；每日檔將部分計數標於較早日期'
+                        '（data/covid_who_date_check.csv）'},
+ 'art_ecdcde': {'en': 'ECDC statement of 28 January 2020: Germany\'s first confirmed case on 27 January',
+                'zh': '歐洲疾病預防控制中心 2020 年 1 月 28 日之聲明：德國首例確診為 1 月 27 日'},
+ 'art_rkide': {'en': 'Robert Koch Institute situation report of 23 March 2020: German deaths from 9 March',
+               'zh': '羅伯特·柯霍研究所 2020 年 3 月 23 日之疫情報告：德國自 3 月 9 日起有死亡病例'},
  'art_wbpopnote': {'en': 'World Bank note: the population of France includes its five overseas departments',
                    'zh': '世界銀行註記：法國人口包含其五個海外省'},
 }

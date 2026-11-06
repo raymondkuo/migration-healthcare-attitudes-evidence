@@ -123,6 +123,8 @@ print('source_register.csv: %d rows (%d for COVID-19)' % (len(reg), len(out)))
 
 # ------------------------------------------------------------------ country READMEs
 BEGIN, END = '<!-- covid:begin -->', '<!-- covid:end -->'
+_dc = pd.read_csv(CT.DATECHK)
+DATE_OFF = set(_dc[(_dc.cases_difference != 0) | (_dc.deaths_difference != 0)].iso3)
 for iso, g in cells.groupby('iso3'):
     rd = os.path.join(EVC, iso, 'README.md')
     if not os.path.exists(rd):
@@ -145,7 +147,14 @@ for iso, g in cells.groupby('iso3'):
         lines += ['', 'Flag "%s": %s.' % (fl, ', '.join(str(int(y)) for y in gg.year))]
     if iso == 'CHN':
         lines += ['', 'WHO\'s "China" includes Hong Kong, Macao and Taiwan, so the mainland figures come from the National '
-                      'Health Commission.']
+                      'Health Commission and, for 2022, from China CDC, which took over the daily figures when the '
+                      'Commission stopped publishing them on 25 December 2022. 2022 was corrected on %s (GitHub issue '
+                      '#35): it had stopped at the Commission\'s last daily briefing (23 December; %s cases, %s deaths), '
+                      'which stays archived with the notice and China CDC\'s report on deaths in hospitals.'
+                      % (CT.CORR, format(CT.OLD_CN22['cases'], ','), format(CT.OLD_CN22['deaths'], ','))]
+    if iso in DATE_OFF:
+        lines += ['', 'WHO\'s daily file dates some of the early-2020 counts before WHO reported them at the time '
+                      '(`data/covid_who_date_check.csv`); they fall within 2020, so the annual values are unaffected.']
     lines += ['', '`data/covid_source_comparison.csv` sets the values beside WHO\'s and the Johns Hopkins archive\'s; the '
               'revision history on the Verification page dates the addition.', '', END, '']
     open(rd, 'w', encoding='utf-8', newline='\n').write(txt.rstrip('\n') + '\n\n' + '\n'.join(lines))

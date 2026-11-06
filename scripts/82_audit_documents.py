@@ -147,13 +147,14 @@ POST_AUDIT = {'non_citizens_census': (
              'decimal (data/gini_source_comparison.csv)'})}
 # COVID-19: three kinds of source; the two percentages are computed by the archive
 _CV_HOW = {'TWN': 'read from an archived source document (Taiwan CECC press releases of 31 December)',
-           'CHN': 'read from an archived source document (National Health Commission briefings)',
+           'CHN': 'read from an archived source document (National Health Commission briefings and, for '
+                  '2022, a China CDC bulletin)',
            '*': 'decoded from an archived machine-readable source (WHO COVID-19 daily file)'}
 _CV_CHK = {'TWN': 'read by the archive from the CECC year-end press releases (cumulative minus the previous year-end); '
                   'checked against the Johns Hopkins CSSE archive',
-           'CHN': 'read by the archive from the NHC year-end briefings and, for 2022, its last daily briefing (to 23 '
-                  'December; mainland only); with the briefings\' Hong Kong, Macao and Taiwan figures the 2021 total equals '
-                  'WHO\'s China',
+           'CHN': 'read by the archive from the NHC year-end briefings and, for 2022, China CDC\'s bulletin of 31 '
+                  'December (mainland only); with the briefings\' Hong Kong, Macao and Taiwan figures the 2021 total '
+                  'equals WHO\'s China, and the bulletin\'s Taiwan figures equal the CECC\'s',
            '*': 'read by the archive from the WHO daily file (cumulative on 31 December minus the year before, equal to '
                 'the sum of daily counts); checked against the Johns Hopkins CSSE archive'}
 for _v in CT.VARS:
@@ -538,9 +539,12 @@ the result without the flagged values. [AUTHORS]
 The four COVID-19 variables, added on 2026-11-06 (`covid_cases`, `covid_deaths` and each as a percentage of the
 population), exist for 2020-2022 only and are counts reported in the calendar year, not infections or excess deaths:
 cases depend on testing, which fell sharply in 2022, and deaths on how each country certified them. 38 countries come
-from WHO (by date reported), mainland China from the National Health Commission (WHO's "China" includes Hong Kong,
-Macao and Taiwan; its 2022 values stop at 23 December, when the daily reports ended, and count confirmed cases only:
-flagged, leave them out of 2022 comparisons) and Taiwan from the Central Epidemic Command Center. For the 2021 wave decide
+from WHO (by date reported), mainland China from the National Health Commission and, for 2022, China CDC (WHO's "China"
+includes Hong Kong, Macao and Taiwan; mainland China counts confirmed cases and deaths only and its 2022 values miss
+most of the December wave: flagged, leave them out of 2022 comparisons) and Taiwan from the Central Epidemic Command
+Center. The two `*_pct_pop` COVID-19 variables are percentages (0-100), the migration `*_pct_pop` shares proportions
+(0-1). WHO's daily file dates some early-2020 counts before WHO reported them; the annual values are unaffected, but do
+not use its dates at daily or monthly resolution unchecked. For the 2021 wave decide
 whether the exposure is the year before fieldwork, the fieldwork year, or the cumulative total up to fieldwork (the
 sum of the years), and state which; before 2020 the values are empty, not zero. [AUTHORS]
 

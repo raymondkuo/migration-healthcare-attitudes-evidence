@@ -271,10 +271,17 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
   calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100,
   computed by the archive); %(cv_n)s country-years each. Empty before 2020. No other value changed.
 - %(cv_nwho)d countries: WHO COVID-19 data (daily file, by date reported to WHO; France with its five overseas
-  departments, which the World Bank population includes). Mainland China: National Health Commission briefings (WHO's
-  "China" includes Hong Kong, Macao and Taiwan); **China 2022 stops at 23 December and counts confirmed cases only**, as
-  the Commission's daily reports ended on 25 December 2022 (flagged). Taiwan: Central Epidemic Command Center year-end
-  press releases.
+  departments, which the World Bank population includes). Mainland China: National Health Commission year-end
+  briefings for 2020-2021 and, for 2022, China CDC's bulletin of 31 December, which continued the Commission's counts
+  after it stopped publishing them on 25 December 2022 (WHO's "China" includes Hong Kong, Macao and Taiwan).
+  **Mainland China counts confirmed cases and deaths only, and 2022 misses most of the December wave** (flagged; China
+  CDC's own report counts %(cv_hosp)s COVID-19-related deaths in hospitals from 8 December 2022 to 12 January 2023).
+  Taiwan: Central Epidemic Command Center year-end press releases.
+- `covid_cases_pct_pop` and `covid_deaths_pct_pop` are **percentages (0-100)**, unlike the migration `*_pct_pop`
+  shares, which are proportions (0-1).
+- WHO's daily file dates some early-2020 counts before WHO reported them at the time (Germany: a case on 4 January
+  and deaths on 5 January 2020); all fall within 2020, so the annual values are unaffected
+  (`data/covid_who_date_check.csv`).
 - Checked against the Johns Hopkins CSSE archive: over 2020–2022 combined, %(cv_c1)d of %(cv_ncomb)d countries agree
   within 1%% for cases and %(cv_d1)d for deaths (`data/covid_source_comparison.csv`).
 - Reported counts, not infections or excess deaths. The WHO file, the situation report on China, the briefings and
@@ -311,7 +318,7 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
            gi_nwdi=_gk['n_wdi_countries'], gi_pv=GT.PIP_VERSION, gi_ncmp=n(_gk['n_wdi']), gi_ntwn=_gk['n_twn'],
            gi_nnzl=_gk['n_nzl'], gi_ncons=n(_gk['n_cons']), gi_nbreak=n(_gk['n_break']),
            gi_npc=_gk['n_pairs_cons_higher'], gi_npp=_gk['n_pairs'],
-           cv_when=CT.WHEN, cv_nc=_ck['n_countries'], cv_n=n(_ck['n']), cv_nwho=_ck['n_who_countries'],
+           cv_when=CT.WHEN, cv_hosp=format(CT.HOSP['deaths'], ','), cv_nc=_ck['n_countries'], cv_n=n(_ck['n']), cv_nwho=_ck['n_who_countries'],
            cv_c1=_ck['n_comb_cases_1pct'], cv_d1=_ck['n_comb_deaths_1pct'], cv_ncomb=_ck['n_comb'],
            aus_v=n(panel.non_citizens_census.dropna().iloc[0]),
            last=LAST, gtot=n(gtot), y0=Y0, y1=Y1, ga=n(grades.get('A', 0)),

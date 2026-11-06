@@ -548,5 +548,36 @@ cb = cb[~cb[cols[0]].isin([a[0] for a in ADD])]
 add = pd.DataFrame([{cols[0]: a[0], cols[1]: a[1], cols[2]: a[2], 'definition_zh': a[3],
                      'caution_zh': a[4]} for a in ADD])
 cb = pd.concat([cb, add], ignore_index=True)[cols]
+# units of the *_pct_pop columns (GitHub issue #36): the migration shares are proportions (0-1), the COVID-19 shares
+# percentages (0-100). The general row names both; the build stops if a stored scale and its documentation disagree.
+_PROP = [c for c in panel.columns if c.endswith('_pct_pop') and c not in CT.PCT]
+for c in _PROP + list(CT.PCT):
+    base, s_ = c[:-len('_pct_pop')], panel[panel[c].notna()]
+    scale = 100.0 if c in CT.PCT else 1.0
+    assert np.allclose(s_[c], scale * s_[base] / s_['population'], rtol=1e-9, atol=0), (c, 'scale changed')
+    assert c in CT.PCT or s_[c].max() <= 1, c
+_pp = cb.index[cb[cols[0]] == '*_pct_pop']
+assert len(_pp) == 1
+cb.loc[_pp, cols[1]] = ('Migration shares (%s): the variable divided by population, a PROPORTION (0-1), not a percent. '
+                        'Exception: %s are PERCENTAGES (0-100), count / population x 100 (see their own rows).'
+                        % (', '.join(_PROP), ' and '.join(CT.PCT)))
+cb.loc[_pp, 'definition_zh'] = ('移民占比（%s）：該變項除以總人口，為比例（0–1），非百分比。例外：%s 為百分比（0–100），即計數 ÷ 人口 × '
+                                '100（見其各自之列）。' % ('、'.join(_PROP), ' 與 '.join(CT.PCT)))
+cb.loc[_pp, cols[2]] = ('Recomputed after corrections. Check the scale before use: Australia 2020 reads %.4f for '
+                        'foreign_born_pct_pop (%.1f%% of the population) and %.4f for covid_cases_pct_pop (%.2f%%). The '
+                        'build checks every stored value against this rule.'
+                        % tuple(_x for _v in ('foreign_born_pct_pop', CT.CASES_PCT)
+                                for _x in (float(panel.loc[(panel.iso3 == 'AUS') & (panel.year == 2020), _v].iloc[0]),
+                                           float(panel.loc[(panel.iso3 == 'AUS') & (panel.year == 2020), _v].iloc[0])
+                                           * (100 if _v not in CT.PCT else 1))))
+cb.loc[_pp, 'caution_zh'] = ('已於更正後重新計算。使用前請確認尺度：澳洲 2020 年 foreign_born_pct_pop 為 %.4f（人口之 %.1f%%），'
+                             'covid_cases_pct_pop 為 %.4f（%.2f%%）。建置時逐值依此規則檢查。'
+                             % tuple(_x for _v in ('foreign_born_pct_pop', CT.CASES_PCT)
+                                     for _x in (float(panel.loc[(panel.iso3 == 'AUS') & (panel.year == 2020), _v].iloc[0]),
+                                                float(panel.loc[(panel.iso3 == 'AUS') & (panel.year == 2020), _v].iloc[0])
+                                                * (100 if _v not in CT.PCT else 1))))
+for v_ in CT.PCT:                          # each COVID-19 share's own row states the x 100
+    r_ = cb[cb[cols[0]] == v_].iloc[0]
+    assert 'x 100' in r_[cols[1]] and '× 100' in r_['definition_zh'], v_
 cb.to_csv(os.path.join(D, 'codebook.csv'), index=False, encoding='utf-8-sig')
 print('codebook.csv: %d rows' % len(cb))

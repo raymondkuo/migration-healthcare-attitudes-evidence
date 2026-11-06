@@ -67,10 +67,10 @@ CHN,China,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/CHN__health_exp
 CHN,China,unemployment_rate,22,2001-2022,evidence-pages/CHN__unemployment_rate.html,evidence/extracts/CHN/unemployment_rate.pdf,17
 CHN,China,vdem_libdem,22,2001-2022,evidence-pages/CHN__vdem_libdem.html,evidence/extracts/CHN/vdem_libdem.pdf,36
 CHN,China,gini_index,16,2002-2022,evidence-pages/CHN__gini_index.html,evidence/extracts/CHN/gini_index.pdf,17
-CHN,China,covid_cases,3,2020-2022,evidence-pages/CHN__covid_cases.html,evidence/extracts/CHN/covid_cases.pdf,26
-CHN,China,covid_cases_pct_pop,3,2020-2022,evidence-pages/CHN__covid_cases_pct_pop.html,evidence/extracts/CHN/covid_cases_pct_pop.pdf,26
-CHN,China,covid_deaths,3,2020-2022,evidence-pages/CHN__covid_deaths.html,evidence/extracts/CHN/covid_deaths.pdf,26
-CHN,China,covid_deaths_pct_pop,3,2020-2022,evidence-pages/CHN__covid_deaths_pct_pop.html,evidence/extracts/CHN/covid_deaths_pct_pop.pdf,26
+CHN,China,covid_cases,3,2020-2022,evidence-pages/CHN__covid_cases.html,evidence/extracts/CHN/covid_cases.pdf,32
+CHN,China,covid_cases_pct_pop,3,2020-2022,evidence-pages/CHN__covid_cases_pct_pop.html,evidence/extracts/CHN/covid_cases_pct_pop.pdf,32
+CHN,China,covid_deaths,3,2020-2022,evidence-pages/CHN__covid_deaths.html,evidence/extracts/CHN/covid_deaths.pdf,32
+CHN,China,covid_deaths_pct_pop,3,2020-2022,evidence-pages/CHN__covid_deaths_pct_pop.html,evidence/extracts/CHN/covid_deaths_pct_pop.pdf,32
 HRV,Croatia,population,22,2001-2022,evidence-pages/HRV__population.html,evidence/extracts/HRV/population.pdf,8
 HRV,Croatia,foreign_born,12,2005-2022,evidence-pages/HRV__foreign_born.html,evidence/extracts/HRV/foreign_born.pdf,21
 HRV,Croatia,foreign_nationals,11,2011-2022,evidence-pages/HRV__foreign_nationals.html,evidence/extracts/HRV/foreign_nationals.pdf,13
@@ -116,10 +116,10 @@ FIN,Finland,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/FIN__health_e
 FIN,Finland,unemployment_rate,22,2001-2022,evidence-pages/FIN__unemployment_rate.html,evidence/extracts/FIN/unemployment_rate.pdf,17
 FIN,Finland,vdem_libdem,22,2001-2022,evidence-pages/FIN__vdem_libdem.html,evidence/extracts/FIN/vdem_libdem.pdf,36
 FIN,Finland,gini_index,20,2003-2022,evidence-pages/FIN__gini_index.html,evidence/extracts/FIN/gini_index.pdf,17
-FIN,Finland,covid_cases,3,2020-2022,evidence-pages/FIN__covid_cases.html,evidence/extracts/FIN/covid_cases.pdf,13
-FIN,Finland,covid_cases_pct_pop,3,2020-2022,evidence-pages/FIN__covid_cases_pct_pop.html,evidence/extracts/FIN/covid_cases_pct_pop.pdf,13
-FIN,Finland,covid_deaths,3,2020-2022,evidence-pages/FIN__covid_deaths.html,evidence/extracts/FIN/covid_deaths.pdf,13
-FIN,Finland,covid_deaths_pct_pop,3,2020-2022,evidence-pages/FIN__covid_deaths_pct_pop.html,evidence/extracts/FIN/covid_deaths_pct_pop.pdf,13
+FIN,Finland,covid_cases,3,2020-2022,evidence-pages/FIN__covid_cases.html,evidence/extracts/FIN/covid_cases.pdf,16
+FIN,Finland,covid_cases_pct_pop,3,2020-2022,evidence-pages/FIN__covid_cases_pct_pop.html,evidence/extracts/FIN/covid_cases_pct_pop.pdf,16
+FIN,Finland,covid_deaths,3,2020-2022,evidence-pages/FIN__covid_deaths.html,evidence/extracts/FIN/covid_deaths.pdf,16
+FIN,Finland,covid_deaths_pct_pop,3,2020-2022,evidence-pages/FIN__covid_deaths_pct_pop.html,evidence/extracts/FIN/covid_deaths_pct_pop.pdf,16
 FRA,France,population,22,2001-2022,evidence-pages/FRA__population.html,evidence/extracts/FRA/population.pdf,8
 FRA,France,foreign_born,17,2006-2022,evidence-pages/FRA__foreign_born.html,evidence/extracts/FRA/foreign_born.pdf,14
 FRA,France,foreign_nationals,17,2006-2022,evidence-pages/FRA__foreign_nationals.html,evidence/extracts/FRA/foreign_nationals.pdf,14
@@ -129,10 +129,10 @@ FRA,France,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/FRA__health_ex
 FRA,France,unemployment_rate,22,2001-2022,evidence-pages/FRA__unemployment_rate.html,evidence/extracts/FRA/unemployment_rate.pdf,17
 FRA,France,vdem_libdem,22,2001-2022,evidence-pages/FRA__vdem_libdem.html,evidence/extracts/FRA/vdem_libdem.pdf,36
 FRA,France,gini_index,22,2001-2022,evidence-pages/FRA__gini_index.html,evidence/extracts/FRA/gini_index.pdf,17
-FRA,France,covid_cases,3,2020-2022,evidence-pages/FRA__covid_cases.html,evidence/extracts/FRA/covid_cases.pdf,16
-FRA,France,covid_cases_pct_pop,3,2020-2022,evidence-pages/FRA__covid_cases_pct_pop.html,evidence/extracts/FRA/covid_cases_pct_pop.pdf,16
-FRA,France,covid_deaths,3,2020-2022,evidence-pages/FRA__covid_deaths.html,evidence/extracts/FRA/covid_deaths.pdf,16
-FRA,France,covid_deaths_pct_pop,3,2020-2022,evidence-pages/FRA__covid_deaths_pct_pop.html,evidence/extracts/FRA/covid_deaths_pct_pop.pdf,16
+FRA,France,covid_cases,3,2020-2022,evidence-pages/FRA__covid_cases.html,evidence/extracts/FRA/covid_cases.pdf,19
+FRA,France,covid_cases_pct_pop,3,2020-2022,evidence-pages/FRA__covid_cases_pct_pop.html,evidence/extracts/FRA/covid_cases_pct_pop.pdf,19
+FRA,France,covid_deaths,3,2020-2022,evidence-pages/FRA__covid_deaths.html,evidence/extracts/FRA/covid_deaths.pdf,19
+FRA,France,covid_deaths_pct_pop,3,2020-2022,evidence-pages/FRA__covid_deaths_pct_pop.html,evidence/extracts/FRA/covid_deaths_pct_pop.pdf,19
 DEU,Germany,population,22,2001-2022,evidence-pages/DEU__population.html,evidence/extracts/DEU/population.pdf,8
 DEU,Germany,foreign_born,17,2006-2022,evidence-pages/DEU__foreign_born.html,evidence/extracts/DEU/foreign_born.pdf,14
 DEU,Germany,foreign_nationals,22,2001-2022,evidence-pages/DEU__foreign_nationals.html,evidence/extracts/DEU/foreign_nationals.pdf,8
@@ -142,10 +142,10 @@ DEU,Germany,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/DEU__health_e
 DEU,Germany,unemployment_rate,22,2001-2022,evidence-pages/DEU__unemployment_rate.html,evidence/extracts/DEU/unemployment_rate.pdf,17
 DEU,Germany,vdem_libdem,22,2001-2022,evidence-pages/DEU__vdem_libdem.html,evidence/extracts/DEU/vdem_libdem.pdf,36
 DEU,Germany,gini_index,22,2001-2022,evidence-pages/DEU__gini_index.html,evidence/extracts/DEU/gini_index.pdf,17
-DEU,Germany,covid_cases,3,2020-2022,evidence-pages/DEU__covid_cases.html,evidence/extracts/DEU/covid_cases.pdf,13
-DEU,Germany,covid_cases_pct_pop,3,2020-2022,evidence-pages/DEU__covid_cases_pct_pop.html,evidence/extracts/DEU/covid_cases_pct_pop.pdf,13
-DEU,Germany,covid_deaths,3,2020-2022,evidence-pages/DEU__covid_deaths.html,evidence/extracts/DEU/covid_deaths.pdf,13
-DEU,Germany,covid_deaths_pct_pop,3,2020-2022,evidence-pages/DEU__covid_deaths_pct_pop.html,evidence/extracts/DEU/covid_deaths_pct_pop.pdf,13
+DEU,Germany,covid_cases,3,2020-2022,evidence-pages/DEU__covid_cases.html,evidence/extracts/DEU/covid_cases.pdf,22
+DEU,Germany,covid_cases_pct_pop,3,2020-2022,evidence-pages/DEU__covid_cases_pct_pop.html,evidence/extracts/DEU/covid_cases_pct_pop.pdf,22
+DEU,Germany,covid_deaths,3,2020-2022,evidence-pages/DEU__covid_deaths.html,evidence/extracts/DEU/covid_deaths.pdf,22
+DEU,Germany,covid_deaths_pct_pop,3,2020-2022,evidence-pages/DEU__covid_deaths_pct_pop.html,evidence/extracts/DEU/covid_deaths_pct_pop.pdf,22
 HUN,Hungary,population,22,2001-2022,evidence-pages/HUN__population.html,evidence/extracts/HUN/population.pdf,8
 HUN,Hungary,foreign_born,22,2001-2022,evidence-pages/HUN__foreign_born.html,evidence/extracts/HUN/foreign_born.pdf,14
 HUN,Hungary,foreign_nationals,22,2001-2022,evidence-pages/HUN__foreign_nationals.html,evidence/extracts/HUN/foreign_nationals.pdf,8
@@ -166,10 +166,10 @@ ISL,Iceland,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ISL__health_e
 ISL,Iceland,unemployment_rate,22,2001-2022,evidence-pages/ISL__unemployment_rate.html,evidence/extracts/ISL/unemployment_rate.pdf,17
 ISL,Iceland,vdem_libdem,22,2001-2022,evidence-pages/ISL__vdem_libdem.html,evidence/extracts/ISL/vdem_libdem.pdf,36
 ISL,Iceland,gini_index,17,2003-2019,evidence-pages/ISL__gini_index.html,evidence/extracts/ISL/gini_index.pdf,17
-ISL,Iceland,covid_cases,3,2020-2022,evidence-pages/ISL__covid_cases.html,evidence/extracts/ISL/covid_cases.pdf,13
-ISL,Iceland,covid_cases_pct_pop,3,2020-2022,evidence-pages/ISL__covid_cases_pct_pop.html,evidence/extracts/ISL/covid_cases_pct_pop.pdf,13
-ISL,Iceland,covid_deaths,3,2020-2022,evidence-pages/ISL__covid_deaths.html,evidence/extracts/ISL/covid_deaths.pdf,13
-ISL,Iceland,covid_deaths_pct_pop,3,2020-2022,evidence-pages/ISL__covid_deaths_pct_pop.html,evidence/extracts/ISL/covid_deaths_pct_pop.pdf,13
+ISL,Iceland,covid_cases,3,2020-2022,evidence-pages/ISL__covid_cases.html,evidence/extracts/ISL/covid_cases.pdf,16
+ISL,Iceland,covid_cases_pct_pop,3,2020-2022,evidence-pages/ISL__covid_cases_pct_pop.html,evidence/extracts/ISL/covid_cases_pct_pop.pdf,16
+ISL,Iceland,covid_deaths,3,2020-2022,evidence-pages/ISL__covid_deaths.html,evidence/extracts/ISL/covid_deaths.pdf,16
+ISL,Iceland,covid_deaths_pct_pop,3,2020-2022,evidence-pages/ISL__covid_deaths_pct_pop.html,evidence/extracts/ISL/covid_deaths_pct_pop.pdf,16
 IND,India,population,22,2001-2022,evidence-pages/IND__population.html,evidence/extracts/IND/population.pdf,8
 IND,India,foreign_born,6,2001-2020,evidence-pages/IND__foreign_born.html,evidence/extracts/IND/foreign_born.pdf,18
 IND,India,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/IND__health_expenditure_pct_gdp.html,evidence/extracts/IND/health_expenditure_pct_gdp.pdf,13
@@ -188,10 +188,10 @@ ISR,Israel,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ISR__health_ex
 ISR,Israel,unemployment_rate,22,2001-2022,evidence-pages/ISR__unemployment_rate.html,evidence/extracts/ISR/unemployment_rate.pdf,17
 ISR,Israel,vdem_libdem,22,2001-2022,evidence-pages/ISR__vdem_libdem.html,evidence/extracts/ISR/vdem_libdem.pdf,36
 ISR,Israel,gini_index,22,2001-2022,evidence-pages/ISR__gini_index.html,evidence/extracts/ISR/gini_index.pdf,17
-ISR,Israel,covid_cases,3,2020-2022,evidence-pages/ISR__covid_cases.html,evidence/extracts/ISR/covid_cases.pdf,13
-ISR,Israel,covid_cases_pct_pop,3,2020-2022,evidence-pages/ISR__covid_cases_pct_pop.html,evidence/extracts/ISR/covid_cases_pct_pop.pdf,13
-ISR,Israel,covid_deaths,3,2020-2022,evidence-pages/ISR__covid_deaths.html,evidence/extracts/ISR/covid_deaths.pdf,13
-ISR,Israel,covid_deaths_pct_pop,3,2020-2022,evidence-pages/ISR__covid_deaths_pct_pop.html,evidence/extracts/ISR/covid_deaths_pct_pop.pdf,13
+ISR,Israel,covid_cases,3,2020-2022,evidence-pages/ISR__covid_cases.html,evidence/extracts/ISR/covid_cases.pdf,16
+ISR,Israel,covid_cases_pct_pop,3,2020-2022,evidence-pages/ISR__covid_cases_pct_pop.html,evidence/extracts/ISR/covid_cases_pct_pop.pdf,16
+ISR,Israel,covid_deaths,3,2020-2022,evidence-pages/ISR__covid_deaths.html,evidence/extracts/ISR/covid_deaths.pdf,16
+ISR,Israel,covid_deaths_pct_pop,3,2020-2022,evidence-pages/ISR__covid_deaths_pct_pop.html,evidence/extracts/ISR/covid_deaths_pct_pop.pdf,16
 ITA,Italy,population,22,2001-2022,evidence-pages/ITA__population.html,evidence/extracts/ITA/population.pdf,8
 ITA,Italy,foreign_born,21,2002-2022,evidence-pages/ITA__foreign_born.html,evidence/extracts/ITA/foreign_born.pdf,8
 ITA,Italy,foreign_nationals,22,2001-2022,evidence-pages/ITA__foreign_nationals.html,evidence/extracts/ITA/foreign_nationals.pdf,14
@@ -212,10 +212,10 @@ JPN,Japan,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/JPN__health_exp
 JPN,Japan,unemployment_rate,22,2001-2022,evidence-pages/JPN__unemployment_rate.html,evidence/extracts/JPN/unemployment_rate.pdf,17
 JPN,Japan,vdem_libdem,22,2001-2022,evidence-pages/JPN__vdem_libdem.html,evidence/extracts/JPN/vdem_libdem.pdf,36
 JPN,Japan,gini_index,13,2008-2020,evidence-pages/JPN__gini_index.html,evidence/extracts/JPN/gini_index.pdf,17
-JPN,Japan,covid_cases,3,2020-2022,evidence-pages/JPN__covid_cases.html,evidence/extracts/JPN/covid_cases.pdf,13
-JPN,Japan,covid_cases_pct_pop,3,2020-2022,evidence-pages/JPN__covid_cases_pct_pop.html,evidence/extracts/JPN/covid_cases_pct_pop.pdf,13
-JPN,Japan,covid_deaths,3,2020-2022,evidence-pages/JPN__covid_deaths.html,evidence/extracts/JPN/covid_deaths.pdf,13
-JPN,Japan,covid_deaths_pct_pop,3,2020-2022,evidence-pages/JPN__covid_deaths_pct_pop.html,evidence/extracts/JPN/covid_deaths_pct_pop.pdf,13
+JPN,Japan,covid_cases,3,2020-2022,evidence-pages/JPN__covid_cases.html,evidence/extracts/JPN/covid_cases.pdf,16
+JPN,Japan,covid_cases_pct_pop,3,2020-2022,evidence-pages/JPN__covid_cases_pct_pop.html,evidence/extracts/JPN/covid_cases_pct_pop.pdf,16
+JPN,Japan,covid_deaths,3,2020-2022,evidence-pages/JPN__covid_deaths.html,evidence/extracts/JPN/covid_deaths.pdf,16
+JPN,Japan,covid_deaths_pct_pop,3,2020-2022,evidence-pages/JPN__covid_deaths_pct_pop.html,evidence/extracts/JPN/covid_deaths_pct_pop.pdf,16
 KOR,Korea (South),population,22,2001-2022,evidence-pages/KOR__population.html,evidence/extracts/KOR/population.pdf,8
 KOR,Korea (South),foreign_born,4,2005-2020,evidence-pages/KOR__foreign_born.html,evidence/extracts/KOR/foreign_born.pdf,8
 KOR,Korea (South),foreign_nationals,22,2001-2022,evidence-pages/KOR__foreign_nationals.html,evidence/extracts/KOR/foreign_nationals.pdf,9
@@ -377,10 +377,10 @@ ESP,Spain,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/ESP__health_exp
 ESP,Spain,unemployment_rate,22,2001-2022,evidence-pages/ESP__unemployment_rate.html,evidence/extracts/ESP/unemployment_rate.pdf,17
 ESP,Spain,vdem_libdem,22,2001-2022,evidence-pages/ESP__vdem_libdem.html,evidence/extracts/ESP/vdem_libdem.pdf,36
 ESP,Spain,gini_index,20,2003-2022,evidence-pages/ESP__gini_index.html,evidence/extracts/ESP/gini_index.pdf,17
-ESP,Spain,covid_cases,3,2020-2022,evidence-pages/ESP__covid_cases.html,evidence/extracts/ESP/covid_cases.pdf,13
-ESP,Spain,covid_cases_pct_pop,3,2020-2022,evidence-pages/ESP__covid_cases_pct_pop.html,evidence/extracts/ESP/covid_cases_pct_pop.pdf,13
-ESP,Spain,covid_deaths,3,2020-2022,evidence-pages/ESP__covid_deaths.html,evidence/extracts/ESP/covid_deaths.pdf,13
-ESP,Spain,covid_deaths_pct_pop,3,2020-2022,evidence-pages/ESP__covid_deaths_pct_pop.html,evidence/extracts/ESP/covid_deaths_pct_pop.pdf,13
+ESP,Spain,covid_cases,3,2020-2022,evidence-pages/ESP__covid_cases.html,evidence/extracts/ESP/covid_cases.pdf,16
+ESP,Spain,covid_cases_pct_pop,3,2020-2022,evidence-pages/ESP__covid_cases_pct_pop.html,evidence/extracts/ESP/covid_cases_pct_pop.pdf,16
+ESP,Spain,covid_deaths,3,2020-2022,evidence-pages/ESP__covid_deaths.html,evidence/extracts/ESP/covid_deaths.pdf,16
+ESP,Spain,covid_deaths_pct_pop,3,2020-2022,evidence-pages/ESP__covid_deaths_pct_pop.html,evidence/extracts/ESP/covid_deaths_pct_pop.pdf,16
 SUR,Suriname,population,22,2001-2022,evidence-pages/SUR__population.html,evidence/extracts/SUR/population.pdf,8
 SUR,Suriname,foreign_born,5,2005-2020,evidence-pages/SUR__foreign_born.html,evidence/extracts/SUR/foreign_born.pdf,12
 SUR,Suriname,foreign_nationals,1,2012-2012,evidence-pages/SUR__foreign_nationals.html,evidence/extracts/SUR/foreign_nationals.pdf,4
@@ -461,10 +461,10 @@ GBR,United Kingdom,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/GBR__h
 GBR,United Kingdom,unemployment_rate,22,2001-2022,evidence-pages/GBR__unemployment_rate.html,evidence/extracts/GBR/unemployment_rate.pdf,17
 GBR,United Kingdom,vdem_libdem,22,2001-2022,evidence-pages/GBR__vdem_libdem.html,evidence/extracts/GBR/vdem_libdem.pdf,36
 GBR,United Kingdom,gini_index,21,2001-2021,evidence-pages/GBR__gini_index.html,evidence/extracts/GBR/gini_index.pdf,17
-GBR,United Kingdom,covid_cases,3,2020-2022,evidence-pages/GBR__covid_cases.html,evidence/extracts/GBR/covid_cases.pdf,13
-GBR,United Kingdom,covid_cases_pct_pop,3,2020-2022,evidence-pages/GBR__covid_cases_pct_pop.html,evidence/extracts/GBR/covid_cases_pct_pop.pdf,13
-GBR,United Kingdom,covid_deaths,3,2020-2022,evidence-pages/GBR__covid_deaths.html,evidence/extracts/GBR/covid_deaths.pdf,13
-GBR,United Kingdom,covid_deaths_pct_pop,3,2020-2022,evidence-pages/GBR__covid_deaths_pct_pop.html,evidence/extracts/GBR/covid_deaths_pct_pop.pdf,13
+GBR,United Kingdom,covid_cases,3,2020-2022,evidence-pages/GBR__covid_cases.html,evidence/extracts/GBR/covid_cases.pdf,16
+GBR,United Kingdom,covid_cases_pct_pop,3,2020-2022,evidence-pages/GBR__covid_cases_pct_pop.html,evidence/extracts/GBR/covid_cases_pct_pop.pdf,16
+GBR,United Kingdom,covid_deaths,3,2020-2022,evidence-pages/GBR__covid_deaths.html,evidence/extracts/GBR/covid_deaths.pdf,16
+GBR,United Kingdom,covid_deaths_pct_pop,3,2020-2022,evidence-pages/GBR__covid_deaths_pct_pop.html,evidence/extracts/GBR/covid_deaths_pct_pop.pdf,16
 USA,United States,population,22,2001-2022,evidence-pages/USA__population.html,evidence/extracts/USA/population.pdf,8
 USA,United States,foreign_born,22,2001-2022,evidence-pages/USA__foreign_born.html,evidence/extracts/USA/foreign_born.pdf,12
 USA,United States,foreign_nationals,22,2001-2022,evidence-pages/USA__foreign_nationals.html,evidence/extracts/USA/foreign_nationals.pdf,12
@@ -473,7 +473,7 @@ USA,United States,health_expenditure_pct_gdp,22,2001-2022,evidence-pages/USA__he
 USA,United States,unemployment_rate,22,2001-2022,evidence-pages/USA__unemployment_rate.html,evidence/extracts/USA/unemployment_rate.pdf,17
 USA,United States,vdem_libdem,22,2001-2022,evidence-pages/USA__vdem_libdem.html,evidence/extracts/USA/vdem_libdem.pdf,36
 USA,United States,gini_index,22,2001-2022,evidence-pages/USA__gini_index.html,evidence/extracts/USA/gini_index.pdf,17
-USA,United States,covid_cases,3,2020-2022,evidence-pages/USA__covid_cases.html,evidence/extracts/USA/covid_cases.pdf,13
-USA,United States,covid_cases_pct_pop,3,2020-2022,evidence-pages/USA__covid_cases_pct_pop.html,evidence/extracts/USA/covid_cases_pct_pop.pdf,13
-USA,United States,covid_deaths,3,2020-2022,evidence-pages/USA__covid_deaths.html,evidence/extracts/USA/covid_deaths.pdf,13
-USA,United States,covid_deaths_pct_pop,3,2020-2022,evidence-pages/USA__covid_deaths_pct_pop.html,evidence/extracts/USA/covid_deaths_pct_pop.pdf,13
+USA,United States,covid_cases,3,2020-2022,evidence-pages/USA__covid_cases.html,evidence/extracts/USA/covid_cases.pdf,16
+USA,United States,covid_cases_pct_pop,3,2020-2022,evidence-pages/USA__covid_cases_pct_pop.html,evidence/extracts/USA/covid_cases_pct_pop.pdf,16
+USA,United States,covid_deaths,3,2020-2022,evidence-pages/USA__covid_deaths.html,evidence/extracts/USA/covid_deaths.pdf,16
+USA,United States,covid_deaths_pct_pop,3,2020-2022,evidence-pages/USA__covid_deaths_pct_pop.html,evidence/extracts/USA/covid_deaths_pct_pop.pdf,16

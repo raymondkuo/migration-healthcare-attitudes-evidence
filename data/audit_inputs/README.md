@@ -24,7 +24,7 @@ migration values, counting the seven Taiwan absconded-worker values).
 
 With them the audits cover 4,245 current observations; with the census value (2026-10-18), the 880 unemployment
 rates (2026-10-21), the 880 V-Dem liberal democracy index values (2026-10-26) and the 679 Gini index values
-(2026-10-29) and the 476 COVID-19 values (2026-11-06) added after them the ledger has 7,161 rows. Every source path is relative to the archive root.
+(2026-10-29) and the 480 COVID-19 values (2026-11-06) added after them the ledger has 7,165 rows. Every source path is relative to the archive root.
 
 **These files are not produced by this archive's pipeline.** They are the audits' own record and are committed so
 that a clean clone reproduces the ledger. Keep them as they are: if an observation is added to the panel, an audit has

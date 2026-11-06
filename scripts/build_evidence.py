@@ -9,6 +9,7 @@ from blib import (SITE, EV, D, ACCESS, revised_note, panel, vlog, reg, corr, sna
                   ALLVARS, E, num, vnum, pill, filelink, page, table, cname, vlab, fname, t,
                   reason_zh)
 import i18n_content as C
+import covid_texts as _CT                                         # noqa: E402
 
 CHK = {'irregular_proxy_detections': 'irregular_detections'}
 snap_by = {}
@@ -160,8 +161,7 @@ def build(iso3, en_name, v, lang):
                'consumption-based (not income)': '以消費為基礎（非所得）',
                'break in time series: new PIP survey-comparability spell': '時間序列斷裂：PIP 調查可比較區段更替',
                'OECD equivalised disposable income (not World Bank)': 'OECD 均等化可支配所得（非世界銀行）',
-               'incomplete year: national daily reporting ended 23 Dec 2022; confirmed cases only':
-                   '年度不完整：全國每日通報止於 2022 年 12 月 23 日；僅計確診病例'}
+               _CT.F_CN22: _CT.F_CN22_ZH}
 
     def flag_html(r):
         f = str(r.get(v + '_flag') or '').strip()

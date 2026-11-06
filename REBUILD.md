@@ -105,11 +105,15 @@ is captured from the OECD Data Explorer instead.
 
 `96_collect_covid.py` re-reads the archived COVID-19 files (the WHO daily file and situation report 24, the World
 Bank's note on France's population, the Johns Hopkins CSSE time series pinned to the archived repository's last commit,
-the National Health Commission's year-end briefings for mainland China and the CECC's year-end press releases for
-Taiwan) and rewrites its staging file and `data/covid_source_comparison.csv` without the network; with `--fetch` it
-downloads them again (change the date constant in `scripts/covid_texts.py` first) and renders the mirrors and WHO's data
-page (`--fetch-cn2022` downloads only the Commission's last daily briefing and the notice that daily reporting stopped). The National Health Commission's own site answers automated requests with a bot check, so its briefings are taken
-from China Daily's government portal, which publishes them in English.
+the National Health Commission's year-end briefings for mainland China 2020-2021, China CDC's bulletin of 31 December
+2022 and its report of 15 January 2023, the Commission's last daily briefing and the report of its notice, the CECC's
+year-end press releases for Taiwan, and ECDC's and the Robert Koch Institute's chronology of Germany) and rewrites its
+staging file, `data/covid_source_comparison.csv` and `data/covid_who_date_check.csv` without the network; with
+`--fetch` it downloads them again (change the date constant in `scripts/covid_texts.py` first) and renders the mirrors
+and WHO's data page (`--fetch-cn2022` downloads only the Commission's last daily briefing and its notice;
+`--fetch-corrections` only the files added for GitHub issues #34 and #35). The National Health Commission's own site
+answers automated requests with a bot check, so its briefings are taken from China Daily's government portal, which
+publishes them in English.
 
 `84_collect_health_expenditure.py` re-reads the archived health-expenditure files and rewrites its staging file and
 `data/health_expenditure_wb_vs_who.csv` without the network; with `--fetch` it downloads them again under new dated names
@@ -166,6 +170,12 @@ On 2026-11-06, when step 2f was added for the four COVID-19 variables, steps 1-2
 clone: the panel they produced was byte-identical to the one step 2f had written, and after steps 3 and 4 every file of
 the working tree was identical to its state before the test. The validators reported 0 errors on 1,048 pages (524 per
 language). The PDF extracts were re-rendered.
+
+Later on 2026-11-06, after the COVID-19 audit's issues #34-#36 were answered (China 2022 from China CDC, the WHO date
+check, the units of `*_pct_pop`), steps 1-2f (with the collector `96_collect_covid.py`), 3 and 4 were run again in the
+working clone: all 2,562 files of the working tree were identical to their state before the test. The validators
+reported 0 errors on 1,048 pages (524 per language). The PDF extracts were re-rendered; only the 40 whose text changed
+(the four COVID-19 variables of China and of the nine countries in the date check) were kept.
 
 An earlier test of this kind, run in a folder next to the audit's working folders, passed without showing that step 7 depended
 on them: in an isolated clone it lost 3,328 of the 3,365 audit results (re-audit finding R01). Those result tables are now

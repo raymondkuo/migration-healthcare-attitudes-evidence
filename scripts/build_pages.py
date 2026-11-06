@@ -267,6 +267,12 @@ def build_data(lang):
        'Hopkins CSSE archive&rsquo;s.',
        '2020–2022 年每一國家年度：所採來源、病例數、死亡數、人口與兩個百分比、世界衛生組織之數字（中國為其包含香港、澳門與臺灣之'
        '「中國」）與 Johns Hopkins CSSE 存檔之數字。')),
+     ('data/covid_who_date_check.csv', ('COVID-19: WHO&rsquo;s early-2020 dates', 'COVID-19：世界衛生組織 2020 年初之日期'),
+      ('For each of the 38 countries taken from WHO: the cases and deaths WHO situation report 24 lists for 13 February '
+       '2020, the daily file&rsquo;s counts to the same date, the difference, and the first dates with cases and deaths in '
+       'the daily file (GitHub issue #34). The annual values are not affected.',
+       '取自世界衛生組織之 38 國：世界衛生組織第 24 號疫情報告所列至 2020 年 2 月 13 日之病例與死亡、每日檔至同日之計數、兩者之差，'
+       '以及每日檔中首次出現病例與死亡之日期（GitHub issue #34）。年度值不受影響。')),
      ('verification/AUDIT_RESPONSE_2026-10-07.md', ('Response to the audit and the re-audit of 2026-10-07', '對 2026-10-07 稽核與再稽核之回應'),
       ('All 24 audit findings and all 11 re-audit findings re-checked against the archived sources: verdict, what was '
        'checked, what changed, and what stays with the authors.',

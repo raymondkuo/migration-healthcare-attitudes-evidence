@@ -37,7 +37,7 @@ page switches between them and keeps you on the same content.<br>
 | Verification 查證紀錄 | `verification.html` | `verification.zh.html` |
 | Methods 研究方法 | `methods.html` | `methods.zh.html` |
 
-**1,048 pages** — 524 per language. Validated: 74,508 internal links, 0 broken.
+**1,048 pages** — 524 per language. Validated: 74,936 internal links, 0 broken.
 
 ### What is translated, and what is deliberately not · 翻譯範圍
 
@@ -211,10 +211,17 @@ the project notes (foreign-born and foreign-national stocks wherever a verifiabl
   calendar year) and `covid_cases_pct_pop` and `covid_deaths_pct_pop` (the same over the panel's population, x 100,
   computed by the archive); 120 country-years each. Empty before 2020. No other value changed.
 - 38 countries: WHO COVID-19 data (daily file, by date reported to WHO; France with its five overseas
-  departments, which the World Bank population includes). Mainland China: National Health Commission briefings (WHO's
-  "China" includes Hong Kong, Macao and Taiwan); **China 2022 stops at 23 December and counts confirmed cases only**, as
-  the Commission's daily reports ended on 25 December 2022 (flagged). Taiwan: Central Epidemic Command Center year-end
-  press releases.
+  departments, which the World Bank population includes). Mainland China: National Health Commission year-end
+  briefings for 2020-2021 and, for 2022, China CDC's bulletin of 31 December, which continued the Commission's counts
+  after it stopped publishing them on 25 December 2022 (WHO's "China" includes Hong Kong, Macao and Taiwan).
+  **Mainland China counts confirmed cases and deaths only, and 2022 misses most of the December wave** (flagged; China
+  CDC's own report counts 59,938 COVID-19-related deaths in hospitals from 8 December 2022 to 12 January 2023).
+  Taiwan: Central Epidemic Command Center year-end press releases.
+- `covid_cases_pct_pop` and `covid_deaths_pct_pop` are **percentages (0-100)**, unlike the migration `*_pct_pop`
+  shares, which are proportions (0-1).
+- WHO's daily file dates some early-2020 counts before WHO reported them at the time (Germany: a case on 4 January
+  and deaths on 5 January 2020); all fall within 2020, so the annual values are unaffected
+  (`data/covid_who_date_check.csv`).
 - Checked against the Johns Hopkins CSSE archive: over 2020–2022 combined, 33 of 40 countries agree
   within 1% for cases and 29 for deaths (`data/covid_source_comparison.csv`).
 - Reported counts, not infections or excess deaths. The WHO file, the situation report on China, the briefings and
@@ -259,7 +266,7 @@ static HTML and CSS with no external requests and no build step; `.nojekyll` sto
 the paths.
 
 Notes:
-- About 587 MB across 2,545 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
+- About 590 MB across 2,558 files. No single file exceeds 34 MB; the largest is vdem_v16_vdemdata_vdem_retrieved_2026-10-26.RData at 34 MB.
 - `robots.txt` asks search engines not to index the archive while the manuscript is under review.
   Relax it once the paper is published.
 - The archive is public and readable by anyone with the link, and it names the authors. If the
